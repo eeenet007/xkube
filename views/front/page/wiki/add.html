@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>添加文章</title>
+        <link rel="stylesheet" href="static/css/style.css" />
+        <link rel="stylesheet" href="/css/public.css" media="all">
+        <!--
+        <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css">
+        -->
+
+        <!-- layui.css与editor的样式有冲突，例如：列表不会显示图标 -->
+
+        <link rel="stylesheet" href="editor/css/editormd.css" />  
+        <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
+        <script src="editor/editormd.js"></script> 
+        <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+        <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script> 
+<style>
+.text{
+  width: 250px;
+  height: 40px;
+  float: left;
+  border: 1;
+  padding: 0 16px;
+}  
+  .btn {
+    width: 100px;
+    height: 40px;
+    float: left;
+    border: none;
+    background-color: #009688;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    background-color: #4662d9;
+  }
+</style>   
+        
+    </head>
+<body>
+<div class="layuimini-container">
+			<form> <!-- class="layui-form"  会与editormd的代码模块冲突，导致无法加载语言选择 -->
+          <div style="margin-left:300px;margin-top:10px;float: left;">
+  					<input class="text" type="text" name="xcolumn" id="xcolumn"  autocomplete="on" placeholder="栏目" style="width:150px;">
+  					<input class="text" type="text" name="title" id="title" autocomplete="on" placeholder="标题" style="margin-left:50px;width:250px;">
+            <!--
+  					<input type="text" name="author" id="author" autocomplete="on" placeholder="作者">
+            -->
+  					<input class="text" type="text" name="authkey" id="authkey" placeholder="阅读密码" style="margin-left:50px;width:100px;">
+  				  <input class="btn" style="margin-left:50px;" type="subbmit" onclick="submit_fuc();" value="提交"></input>
+          </div>
+ 		      <div id="test-editormd" style="margin-left:100px;margin-top:10px;float: left;">
+              <textarea id="content" style="display:none;"></textarea>
+	        </div>								
+			</form>
+</div>
+</body>		
+
+<script type="text/javascript">
+var xcolumn = getQueryString("xcolumn");
+if ( xcolumn != null ) {
+  $('#xcolumn').val(xcolumn);
+}
+
+      function submit_fuc(){
+        var obj = {
+          xcolumn:document.getElementById("xcolumn").value,
+          title:document.getElementById("title").value,
+          //author:document.getElementById("author").value,
+          authkey:document.getElementById("authkey").value,
+          content:document.getElementById("content").value,      
+        }
+        console.log(obj);
+      		layer.confirm('确定提交?', {icon: 3, title:'提示',yes: function(index){
+        			$.ajax({
+          			url: "/wiki/v1/Add"+location.search,
+          			type: "post",
+          			data: obj,
+          			dataType: "json",
+          			success: function (data) {
+              			if(data.code == 0){
+                				layer.msg('提交成功', {icon: 1,time:1500},function(){
+  							          window.location.href="list.html";
+                  		    //layui.use('miniTab', function(){
+            		          //    var miniTab = layui.miniTab;
+                          //    miniTab.deleteCurrentByIframe();
+                  		    //});	  
+                          //window.location.reload();                        
+                        });
+              			}
+              			if (data.code == -1){
+                 				layui.layer.msg(data.msg,{icon:2})
+              			}
+          			}
+             	});		  	  
+          },
+        	cancel: function(index, layero){ 
+                layui.layer.close(index);
+				        console.log("不操作");
+        	} 
+         });
+      }
+
+	layui.use(['table','form','laydate','element','layer'], function(){
+  		var table = layui.table;
+  		var form=layui.form;
+
+/**
+ 		form.verify({
+  			title: function(value){
+      			if(value.length < 5){
+        			return '标题至少得5个字符啊';
+      			}
+    		}
+		});
+
+  		//监听提交
+  		form.on('submit(EditSubmit)', function(datas){
+    		console.log(datas.field);
+    		layer.confirm('确定提交?', {icon: 3, title:'提示',yes: function(index){
+      			$.ajax({
+        			url: "/wiki/v1/Add",
+        			type: "post",
+        			data: datas.field,
+        			dataType: "text",
+        			success: function (data) {
+            			if(data == "success"){
+              				layer.msg('提交成功', {icon: 1})
+							        window.location.href="page/wiki/list.html";
+            			}
+            			if (data == "fail"){
+               				layer.msg('提交失败',{icon:2})
+            			}
+        			}
+           		});		  	  
+        	},
+        	cancel: function(index, layero){ 
+                layer.close(index);
+				        console.log("不操作");
+        	} 
+       		}); 
+    		return false;
+  		});
+	**/
+
+    });
+	//edit
+  //  class="layui-form"  会与editormd的代码模块冲突，导致无法加载语言选择 
+	        var testEditor;           
+            $(function() {
+                    testEditor = editormd("test-editormd", {
+                        width: "90%",
+                        height: 640,
+                        path : '/page/wiki/editor/lib/',
+                        theme : "dark",
+                        //previewTheme : "dark",
+                        editorTheme : "pastel-on-dark",
+                        codeFold : true,
+                        //syncScrolling : false,
+                        saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+                        searchReplace : true,
+                        htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
+                        //toolbar  : false,             //关闭工具栏
+                        //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+                        emoji : true,
+                        taskList : true,
+                        tocm            : true,         // Using [TOCM]
+                        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                        flowChart : true,             // 开启流程图支持，默认关闭
+                        sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+                        imageUpload : true,
+                        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                        imageUploadURL : "/wiki/v1/Upload",
+                    });
+            });
+        </script>
+</html>

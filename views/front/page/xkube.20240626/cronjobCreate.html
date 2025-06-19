@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>创建</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="">
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">当前集群</label>
+                    <div class="layui-input-inline">
+                        <select name="clusterId" lay-filter="cluster_Id" lay-search="" id="cluster_Id">
+                          <option value="">请选择集群</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label required">名称</label>
+                <div class="layui-input-inline" style="width:250px">
+                    <input type="text" name="cronjobName"  lay-verify="required" lay-reqtext="不能为空"  placeholder="不能为空" value="" class="layui-input">
+                </div>
+
+                <label class="layui-form-label">命名空间</label>
+                <div class="layui-input-inline" style="width:250px">
+                  <select name="nameSpace" lay-filter="name_Space" lay-search="" id="name_Space">
+  		            </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">*</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">镜像策略</label>
+                  <div class="layui-input-block">
+                      <input type="radio" name="imagePullPolicy" value="Always" title="Always" checked="">
+                      <input type="radio" name="imagePullPolicy" value="IfNotPresent" title="IfNotPresent">
+                      <input type="radio" name="imagePullPolicy" value="Never" title="Never">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">镜像地址</label>
+                <div class="layui-input-inline" style="width:620px">
+                    <input type="text" name="imageUrl"  lay-verify="required" lay-reqtext="不能为空"  placeholder="不能为空" value="" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">*</span></div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">定时规则</label>
+                <div class="layui-input-inline" style="width:620px">  
+                    <input type="text" name="schedule" placeholder="* * * * *" lay-verify="required" lay-reqtext="不能为空" value="" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">*</span></div>              
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">启动执行</label>
+                <div class="layui-input-inline" style="width:305px">
+                    <input type="text" name="command" placeholder="命令" value="" class="layui-input">
+                </div>
+                <div class="layui-input-inline" style="width:305px">
+                    <input type="text" name="args" placeholder="参数" value="" class="layui-input">
+                </div>
+            </div>
+
+            <div class="labelsTpl">
+              <div class="layui-form-item">
+                  <label class="layui-form-label">标签</label>
+                  <div class="layui-input-inline" style="width:250px">  
+                      <input type="text" id="labels_key0" name="labels_key[]" placeholder="key" value="" class="layui-input">
+                  </div>
+                  <div class="layui-input-inline" style="width:250px">  
+                      <input type="text" id="labels_value0" name="labels_value[]" placeholder="value" value="" class="layui-input">
+                  </div>
+                  <div class="layui-input-inline">  
+                      <button class="layui-btn layui-btn-normal" style="width:100px" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                  </div>                
+              </div> 
+            </div>
+ 
+            <div class="layui-form-item">
+                <label class="layui-form-label required">附加配置</label>
+                <div class="layui-input-block">
+                  <input type="checkbox" name="resourceLimitCheck" lay-skin="primary" lay-filter="resourceLimitCheck" title="资源限制">
+                  <input type="checkbox" name="periodCheck" lay-skin="primary" lay-filter="periodCheck" title="生命周期">
+                  <input type="checkbox" name="taskSetCheck" lay-skin="primary" lay-filter="taskSetCheck" title="任务设置">
+                </div>
+            </div>
+
+  <div class="layui-collapse">
+    <div class="layui-colla-item" id="resourceLimitTpl">
+    <h2 class="layui-colla-title">资源限制</h2>
+      <div class="layui-colla-content layui-show">
+            <div class="layui-form-item">
+                <label class="layui-form-label">资源限制</label>
+                <div class="layui-input-inline">  
+                    <input type="text" name="limit_cpu" placeholder="CPU[1|200m]" value="1" class="layui-input">
+                </div>
+                <div class="layui-input-inline">  
+                    <input type="text" name="limit_mem" placeholder="内存[MiB|GiB]" value="1Gi" class="layui-input">
+                </div> 
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">注:limits,eg:cpu:1/200m,mem:2Gi/200Mi</span></div>              
+            </div> 
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">资源申请</label>
+                <div class="layui-input-inline">  
+                    <input type="text" name="request_cpu" placeholder="CPU[1|200m]" value="500m" class="layui-input">
+                </div>
+                <div class="layui-input-inline">  
+                    <input type="text" name="request_mem" placeholder="内存[MiB|GiB]" value="500Mi" class="layui-input">
+                </div>   
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">注:requests,eg:cpu:1/200m,mem:2Gi/200Mi</span></div>            
+            </div> 
+      </div>
+    </div>
+    <div class="layui-colla-item" id="periodTpl">
+    <h2 class="layui-colla-title">生命周期</h2>
+      <div class="layui-colla-content layui-show">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">启动后处理</label>
+                <div class="layui-input-inline" style="width:400px">
+                    <input type="text" name="postStart" placeholder="不能为空" value="" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">示例：sleep,30,命令之间用逗号隔开</div> 
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">停止前执行</label>
+                <div class="layui-input-inline" style="width:400px">
+                    <input type="text" name="preStop" placeholder="不能为空" value="" class="layui-input">
+                </div>
+            </div>
+      </div>
+    </div>
+    <div class="layui-colla-item" id="taskSetTpl">
+    <h2 class="layui-colla-title">任务设置</h2>
+      <div class="layui-colla-content layui-show">
+          <div class="layui-form-item">
+              <label class="layui-form-label required">成功pod数</label>
+              <div class="layui-input-inline" style="width:120px">
+                  <input type="text" name="completions" lay-verify="number" lay-reqtext="大于0的数字" placeholder="不能为空" value="1" class="layui-input">
+              </div>
+              <label class="layui-form-label required">并行pod数</label>
+              <div class="layui-input-inline" style="width:120px">
+                  <input type="text" name="parallelism" lay-verify="number" lay-reqtext="大于0的数字" placeholder="不能为空" value="1" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label class="layui-form-label required">超时时间</label>
+              <div class="layui-input-inline" style="width:120px">
+                  <input type="text" name="activeDeadlineSeconds" lay-verify="number" lay-reqtext="大于0的数字" placeholder="不能为空" value="600" class="layui-input">
+              </div>
+              <label class="layui-form-label required">重试次数</label>
+              <div class="layui-input-inline" style="width:120px">
+                  <input type="text" name="backoffLimit" lay-verify="number" lay-reqtext="大于0的数字" placeholder="不能为空" value="6" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label class="layui-form-label required">重启策略</label>
+              <div class="layui-input-inline" style="width:120px">
+                  <select name="restartPolicy" lay-filter="restartPolicy">
+              			<option value="Never" selected="">Never</option>
+              			<option value="OnFailure">OnFailure</option>
+  		            </select>
+              </div>
+              <label class="layui-form-label required">保留成功</label>
+              <div class="layui-input-inline" style="width:120px">  
+                  <input type="text" name="successfulJobHistoryLimit" value="3" lay-verify="number" lay-reqtext="大于0的数字" class="layui-input">
+              </div>  
+              <div class="layui-form-mid layui-word-aux"><span style="color:red">注:为成功的任务执行保留的历史记录数</span></div>
+          </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">并发策略</label>
+                <div class="layui-input-inline" style="width:120px">
+                    <select name="concurrencyPolicy" lay-filter="concurrencyPolicy">
+                			<option value="Allow" selected="">Allow</option>
+                			<option value="Forbid">Forbid</option>
+                			<option value="Replace">Replace</option>
+    		            </select>
+                </div>
+                <label class="layui-form-label required">保留失败</label>
+                <div class="layui-input-inline" style="width:120px">  
+                    <input type="text" name="failedJobHistoryLimit" value="1" lay-verify="number" lay-reqtext="大于0的数字" class="layui-input">
+                </div>  
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">注:为失败的任务执行保留的历史记录数</span></div>           
+            </div> 
+      </div>
+    </div>
+  </div>
+  <br>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    	$(document).ready(function(){
+          GetCurrClusterId();  
+          GetNamespace();	
+    	});		
+</script>
+
+<script>
+
+
+    //标签删除
+    var TplIndex = 0;
+    function delTpl(id) {
+      $("#tpl-"+id).remove();
+      TplIndex--;
+    }
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        //选择集群
+        form.on('select(cluster_Id)', function(data){
+          //console.log(data.elem); //得到select原始DOM对象
+          console.log(data.value); //得到被选中的值
+          setCookie('clusterId',data.value,30);
+          window.location.reload();
+          //console.log(data.othis); //得到美化后的DOM对象
+        });
+
+//附加配置处
+        $("#cronTimeTpl").show();
+        $("#resourceLimitTpl").hide();
+        $("#periodTpl").hide();
+        $("#taskSetTpl").hide();        
+        form.on('checkbox(resourceLimitCheck)', function (data) { 
+              if (data.elem.checked) {
+                $("#resourceLimitTpl").show();
+              }else{
+                $("#resourceLimitTpl").hide();
+              }
+        });
+        form.on('checkbox(periodCheck)', function (data) { 
+              //console.log(data.elem.checked);
+              if (data.elem.checked) {
+                $("#periodTpl").show();
+              }else{
+                $("#periodTpl").hide();
+              }
+        });
+        form.on('checkbox(cronTimeSetCheck)', function (data) { 
+              //console.log(data.elem.checked);
+              if (data.elem.checked) {
+                $("#cronTimeTpl").show();
+              }else{
+                $("#cronTimeTpl").hide();
+              }
+        });
+        form.on('checkbox(taskSetCheck)', function (data) { 
+              //console.log(data.elem.checked);
+              if (data.elem.checked) {
+                $("#taskSetTpl").show();
+              }else{
+                $("#taskSetTpl").hide();
+              }
+        });
+
+        //labes add
+        $('#newaddbtn').on("click",function(){
+          TplIndex++;
+          var addTpl =
+              '<div class="layui-form-item" id="tpl-'+TplIndex+'">' +
+                  '<label class="layui-form-label">标签</label>' +
+                  '<div class="layui-input-inline" style="width:250px">' +
+        	              '<input type="text" name="labels_key[]" id="labels_key'+TplIndex+'" placeholder="key" value="" class="layui-input">' +
+                  '</div>' +    
+                  '<div class="layui-input-inline" style="width:250px">' +  
+                      '<input type="text" name="labels_value[]" id="labels_value'+TplIndex+'" placeholder="value" value="" class="layui-input">' +
+                  '</div>' +
+                  '<div class="layui-input-inline">' +  
+                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" style="width:100px" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
+                  '</div>' +                
+              '</div>'
+            $('.labelsTpl').append(addTpl);   
+          form.render(); 
+          return false;   
+        });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+                data.field.cronjobName = data.field.cronjobName.replace(/^\s*|\s*$/g,""); //替换空格
+                data.field.imageUrl = data.field.imageUrl.replace(/^\s*|\s*$/g,""); //替换空格
+                data.field.command = data.field.command.replace(/，|\s|;|\r|\n/g,",");//将空格等符号替换成逗号
+                data.field.args = data.field.args.replace(/，|\s|;|\r|\n/g,",");//将空格等符号替换成逗号
+                
+                //lables 处理
+                var labelsArry = [];
+                for (var i=0;i<=TplIndex;i++) {
+                  //delete data.field.lables_key[i];                  
+                  //delete data.field.labels_value[i];
+                  var kk = document.getElementById("labels_key"+i).value;
+                  var vv = document.getElementById("labels_value"+i).value; 
+                  if ( kk != "" && vv != "") {
+                    labelsArry.push(
+                      {
+                        key:kk,
+                        value:vv,
+                      }
+                    )
+                  }
+                }
+                if (labelsArry.length > 0) {
+                  data.field.lables = labelsArry;
+                }
+                //资源限制
+                if (data.field.resourceLimitCheck == "on") {
+                    //console.log(data.field.limit_cpu.length);
+                    if ( data.field.limit_cpu.length == 0 || data.field.limit_mem == "" || data.field.request_cpu == "" || data.field.request_cpu == "" ){
+                        layer.msg('若勾选资源限制,资源限制及所需资源都不能留空!', {icon: 2});
+                        return false
+                    }
+                }
+                //生命周期
+                if (data.field.periodCheck == "on") {
+                    if (data.field.postStart == "" || data.field.preStop == ""){
+                        layer.msg('若勾选生命周期,两个输入框不能都为空!', {icon: 2});
+                        return false
+                    }
+                }
+                //任务设置
+                if (data.field.taskSetCheck == "on") {
+                    if (data.field.backoffLimit < 1 || data.field.parallelism < 1 || data.field.completions < 1 || data.field.activeDeadlineSeconds < 1 || data.field.failedJobHistoryLimit < 1 || data.field.successfulJobHistoryLimit < 1){
+                        layer.msg('若勾选任务设置,各输入框参数不能小于1!', {icon: 2});
+                        return false
+                    }
+                }
+					      console.log(data.field);
+			          layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('稍等片刻');
+                     $.ajax({
+                       url: "/xkube/cronjob/v1/Create",
+                       type: "post",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('添加成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+    });
+</script>
+</html>

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>目录分组</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <legend>信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">                    
+                    	  <label class="layui-form-label">目录分组</label>
+                  		  <div class="layui-inline">
+                        	<select name="Groupid" lay-filter="GroupSelect2" id="GroupSelect2">
+            				        <option value="" selected="">选择分组</option>
+            				      </select>
+                      	</div>
+                </form>
+              	<div class="layui-btn-group" style="margin-left:50px"> 
+              	    <button class="layui-btn layui-btn-normal" id="btn-expand"><i class="layui-icon">&#xe625;</i>全部展开</button>
+                      <button class="layui-btn layui-btn-normal" id="btn-fold"><i class="layui-icon">&#xe623;</i>全部折叠</button>
+              	</div>
+                &nbsp;&nbsp;
+                <input type="text" id="edt-search" placeholder="输入关键字" style="width: 150px;border: 1px solid #DADADA;height:36px"/>
+                <button class="layui-btn" id="btn-search"><i class="layui-icon">&#xe615;</i>搜索&nbsp;&nbsp;</button>
+            </div>
+        </fieldset>
+
+        <table id="NodeList" class="layui-table" lay-filter="NodeList"></table>
+
+
+  <!-- 添加弹出框	-->
+<div class="layui-row" id="AddInfodiv" style="display:none;">
+    <div class="layui-col-md11">
+      <form class="layui-form layui-form-pane" action="" lay-filter="AddInfo">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">显示名</label>
+            <div class="layui-input-inline" style="width: 213px;">
+              <input type="text" name="Title" autocomplete="off" placeholder="" class="layui-input">
+            </div>
+        	  <div class="layui-form-mid" style="color: red;">*</div>
+          </div>
+      
+          <div class="layui-inline">
+            <label class="layui-form-label">应用名</label>
+            <div class="layui-input-inline" style="width: 213px;">
+              <input type="text" name="Name" placeholder="" autocomplete="off"  class="layui-input">
+            </div>
+      	    <div class="layui-form-mid" style="color: red;">*</div>
+          </div>   
+      	
+          <div class="layui-inline">
+            <label class="layui-form-label">父目录</label>
+              <div class="layui-input-block">
+                <select name="Pid" lay-filter="Pid" id="PidSelect">
+                    <option value="0" selected="">/</option>			
+                </select>
+              </div>
+          </div>
+      
+          <div class="layui-inline">
+            <label class="layui-form-label">目录级别</label>
+            <div class="layui-input-block">
+              <select name="Level" lay-filter="Level">
+                <option value="1" selected="">一级目录</option>
+      	        <option value="2">二级目录</option>
+                <option value="3">三级目录</option>		
+              </select>
+            </div>
+          </div>
+      
+          <div class="layui-inline">
+            <label class="layui-form-label">分组</label>
+              <div class="layui-input-block">
+                <select name="Group_id" lay-filter="Group_id" id="GroupSelect"></select>
+              </div>
+          </div>   
+      
+          <div class="layui-inline">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+              <select name="Status" lay-filter="Status">
+                <option value="2" selected="">启用</option>
+      	        <option value="1">禁用</option>
+              </select>
+            </div>
+      	  </div> 
+        
+          <div class="layui-inline">
+            <label class="layui-form-label">描述</label>
+            <div class="layui-input-inline" style="width: 213px;">
+              <input type="text" name="Remark" autocomplete="off" class="layui-input">
+            </div>
+          </div>   
+        </div>
+        <div class="layui-form-item">
+          <button class="layui-btn" lay-submit="" lay-filter="AddSubmit">确认添加</button>
+        </div>
+      </form>
+    </div>
+</div>
+  <!-- 添加弹出框	-->	
+
+<!--授权到角色弹出框 -->
+<div class="layui-row" id="AddNodeToRoleDiv" style="display:none;">
+    <div class="layui-col-md11">
+      	<form class="layui-form layui-form-pane" action="" lay-filter="AddInfo">
+     			<div class="layui-form-item">
+       				<div class="layui-inline">
+        				<label class="layui-form-label">角色选择</label>
+              			<div class="layui-input-block">
+                			<select name="Roleid" lay-filter="Roleid" id="RoleSelect"></select>
+              			</div>
+       				</div>
+     			</div>
+        	<div class="layui-form-item">
+          		<button class="layui-btn" lay-submit="" lay-filter="AddNodeToRoleSubmit">确认授权</button>
+        	</div>
+      	</form>
+    </div>
+</div>
+<!--授权到角色弹出框 -->
+
+
+    </div>
+</div>
+</body>
+
+<script type="text/html" id="listAction">	
+  <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="Delete"><i class="layui-icon">&#xe640;</i>删除</a>
+</script>
+
+<script type="text/html" id="toolbarHead">
+  <div class="layui-btn-container">
+    <button class="layui-btn"  lay-event="Add"><i class="layui-icon"></i>添加</button>
+	  <button class="layui-btn"  lay-event="AddNodeToRole"><i class="layui-icon">&#xe672;</i>授权给角色</button>
+  </div>
+</script>	
+
+<script>
+	//加载分组下拉框
+    $.ajax({
+        url: "/rbac/group/List",
+        type: "GET",
+		    headers: {'X-Requested-With':'XMLHttpRequest'},
+        dataType: "json",
+        success: function(resp) {
+            if (resp.code != 0 ) {
+              return
+            }
+			      var jsondatas = eval(resp.data);
+			      $.each(resp.data, function (i, item) {
+		  		    var html = '<option value="' + jsondatas[i].Id + '">' + jsondatas[i].Title+'</option>';
+          		$("#GroupSelect").append(html);
+				      $("#GroupSelect2").append(html);							
+			      });	
+			      layui.use('form', function(){
+             	var form = layui.form;
+            	form.render();
+    		    });			
+        }
+    });
+
+	//加载授权角色下拉框
+    $.ajax({
+        url: "/rbac/role/List",
+        type: "GET",
+		    headers: {'X-Requested-With':'XMLHttpRequest'},
+        dataType: "json",
+        success: function(resp) {
+          if (resp.code != 0 ) {
+              return
+          }
+			    var jsondatas = eval(resp.data);
+			    $.each(resp.data, function (i, item) {
+		  		    var html = '<option value="' + jsondatas[i].Id + '">' + jsondatas[i].Name+'</option>';
+          		$("#RoleSelect").append(html);								
+			    });	
+        }
+    });
+
+	//加载URL父目录
+    $.ajax({
+        url: "/rbac/node/GetPid",
+        type: "GET",
+		    headers: {'X-Requested-With':'XMLHttpRequest'},
+        dataType: "json",
+        success: function(resp) {
+          if (resp.code != 0 ) {
+            return
+          }
+			    var jsondatas = eval(resp.data);
+			    var html = '';
+			    $.each(resp.data, function (i, item) {
+				    if (jsondatas[i].Level == 1) {
+		  			  html += '<option value="' + jsondatas[i].Id + '">&nbsp;&nbsp;&nbsp;&nbsp;' + jsondatas[i].Title+'</option>';
+				    }
+				    if (jsondatas[i].Level == 2) {
+		  			  html += '<option value="' + jsondatas[i].Id + '">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + jsondatas[i].Title+'</option>';          			
+				    }									
+			    });	
+			    $("#PidSelect").append(html);
+        }
+    });
+
+    layui.use(['form', 'table','treetable'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            treetable = layui.treetable
+
+        // 渲染表格
+        //layer.load(2);
+        treetable.render({
+            treeColIndex: 1,
+            treeSpid: 0,
+            treeIdName: 'Id',
+            treePidName: 'Pid',
+			      treeDefaultClose:true,
+            elem: '#NodeList',
+            url: '/rbac/node/List',
+			      headers: {'X-Requested-With':'XMLHttpRequest'},
+            page: false,
+			      toolbar: '#toolbarHead',
+            cols: [[
+			          {type: 'checkbox',width:100},
+                {field: 'Id', width:150,title: 'ID'},
+                {field: 'Title', minWidth: 200,edit:'txt', title: '显示名'},
+                {field: 'Name', edit:'txt',title: '应用名'},
+        				{field: 'Pid', edit:'txt',title: 'PID'},
+        				{field: 'Level', edit:'txt',title: '目录级别'},
+        				{field: 'Status', title: '状态',edit:'txt', templet: function (d) {
+                        if (d.Status == 2) {
+                            return '<span style="color:#218868">启用</span>';
+                        } else {
+                            return '<span style="color:#7A8B8B">禁用</span>';
+                        }
+                    }
+				
+				        },
+                {field: 'Group__Id', edit:'txt',title: '分组'},
+        				{field: 'Remark',edit:'txt', title: '描述'},
+        				{field: 'Icons',edit:'txt', title: '图标'},
+        				{field: 'Sorts',edit:'txt', title: '排序'},
+                {fixed:'right',minWidth:150,align: 'left', toolbar: '#listAction',title:'操作'}
+            ]],
+            done: function () {
+                layer.closeAll('loading');
+            }
+        });
+
+        $('#btn-expand').click(function () {
+            treetable.expandAll('#NodeList');
+            return false; 
+        });
+
+        $('#btn-fold').click(function () {
+            treetable.foldAll('#NodeList');
+            return false; 
+        });
+
+        $('#btn-search').click(function () {
+            var keyword = $('#edt-search').val();
+            var searchCount = 0;
+            $('#auth-table').next('.treeTable').find('.layui-table-body tbody tr td').each(function () {
+                $(this).css('background-color', 'transparent');
+                var text = $(this).text();
+                if (keyword != '' && text.indexOf(keyword) >= 0) {
+                    $(this).css('background-color', 'rgba(250,230,160,0.5)');
+                    if (searchCount == 0) {
+                        treetable.expandAll('#auth-table');
+                        $('html,body').stop(true);
+                        $('html,body').animate({scrollTop: $(this).offset().top - 150}, 500);
+                    }
+                    searchCount++;
+                }
+            });
+            if (keyword == '') {
+                layer.msg("请输入搜索内容", {icon: 5});
+            } else if (searchCount == 0) {
+                layer.msg("没有匹配结果", {icon: 5});
+            }
+        });
+
+        //分组下拉框 下拉选择分组
+        form.on('select(GroupSelect2)', function(data){
+  			//console.log(data);
+        	treetable.render({
+            	treeColIndex: 1,
+            	treeSpid: 0,
+            	treeIdName: 'Id',
+            	treePidName: 'Pid',
+            	elem: '#NodeList',
+            	url: '/rbac/node/Getlist?Id='+data.value,
+				      headers: {'X-Requested-With':'XMLHttpRequest'},
+            	page: false,
+				      toolbar: '#toolbarHead',
+            	cols: [[
+			    	      {type: 'checkbox'},
+                	{field: 'Id', width: 130,title: 'ID'},
+                	{field: 'Title', minWidth: 200,edit:'txt', title: '显示名'},
+                	{field: 'Name', edit:'txt',title: '应用名'},
+        					{field: 'Pid', edit:'txt',title: 'PID'},
+        					{field: 'Level', edit:'txt',title: '目录级别'},
+        					{field: 'Status', title: '状态',edit:'txt', templet: function (d) {
+                	        if (d.Status == 2) {
+                	            return '<span style="color:#218868">启用</span>';
+                	        } else {
+                	            return '<span style="color:#7A8B8B">禁用</span>';
+                	        }
+                	    }
+				
+					        },
+                	{field: 'Group', edit:'txt',title: '分组'},
+        					{field: 'Icons',edit:'txt', title: '图标'},
+        					{field: 'Sorts',edit:'txt', title: '排序'},
+        					{field: 'Remark',edit:'txt', title: '描述'},
+                	{fixed:'right',align: 'left', toolbar: '#listAction',title:'操作'}
+            	]],
+            	done: function () {
+                	layer.closeAll('loading');
+            	}
+        	});			
+		});
+
+
+         //头工具栏事件
+          table.on('toolbar(NodeList)', function(obj){
+              var checkStatus = table.checkStatus(obj.config.id);
+              switch(obj.event){
+                case 'Add':							
+    		            layer.open({
+                    	//layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                        type:1,
+            			      skin: 'layui-layer-rim',
+                        title:"添加",
+                        area: ['550px','600px'],
+                        content:$("#AddInfodiv") //content:$("#AddUserInfodiv").html()
+                    });				
+    		            form.render();	
+		                //添加提交
+                    form.on('submit(AddSubmit)', function(datas){		
+            		       console.log(datas.field);
+            			     layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
+                                 $.ajax({
+                                   url: "/rbac/node/Add",
+                                   type: "post",
+                                   data: datas.field,
+                                   dataType: "json",
+                                   success: function (resp) {
+            					            console.log(resp);
+                                             if(resp.status){
+                                                layer.msg('添加成功', {icon: 1});
+                                             }else{
+                                                 layer.msg('添加失败',{icon:2});
+                                             }
+                                    }
+                               });		  	  
+                           },
+                            cancel: function(index, layero){ 
+                                layer.close(index);
+            		            console.log("不操作");
+                            } 
+                        }); 		   
+            	        return false; 	
+            		    });		
+                break;
+              	case 'AddNodeToRole':
+              	      var checkStatus = table.checkStatus('NodeList')
+              	      ,data = checkStatus.data;
+              		  	var list='';
+              		  	console.log('选中 '+data.length+' 行');
+              		  	for (var i in data){
+              				  list+=data[i].Id+',';
+              	      }
+              		  	var idstr = list.substr(0,list.length-1);			
+              		  	if(idstr.length > 0){	
+                  				layer.open({
+                              		type:1,
+                  					      skin: 'layui-layer-rim',
+                              		title:"授权角色",
+                              		area: ['500px','300px'],
+                              		content:$("#AddNodeToRoleDiv").html()
+                             		});
+              		   	    form.render();
+              		        //添加提交
+                      	  form.on('submit(AddNodeToRoleSubmit)', function(datas){		
+              		       	    //console.log(datas.field);
+              				        var jsonstr = '{"roleid":"' + datas.field.Roleid + '","ids":"'+idstr+'"}'
+              			   	      layer.confirm('确定授权?', {icon: 3, title:'提示',yes: function(index){
+                                  $.ajax({
+                                     url: "/rbac/role/AddAccess",
+                                     type: "post",
+                                     data: JSON.parse(jsonstr),
+                                     dataType: "json",
+                                     success: function (resp) {
+                                            if(resp.status){
+                                                layer.msg('授权成功', {icon: 1});
+                                            }else{
+                                                layer.msg('授权失败',{icon:2});
+                                            }
+                                      }
+                                  });		  	  
+                             	  },
+                                cancel: function(index, layero){ 
+                                  layer.close(index);
+              		                console.log("不操作");
+                                } 
+                              }); 		   
+              	      		  return false; 
+              			      });			
+              		    }else{
+              			      layer.msg('未选择', {icon: 2});
+              	    	    console.log("未选中");
+              	  	  }
+              	break;
+              };
+          });	
+
+      //监听行工具事件
+      table.on('tool(NodeList)', function(obj){
+          var data = obj.data;
+          if(obj.event === 'Edit'){
+                var index = layer.open({
+                    title: '用户列表',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '92%'],
+                    content: '/page/rbac/accessToNode.html?Id='+data.Id,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+  	          //x_admin_show('用户列表','/rbac/role/AccessToNode');
+          } else if(obj.event === 'Delete'){
+              layer.confirm('确定删除?', {icon: 3, title:'删除提示',yes: function(index){
+              			$.ajax({
+              			    url: "/rbac/node/Delete",
+              			    type: "post",
+              			    data: data,
+              			    dataType: "json",
+              			    success: function (resp) {
+              						 if(resp.status){
+              							 layer.msg('删除成功', {icon: 1});
+              							 obj.del();
+              						 }else{
+              							 layer.msg('删除失败',{icon:2});
+              						 }
+              				  }
+              		  });		  	  
+                },
+            		cancel: function(index, layero){ 
+            			layer.close(index);
+            			console.log("不操作");
+            		} 
+  		        }); 
+          }
+      });
+
+    //监听单元格编辑
+    table.on('edit(NodeList)', function(obj){
+        var value = obj.value //得到修改后的值
+        ,datas = obj.data //得到所在行所有键值
+        ,field = obj.field; //得到字段
+        var bodystr = {"id":datas.Id,"name":field,"value":value};
+          layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){ 
+           	$.ajax({
+               	url: "/rbac/node/Edit?id="+datas.Id,
+                type: "POST",
+                data: JSON.stringify(bodystr),
+                dataType: "json",
+               	success: function (resp) {
+                   	if(resp.code == 0){
+                      	layer.msg('['+ datas.Id +'] ' + field + '更改为:'+ value);
+                   	}else{
+                      	layer.msg('['+ datas.Id +'] ' + field + '更改失败',{icon:2});
+                   	}
+              	}
+          	});	
+          },
+          cancel: function(index, layero){ 
+                layer.close(index);
+          } 
+          });
+    });
+
+  });
+</script>
+</html>

@@ -1,0 +1,64 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_server
+    environment:
+      MYSQL_ROOT_PASSWORD: xkube_DB_123456
+      MYSQL_DATABASE: db_xkube
+    healthcheck:
+      test: ["CMD", "mysql" ,"-uroot", "-h", "127.0.0.1","-pxkube_DB_123456","-e","select 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./xkube.sql:/docker-entrypoint-initdb.d/xkube.sql
+    restart: always
+    networks:
+      - app_network
+
+  redis:
+    image: redis:6-alpine
+    container_name: redis_server
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    command: redis-server --requirepass Redis_123456
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+    networks:
+      - app_network
+
+  xkube:
+    image: eeenet/xkube:3.5
+    container_name: xkube
+    healthcheck:
+      test: ["CMD","curl","-f","http://127.0.0.1:8080/public/check"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: "mysql://root:xkube_DB_123456@mysql_server:3306/db_xkube"
+      REDIS_URL: "redis://:Redis_123456@redis_server:6379"
+    networks:
+      - app_network
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  app_network:
+    driver: bridge

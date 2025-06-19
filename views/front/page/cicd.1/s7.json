@@ -1,0 +1,1341 @@
+{
+  "requestId": "38701DBD-144C-58AC-AE36-E30078000C8E",
+  "pipelineRun": {
+    "creatorAccountId": "214015761244574395",
+    "sources": [
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/auto-act-api.git",
+          "branch": "master"
+        },
+        "sign": "auto-act-saas_auto-act-api_LM55",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/hongqi-rank-h5.git",
+          "branch": "master"
+        },
+        "sign": "auto-act-saas_hongqi-rank-h5_HwKb",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-rank-back-web.git",
+          "branch": "master"
+        },
+        "sign": "auto-act-saas_toyota-rank-back-web_i1IM",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/toyota-rank-h5.git",
+          "branch": "master"
+        },
+        "sign": "auto-act-saas_toyota-rank-h5_zkBm",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota_crown_lottery_pc.git",
+          "branch": "master"
+        },
+        "sign": "auto-act-saas_toyota_crown_lottery_pc_wmnm",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-difindustry-back-web.git",
+          "branch": "master"
+        },
+        "sign": "web_toyota-difindustry-back-web_P2qT",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": " https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/jetta-back-web.git",
+          "branch": "master"
+        },
+        "sign": "web_jetta-back-web_rFuN",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/jetta-api.git",
+          "branch": "master"
+        },
+        "sign": "api_jetta-api_vPmb",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/gac-toyota-api.git",
+          "branch": "master"
+        },
+        "sign": "api_gac-toyota-api_cuN7",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-admin-vue.git",
+          "branch": "master"
+        },
+        "sign": "web_toyota-admin-vue_Q0a6",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/faw-toyota-api.git",
+          "branch": "master"
+        },
+        "sign": "api_faw-toyota-api_d8NE",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/faw-toyota-wap.git",
+          "branch": "master"
+        },
+        "sign": "wap_faw-toyota-wap_d2nT",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/gac-toyota-wap.git",
+          "branch": "master"
+        },
+        "sign": "gac-toyota-wap_wTZO",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/faw-toyota-act-api.git",
+          "branch": "master"
+        },
+        "sign": "faw-toyota-act-api_IUah",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/faw-toyota-cross-admin-vue.git",
+          "branch": "master"
+        },
+        "sign": "faw-toyota-cross-admin-vue_PPKM",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/jetta-fission-lottery-admin-vue.git",
+          "branch": "master"
+        },
+        "sign": "jetta-fission-lottery-admin-vue_5WjB",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/jetta-act-api.git",
+          "branch": "master"
+        },
+        "sign": "jetta-act-api_GGdW",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-admin-vue-wap.git",
+          "branch": "master"
+        },
+        "sign": "toyota-admin-vue-wap_VeHn",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/jetta-fission-lottery-wap.git",
+          "branch": "master"
+        },
+        "sign": "jetta-fission-lottery-wap_pxXG",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/big-front-end/front/pc/personal-merchant-admin-vue.git",
+          "branch": "master"
+        },
+        "sign": "personal-merchant-admin-vue_Vj7B",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/gac-trumpchi-admin-vue.git",
+          "branch": "master"
+        },
+        "sign": "gac-trumpchi-admin-vue_f997",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/gac-trumpchi-admin-vue-wap.git",
+          "branch": "master"
+        },
+        "sign": "gac-trumpchi-admin-vue-wap_ysiX",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/gac-trumpchi-api.git",
+          "branch": "master"
+        },
+        "sign": "gac-trumpchi-api_hHGo",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/digital-market/saas/beijing-hyundai-api.git",
+          "branch": "master"
+        },
+        "sign": "beijing-hyundai-api_Quor",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/digital-market/saas/beijing-hyundai-admin-vue.git",
+          "branch": "master"
+        },
+        "sign": "beijing-hyundai-admin-vue_jTaj",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/byd-ocean-api.git",
+          "branch": "master"
+        },
+        "sign": "byd-ocean-api_dmyP",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/byd-ocean-admin.git",
+          "branch": "master"
+        },
+        "sign": "byd-ocean-admin_ATdE",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/digital-market/saas/honda-api.git",
+          "branch": "master"
+        },
+        "sign": "honda-api_gGlC",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/digital-market/saas/honda-admin-vue.git",
+          "branch": "master"
+        },
+        "sign": "honda-admin-vue_vwkk",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/byd-ocean-act-api.git",
+          "branch": "master"
+        },
+        "sign": "byd-ocean-act-api_FE4L",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/zt/pcauto/20230906-byd-seagul-middle.git",
+          "branch": "master"
+        },
+        "sign": "20230906-byd-seagul-middle_A48E",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/zt/pcauto/20230906-byd-seagul.git",
+          "branch": "master"
+        },
+        "sign": "20230906-byd-seagul_EOQa",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/digital-market/saas/guangben-fans-admin-vue.git",
+          "branch": "master"
+        },
+        "sign": "guangben-fans-admin-vue_Vjlp",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/digital-market/saas/honda-fans-api",
+          "branch": "master"
+        },
+        "sign": "honda-fans-api_slNd",
+        "type": "git"
+      },
+      {
+        "data": {
+          "commint": "[{\"commitTime\": \"Thu Mar 7 15:26:54 2024 +0800\", \"commitAuthor\": \"\\u9648\\u5f66\\u6d9b\", \"commitMsg\": \"%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%20%27fix_20240307%27%20%E5%88%B0%20%27master%27\", \"commitId\": \"a2000d04eceb39dca94ae64d1a62489c9e2eebc0\"}]",
+          "repo": "https://git.pc.com.cn/qdcore/digital-market/saas/jetour-api.git",
+          "branch": "master"
+        },
+        "sign": "jetour-api_gxiO",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/byd-dynasty-act-api.git",
+          "branch": "master"
+        },
+        "sign": "byd-dynasty-act-api_5jAJ",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/zt/pcauto/202401-byd-newyear.git",
+          "branch": "master"
+        },
+        "sign": "202401-byd-newyear_Y3pt",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/zt/pcauto/20240117-byd-newyear-middle.git",
+          "branch": "master"
+        },
+        "sign": "20240117-byd-newyear-middle_ux0n",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/qdcore/digital-market/saas/jetour-admin-vue.git",
+          "branch": "master"
+        },
+        "sign": "jetour-admin-vue_eWw6",
+        "type": "git"
+      }
+    ],
+    "createTime": 1709801374000,
+    "pipelineRunId": 439,
+    "stages": [
+      {
+        "name": "Group0-Stage0",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "auto-act-api",
+              "id": 197132629,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132630,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "auto-act-api 镜像升级",
+              "id": 197132631,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage0",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage1",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "hongqi-rank-h5",
+              "id": 197132632,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132633,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "hongqi-rank-h5 镜像升级",
+              "id": 197132634,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage1",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage2",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "toyota-rank-back-web 构建",
+              "id": 197132635,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132636,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "toyota-rank-back-web 镜像升级",
+              "id": 197132637,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage2",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage3",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "toyota-rank-h5",
+              "id": 197132638,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132639,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "toyota-rank-h5 镜像升级",
+              "id": 197132640,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage3",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage4",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "toyota-crown-lottery-admin 构建",
+              "id": 197132641,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132642,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "toyota-crown-lottery-admin 镜像升级",
+              "id": 197132643,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage4",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage5",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "toyota-difindustry-back 构建",
+              "id": 197132644,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132645,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "toyota-difindustry-back 镜像升级",
+              "id": 197132646,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage5",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage6",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "jetta-back-web 构建",
+              "id": 197132647,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132648,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "jetta-back-web 镜像升级",
+              "id": 197132649,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage6",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage7",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "jetta-api 构建",
+              "id": 197132650,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132651,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "jetta-api 镜像升级",
+              "id": 197132652,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage7",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage8",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "gac-toyota 构建",
+              "id": 197132653,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132654,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "gac-toyota 升级",
+              "id": 197132655,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage8",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage9",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "toyota-admin-vue 构建",
+              "id": 197132656,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132657,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "toyota-admin-vue 镜像升级",
+              "id": 197132658,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage9",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage10",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "faw-toyota 构建",
+              "id": 197132659,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132660,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "faw-toyota 镜像升级",
+              "id": 197132661,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage10",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage11",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "faw-toyota-act-api 构建",
+              "id": 197132662,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132663,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "faw-toyota-act-api 镜像升级",
+              "id": 197132664,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage11",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage12",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "faw-toyota-cross-admin-vue 构建",
+              "id": 197132665,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132666,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "faw-toyota-cross-admin-vue 镜像升级",
+              "id": 197132667,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage12",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage13",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "jetta-fission-lottery-admin-vue 构建",
+              "id": 197132668,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132669,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "jetta-fission-lottery-admin-vue 升级",
+              "id": 197132670,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage13",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage14",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "jetta-act-api 构建",
+              "id": 197132671,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132672,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "jetta-act-api 构建",
+              "id": 197132673,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage14",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage15",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "toyota-admin-vue-wap 构建",
+              "id": 197132674,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132675,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "toyota-admin-vue-wap 升级",
+              "id": 197132676,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage15",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage16",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "jetta-fission-lottery-wap 构建",
+              "id": 197132677,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132678,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "jetta-fission-lottery-wap 升级",
+              "id": 197132679,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage16",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage17",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "gac-trumpchi-api 构建",
+              "id": 197132680,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "人工卡点",
+              "id": 197132681,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "gac-trumpchi-api  升级",
+              "id": 197132682,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage17",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage18",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "gac-trumpchi-admin-vue 构建",
+              "id": 197132683,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "人工卡点",
+              "id": 197132684,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "gac-trumpchi-admin-vue 升级",
+              "id": 197132685,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage18",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage19",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "beijing-hyundai-api 构建",
+              "id": 197132686,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "人工卡点",
+              "id": 197132687,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "beijing-hyundai-api 升级",
+              "id": 197132688,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage19",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage20",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "beijing-hyundai-admin-vue 构建",
+              "id": 197132689,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "人工卡点",
+              "id": 197132690,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "beijing-hyundai-admin-vue 升级",
+              "id": 197132691,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage20",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage21",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "byd-ocean-api 构建",
+              "id": 197132692,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132693,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "byd-ocean-api 升级",
+              "id": 197132694,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage21",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage22",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "byd-ocean-admin 构建",
+              "id": 197132695,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132696,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "byd-ocean-admin 升级",
+              "id": 197132697,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage22",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage23",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "guangben-api 构建",
+              "id": 197132698,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "确认上线",
+              "id": 197132699,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "guangben-api 部署",
+              "id": 197132700,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage23",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage24",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "byd-ocean-act-api 构建",
+              "id": 197132701,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "人工卡点",
+              "id": 197132702,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "byd-ocean-act-api",
+              "id": 197132703,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage24",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage25",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "byd-ocean-act-admin 构建",
+              "id": 197132704,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "人工卡点",
+              "id": 197132705,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "byd-ocean-act-admin 部署",
+              "id": 197132706,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage25",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage26",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "byd-ocean-act-front 构建",
+              "id": 197132707,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "人工卡点",
+              "id": 197132708,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "byd-ocean-act-front 部署",
+              "id": 197132709,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage26",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage27",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "honda-fans-vue 构建",
+              "id": 197132710,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "人工卡点",
+              "id": 197132711,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "honda-fans-vue 部署",
+              "id": 197132712,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage27",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage28",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "honda-fans-api 构建",
+              "id": 197132713,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "人工卡点",
+              "id": 197132714,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "honda-fans-api 发布",
+              "id": 197132715,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage28",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage29",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "jetour-api 构建",
+              "startTime": 1709801388000,
+              "endTime": 1709801452000,
+              "id": 197132716,
+              "params": "{\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/auto-act-api.git\",\"enableFilter\":false,\"language\":\"other\",\"connection\":158480,\"label\":\"api/auto-act-api\",\"branch\":\"master\",\"previousCommitId\":\"0055bf4503d447c2d26d74060144e0b207034df4\",\"events\":[\"push\"]},\"name\":\"api_auto-act-api_401v\",\"sign\":\"auto-act-saas_auto-act-api_LM55\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/hongqi-rank-h5.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"wap/hongqi-rank-h5\",\"branch\":\"master\",\"previousCommitId\":\"b2b0406a42d4cd7aad7a727e1dddc42a7371aae9\",\"events\":[\"push\"]},\"name\":\"wap_hongqi-rank-h5_Ol90\",\"sign\":\"auto-act-saas_hongqi-rank-h5_HwKb\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-rank-back-web.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"web/toyota-rank-back-web\",\"branch\":\"master\",\"previousCommitId\":\"db7bb3511eae8491f66bd659ec70343276158c60\",\"events\":[\"push\"]},\"name\":\"web_toyota-rank-back-web_p5Hd\",\"sign\":\"auto-act-saas_toyota-rank-back-web_i1IM\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/toyota-rank-h5.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"wap/toyota-rank-h5\",\"branch\":\"master\",\"previousCommitId\":\"90c0526363622b65dca30ed1ea170eaf8df097d1\",\"events\":[\"push\"]},\"name\":\"wap_toyota-rank-h5_owBj\",\"sign\":\"auto-act-saas_toyota-rank-h5_zkBm\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota_crown_lottery_pc.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"web/toyota_crown_lottery_pc\",\"branch\":\"master\",\"previousCommitId\":\"31b6c124e6cc721f217be4c74d585a92244129f6\",\"events\":[\"push\"]},\"name\":\"web_toyota_crown_lottery_pc_PuiX\",\"sign\":\"auto-act-saas_toyota_crown_lottery_pc_wmnm\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-difindustry-back-web.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"web/toyota-difindustry-back-web\",\"branch\":\"master\",\"previousCommitId\":\"cf2fe9a979c99eeeb5057cf518685f1efb0378bb\",\"events\":[\"push\"]},\"name\":\"web_toyota-difindustry-back-web_P2qT\",\"sign\":\"web_toyota-difindustry-back-web_P2qT\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\" https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/jetta-back-web.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"web/jetta-back-web\",\"branch\":\"master\",\"previousCommitId\":\"34fd1a846fbc06bfe54e0ba6bd149b0815a1f374\",\"events\":[\"push\"]},\"name\":\"web_jetta-back-web_rFuN\",\"sign\":\"web_jetta-back-web_rFuN\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/jetta-api.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"api/jetta-api\",\"branch\":\"master\",\"previousCommitId\":\"1fc2e359453e0af230f098fa60d09e2cf1d2326e\",\"events\":[\"push\"]},\"name\":\"api_jetta-api_vPmb\",\"sign\":\"api_jetta-api_vPmb\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/gac-toyota-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/gac-toyota-api\",\"branch\":\"master\",\"previousCommitId\":\"40984e49f718401d0632ced327a9425a6c9b7f42\",\"events\":[\"push\"]},\"name\":\"api_gac-toyota-api_cuN7\",\"sign\":\"api_gac-toyota-api_cuN7\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/toyota-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"a634a56ffa4b6450fc8dc23af3e401e27fbdf9b3\",\"events\":[\"push\"]},\"name\":\"web_toyota-admin-vue_Q0a6\",\"sign\":\"web_toyota-admin-vue_Q0a6\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/faw-toyota-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/faw-toyota-api\",\"branch\":\"master\",\"previousCommitId\":\"226ca3c0ca64cdfbfaeb88ee636d59c77c242841\",\"events\":[\"push\"]},\"name\":\"api_faw-toyota-api_d8NE\",\"sign\":\"api_faw-toyota-api_d8NE\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/faw-toyota-wap.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"wap/faw-toyota-wap\",\"branch\":\"master\",\"previousCommitId\":\"9072096200f8f12ac311109f4bf38bef98d0ec36\",\"events\":[\"push\"]},\"name\":\"wap_faw-toyota-wap_d2nT\",\"sign\":\"wap_faw-toyota-wap_d2nT\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/gac-toyota-wap.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/gac-toyota-wap\",\"branch\":\"master\",\"previousCommitId\":\"87204b178cc77942c69f770c16d3c5ce0599e4aa\",\"events\":[\"push\"]},\"name\":\"gac-toyota-wap_wTZO\",\"sign\":\"gac-toyota-wap_wTZO\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/faw-toyota-act-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/faw-toyota-act-api\",\"branch\":\"master\",\"previousCommitId\":\"035ee8aebdf345c931fdd07a9310245fd72e7e48\",\"events\":[\"push\"]},\"name\":\"faw-toyota-act-api_IUah\",\"sign\":\"faw-toyota-act-api_IUah\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/faw-toyota-cross-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/faw-toyota-cross-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"eb5dd8d31c3fc51b24faabaec9c09b125eb39d4a\",\"events\":[\"push\"]},\"name\":\"faw-toyota-cross-admin-vue_PPKM\",\"sign\":\"faw-toyota-cross-admin-vue_PPKM\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/jetta-fission-lottery-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/jetta-fission-lottery-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"5bf15be9675de69fa8c4b1f47f07048aadb7e08c\",\"events\":[\"push\"]},\"name\":\"jetta-fission-lottery-admin-vue_5WjB\",\"sign\":\"jetta-fission-lottery-admin-vue_5WjB\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/jetta-act-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/jetta-act-api\",\"branch\":\"master\",\"previousCommitId\":\"0ca0141bceaafe4c3c9c07b4cee80a82b94f3d71\",\"events\":[\"push\"]},\"name\":\"jetta-act-api_GGdW\",\"sign\":\"jetta-act-api_GGdW\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-admin-vue-wap.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/toyota-admin-vue-wap\",\"branch\":\"master\",\"previousCommitId\":\"086bd67668a0976636c7fb08af4fd5137e2eff2a\",\"events\":[\"push\"]},\"name\":\"toyota-admin-vue-wap_VeHn\",\"sign\":\"toyota-admin-vue-wap_VeHn\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/jetta-fission-lottery-wap.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/jetta-fission-lottery-wap\",\"branch\":\"master\",\"previousCommitId\":\"8caf3f57a45e36fabc8af80d4ceb111e81424fea\",\"events\":[\"push\"]},\"name\":\"jetta-fission-lottery-wap_pxXG\",\"sign\":\"jetta-fission-lottery-wap_pxXG\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/big-front-end/front/pc/personal-merchant-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"pc/personal-merchant-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"3342c295a1b963cded34ed5fb1348fb5bad7125d\",\"events\":[\"push\"]},\"name\":\"personal-merchant-admin-vue_Vj7B\",\"sign\":\"personal-merchant-admin-vue_Vj7B\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/gac-trumpchi-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/gac-trumpchi-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"2bb752ea2dfdc07199f5454450cc1e2eb10e908e\",\"events\":[\"push\"]},\"name\":\"gac-trumpchi-admin-vue_f997\",\"sign\":\"gac-trumpchi-admin-vue_f997\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/gac-trumpchi-admin-vue-wap.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"wap/gac-trumpchi-admin-vue-wap\",\"branch\":\"master\",\"previousCommitId\":\"37185e744314782e23d0b728bf737746091d60a1\",\"events\":[\"push\"]},\"name\":\"gac-trumpchi-admin-vue-wap_ysiX\",\"sign\":\"gac-trumpchi-admin-vue-wap_ysiX\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/gac-trumpchi-api.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"api/gac-trumpchi-api\",\"branch\":\"master\",\"previousCommitId\":\"4fffcff57c65ee8c1150bbb1ea99dced45090859\",\"events\":[\"push\"]},\"name\":\"gac-trumpchi-api_hHGo\",\"sign\":\"gac-trumpchi-api_hHGo\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/beijing-hyundai-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"saas/beijing-hyundai-api\",\"branch\":\"master\",\"previousCommitId\":\"0b718b8f40e89c6743ed7fb2f1f9ed662dd20007\",\"events\":[\"push\"]},\"name\":\"beijing-hyundai-api_Quor\",\"sign\":\"beijing-hyundai-api_Quor\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/beijing-hyundai-admin-vue.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"saas/beijing-hyundai-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"e5a1bc48f3e8f4ef93454a26a0be39c149081885\",\"events\":[\"push\"]},\"name\":\"beijing-hyundai-admin-vue_jTaj\",\"sign\":\"beijing-hyundai-admin-vue_jTaj\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/byd-ocean-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/byd-ocean-api\",\"branch\":\"master\",\"previousCommitId\":\"da034e389f30c909dabd5329f87cd5934a31723b\",\"events\":[\"push\"]},\"name\":\"byd-ocean-api_dmyP\",\"sign\":\"byd-ocean-api_dmyP\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/byd-ocean-admin.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"web/byd-ocean-admin\",\"branch\":\"master\",\"previousCommitId\":\"2178204f8d8188feecf5ff646f46165cbbe74d2e\",\"events\":[\"push\"]},\"name\":\"byd-ocean-admin_ATdE\",\"sign\":\"byd-ocean-admin_ATdE\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/honda-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"saas/honda-api\",\"branch\":\"master\",\"previousCommitId\":\"beceeca9b3f85ebe78b48c20a886db803f73267c\",\"events\":[\"push\"]},\"name\":\"honda-api_gGlC\",\"sign\":\"honda-api_gGlC\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/honda-admin-vue.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"saas/honda-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"41e4a0c9128e7bbd1c18ccb28b26f9e2af330e00\",\"events\":[\"push\"]},\"name\":\"honda-admin-vue_vwkk\",\"sign\":\"honda-admin-vue_vwkk\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/byd-ocean-act-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/byd-ocean-act-api\",\"branch\":\"master\",\"previousCommitId\":\"c07b90223f4a00681936561f7b025cc1a40cd3e5\",\"events\":[\"push\"]},\"name\":\"byd-ocean-act-api_FE4L\",\"sign\":\"byd-ocean-act-api_FE4L\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/zt/pcauto/20230906-byd-seagul-middle.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"pcauto/20230906-byd-seagul-middle\",\"branch\":\"master\",\"previousCommitId\":\"a944e88ef7d5af4dbef08b1143b7d58f00a1ff23\",\"events\":[\"push\"]},\"name\":\"20230906-byd-seagul-middle_A48E\",\"sign\":\"20230906-byd-seagul-middle_A48E\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/zt/pcauto/20230906-byd-seagul.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"pcauto/20230906-byd-seagul\",\"branch\":\"master\",\"previousCommitId\":\"f8cd37cec703f1bd0dccf4cd9559b655310e706a\",\"events\":[\"push\"]},\"name\":\"20230906-byd-seagul_EOQa\",\"sign\":\"20230906-byd-seagul_EOQa\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/guangben-fans-admin-vue.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"saas/guangben-fans-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"05d45cebc468a420dea92ac18769369185b0ab11\",\"events\":[\"push\"]},\"name\":\"guangben-fans-admin-vue_Vjlp\",\"sign\":\"guangben-fans-admin-vue_Vjlp\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/honda-fans-api\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"saas/honda-fans-api\",\"branch\":\"master\",\"previousCommitId\":\"f84936386426e94e9bb649e4dddc409e6858371f\",\"events\":[\"push\"]},\"name\":\"honda-fans-api_slNd\",\"sign\":\"honda-fans-api_slNd\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"commitMsg\":\"[{\\\"commitTime\\\": \\\"Thu Mar 7 15:26:54 2024 +0800\\\", \\\"commitAuthor\\\": \\\"\\\\u9648\\\\u5f66\\\\u6d9b\\\", \\\"commitMsg\\\": \\\"%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%20%27fix_20240307%27%20%E5%88%B0%20%27master%27\\\", \\\"commitId\\\": \\\"a2000d04eceb39dca94ae64d1a62489c9e2eebc0\\\"}]\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/jetour-api.git\",\"connection\":158480,\"label\":\"saas/jetour-api\",\"commitId\":\"a2000d04eceb39dca94ae64d1a62489c9e2eebc0\",\"branch\":\"master\",\"previousCommitId\":\"a2000d04eceb39dca94ae64d1a62489c9e2eebc0\",\"events\":[\"push\"]},\"name\":\"jetour-api_gxiO\",\"sign\":\"jetour-api_gxiO\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/byd-dynasty-act-api.git\",\"language\":\"java\",\"connection\":158480,\"label\":\"api/byd-dynasty-act-api\",\"branch\":\"master\",\"previousCommitId\":\"4943e029339f62f6bc7ce4664a6f5f4885dbdfe9\",\"events\":[\"push\"]},\"name\":\"byd-dynasty-act-api_5jAJ\",\"sign\":\"byd-dynasty-act-api_5jAJ\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/zt/pcauto/202401-byd-newyear.git\",\"language\":\"java\",\"connection\":158480,\"label\":\"pcauto/202401-byd-newyear\",\"branch\":\"master\",\"previousCommitId\":\"c818ef7dd0c55ed4124734f3867b867f684b2878\",\"events\":[\"push\"]},\"name\":\"202401-byd-newyear_Y3pt\",\"sign\":\"202401-byd-newyear_Y3pt\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/zt/pcauto/20240117-byd-newyear-middle.git\",\"connection\":158480,\"label\":\"pcauto/20240117-byd-newyear-middle\",\"branch\":\"master\",\"previousCommitId\":\"807f3e6b25f5999ea8442a13d1b67344227ea6c6\",\"events\":[\"push\"]},\"name\":\"20240117-byd-newyear-middle_ux0n\",\"sign\":\"20240117-byd-newyear-middle_ux0n\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/jetour-admin-vue.git\",\"connection\":158480,\"label\":\"saas/jetour-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"42be74077dd830fe93ea0aedd30107b42e033723\",\"events\":[\"push\"]},\"name\":\"jetour-admin-vue_eWw6\",\"sign\":\"jetour-admin-vue_eWw6\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"数字运营线上\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"buildEnvironment\":\"container\",\"ENGINE_TASK_SIGN\":\"10_1703226382733\",\"EXECUTOR_ID\":\"63049621aaa5896cee87f64f\",\"PIPELINE_ID\":\"1380108\",\"ENGINE_PIPELINE_CONFIG_ID\":\"9199139\",\"BUILD_MESSAGE\":\"数字运营线上-页面手动触发\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1709801374387\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"296452151952039818\",\"branchRepoInfo\":\"[]\",\"triggerMode\":\"1\",\"capabilities\":\"Linux,Amd64\",\"ENGINE_PIPELINE_ID\":\"1380108\",\"runnerCacheMode\":\"local\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"63049621aaa5896cee87f64f\",\"clone_option\":\"selected\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5faa5990e6f9d07f14851828\",\"BUILD_EXECUTOR\":\"数字运营线上\",\"steps\":[{\"invalidStepVersion\":false,\"freeInTaskGroupModeFields\":[],\"stepType\":\"java_build\",\"isOpen\":false,\"name\":\"Java 构建\",\"MAVEN_VERSION\":\"3.5.2\",\"stepIdentifier\":\"10_1703226382733__10_1703226484701\",\"CI_RUNTIME_VERSION\":\"jdk11.0.13\",\"command\":\"# maven build default command\\nmvn -B clean package -Dmaven.test.skip=true -Dautoconfig.skip\\n\\n# gradle build default command\\n# ./gradlew build\\n\\n# ant build default command\\n# ant\\n\"},{\"BUILDKIT_VERSION\":\"v0.8.0\",\"freeInTaskGroupModeFields\":[\"ARGS\"],\"DOCKER_FILE_PATH\":\"ms-jetour-auto/Dockerfile\",\"stepType\":\"docker-build-tb-enterprise\",\"ARGS\":\"e30=\",\"JSONEncoding\":true,\"CONTEXT_PATH\":\"\",\"EXTRA_TAGS\":\"\",\"stepIdentifier\":\"10_1703226382733__10_1703226497991\",\"DOCKER_TAG\":\"release-${DATETIME//\\\\-/}.439\",\"DOCKER_REGION\":\"cn-shenzhen\",\"DOCKER_INSTANCE\":\"pcgroup\",\"SERVICE_CONNECTION_ID\":133398,\"artifact\":\"artifact\",\"invalidStepVersion\":false,\"isOpen\":false,\"DOCKER_REPO\":\"ms-jetour-auto\",\"NO_CACHE\":false,\"name\":\"ms-jetour-auto 镜像构建\",\"DOCKER_NAMESPACE\":\"pcauto\"},{\"BUILDKIT_VERSION\":\"v0.8.0\",\"freeInTaskGroupModeFields\":[\"ARGS\"],\"DOCKER_FILE_PATH\":\"ms-jetour-timer/Dockerfile\",\"stepType\":\"docker-build-tb-enterprise\",\"ARGS\":\"e30=\",\"JSONEncoding\":true,\"CONTEXT_PATH\":\"\",\"EXTRA_TAGS\":\"\",\"stepIdentifier\":\"10_1703226382733__10_1703226563583\",\"DOCKER_TAG\":\"release-${DATETIME//\\\\-/}.439\",\"DOCKER_REGION\":\"cn-shenzhen\",\"DOCKER_INSTANCE\":\"pcgroup\",\"SERVICE_CONNECTION_ID\":133398,\"artifact\":\"artifact\",\"invalidStepVersion\":false,\"DOCKER_REPO\":\"ms-jetour-timer\",\"NO_CACHE\":false,\"name\":\"ms-jetour-timer 镜像构建\",\"DOCKER_NAMESPACE\":\"pcauto\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod] qd-act\",\"ENGINE_PIPELINE_NAME\":\"[Prod] qd-act\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"439\",\"BUILD_NUMBER\":\"439\",\"DATETIME\":\"2024-03-07-16-49-34\",\"ENGINE_TASK_NAME\":\"jetour-api 构建\",\"buildNodeGroup\":\"K8S-4\",\"selected_sources\":[\"jetour-api_gxiO\"],\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_ID\":\"64420989\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "LogPipelineJobRun"
+                }
+              ],
+              "status": "SUCCESS"
+            },
+            {
+              "name": "人工卡点",
+              "startTime": 1709801452000,
+              "endTime": 1709801497000,
+              "id": 197132717,
+              "params": "{\"CI_COMMIT_TITLE\":\"合并分支 fix_20240307 到 master\",\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/auto-act-api.git\",\"enableFilter\":false,\"language\":\"other\",\"connection\":158480,\"label\":\"api/auto-act-api\",\"branch\":\"master\",\"previousCommitId\":\"0055bf4503d447c2d26d74060144e0b207034df4\",\"events\":[\"push\"]},\"name\":\"api_auto-act-api_401v\",\"sign\":\"auto-act-saas_auto-act-api_LM55\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/hongqi-rank-h5.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"wap/hongqi-rank-h5\",\"branch\":\"master\",\"previousCommitId\":\"b2b0406a42d4cd7aad7a727e1dddc42a7371aae9\",\"events\":[\"push\"]},\"name\":\"wap_hongqi-rank-h5_Ol90\",\"sign\":\"auto-act-saas_hongqi-rank-h5_HwKb\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-rank-back-web.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"web/toyota-rank-back-web\",\"branch\":\"master\",\"previousCommitId\":\"db7bb3511eae8491f66bd659ec70343276158c60\",\"events\":[\"push\"]},\"name\":\"web_toyota-rank-back-web_p5Hd\",\"sign\":\"auto-act-saas_toyota-rank-back-web_i1IM\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/toyota-rank-h5.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"wap/toyota-rank-h5\",\"branch\":\"master\",\"previousCommitId\":\"90c0526363622b65dca30ed1ea170eaf8df097d1\",\"events\":[\"push\"]},\"name\":\"wap_toyota-rank-h5_owBj\",\"sign\":\"auto-act-saas_toyota-rank-h5_zkBm\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota_crown_lottery_pc.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"web/toyota_crown_lottery_pc\",\"branch\":\"master\",\"previousCommitId\":\"31b6c124e6cc721f217be4c74d585a92244129f6\",\"events\":[\"push\"]},\"name\":\"web_toyota_crown_lottery_pc_PuiX\",\"sign\":\"auto-act-saas_toyota_crown_lottery_pc_wmnm\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-difindustry-back-web.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"web/toyota-difindustry-back-web\",\"branch\":\"master\",\"previousCommitId\":\"cf2fe9a979c99eeeb5057cf518685f1efb0378bb\",\"events\":[\"push\"]},\"name\":\"web_toyota-difindustry-back-web_P2qT\",\"sign\":\"web_toyota-difindustry-back-web_P2qT\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\" https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/jetta-back-web.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"web/jetta-back-web\",\"branch\":\"master\",\"previousCommitId\":\"34fd1a846fbc06bfe54e0ba6bd149b0815a1f374\",\"events\":[\"push\"]},\"name\":\"web_jetta-back-web_rFuN\",\"sign\":\"web_jetta-back-web_rFuN\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/jetta-api.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"api/jetta-api\",\"branch\":\"master\",\"previousCommitId\":\"1fc2e359453e0af230f098fa60d09e2cf1d2326e\",\"events\":[\"push\"]},\"name\":\"api_jetta-api_vPmb\",\"sign\":\"api_jetta-api_vPmb\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/gac-toyota-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/gac-toyota-api\",\"branch\":\"master\",\"previousCommitId\":\"40984e49f718401d0632ced327a9425a6c9b7f42\",\"events\":[\"push\"]},\"name\":\"api_gac-toyota-api_cuN7\",\"sign\":\"api_gac-toyota-api_cuN7\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/toyota-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"a634a56ffa4b6450fc8dc23af3e401e27fbdf9b3\",\"events\":[\"push\"]},\"name\":\"web_toyota-admin-vue_Q0a6\",\"sign\":\"web_toyota-admin-vue_Q0a6\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/faw-toyota-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/faw-toyota-api\",\"branch\":\"master\",\"previousCommitId\":\"226ca3c0ca64cdfbfaeb88ee636d59c77c242841\",\"events\":[\"push\"]},\"name\":\"api_faw-toyota-api_d8NE\",\"sign\":\"api_faw-toyota-api_d8NE\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/faw-toyota-wap.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"wap/faw-toyota-wap\",\"branch\":\"master\",\"previousCommitId\":\"9072096200f8f12ac311109f4bf38bef98d0ec36\",\"events\":[\"push\"]},\"name\":\"wap_faw-toyota-wap_d2nT\",\"sign\":\"wap_faw-toyota-wap_d2nT\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/gac-toyota-wap.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/gac-toyota-wap\",\"branch\":\"master\",\"previousCommitId\":\"87204b178cc77942c69f770c16d3c5ce0599e4aa\",\"events\":[\"push\"]},\"name\":\"gac-toyota-wap_wTZO\",\"sign\":\"gac-toyota-wap_wTZO\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/faw-toyota-act-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/faw-toyota-act-api\",\"branch\":\"master\",\"previousCommitId\":\"035ee8aebdf345c931fdd07a9310245fd72e7e48\",\"events\":[\"push\"]},\"name\":\"faw-toyota-act-api_IUah\",\"sign\":\"faw-toyota-act-api_IUah\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/faw-toyota-cross-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/faw-toyota-cross-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"eb5dd8d31c3fc51b24faabaec9c09b125eb39d4a\",\"events\":[\"push\"]},\"name\":\"faw-toyota-cross-admin-vue_PPKM\",\"sign\":\"faw-toyota-cross-admin-vue_PPKM\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/jetta-fission-lottery-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/jetta-fission-lottery-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"5bf15be9675de69fa8c4b1f47f07048aadb7e08c\",\"events\":[\"push\"]},\"name\":\"jetta-fission-lottery-admin-vue_5WjB\",\"sign\":\"jetta-fission-lottery-admin-vue_5WjB\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/jetta-act-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/jetta-act-api\",\"branch\":\"master\",\"previousCommitId\":\"0ca0141bceaafe4c3c9c07b4cee80a82b94f3d71\",\"events\":[\"push\"]},\"name\":\"jetta-act-api_GGdW\",\"sign\":\"jetta-act-api_GGdW\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-admin-vue-wap.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/toyota-admin-vue-wap\",\"branch\":\"master\",\"previousCommitId\":\"086bd67668a0976636c7fb08af4fd5137e2eff2a\",\"events\":[\"push\"]},\"name\":\"toyota-admin-vue-wap_VeHn\",\"sign\":\"toyota-admin-vue-wap_VeHn\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/jetta-fission-lottery-wap.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/jetta-fission-lottery-wap\",\"branch\":\"master\",\"previousCommitId\":\"8caf3f57a45e36fabc8af80d4ceb111e81424fea\",\"events\":[\"push\"]},\"name\":\"jetta-fission-lottery-wap_pxXG\",\"sign\":\"jetta-fission-lottery-wap_pxXG\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/big-front-end/front/pc/personal-merchant-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"pc/personal-merchant-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"3342c295a1b963cded34ed5fb1348fb5bad7125d\",\"events\":[\"push\"]},\"name\":\"personal-merchant-admin-vue_Vj7B\",\"sign\":\"personal-merchant-admin-vue_Vj7B\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/gac-trumpchi-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/gac-trumpchi-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"2bb752ea2dfdc07199f5454450cc1e2eb10e908e\",\"events\":[\"push\"]},\"name\":\"gac-trumpchi-admin-vue_f997\",\"sign\":\"gac-trumpchi-admin-vue_f997\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/gac-trumpchi-admin-vue-wap.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"wap/gac-trumpchi-admin-vue-wap\",\"branch\":\"master\",\"previousCommitId\":\"37185e744314782e23d0b728bf737746091d60a1\",\"events\":[\"push\"]},\"name\":\"gac-trumpchi-admin-vue-wap_ysiX\",\"sign\":\"gac-trumpchi-admin-vue-wap_ysiX\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/gac-trumpchi-api.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"api/gac-trumpchi-api\",\"branch\":\"master\",\"previousCommitId\":\"4fffcff57c65ee8c1150bbb1ea99dced45090859\",\"events\":[\"push\"]},\"name\":\"gac-trumpchi-api_hHGo\",\"sign\":\"gac-trumpchi-api_hHGo\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/beijing-hyundai-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"saas/beijing-hyundai-api\",\"branch\":\"master\",\"previousCommitId\":\"0b718b8f40e89c6743ed7fb2f1f9ed662dd20007\",\"events\":[\"push\"]},\"name\":\"beijing-hyundai-api_Quor\",\"sign\":\"beijing-hyundai-api_Quor\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/beijing-hyundai-admin-vue.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"saas/beijing-hyundai-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"e5a1bc48f3e8f4ef93454a26a0be39c149081885\",\"events\":[\"push\"]},\"name\":\"beijing-hyundai-admin-vue_jTaj\",\"sign\":\"beijing-hyundai-admin-vue_jTaj\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/byd-ocean-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/byd-ocean-api\",\"branch\":\"master\",\"previousCommitId\":\"da034e389f30c909dabd5329f87cd5934a31723b\",\"events\":[\"push\"]},\"name\":\"byd-ocean-api_dmyP\",\"sign\":\"byd-ocean-api_dmyP\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/byd-ocean-admin.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"web/byd-ocean-admin\",\"branch\":\"master\",\"previousCommitId\":\"2178204f8d8188feecf5ff646f46165cbbe74d2e\",\"events\":[\"push\"]},\"name\":\"byd-ocean-admin_ATdE\",\"sign\":\"byd-ocean-admin_ATdE\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/honda-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"saas/honda-api\",\"branch\":\"master\",\"previousCommitId\":\"beceeca9b3f85ebe78b48c20a886db803f73267c\",\"events\":[\"push\"]},\"name\":\"honda-api_gGlC\",\"sign\":\"honda-api_gGlC\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/honda-admin-vue.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"saas/honda-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"41e4a0c9128e7bbd1c18ccb28b26f9e2af330e00\",\"events\":[\"push\"]},\"name\":\"honda-admin-vue_vwkk\",\"sign\":\"honda-admin-vue_vwkk\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/byd-ocean-act-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/byd-ocean-act-api\",\"branch\":\"master\",\"previousCommitId\":\"c07b90223f4a00681936561f7b025cc1a40cd3e5\",\"events\":[\"push\"]},\"name\":\"byd-ocean-act-api_FE4L\",\"sign\":\"byd-ocean-act-api_FE4L\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/zt/pcauto/20230906-byd-seagul-middle.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"pcauto/20230906-byd-seagul-middle\",\"branch\":\"master\",\"previousCommitId\":\"a944e88ef7d5af4dbef08b1143b7d58f00a1ff23\",\"events\":[\"push\"]},\"name\":\"20230906-byd-seagul-middle_A48E\",\"sign\":\"20230906-byd-seagul-middle_A48E\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/zt/pcauto/20230906-byd-seagul.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"pcauto/20230906-byd-seagul\",\"branch\":\"master\",\"previousCommitId\":\"f8cd37cec703f1bd0dccf4cd9559b655310e706a\",\"events\":[\"push\"]},\"name\":\"20230906-byd-seagul_EOQa\",\"sign\":\"20230906-byd-seagul_EOQa\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/guangben-fans-admin-vue.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"saas/guangben-fans-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"05d45cebc468a420dea92ac18769369185b0ab11\",\"events\":[\"push\"]},\"name\":\"guangben-fans-admin-vue_Vjlp\",\"sign\":\"guangben-fans-admin-vue_Vjlp\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/honda-fans-api\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"saas/honda-fans-api\",\"branch\":\"master\",\"previousCommitId\":\"f84936386426e94e9bb649e4dddc409e6858371f\",\"events\":[\"push\"]},\"name\":\"honda-fans-api_slNd\",\"sign\":\"honda-fans-api_slNd\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"commitMsg\":\"[{\\\"commitTime\\\": \\\"Thu Mar 7 15:26:54 2024 +0800\\\", \\\"commitAuthor\\\": \\\"\\\\u9648\\\\u5f66\\\\u6d9b\\\", \\\"commitMsg\\\": \\\"%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%20%27fix_20240307%27%20%E5%88%B0%20%27master%27\\\", \\\"commitId\\\": \\\"a2000d04eceb39dca94ae64d1a62489c9e2eebc0\\\"}]\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/jetour-api.git\",\"connection\":158480,\"label\":\"saas/jetour-api\",\"commitId\":\"a2000d04eceb39dca94ae64d1a62489c9e2eebc0\",\"branch\":\"master\",\"previousCommitId\":\"a2000d04eceb39dca94ae64d1a62489c9e2eebc0\",\"events\":[\"push\"]},\"name\":\"jetour-api_gxiO\",\"sign\":\"jetour-api_gxiO\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/byd-dynasty-act-api.git\",\"language\":\"java\",\"connection\":158480,\"label\":\"api/byd-dynasty-act-api\",\"branch\":\"master\",\"previousCommitId\":\"4943e029339f62f6bc7ce4664a6f5f4885dbdfe9\",\"events\":[\"push\"]},\"name\":\"byd-dynasty-act-api_5jAJ\",\"sign\":\"byd-dynasty-act-api_5jAJ\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/zt/pcauto/202401-byd-newyear.git\",\"language\":\"java\",\"connection\":158480,\"label\":\"pcauto/202401-byd-newyear\",\"branch\":\"master\",\"previousCommitId\":\"c818ef7dd0c55ed4124734f3867b867f684b2878\",\"events\":[\"push\"]},\"name\":\"202401-byd-newyear_Y3pt\",\"sign\":\"202401-byd-newyear_Y3pt\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/zt/pcauto/20240117-byd-newyear-middle.git\",\"connection\":158480,\"label\":\"pcauto/20240117-byd-newyear-middle\",\"branch\":\"master\",\"previousCommitId\":\"807f3e6b25f5999ea8442a13d1b67344227ea6c6\",\"events\":[\"push\"]},\"name\":\"20240117-byd-newyear-middle_ux0n\",\"sign\":\"20240117-byd-newyear-middle_ux0n\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/jetour-admin-vue.git\",\"connection\":158480,\"label\":\"saas/jetour-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"42be74077dd830fe93ea0aedd30107b42e033723\",\"events\":[\"push\"]},\"name\":\"jetour-admin-vue_eWw6\",\"sign\":\"jetour-admin-vue_eWw6\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"数字运营线上\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"11_1703226388975\",\"EXECUTOR_ID\":\"63049621aaa5896cee87f64f\",\"CI_SOURCE_NAME\":\"jetour-api\",\"PIPELINE_ID\":\"1380108\",\"ENGINE_PIPELINE_CONFIG_ID\":\"9199139\",\"BUILD_MESSAGE\":\"数字运营线上-页面手动触发\",\"validatorPipelineRole\":\"\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1709801374387\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"296452151952039818\",\"branchRepoInfo\":\"[]\",\"CI_SOURCE_NAME_35\":\"jetour-api\",\"validatorMethod\":\"or\",\"triggerMode\":\"1\",\"CI_COMMIT_TITLE_35\":\"合并分支 fix_20240307 到 master\",\"validatorType\":\"user\",\"ENGINE_PIPELINE_ID\":\"1380108\",\"runnerCacheMode\":\"local\",\"CI_COMMIT_ID\":\"a2000d04\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"63049621aaa5896cee87f64f\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5faa5990e6f9d07f14851828\",\"BUILD_EXECUTOR\":\"数字运营线上\",\"CI_COMMIT_REF_NAME\":\"master\",\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod] qd-act\",\"validatorRole\":\"\",\"CI_COMMIT_REF_NAME_35\":\"master\",\"timeoutTime\":1,\"ENGINE_PIPELINE_NAME\":\"[Prod] qd-act\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"439\",\"BUILD_NUMBER\":\"439\",\"CI_COMMIT_SHA_35\":\"a2000d04eceb39dca94ae64d1a62489c9e2eebc0\",\"DATETIME\":\"2024-03-07-16-49-34\",\"validatorUser\":\"[\\\"5eba3110673e708cfaff38cb\\\",\\\"60093752a509123753d195e4\\\",\\\"63e5a673b7bea95c534468ff\\\",\\\"630c1497b6715a7540dd4128\\\",\\\"6304a1842b16b2e741d3937a\\\",\\\"63049621aaa5896cee87f64f\\\"]\",\"ENGINE_TASK_NAME\":\"人工卡点\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"CI_COMMIT_ID_35\":\"a2000d04\",\"CI_COMMIT_SHA\":\"a2000d04eceb39dca94ae64d1a62489c9e2eebc0\",\"ENGINE_PIPELINE_INST_ID\":\"64420989\"}",
+              "actions": [],
+              "status": "SUCCESS"
+            },
+            {
+              "name": "jetour-api 升级",
+              "startTime": 1709801497000,
+              "endTime": 1709801507000,
+              "id": 197132718,
+              "params": "{\"CI_COMMIT_TITLE\":\"合并分支 fix_20240307 到 master\",\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/auto-act-api.git\",\"enableFilter\":false,\"language\":\"other\",\"connection\":158480,\"label\":\"api/auto-act-api\",\"branch\":\"master\",\"previousCommitId\":\"0055bf4503d447c2d26d74060144e0b207034df4\",\"events\":[\"push\"]},\"name\":\"api_auto-act-api_401v\",\"sign\":\"auto-act-saas_auto-act-api_LM55\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/hongqi-rank-h5.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"wap/hongqi-rank-h5\",\"branch\":\"master\",\"previousCommitId\":\"b2b0406a42d4cd7aad7a727e1dddc42a7371aae9\",\"events\":[\"push\"]},\"name\":\"wap_hongqi-rank-h5_Ol90\",\"sign\":\"auto-act-saas_hongqi-rank-h5_HwKb\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-rank-back-web.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"web/toyota-rank-back-web\",\"branch\":\"master\",\"previousCommitId\":\"db7bb3511eae8491f66bd659ec70343276158c60\",\"events\":[\"push\"]},\"name\":\"web_toyota-rank-back-web_p5Hd\",\"sign\":\"auto-act-saas_toyota-rank-back-web_i1IM\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/toyota-rank-h5.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"wap/toyota-rank-h5\",\"branch\":\"master\",\"previousCommitId\":\"90c0526363622b65dca30ed1ea170eaf8df097d1\",\"events\":[\"push\"]},\"name\":\"wap_toyota-rank-h5_owBj\",\"sign\":\"auto-act-saas_toyota-rank-h5_zkBm\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota_crown_lottery_pc.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"web/toyota_crown_lottery_pc\",\"branch\":\"master\",\"previousCommitId\":\"31b6c124e6cc721f217be4c74d585a92244129f6\",\"events\":[\"push\"]},\"name\":\"web_toyota_crown_lottery_pc_PuiX\",\"sign\":\"auto-act-saas_toyota_crown_lottery_pc_wmnm\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-difindustry-back-web.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"web/toyota-difindustry-back-web\",\"branch\":\"master\",\"previousCommitId\":\"cf2fe9a979c99eeeb5057cf518685f1efb0378bb\",\"events\":[\"push\"]},\"name\":\"web_toyota-difindustry-back-web_P2qT\",\"sign\":\"web_toyota-difindustry-back-web_P2qT\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"credential\":23486,\"repo\":\" https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/jetta-back-web.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"web/jetta-back-web\",\"branch\":\"master\",\"previousCommitId\":\"34fd1a846fbc06bfe54e0ba6bd149b0815a1f374\",\"events\":[\"push\"]},\"name\":\"web_jetta-back-web_rFuN\",\"sign\":\"web_jetta-back-web_rFuN\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/jetta-api.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"api/jetta-api\",\"branch\":\"master\",\"previousCommitId\":\"1fc2e359453e0af230f098fa60d09e2cf1d2326e\",\"events\":[\"push\"]},\"name\":\"api_jetta-api_vPmb\",\"sign\":\"api_jetta-api_vPmb\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/gac-toyota-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/gac-toyota-api\",\"branch\":\"master\",\"previousCommitId\":\"40984e49f718401d0632ced327a9425a6c9b7f42\",\"events\":[\"push\"]},\"name\":\"api_gac-toyota-api_cuN7\",\"sign\":\"api_gac-toyota-api_cuN7\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/toyota-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"a634a56ffa4b6450fc8dc23af3e401e27fbdf9b3\",\"events\":[\"push\"]},\"name\":\"web_toyota-admin-vue_Q0a6\",\"sign\":\"web_toyota-admin-vue_Q0a6\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/faw-toyota-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/faw-toyota-api\",\"branch\":\"master\",\"previousCommitId\":\"226ca3c0ca64cdfbfaeb88ee636d59c77c242841\",\"events\":[\"push\"]},\"name\":\"api_faw-toyota-api_d8NE\",\"sign\":\"api_faw-toyota-api_d8NE\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/faw-toyota-wap.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"wap/faw-toyota-wap\",\"branch\":\"master\",\"previousCommitId\":\"9072096200f8f12ac311109f4bf38bef98d0ec36\",\"events\":[\"push\"]},\"name\":\"wap_faw-toyota-wap_d2nT\",\"sign\":\"wap_faw-toyota-wap_d2nT\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"Git证书 - aliflow-reader\",\"credential\":23486,\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/gac-toyota-wap.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/gac-toyota-wap\",\"branch\":\"master\",\"previousCommitId\":\"87204b178cc77942c69f770c16d3c5ce0599e4aa\",\"events\":[\"push\"]},\"name\":\"gac-toyota-wap_wTZO\",\"sign\":\"gac-toyota-wap_wTZO\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/faw-toyota-act-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/faw-toyota-act-api\",\"branch\":\"master\",\"previousCommitId\":\"035ee8aebdf345c931fdd07a9310245fd72e7e48\",\"events\":[\"push\"]},\"name\":\"faw-toyota-act-api_IUah\",\"sign\":\"faw-toyota-act-api_IUah\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/faw-toyota-cross-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/faw-toyota-cross-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"eb5dd8d31c3fc51b24faabaec9c09b125eb39d4a\",\"events\":[\"push\"]},\"name\":\"faw-toyota-cross-admin-vue_PPKM\",\"sign\":\"faw-toyota-cross-admin-vue_PPKM\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/jetta-fission-lottery-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/jetta-fission-lottery-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"5bf15be9675de69fa8c4b1f47f07048aadb7e08c\",\"events\":[\"push\"]},\"name\":\"jetta-fission-lottery-admin-vue_5WjB\",\"sign\":\"jetta-fission-lottery-admin-vue_5WjB\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/jetta-act-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/jetta-act-api\",\"branch\":\"master\",\"previousCommitId\":\"0ca0141bceaafe4c3c9c07b4cee80a82b94f3d71\",\"events\":[\"push\"]},\"name\":\"jetta-act-api_GGdW\",\"sign\":\"jetta-act-api_GGdW\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/toyota-admin-vue-wap.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/toyota-admin-vue-wap\",\"branch\":\"master\",\"previousCommitId\":\"086bd67668a0976636c7fb08af4fd5137e2eff2a\",\"events\":[\"push\"]},\"name\":\"toyota-admin-vue-wap_VeHn\",\"sign\":\"toyota-admin-vue-wap_VeHn\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/jetta-fission-lottery-wap.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/jetta-fission-lottery-wap\",\"branch\":\"master\",\"previousCommitId\":\"8caf3f57a45e36fabc8af80d4ceb111e81424fea\",\"events\":[\"push\"]},\"name\":\"jetta-fission-lottery-wap_pxXG\",\"sign\":\"jetta-fission-lottery-wap_pxXG\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/big-front-end/front/pc/personal-merchant-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"pc/personal-merchant-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"3342c295a1b963cded34ed5fb1348fb5bad7125d\",\"events\":[\"push\"]},\"name\":\"personal-merchant-admin-vue_Vj7B\",\"sign\":\"personal-merchant-admin-vue_Vj7B\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/gac-trumpchi-admin-vue.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"web/gac-trumpchi-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"2bb752ea2dfdc07199f5454450cc1e2eb10e908e\",\"events\":[\"push\"]},\"name\":\"gac-trumpchi-admin-vue_f997\",\"sign\":\"gac-trumpchi-admin-vue_f997\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/wap/gac-trumpchi-admin-vue-wap.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"wap/gac-trumpchi-admin-vue-wap\",\"branch\":\"master\",\"previousCommitId\":\"37185e744314782e23d0b728bf737746091d60a1\",\"events\":[\"push\"]},\"name\":\"gac-trumpchi-admin-vue-wap_ysiX\",\"sign\":\"gac-trumpchi-admin-vue-wap_ysiX\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/gac-trumpchi-api.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"api/gac-trumpchi-api\",\"branch\":\"master\",\"previousCommitId\":\"4fffcff57c65ee8c1150bbb1ea99dced45090859\",\"events\":[\"push\"]},\"name\":\"gac-trumpchi-api_hHGo\",\"sign\":\"gac-trumpchi-api_hHGo\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/beijing-hyundai-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"saas/beijing-hyundai-api\",\"branch\":\"master\",\"previousCommitId\":\"0b718b8f40e89c6743ed7fb2f1f9ed662dd20007\",\"events\":[\"push\"]},\"name\":\"beijing-hyundai-api_Quor\",\"sign\":\"beijing-hyundai-api_Quor\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/beijing-hyundai-admin-vue.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"saas/beijing-hyundai-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"e5a1bc48f3e8f4ef93454a26a0be39c149081885\",\"events\":[\"push\"]},\"name\":\"beijing-hyundai-admin-vue_jTaj\",\"sign\":\"beijing-hyundai-admin-vue_jTaj\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/byd-ocean-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/byd-ocean-api\",\"branch\":\"master\",\"previousCommitId\":\"da034e389f30c909dabd5329f87cd5934a31723b\",\"events\":[\"push\"]},\"name\":\"byd-ocean-api_dmyP\",\"sign\":\"byd-ocean-api_dmyP\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/web/byd-ocean-admin.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"web/byd-ocean-admin\",\"branch\":\"master\",\"previousCommitId\":\"2178204f8d8188feecf5ff646f46165cbbe74d2e\",\"events\":[\"push\"]},\"name\":\"byd-ocean-admin_ATdE\",\"sign\":\"byd-ocean-admin_ATdE\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/honda-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"saas/honda-api\",\"branch\":\"master\",\"previousCommitId\":\"beceeca9b3f85ebe78b48c20a886db803f73267c\",\"events\":[\"push\"]},\"name\":\"honda-api_gGlC\",\"sign\":\"honda-api_gGlC\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/honda-admin-vue.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"saas/honda-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"41e4a0c9128e7bbd1c18ccb28b26f9e2af330e00\",\"events\":[\"push\"]},\"name\":\"honda-admin-vue_vwkk\",\"sign\":\"honda-admin-vue_vwkk\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/byd-ocean-act-api.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158480,\"label\":\"api/byd-ocean-act-api\",\"branch\":\"master\",\"previousCommitId\":\"c07b90223f4a00681936561f7b025cc1a40cd3e5\",\"events\":[\"push\"]},\"name\":\"byd-ocean-act-api_FE4L\",\"sign\":\"byd-ocean-act-api_FE4L\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/zt/pcauto/20230906-byd-seagul-middle.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"pcauto/20230906-byd-seagul-middle\",\"branch\":\"master\",\"previousCommitId\":\"a944e88ef7d5af4dbef08b1143b7d58f00a1ff23\",\"events\":[\"push\"]},\"name\":\"20230906-byd-seagul-middle_A48E\",\"sign\":\"20230906-byd-seagul-middle_A48E\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/zt/pcauto/20230906-byd-seagul.git\",\"enableFilter\":false,\"connection\":158480,\"label\":\"pcauto/20230906-byd-seagul\",\"branch\":\"master\",\"previousCommitId\":\"f8cd37cec703f1bd0dccf4cd9559b655310e706a\",\"events\":[\"push\"]},\"name\":\"20230906-byd-seagul_EOQa\",\"sign\":\"20230906-byd-seagul_EOQa\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/guangben-fans-admin-vue.git\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"saas/guangben-fans-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"05d45cebc468a420dea92ac18769369185b0ab11\",\"events\":[\"push\"]},\"name\":\"guangben-fans-admin-vue_Vjlp\",\"sign\":\"guangben-fans-admin-vue_Vjlp\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/honda-fans-api\",\"enableFilter\":false,\"connection\":158480,\"language\":\"java\",\"label\":\"saas/honda-fans-api\",\"branch\":\"master\",\"previousCommitId\":\"f84936386426e94e9bb649e4dddc409e6858371f\",\"events\":[\"push\"]},\"name\":\"honda-fans-api_slNd\",\"sign\":\"honda-fans-api_slNd\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"commitMsg\":\"[{\\\"commitTime\\\": \\\"Thu Mar 7 15:26:54 2024 +0800\\\", \\\"commitAuthor\\\": \\\"\\\\u9648\\\\u5f66\\\\u6d9b\\\", \\\"commitMsg\\\": \\\"%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%20%27fix_20240307%27%20%E5%88%B0%20%27master%27\\\", \\\"commitId\\\": \\\"a2000d04eceb39dca94ae64d1a62489c9e2eebc0\\\"}]\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/jetour-api.git\",\"connection\":158480,\"label\":\"saas/jetour-api\",\"commitId\":\"a2000d04eceb39dca94ae64d1a62489c9e2eebc0\",\"branch\":\"master\",\"previousCommitId\":\"a2000d04eceb39dca94ae64d1a62489c9e2eebc0\",\"events\":[\"push\"]},\"name\":\"jetour-api_gxiO\",\"sign\":\"jetour-api_gxiO\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/qd-outer/auto-act-saas/api/byd-dynasty-act-api.git\",\"language\":\"java\",\"connection\":158480,\"label\":\"api/byd-dynasty-act-api\",\"branch\":\"master\",\"previousCommitId\":\"4943e029339f62f6bc7ce4664a6f5f4885dbdfe9\",\"events\":[\"push\"]},\"name\":\"byd-dynasty-act-api_5jAJ\",\"sign\":\"byd-dynasty-act-api_5jAJ\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/zt/pcauto/202401-byd-newyear.git\",\"language\":\"java\",\"connection\":158480,\"label\":\"pcauto/202401-byd-newyear\",\"branch\":\"master\",\"previousCommitId\":\"c818ef7dd0c55ed4124734f3867b867f684b2878\",\"events\":[\"push\"]},\"name\":\"202401-byd-newyear_Y3pt\",\"sign\":\"202401-byd-newyear_Y3pt\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/zt/pcauto/20240117-byd-newyear-middle.git\",\"connection\":158480,\"label\":\"pcauto/20240117-byd-newyear-middle\",\"branch\":\"master\",\"previousCommitId\":\"807f3e6b25f5999ea8442a13d1b67344227ea6c6\",\"events\":[\"push\"]},\"name\":\"20240117-byd-newyear-middle_ux0n\",\"sign\":\"20240117-byd-newyear-middle_ux0n\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/qdcore/digital-market/saas/jetour-admin-vue.git\",\"connection\":158480,\"label\":\"saas/jetour-admin-vue\",\"branch\":\"master\",\"previousCommitId\":\"42be74077dd830fe93ea0aedd30107b42e033723\",\"events\":[\"push\"]},\"name\":\"jetour-admin-vue_eWw6\",\"sign\":\"jetour-admin-vue_eWw6\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"数字运营线上\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"buildEnvironment\":\"container\",\"ENGINE_TASK_SIGN\":\"12_1703226406726\",\"EXECUTOR_ID\":\"63049621aaa5896cee87f64f\",\"CI_SOURCE_NAME\":\"jetour-api\",\"PIPELINE_ID\":\"1380108\",\"ENGINE_PIPELINE_CONFIG_ID\":\"9199139\",\"BUILD_MESSAGE\":\"数字运营线上-页面手动触发\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1709801374387\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"296452151952039818\",\"branchRepoInfo\":\"[]\",\"CI_SOURCE_NAME_35\":\"jetour-api\",\"triggerMode\":\"1\",\"CI_COMMIT_TITLE_35\":\"合并分支 fix_20240307 到 master\",\"capabilities\":\"Linux,Amd64\",\"ENGINE_PIPELINE_ID\":\"1380108\",\"runnerCacheMode\":\"local\",\"CI_COMMIT_ID\":\"a2000d04\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"63049621aaa5896cee87f64f\",\"clone_option\":\"none\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5faa5990e6f9d07f14851828\",\"BUILD_EXECUTOR\":\"数字运营线上\",\"CI_COMMIT_REF_NAME\":\"master\",\"steps\":[{\"NAMESPACE\":\"qd-act\",\"invalidStepVersion\":false,\"freeInTaskGroupModeFields\":[],\"stepType\":\"update-prod\",\"IMAGE\":\"{\\\"DOCKER_URL\\\":\\\"pcgroup-registry-vpc.cn-shenzhen.cr.aliyuncs.com/pcauto/ms-jetour-auto:release-20240307164934.439\\\",\\\"ARTIFACT_URL\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2047317/1709801417456/application_docker_url_config.desc&fileName=application_docker_url_config.desc&md5Sign=1bc226b3b4d898d7c90aaf76004802e0\\\",\\\"ARTIFACT_MD5\\\":\\\"b275420be7882190dd09d0112d2fe018\\\"}\",\"name\":\"ms-jetour-auto升级\",\"CONTAINER\":\"ms-jetour-auto\",\"stepIdentifier\":\"12_1703226406726__10_1703226630721\",\"SERVICE\":\"ms-jetour-auto\",\"CLUSTER\":\"qdcore\",\"TOKEN\":\"930958e3347e57b835000fedc7b28e\"},{\"NAMESPACE\":\"qd-act\",\"invalidStepVersion\":false,\"freeInTaskGroupModeFields\":[],\"stepType\":\"update-prod\",\"IMAGE\":\"{\\\"DOCKER_URL\\\":\\\"pcgroup-registry-vpc.cn-shenzhen.cr.aliyuncs.com/pcauto/ms-jetour-timer:release-20240307164934.439\\\",\\\"ARTIFACT_URL\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2047317/1709801439553/application_docker_url_config.desc&fileName=application_docker_url_config.desc&md5Sign=1792c4d87fe1cf4a44729f64455857c6\\\",\\\"ARTIFACT_MD5\\\":\\\"77f86f1c0329a799ba53d744107bca6c\\\"}\",\"name\":\"ms-jetour-timer升级\",\"CONTAINER\":\"ms-jetour-timer\",\"stepIdentifier\":\"12_1703226406726__10_1703226648341\",\"SERVICE\":\"ms-jetour-timer\",\"CLUSTER\":\"qdcore\",\"TOKEN\":\"930958e3347e57b835000fedc7b28e\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod] qd-act\",\"CI_COMMIT_REF_NAME_35\":\"master\",\"ENGINE_PIPELINE_NAME\":\"[Prod] qd-act\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"439\",\"BUILD_NUMBER\":\"439\",\"CI_COMMIT_SHA_35\":\"a2000d04eceb39dca94ae64d1a62489c9e2eebc0\",\"DATETIME\":\"2024-03-07-16-49-34\",\"ENGINE_TASK_NAME\":\"jetour-api 升级\",\"buildNodeGroup\":\"K8S-4\",\"selected_sources\":\"\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"CI_COMMIT_ID_35\":\"a2000d04\",\"CI_COMMIT_SHA\":\"a2000d04eceb39dca94ae64d1a62489c9e2eebc0\",\"ENGINE_PIPELINE_INST_ID\":\"64420989\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "LogPipelineJobRun"
+                }
+              ],
+              "status": "SUCCESS"
+            }
+          ],
+          "name": "Group0-Stage29",
+          "startTime": 1709801388000,
+          "endTime": 1709801507000,
+          "status": "SUCCESS"
+        }
+      },
+      {
+        "name": "Group0-Stage30",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "byd-dynasty-act-api 构建",
+              "id": 197132719,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "人工卡点",
+              "id": 197132720,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "byd-dynasty-act-api 发布",
+              "id": 197132721,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage30",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage31",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "byd-dynasty-act-front  构建",
+              "id": 197132722,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "人工卡点",
+              "id": 197132723,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "byd-dynasty-act-front 部署",
+              "id": 197132724,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage31",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage32",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "byd-dynasty-act-admin  构建",
+              "id": 197132725,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "人工卡点",
+              "id": 197132726,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "byd-dynasty-act-admin 部署",
+              "id": 197132727,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage32",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage33",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "jetour-admin-vue 构建",
+              "id": 197132728,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "人工卡点",
+              "id": 197132729,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "jetour-admin-vue部署 ",
+              "id": 197132730,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage33",
+          "startTime": 1709801375000,
+          "status": "SWITCH_MANUAL"
+        }
+      }
+    ],
+    "updateTime": 1709801498000,
+    "stageGroup": [
+      [
+        "Group0-Stage0",
+        "Group0-Stage1",
+        "Group0-Stage2",
+        "Group0-Stage3",
+        "Group0-Stage4",
+        "Group0-Stage5",
+        "Group0-Stage6",
+        "Group0-Stage7",
+        "Group0-Stage8",
+        "Group0-Stage9",
+        "Group0-Stage10",
+        "Group0-Stage11",
+        "Group0-Stage12",
+        "Group0-Stage13",
+        "Group0-Stage14",
+        "Group0-Stage15",
+        "Group0-Stage16",
+        "Group0-Stage17",
+        "Group0-Stage18",
+        "Group0-Stage19",
+        "Group0-Stage20",
+        "Group0-Stage21",
+        "Group0-Stage22",
+        "Group0-Stage23",
+        "Group0-Stage24",
+        "Group0-Stage25",
+        "Group0-Stage26",
+        "Group0-Stage27",
+        "Group0-Stage28",
+        "Group0-Stage29",
+        "Group0-Stage30",
+        "Group0-Stage31",
+        "Group0-Stage32",
+        "Group0-Stage33"
+      ]
+    ],
+    "modifierAccountId": "214015761244574395",
+    "triggerMode": 1,
+    "pipelineId": 1380108,
+    "status": "RUNNING"
+  },
+  "success": true
+}

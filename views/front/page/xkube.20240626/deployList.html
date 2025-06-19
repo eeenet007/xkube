@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>deploy列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+
+<style type="text/css">
+  .layui-table-cell {
+    height: auto;
+    max-height: 200px;
+    line-height: 15px !important;
+    text-overflow: inherit;
+    /* overflow: hidden; */
+    overflow: ellipsis;
+    white-space: normal;
+    /*word-wrap: break-word;*/
+  }
+  .layui-table-cell .layui-table-tool-panel li {
+    word-break: break-word;
+  }
+</style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">deploy</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="deployName" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">命名空间</label>
+                            <div class="layui-input-inline">
+                              <select name="nameSpace" lay-filter="name_Space" lay-search="" id="name_Space">
+          	              			<option value="" selected="">所有空间</option>
+              		            </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                        </div>
+
+                        <div class="layui-inline" style="position: absolute;right:50px">
+                            <label class="layui-form-label">当前集群</label>
+                            <div class="layui-input-inline">
+                                <select name="clusterId" lay-filter="cluster_Id" lay-search="" id="cluster_Id">
+                                  <option value="">请选择集群</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="createDeploy"><i class="layui-icon">&#xe61f;</i>创建应用</button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="yamlCreateDeploy"><i class="layui-icon">&#xe61f;</i>yaml创建应用</button>
+            </div>
+        </script>
+
+        <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+          {{#  var clusterId = getQueryString("clusterId"); }}
+          {{#  if (clusterId == null) { }}
+	        {{#      clusterId = getCookie("clusterId") }}
+          {{#  } }}
+            <a href="javascript:;" layuimini-content-href="page/xkube/deployDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&deployName={{d.deployName}}" data-title="{{ d.deployName }}详情" class="layui-btn layui-btn-sm">详情</a>
+            <a href="javascript:;" layuimini-content-href="page/cicd/deploy.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&resName={{d.deployName}}&resType=Deployment" data-title="{{ d.deployName }}部署" class="layui-btn layui-btn-sm">部署</a>
+            <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="viewYaml">yaml编辑</a>
+            <a class="layui-btn layui-btn-sm layui-btn-warm" lay-event="restart">重启</a>
+            <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
+        </script>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+    	$(document).ready(function(){
+          GetCurrClusterId();  
+          GetNamespace();	
+    	});		
+</script>
+
+<script type="text/html" id="TagTpl">
+    {{# if (d.labels != "") { }}
+            {{# layui.each(d.labels.split(','), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span style="background-color: #1E9FFF; border: 0px solid #1E9FFF; color:#FFF;border-radius:3px;">{{ item }}</span>
+                {{# }else{ }}
+                        <br><br><span style="background-color: #1E9FFF; border: 0px solid #1E9FFF; color:#FFF;border-radius:3px;">{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+<script>
+//设置默认集群
+SetDefaultCluster();
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+    layui.use(['form', 'table','miniTab'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+            form.render();
+
+        //选择集群
+        form.on('select(cluster_Id)', function(data){
+          //console.log(data.elem); //得到select原始DOM对象
+          console.log(data.value); //得到被选中的值
+          setCookie('clusterId',data.value,30);
+          window.location.reload();
+          //console.log(data.othis); //得到美化后的DOM对象
+        });
+
+        table.render({
+            elem: '#currentTableId',
+            //url: '/xkube/deploy/v1/List'+location.search+'&nameSpace=zx-app&clusterId='+clusterId,
+            url: '/xkube/deploy/v1/List'+location.search+'&clusterId='+clusterId,
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            parseData: function(res) { //实现加载全部数据后再分页
+            	if(this.page.curr) {
+            		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+            	}else{
+            	  result=res.data.slice(0,this.limit);
+              }
+              return {
+              	"code": res.code,
+              	"msg":'',
+              	"count":res.count,
+              	"data":result
+              };
+            },
+            cols: [[
+                //{type: "checkbox"},
+                {field: 'deployName',title: '名称'},
+                {field: 'nameSpace',title: '命名空间', sort: true},
+                {field: 'podNumber',title: '容器', sort: true},
+                {field: 'imageUrl', title: '镜像', sort: true},
+                {field: 'labes',title: '标签', sort: true,templet: '#TagTpl'},
+                {field: 'createTime',title: '创建时间'},
+                {field: 'updateTime',title: '更新时间', hide:true},
+                {title: '操作', minWidth: 350, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            //size:'lg',
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            //var result = JSON.stringify(data.field);
+            data.field.deployName = data.field.deployName.replace(/^\s*|\s*$/g,"");
+            //执行搜索重载
+            table.reload('currentTableId', {
+                //page: {
+                //    curr: 1,
+                //    limit:50
+                //},
+                method:'POST',
+                url: '/xkube/deploy/v1/List?clusterId='+clusterId,
+                contentType: 'application/json',
+                where: data.field,
+                done: function(res, curr, count){
+                  //console.log(res);
+                  //this.where={};
+                  //不清空，有问题：搜索条件会保留
+                  //清空，  有问题：分页的时候没有搜索条件了,分页会受到影响
+                  //https://copyfuture.com/blogs-details/20200729003153292ltjtf01kvp048gr
+                }
+            }, 'data');
+            return false;
+        });
+
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'createDeploy') {  // 监听添加操作
+                var index = layer.open({
+                    title: '创建应用',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '90%'],
+                    content: '/page/xkube/deployCreate.html'
+                    //end: function(){
+                    //	window.parent.location.reload();//关闭open打开的页面时，刷新父页面
+                    //}
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            } else if (obj.event === 'yamlCreateDeploy') {  // 监听删除操作
+                var index = layer.open({
+                    title: '创建应用',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['55%', '95%'],
+                    content: '/page/xkube/create_by_yaml.html'
+                    //end: function(){
+                    //	window.parent.location.reload();//关闭open打开的页面时，刷新父页面
+                    //}
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            }
+        });
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'viewYaml') {
+                var index = layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['45%', '92%'],
+                    content: '/page/xkube/deployYaml.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&deployName='+data.deployName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }  else if (obj.event === 'restart') {
+      	          layer.confirm('确定重启?', {icon: 3, title:'提示',yes: function(index){
+                       var index2 = layer.load(0, {shade: false});
+                       layer.msg('稍等片刻');
+                       $.ajax({
+                         url: "/xkube/deploy/v1/Restart"+location.search,
+                         type: "get",
+                         dataType: "json",
+                         success: function (resp) {
+                                  layer.close(index2);
+                                   if(resp.code == 0){
+                                      layer.msg('重启成功', {icon: 1});
+                                   }else{
+                                      layer.msg(resp.msg,{icon:2});
+                                   }
+                          }
+                        });		  	  
+                    },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            } else if (obj.event === 'delete') {
+                layer.confirm('确定删除'+data.deployName+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/deploy/v1/Del?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&deployName='+data.deployName,
+                			    type: "get",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 window.location.reload();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            }
+        });
+
+
+    });
+</script>
+</html>

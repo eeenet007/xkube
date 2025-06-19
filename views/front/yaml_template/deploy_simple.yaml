@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mytest-app
+    appname: pcauto-bbs
+  name: mytest-app
+  namespace: test-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mytest-app
+  template:
+    metadata:
+      labels:
+        app: mytest-app
+    spec:
+      containers:
+      - name: mytest-app
+        image: xxx-registry-vpc.cn-shenzhen.cr.aliyuncs.com/xxx/mytest-app:20231018172727
+        imagePullPolicy: IfNotPresent

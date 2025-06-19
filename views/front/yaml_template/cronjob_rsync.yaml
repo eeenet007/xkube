@@ -1,0 +1,38 @@
+#rsyn同步静态文件到挂载的存储
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    app: sync-html-test
+    appname: myapp
+  name: sync-html-test
+  namespace: test-app
+spec:
+  schedule: "2 * * * *"
+  suspend: false
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 30
+      backoffLimit: 1    
+      template:
+        spec:
+          containers:
+          - name: sync-html-test 
+            image: xxx-registry-vpc.cn-shenzhen.cr.aliyuncs.com/xxx/rsync:latest 
+            imagePullPolicy: IfNotPresent
+            command: ["sh","-ec","rsync -av root@192.168.xx.xx::PUBLIC /data/public/ >/dev/stdout"]
+            volumeMounts:
+            - mountPath: /data/public 
+              name: html-ssi
+            - mountPath: /etc/localtime
+              name: host-time
+              readOnly: true
+          restartPolicy: OnFailure
+          volumes:
+            - name: html-ssi 
+              persistentVolumeClaim:
+                claimName: html-ssi
+            - name: host-time
+              hostPath:
+                path: /etc/localtime
+                type: ""

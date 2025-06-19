@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>流水线</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <style>
+      .layui-quote-red{border-style:solid;border-color:#FF5722;border-width:1px 1px 1px 5px;background:0 0}
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div id="GotoEdit" style="margin-top=300px;margin-left:25%;">
+          <span class="layui-text layui-font-red layui-font-20">你还未配置<span id="cicdName"></span>流水线!!!</span><br>
+          <form class="layui-form layui-form-pane" action="" lay-filter="UpdateInfo">
+              <div class="layui-form-item">
+                  <label class="layui-form-label">流水线类型</label>
+                  <div class="layui-input-block">
+                      <input type="radio" name="cicd_type" value="1" lay-filter="cicdType" title="阿里云流水线" checked="">
+                      <input type="radio" name="cicd_type" value="2" lay-filter="cicdType" title="本地流水线" disabled>
+                  </div>
+              </div>    
+                <div class="layui-form-item" id="addBtn">
+                      <button class="layui-btn" lay-submit="" lay-filter="addSubmit">去配置流水线</button>
+                </div>
+          </form> 
+          <!-- <button class="layui-btn layui-btn-normal" id="Edit">去配置流水线</button> -->
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+
+    var cicdName = getQueryString("cicdName");
+    $("#cicdName").html(cicdName);
+
+    layui.use(['form', 'table','miniTab','element'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            element = layui.element,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+        $("#GotoEdit").hide();
+
+        //编辑
+        //$('#Edit').on("click",function(){
+        //    miniTab.openNewTabByIframe({
+        //        href:'/page/cicd/pipelines_edit.html'+ location.search,
+        //        title:"流水线编辑",
+        //    });
+        //});
+
+      //deatail
+			$.get('/cicd/v1/GetCicdInfo' + location.search, function (resp) {
+  				  if (resp.data.cicd_type == 1 ) { //阿里云
+                //window.location.reload();
+                //$("#GotoEdit").show();
+                $.get('/cicd/v1/GetPipelines?cicdId=' + resp.data.id, function (res) {
+                  self.location.href ='/page/cicd/pipelines_index.html'+location.search+'&cicdId='+resp.data.id+'&aliyun_id='+res.data.aliyun_id+'&organization_id='+res.data.organization_id+'&pipeline_id='+res.data.pipeline_id;
+                });
+            }else if (resp.data.cicd_type == 2 ) { //本地的cicd
+                //window.location.reload();
+                self.location.href ='/page/cicd/cicd_index.html'+location.search+'&cicdId='+resp.data.id;
+            }else{
+                $("#GotoEdit").show();
+            }
+		  });
+
+        form.on('submit(addSubmit)', function (data) {
+              var url = '/page/cicd/pipelines_add.html'+location.search;
+              if ( data.field.cicd_type == 2 ) {
+                url = '/page/cicd/cicd_add.html'+location.search;
+              }
+              console.log(url);
+              miniTab.openNewTabByIframe({
+                  href:url,
+                  title:"流水线配置",
+              });  	  
+              return false;
+        });
+
+    });
+</script>
+</html>

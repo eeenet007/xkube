@@ -1,0 +1,28 @@
+{
+  "pipelineRuns": [
+    {
+      "creatorAccountId": "244103500768013954",
+      "pipelineRunId": 4,
+      "startTime": 1709608306000,
+      "endTime": 1709608333000,
+      "triggerMode": 4,
+      "pipelineId": 2676652,
+      "status": "SUCCESS"
+    },
+    {
+      "creatorAccountId": "244103500768013954",
+      "pipelineRunId": 3,
+      "startTime": 1709608102000,
+      "endTime": 1709608131000,
+      "triggerMode": 4,
+      "pipelineId": 2676652,
+      "status": "SUCCESS"
+    }
+  ],
+  "requestId": "BC6D3059-D743-5383-99D5-7B672F209AAF",
+  "success": true,
+  "nextToken": "UWNDva7KYXw=",
+  "errorMessage": "",
+  "errorCode": "",
+  "totalCount": 4
+}

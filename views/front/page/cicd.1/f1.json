@@ -1,0 +1,92 @@
+{
+  "requestId": "C654978D-E94E-54B9-84A8-B1EDFDC0809A",
+  "pipelineRun": {
+    "creatorAccountId": "254082077663392273",
+    "sources": [
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/pcauto-c/front-end-projects/model/model-pc.git",
+          "branch": "master"
+        },
+        "sign": "hundong-wap_GPtM",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/pcauto-c/front-end-projects/model/model-admin-ui.git",
+          "branch": "master"
+        },
+        "sign": "model-admin-ui_LwlZ",
+        "type": "git"
+      }
+    ],
+    "createTime": 1707449137000,
+    "pipelineRunId": 168,
+    "stages": [
+      {
+        "name": "Group0-Stage0",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "Model PC 构建",
+              "startTime": 1707449140000,
+              "endTime": 1707449186000,
+              "id": 193281970,
+              "params": "{\"sources\":\"[{\\\"data\\\":{\\\"credentialType\\\":\\\"connection\\\",\\\"connectionPrefer\\\":true,\\\"credentialLabel\\\":\\\"reader\\\",\\\"repo\\\":\\\"https://git.pc.com.cn/pcauto-c/front-end-projects/model/model-pc.git\\\",\\\"enableFilter\\\":true,\\\"connection\\\":158500,\\\"label\\\":\\\"model/model-pc\\\",\\\"branch\\\":\\\"master\\\",\\\"previousCommitId\\\":\\\"88a00f983b96c4380ea19f4102cadd2e52d4fda3\\\",\\\"events\\\":[\\\"push\\\"]},\\\"name\\\":\\\"model-pc_L21T\\\",\\\"sign\\\":\\\"hundong-wap_GPtM\\\",\\\"type\\\":\\\"git\\\"},{\\\"data\\\":{\\\"credentialType\\\":\\\"connection\\\",\\\"connectionPrefer\\\":true,\\\"credentialLabel\\\":\\\"QA的Git服务连接\\\",\\\"repo\\\":\\\"https://git.pc.com.cn/pcauto-c/front-end-projects/model/model-admin-ui.git\\\",\\\"enableFilter\\\":false,\\\"connection\\\":344830,\\\"label\\\":\\\"model/model-admin-ui\\\",\\\"branch\\\":\\\"master\\\",\\\"previousCommitId\\\":\\\"c7d98985d2241b07c2ae3fe1a9c69b1d0428862f\\\"},\\\"name\\\":\\\"model-admin-ui_LwlZ\\\",\\\"sign\\\":\\\"model-admin-ui_LwlZ\\\",\\\"type\\\":\\\"git\\\"}]\",\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"汽车网C端线上\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"11_1677147861807\",\"EXECUTOR_ID\":\"63ff1cd75d66d6f07ef9d584\",\"PIPELINE_ID\":\"2359241\",\"ENGINE_PIPELINE_CONFIG_ID\":\"8916921\",\"BUILD_MESSAGE\":\"汽车网C端线上-页面手动触发\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1707449137670\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"254082077663392273\",\"branchRepoInfo\":\"[]\",\"triggerMode\":\"1\",\"ENGINE_PIPELINE_ID\":\"2359241\",\"runnerCacheMode\":\"local\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"63ff1cd75d66d6f07ef9d584\",\"clone_option\":\"all\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"BUILD_EXECUTOR\":\"汽车网C端线上\",\"steps\":[{\"invalidStepVersion\":false,\"freeInTaskGroupModeFields\":[],\"stepType\":\"node_build\",\"VERSION_TYPE\":\"PREDEFINED\",\"USE_NPM_CACHE\":false,\"name\":\"Node.js 构建\",\"stepIdentifier\":\"11_1677147861807__12_1677147861807\",\"CI_RUNTIME_VERSION\":18.12,\"source\":\"hundong-wap_GPtM\",\"command\":\"# input your command here\\nnpm i \\nnpm run build\"},{\"freeInTaskGroupModeFields\":[\"ARGS\"],\"DOCKER_FILE_PATH\":\"Dockerfile\",\"stepType\":\"docker-build-tb-enterprise\",\"ARGS\":\"e30=\",\"JSONEncoding\":true,\"CONTEXT_PATH\":\"\",\"EXTRA_TAGS\":\"\",\"stepIdentifier\":\"11_1677147861807__10_1677147948547\",\"DOCKER_TAG\":\"release-${DATETIME//\\\\-/}.168\",\"source\":\"hundong-wap_GPtM\",\"DOCKER_REGION\":\"cn-shenzhen\",\"DOCKER_INSTANCE\":\"pcgroup\",\"SERVICE_CONNECTION_ID\":30651,\"artifact\":\"artifact\",\"invalidStepVersion\":false,\"DOCKER_REPO\":\"model-pc\",\"NO_CACHE\":false,\"name\":\"model-pc 构建\",\"DOCKER_NAMESPACE\":\"pcauto\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod] 车型库-前端\",\"ENGINE_PIPELINE_NAME\":\"[Prod] 车型库-前端\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"168\",\"BUILD_NUMBER\":\"168\",\"DATETIME\":\"2024-02-09-11-25-37\",\"ENGINE_TASK_NAME\":\"Model PC 构建\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"buildNodeGroup\":\"K8S-4\",\"selected_sources\":\"\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_ID\":\"62634830\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "RetryPipelineJobRun"
+                }
+              ],
+              "status": "FAIL"
+            },
+            {
+              "name": "Model PC 部署",
+              "id": 193281971,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage0",
+          "startTime": 1707449140000,
+          "status": "FAIL"
+        }
+      },
+      {
+        "name": "Group0-Stage1",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "Model Admin 构建",
+              "id": 193281972,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "Model Admin 部署",
+              "id": 193281973,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage1",
+          "startTime": 1707449138000,
+          "status": "SWITCH_MANUAL"
+        }
+      }
+    ],
+    "updateTime": 1707449186000,
+    "stageGroup": [
+      [
+        "Group0-Stage0",
+        "Group0-Stage1"
+      ]
+    ],
+    "modifierAccountId": "254082077663392273",
+    "triggerMode": 1,
+    "pipelineId": 2359241,
+    "status": "FAIL"
+  },
+  "success": true
+}

@@ -1,0 +1,61 @@
+{
+  "requestId": "2DE368D2-A51E-5A58-9A66-66025EEAED93",
+  "pipelineRun": {
+    "creatorAccountId": "297003501433056152",
+    "sources": [
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/in-smart/middle-platform.git",
+          "branch": "master"
+        },
+        "sign": "middle-platform_G3pB",
+        "type": "git"
+      }
+    ],
+    "createTime": 1645601973000,
+    "pipelineRunId": 7,
+    "stages": [
+      {
+        "name": "Group0-Stage0",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "mp-media 构建",
+              "startTime": 1645601974000,
+              "endTime": 1645602004000,
+              "id": 84676443,
+              "params": "{\"sources\":\"[{\\\"data\\\":{\\\"credentialType\\\":\\\"connection\\\",\\\"connectionPrefer\\\":true,\\\"credentialLabel\\\":\\\"reader\\\",\\\"repo\\\":\\\"https://git.pc.com.cn/in-smart/middle-platform.git\\\",\\\"enableFilter\\\":false,\\\"connection\\\":158500,\\\"label\\\":\\\"in-smart/middle-platform\\\",\\\"branch\\\":\\\"master\\\",\\\"previousCommitId\\\":\\\"79713621e4ecdf4ea16a71808d9a95378c2b15c6\\\",\\\"events\\\":[\\\"push\\\"]},\\\"sign\\\":\\\"middle-platform_G3pB\\\",\\\"name\\\":\\\"middle-platform_G3pB\\\",\\\"label\\\":\\\"in-smart/middle-platform\\\",\\\"type\\\":\\\"git\\\"}]\",\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"dev-admin\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"10_1644303160219\",\"EXECUTOR_ID\":\"5f73ee8218c17e7748537f6e\",\"PIPELINE_ID\":\"1616198\",\"ENGINE_PIPELINE_CONFIG_ID\":\"2647087\",\"TIMESTAMP\":\"1645601973764\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"208864283390341257\",\"branchRepoInfo\":\"[]\",\"triggerMode\":\"1\",\"ENGINE_PIPELINE_ID\":\"1616198\",\"runnerCacheMode\":\"local\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f73ee8218c17e7748537f6e\",\"clone_option\":\"selected\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"steps\":[{\"freeInTaskGroupModeFields\":[],\"stepType\":\"java_build\",\"name\":\"Java 构建\",\"MAVEN_VERSION\":\"3.5.2\",\"stepIdentifier\":\"10_1644303160219__10_1644303226952\",\"CI_RUNTIME_VERSION\":\"jdk11.0.13\",\"command\":\"# maven build default command\\ncp -r docker/* is-mp-media/is-mp-media-image\\ncd is-mp-media\\nmvn -B clean package -Dmaven.test.skip=true -Dautoconfig.skip\\n\\n# gradle build default command\\n# ./gradlew build\\n\\n# ant build default command\\n# ant \\n\"},{\"freeInTaskGroupModeFields\":[\"ARGS\"],\"DOCKER_FILE_PATH\":\"is-mp-media/is-mp-media-image/Dockerfile-yunxiao\",\"stepType\":\"docker-build-tb-enterprise\",\"ARGS\":\"e30=\",\"JSONEncoding\":true,\"CONTEXT_PATH\":\"\",\"EXTRA_TAGS\":\"latest\",\"stepIdentifier\":\"10_1644303160219__10_1644303397019\",\"DOCKER_TAG\":\"2022-02-23-15-39-33\",\"DOCKER_REGION\":\"cn-shenzhen\",\"DOCKER_INSTANCE\":\"pcgroup\",\"SERVICE_CONNECTION_ID\":30651,\"DOCKER_REPO\":\"mp-media-image\",\"NO_CACHE\":false,\"name\":\"mp-media-image 镜像构建\",\"DOCKER_NAMESPACE\":\"pc\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod] MP\",\"ENGINE_PIPELINE_NAME\":\"[Prod] MP\",\"ENGINE_PIPELINE_INST_NUMBER\":\"7\",\"BUILD_NUMBER\":\"7\",\"DATETIME\":\"2022-02-23-15-39-33\",\"buildNodeGroup\":\"K8S-4\",\"selected_sources\":[\"middle-platform_G3pB\"],\"ENGINE_PIPELINE_INST_ID\":\"14350758\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "RetryPipelineJobRun"
+                }
+              ],
+              "status": "FAIL"
+            },
+            {
+              "name": "mp-media 升级",
+              "id": 84676444,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage0",
+          "startTime": 1645601974000,
+          "status": "FAIL"
+        }
+      }
+    ],
+    "updateTime": 1646259280000,
+    "stageGroup": [
+      [
+        "Group0-Stage0"
+      ]
+    ],
+    "modifierAccountId": "297003501433056152",
+    "triggerMode": 1,
+    "pipelineId": 1616198,
+    "status": "FAIL"
+  },
+  "success": true
+}

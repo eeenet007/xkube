@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>编辑文章</title>
+        <link rel="stylesheet" href="static/css/style.css" />
+        <link rel="stylesheet" href="/css/public.css" media="all">
+        <!--
+        <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css">
+        -->
+        <!-- layui.css与editor的样式有冲突，例如：列表不会显示图标 -->
+
+        <link rel="stylesheet" href="editor/css/editormd.css" />  
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
+        <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+        <script src="editor/editormd.js"></script>   
+        <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<style>
+.text{
+  width: 250px;
+  height: 40px;
+  float: left;
+  border: 1;
+  padding: 0 16px;
+}  
+  .btn {
+    width: 100px;
+    height: 40px;
+    float: left;
+    border: none;
+    background-color: #009688;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    background-color: #4662d9;
+  }
+</style> 
+    </head>
+<body>
+<div>
+    <div>
+			<form action="" lay-filter="UpdateInfo"> <!-- class="layui-form"  会与editormd的代码模块冲突，导致无法加载语言选择 -->
+          <div style="margin-left:300px;margin-top:10px;float: left;">
+  					<input class="text" type="text" name="xcolumn" id="xcolumn"  autocomplete="on" placeholder="栏目" style="width:150px;">
+  					<input class="text" type="text" name="title" id="title" autocomplete="on" placeholder="标题" style="margin-left:50px;width:250px;">
+            <!--
+  					<input type="text" name="author" id="author" autocomplete="on" placeholder="作者">
+            -->
+  					<input class="text" type="text" name="authkey" id="authkey" placeholder="阅读密码" style="margin-left:50px;width:100px;">
+  				  <input class="btn" style="margin-left:50px;" type="subbmit" onclick="submit_fuc();" value="提交"></input>
+          </div>
+ 		      <div id="test-editormd" style="margin-left:100px;margin-top:10px;float: left;">
+              <textarea id="content" style="display:none;"></textarea>
+	        </div>	
+			</form>
+    </div>
+
+ 	<!-- 弹出框	-->
+  	<div id="InputAuthKey" style="display:none;">
+      	<form class="layui-form" action="">
+            <input class="text" type="password" name="authkey" id="authkey2" placeholder="输入阅读密码" autocomplete="off" style="margin-left:25px;width:250px;margin-top:10px;">            
+          	<button class="btn" style="margin-left:50px;margin-top:10px;" lay-submit="" lay-filter="InputAuthKeySubmit">提交</button>
+      	</form>
+  	</div>
+ 	<!-- 弹出框	-->	
+</div>
+</body>				
+		
+<script type="text/javascript">
+
+      function submit_fuc(){
+        var obj = {
+          xcolumn:document.getElementById("xcolumn").value,
+          title:document.getElementById("title").value,
+          //author:document.getElementById("author").value,
+          authkey:document.getElementById("authkey").value,
+          content:document.getElementById("content").value,      
+        }
+          //console.log(obj);
+      		layer.confirm('确定提交?', {icon: 3, title:'提示',yes: function(index){
+        			$.ajax({
+          			url: "/wiki/v1/Update" + location.search,
+          			type: "post",
+          			data: obj,
+          			dataType: "json",
+          			success: function (data) {
+              			if(data.code == 0){
+                				layer.msg('提交成功', {icon: 1,time:1500},function(){
+  							          //window.location.href="list.html";
+                  		    layui.use('miniTab', function(){
+            		              var miniTab = layui.miniTab;
+                              miniTab.deleteCurrentByIframe(); //关闭编辑标签
+                          //    miniTab.openNewTabByIframe({ //打开新的列表页
+                          //        href:"list.html",
+                          //        title:"文章列表",
+                          //    });
+                  		    });	                          
+                        });
+
+              			}
+              			if (data.code == -1){
+                 				layer.msg(data.msg,{icon:2})
+              			}
+          			}
+             	});		  	  
+          },
+        	cancel: function(index, layero){ 
+                layui.layer.close(index);
+				        console.log("不操作");
+        	} 
+         });
+      }  
+    
+	layui.use(['table','form','laydate','element','layer','miniTab'], function(){
+		var $ = layui.jquery
+  		var table = layui.table;
+  		var form=layui.form;
+
+/**
+  		//监听提交
+  		form.on('submit(EditSubmit)', function(datas){
+    		layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){
+            console.log(datas.field);
+      			$.ajax({
+        			url: "/wiki/v1/Update" + location.search,
+        			type: "post",
+        			data: datas.field,
+        			dataType: "json",
+        			success: function (data) {
+            			if(data.code == 0){
+              				layer.msg('修改成功', {icon: 1})
+            			}else{
+               				layer.msg('修改失败',{icon:2})
+            			}
+        			}
+           	});		  	  
+        	},
+        	cancel: function(index, layero){ 
+                layer.close(index);
+				        console.log("不操作");
+        	} 
+       	}); 
+    		return false;
+  		});
+**/
+		//edit
+  //  class="layui-form"  会与editormd的代码模块冲突，导致无法加载语言选择
+ 			$.ajax({
+    			url: "/wiki/v1/ReadEncry"+ location.search,
+    			type: "GET",
+    			success: function (data) {
+       				if (data.result == "fail"){
+          				layer.msg('读取文章失败',{icon:2})
+       				}
+							if(data.result == "true"){
+									var index = layer.open({
+      									//layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+          								type:1,
+										      skin: 'layui-layer-rim',
+          								title:"输入阅读密码",
+          								area: ['310px','180px'],
+          								content:$("#InputAuthKey").html()
+      						});  		        
+                  form.on('submit(InputAuthKeySubmit)', function(datas){
+                    console.log(datas.field);
+            			  var testEditormdView;
+            					$.ajax({
+            						url: '/wiki/v1/Read' + location.search+"&key=content",
+            						type: "POST",
+            						data: datas.field,
+            						dataType: "text",
+            						success: function (markdown) {
+                          if (markdown == "passwordError") {
+                              layer.msg(markdown,{icon:2,time:2000},function(){
+                                  window.location.reload();
+                              });
+                          }
+                          testEditor = editormd("test-editormd", {
+                              width: "90%",
+                              height: 740,
+                              path : '/page/wiki/editor/lib/',
+                              //theme : "dark",
+                              //previewTheme : "dark",
+                              //editorTheme : "pastel-on-dark",
+                              markdown :markdown,
+                              codeFold : true,
+                              //syncScrolling : false,
+                              saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+                              searchReplace : true,
+                              //watch : false,                // 关闭实时预览
+                              htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
+                              //toolbar  : false,             //关闭工具栏
+                              //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+                              emoji : true,
+                              taskList : true,
+                              tocm            : true,         // Using [TOCM]
+                              tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                              flowChart : true,             // 开启流程图支持，默认关闭
+                              sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+                              //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+                              //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+                              //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+                              //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+                              //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+                              imageUpload : true,
+                              imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                              imageUploadURL : "/wiki/v1/Upload",
+                              onload : function() {
+                                  //console.log('onload', this);
+                                  //this.fullscreen();
+                                  //this.unwatch();
+                                  //this.watch().fullscreen();
+            
+                                  //this.setMarkdown("#PHP");
+                                  //this.width("100%");
+                                  //this.height(480);
+                                  //this.resize("100%", 640);
+                              }
+                          });
+            						}
+            					});						
+                    layer.close(index);  
+                    return false;	
+                  });								
+							}
+							if(data.result == "false"){
+   							$.ajax({
+      								url: '/wiki/v1/Read' + location.search+"&key=content",
+      								type: "GET",
+      								success: function (markdown) {
+		                    testEditor = editormd("test-editormd", {
+		                        width: "90%",
+		                        height: 740,
+		                        path : '/page/wiki/editor/lib/',
+		                        //theme : "dark",
+		                        //previewTheme : "dark",
+		                        //editorTheme : "pastel-on-dark",
+		                        markdown :markdown,
+		                        codeFold : true,
+		                        //syncScrolling : false,
+		                        saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+		                        searchReplace : true,
+		                        //watch : false,                // 关闭实时预览
+		                        htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
+		                        //toolbar  : false,             //关闭工具栏
+		                        //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+		                        emoji : true,
+		                        taskList : true,
+		                        tocm            : true,         // Using [TOCM]
+		                        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+		                        flowChart : true,             // 开启流程图支持，默认关闭
+		                        sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+		                        //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+		                        //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+		                        //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+		                        //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+		                        //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+		                        imageUpload : true,
+		                        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+		                        imageUploadURL : "/docs/v1/UploadImg",
+		                        onload : function() {
+		                            //console.log('onload', this);
+		                            //this.fullscreen();
+		                            //this.unwatch();
+		                            //this.watch().fullscreen();
+		
+		                            //this.setMarkdown("#PHP");
+		                            //this.width("100%");
+		                            //this.height(480);
+		                            //this.resize("100%", 640);
+		                        }
+		                    });
+      								}
+   							});										
+							}                      				
+          }
+      });
+
+			$.get('/wiki/v1/Read' + location.search, function(data){	
+  					//表单初始赋值
+            var authkey = "";
+            if ( data.authkey == "true") {
+              authkey = "******"
+            }
+            $('#title').val(data.title);
+            $('#author').val(data.author);
+            $('#xcolumn').val(data.xcolumn);
+            $('#authkey').val(authkey);
+  					//form.val('UpdateInfo', {
+    				//	"title": data.title
+						//  ,"author": data.author
+            //  ,"xcolumn":data.xcolumn
+            //  ,"authkey":authkey
+  					//});
+			});	
+						
+	});		
+</script>
+</html>

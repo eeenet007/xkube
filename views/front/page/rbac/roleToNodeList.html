@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>路径分组</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="table-search-fieldset">
+            <legend>信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+              	<div class="layui-btn-group" style="margin-left:400px"> 
+              	    <button class="layui-btn layui-btn-normal" id="btn-expand"><i class="layui-icon">&#xe625;</i>全部展开</button>
+                      <button class="layui-btn layui-btn-normal" id="btn-fold"><i class="layui-icon">&#xe623;</i>全部折叠</button>
+              	</div>
+                &nbsp;&nbsp;
+                <input type="text" id="edt-search" placeholder="输入关键字" style="width: 150px;border: 1px solid #DADADA;height:36px"/>
+                <button class="layui-btn" id="btn-search"><i class="layui-icon">&#xe615;</i>搜索&nbsp;&nbsp;</button>
+            </div>
+        </fieldset>
+
+        <table id="NodeList" class="layui-table" lay-filter="NodeList"></table>
+    </div>
+</div>
+</body>
+<script type="text/html" id="toolbarHead">
+  <div class="layui-btn-container">
+    <button class="layui-btn"  onclick="location.href='/page/rbac/nodeList.html'" ><i class="layui-icon"></i>添加授权</button>
+	  <button class="layui-btn layui-btn-danger"  lay-event="Cancel"><i class="layui-icon"></i>取消授权</button>
+  </div>
+</script>
+<script>
+    layui.use(['form', 'table','treetable','miniTab'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            //miniTab = layui.miniTab,
+            treetable = layui.treetable;
+
+            //miniTab.listen();
+
+        // 渲染表格
+        layer.load(2);
+        treetable.render({
+            treeColIndex: 1,
+            treeSpid: 0,
+            treeIdName: 'Id',
+            treePidName: 'Pid',
+			      treeDefaultClose:true,
+            elem: '#NodeList',
+            url: '/rbac/role/RoleToNodeList' + location.search,
+			      headers: {'X-Requested-With':'XMLHttpRequest'},
+            page: false,
+			      toolbar: '#toolbarHead',
+            cols: [[
+			          {type: 'checkbox',width:100},
+                {field: 'Id', title: 'ID'},
+                {field: 'Title', minWidth: 250,edit:'txt', title: '显示名'},
+                {field: 'Name', edit:'txt',title: '应用名'},
+        				{field: 'Pid', edit:'txt',title: 'PID'},
+        				{field: 'Level', edit:'txt',title: '目录级别'},
+        				{field: 'Status', title: '状态',edit:'txt', templet: function (d) {
+                        if (d.Status == 2) {
+                            return '<span style="color:#218868">启用</span>';
+                        } else {
+                            return '<span style="color:#7A8B8B">禁用</span>';
+                        }
+                    }
+				
+				        },
+                {field: 'Group__Id', edit:'txt',title: '分组'},
+        				{field: 'Remark',edit:'txt',width:200,hide:true, title: '描述'},
+        				{field: 'Icons',edit:'txt',hide:true, title: '图标'},
+        				{field: 'Sorts',edit:'txt', title: '排序'},
+                {fixed:'right',align: 'left', toolbar: '#listAction',hide:true, title:'操作'}
+            ]],
+            done: function () {
+                layer.closeAll('loading');
+            }
+        });
+
+        $('#btn-expand').click(function () {
+            treetable.expandAll('#NodeList');
+            return false; 
+        });
+
+        $('#btn-fold').click(function () {
+            treetable.foldAll('#NodeList');
+            return false; 
+        });
+
+        $('#btn-search').click(function () {
+            var keyword = $('#edt-search').val();
+            var searchCount = 0;
+            $('#auth-table').next('.treeTable').find('.layui-table-body tbody tr td').each(function () {
+                $(this).css('background-color', 'transparent');
+                var text = $(this).text();
+                if (keyword != '' && text.indexOf(keyword) >= 0) {
+                    $(this).css('background-color', 'rgba(250,230,160,0.5)');
+                    if (searchCount == 0) {
+                        treetable.expandAll('#auth-table');
+                        $('html,body').stop(true);
+                        $('html,body').animate({scrollTop: $(this).offset().top - 150}, 500);
+                    }
+                    searchCount++;
+                }
+            });
+            if (keyword == '') {
+                layer.msg("请输入搜索内容", {icon: 5});
+            } else if (searchCount == 0) {
+                layer.msg("没有匹配结果", {icon: 5});
+            }
+        });
+
+        table.on('toolbar(NodeList)', function(obj){
+    		      var checkStatus = table.checkStatus('NodeList')
+              ,data = checkStatus.data;
+    	        var list='';
+    		      var roleId = location.search.replace("?Id=", "");
+    	        for (var i in data){
+    			      list+=data[i].Id+',';
+              }
+    	        var idstr = list.substr(0,list.length-1);
+    			    if(idstr.length > 0){			
+        			  switch(obj.event){				
+          				case 'Cancel':
+    				    	  var jsonstr = '{"Id":"' + roleId + '","ids":"'+idstr+'"}'
+    			   			  layer.confirm('确定取消授权?', {icon: 3, title:'提示',yes: function(index){
+                         		$.ajax({
+                           			url: "/rbac/role/DelRoleToNode",
+                           			type: "post",
+                           			data: JSON.parse(jsonstr),
+                           			dataType: "json",
+                           			success: function (resp) {
+    					        		          //console.log(resp);
+                                		if(resp.status){
+                                        	layer.msg('取消成功', {icon: 1});
+    										                  table.reload('NodeList', {
+                                            	url: '/rbac/role/RoleToNodeList' + location.search
+                                        	});
+                                		}else{
+                                        	layer.msg('取消失败',{icon:2});
+                                		}
+                            		}
+                       			});		  	  
+                    		},
+                    		cancel: function(index, layero){ 
+                        		layer.close(index);
+    		            		console.log("不操作");
+                    		} 
+                		}); 		   
+             		  break;		
+        			  };
+    			}else{
+    				layer.msg('未选择', {icon: 2});
+    	    		//console.log("未选中");
+    	  		}	
+      	});
+
+
+  });
+</script>
+</html>

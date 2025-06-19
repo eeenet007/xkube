@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+    <!--
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="user" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    -->
+
+        <table class="layui-table" id="UserList" lay-filter="UserList"></table>
+
+        <table class="layui-table" id="RoleToUserList" lay-filter="RoleToUserList"></table>
+
+    </div>
+</div>
+</body>
+
+<script type="text/html" id="statusTpl">
+  {{# if (d.Status == '1') { }}
+     <span style="color:#218868">启用</span>
+	{{# } else { }}
+    <span style="color:#7A8B8B">禁用</span>
+{{# } }}
+</script>	
+
+<script type="text/html" id="toolbarHead">
+  <div class="layui-btn-container">
+	    <button class="layui-btn" lay-event="AddUserToRole"><i class="layui-icon"></i>添加用户到角色</button>
+  </div>
+</script>	
+
+<script type="text/html" id="toolbarHead2">
+  <div class="layui-btn-container">
+	    <button class="layui-btn layui-btn-danger" lay-event="DelUserInRole"><i class="layui-icon"></i>从角色中删除用户</button>
+  </div>
+</script>	
+
+<script>
+    layui.use(['form', 'table','miniTab'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+            form.render();
+
+      		form.verify({
+      		    name: [/(.+){2,}$/, '大于2个字符且不能有特殊字符']
+      		});	
+
+        table.render({
+            elem: '#UserList',
+            url: '/rbac/user/List',
+            toolbar: '#toolbarHead',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                {type: "checkbox", width: 50},
+                {field:'Id',width:80,sort: true, title: 'ID'},
+      		      {field:'Username',sort: true, title: '用户名'},
+                {field:'Nickname',sort: true, title: '名字'},
+                {field:'Email',hide: true, title: 'Email'},
+                {field:'Lastlogintime',sort: true, hide: true, title: '上次登录'},
+                {field:'Createtime',hide: true, hide: true, title: '创建时间'},
+      		      {field:'Status',sort: true, title: '状态',width:80,templet: '#statusTpl', unresize: true},
+      		      {field:'Remark',sort: true, title: '备注'}
+            ]],
+            //size:'lg',
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true
+        });
+
+        table.render({
+            elem: '#RoleToUserList',
+            url: '/rbac/role/RoleToUserList' + location.search,
+            toolbar: '#toolbarHead2',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                {type: "checkbox", width: 50},
+                {field:'Id',width:80,sort: true, title: 'ID'},
+      		      {field:'Username',sort: true, title: '用户名'},
+                {field:'Nickname',sort: true, title: '名字'},
+                {field:'Email',hide: true, title: 'Email'},
+                {field:'Lastlogintime',sort: true, hide: true, title: '上次登录'},
+                {field:'Createtime',hide: true, hide: true, title: '创建时间'},
+      		      {field:'Status',sort: true, title: '状态',width:80,templet: '#statusTpl', unresize: true},
+      		      {field:'Remark',sort: true, title: '备注'}
+            ]],
+            //size:'lg',
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true
+        });
+
+    //头工具栏事件
+    table.on('toolbar(UserList)', function(obj){
+    switch(obj.event){
+      case 'AddUserToRole':	
+		      var checkStatus = table.checkStatus('UserList')
+            ,data = checkStatus.data;
+	        var list='';
+		      var roleId = location.search.replace("?Id=", "");
+	        for (var i in data){
+			        list+=data[i].Id+',';
+          }
+	        vpnidstr = list.substr(0,list.length-1);
+			    if (vpnidstr.length > 0) {
+				      var jsonstr = '{"Id":"' + roleId + '","ids":"'+vpnidstr+'"}'		
+            	layer.confirm('确定添加?', {icon: 3, title:'添加提示',yes: function(index){
+          				$.ajax({
+          			    	url: "/rbac/role/AddRoleToUser",
+          			    	type: "post",
+          			    	data: JSON.parse(jsonstr),
+          			    	dataType: "json",
+          			    	success: function(resp) {
+              						if(resp.status){
+              							    layer.msg('添加成功', {icon: 1});
+              							    table.reload('RoleToUserList', {
+                                    url: '/rbac/role/RoleToUserList' + location.search
+                                });							
+              							    //obj.del();
+              						}else{
+              							layer.msg('删除失败',{icon:2});
+              						}
+          					  }		
+                  });		  	  
+            	  },
+            	  cancel: function(index, layero){ 
+                	layer.close(index);
+		        	    console.log("不操作");
+            	  }
+		    	    });	
+			}else{
+				layer.msg('没有选中');
+		 	}		   			
+        break; 
+    };
+    });
+
+
+    //头工具栏事件
+    table.on('toolbar(RoleToUserList)', function(obj){
+    switch(obj.event){
+      case 'DelUserInRole':	
+		      var checkStatus = table.checkStatus('RoleToUserList')
+            ,data = checkStatus.data;
+	        var list='';
+		      var roleId = location.search.replace("?Id=", "");
+	        for (var i in data){
+			        list+=data[i].Id+',';
+          }
+	        vpnidstr = list.substr(0,list.length-1);
+			    if (vpnidstr.length > 0) {
+				      var jsonstr = '{"Id":"' + roleId + '","ids":"'+vpnidstr+'"}'
+				      //console.log(jsonstr);		
+            	layer.confirm('确定删除?', {icon: 3, title:'删除提示',yes: function(index){
+          				$.ajax({
+          			    	url: "/rbac/role/DelRoleToUser",
+          			    	type: "post",
+          			    	data: JSON.parse(jsonstr),
+          			    	dataType: "json",
+          			    	success: function(resp) {
+              						if(resp.status){
+              							    layer.msg('删除成功', {icon: 1});
+              							    table.reload('RoleToUserList', {
+                                    url: '/rbac/role/RoleToUserList' + location.search
+                                });							
+              							    //obj.del();
+              						}else{
+              							layer.msg('删除失败',{icon:2});
+              						}
+          					  }		
+                  });		  	  
+            	  },
+            	  cancel: function(index, layero){ 
+                	layer.close(index);
+		        	    console.log("不操作");
+            	  }
+		    	    });	
+			}else{
+				layer.msg('没有选中');
+		 	}		   			
+        break; 
+    };
+    });
+
+    });
+</script>
+</html>

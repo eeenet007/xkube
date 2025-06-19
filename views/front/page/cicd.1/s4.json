@@ -1,0 +1,129 @@
+{
+  "requestId": "932454E6-E209-5EC1-95C2-D79C5669C454",
+  "pipelineRun": {
+    "creatorAccountId": "229998698487899125",
+    "sources": [
+      {
+        "data": {
+          "commint": "[{\"commitMsg\": \"Merge%20branch%20%27develop%27\", \"commitAuthor\": \"luhongju\", \"commitId\": \"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\", \"commitTime\": \"Wed Dec 20 11:22:11 2023 +0800\"}, {\"commitMsg\": \"shortArticle\", \"commitAuthor\": \"luhongju\", \"commitId\": \"f6ff75d4d7fbee2fc80876f2843d4ea29d5fb90e\", \"commitTime\": \"Wed Dec 20 11:06:22 2023 +0800\"}]",
+          "repo": "http://git.pc.com.cn/rnd/content-platform/pc-content.git",
+          "branch": "master"
+        },
+        "sign": "content-platform_pc-content_5Sxm",
+        "type": "git"
+      }
+    ],
+    "createTime": 1703042571000,
+    "pipelineRunId": 79,
+    "stages": [
+      {
+        "name": "Group0-Stage0",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "pc-content-admin-ui 构建",
+              "startTime": 1703042572000,
+              "endTime": 1703042699000,
+              "id": 183682761,
+              "params": "{\"sources\":[{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"mayian\",\"credential\":10726,\"commitMsg\":\"[{\\\"commitId\\\": \\\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\\\", \\\"commitTime\\\": \\\"Wed Dec 20 11:22:11 2023 +0800\\\", \\\"commitAuthor\\\": \\\"luhongju\\\", \\\"commitMsg\\\": \\\"Merge%20branch%20%27develop%27\\\"}, {\\\"commitId\\\": \\\"f6ff75d4d7fbee2fc80876f2843d4ea29d5fb90e\\\", \\\"commitTime\\\": \\\"Wed Dec 20 11:06:22 2023 +0800\\\", \\\"commitAuthor\\\": \\\"luhongju\\\", \\\"commitMsg\\\": \\\"shortArticle\\\"}]\",\"repo\":\"http://git.pc.com.cn/rnd/content-platform/pc-content.git\",\"connection\":159332,\"label\":\"content-platform/pc-content\",\"commitId\":\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\",\"branch\":\"master\",\"previousCommitId\":\"65c25d292ee9958c54805202242eab2217d4e88d\",\"events\":[\"push\"]},\"name\":\"content-platform_pc-content_5Sxm\",\"sign\":\"content-platform_pc-content_5Sxm\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"test1\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"10_1611709241829\",\"BUILD_REMARK\":\"\",\"EXECUTOR_ID\":\"5f474da118c17e77482233d7\",\"PIPELINE_ID\":\"1232868\",\"ENGINE_PIPELINE_CONFIG_ID\":\"4433061\",\"BUILD_MESSAGE\":\"test1 • 页面手动触发\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1703042571844\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"208864283390341257\",\"branchRepoInfo\":\"[]\",\"triggerMode\":\"1\",\"FLOW_INST_RUNNING_COMMENT\":\"\",\"ENGINE_PIPELINE_ID\":\"1232868\",\"runnerCacheMode\":\"local\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f474da118c17e77482233d7\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"BUILD_EXECUTOR\":\"test1\",\"steps\":[{\"stepType\":\"node_build\",\"USE_NPM_CACHE\":true,\"name\":\"Node.js 构建\",\"stepIdentifier\":\"10_1611709241829__10_1611709430219\",\"version\":\"14.8\",\"command\":\"# input your command here\\ncd pc-content-admin-ui\\nnpm install --registry=https://registry.npm.taobao.org\\nnpm run build:prod\\nls\\npwd\"},{\"DOCKER_FILE_PATH\":\"pc-content-admin-ui/Dockerfile\",\"stepType\":\"docker_build_sc_production\",\"ARGS\":\"\",\"JSONEncoding\":true,\"CONTEXT_PATH\":\"\",\"EXTRA_TAGS\":\"latest\",\"stepIdentifier\":\"10_1611709241829__10_1611709669994\",\"DOCKER_TAG\":\"${DATETIME//\\\\-/}.79\",\"DOCKER_REGION\":\"cn-shenzhen\",\"SERVICE_CONNECTION_ID\":30651,\"NO_CACHE\":false,\"name\":\"pc-content-admin-ui 镜像构建\",\"DOCKER_REPOSITORY\":\"registry.cn-shenzhen.aliyuncs.com/pc-release/pc-content-admin-ui\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod]content-platform-frontend\",\"ENGINE_PIPELINE_NAME\":\"[Prod]content-platform-frontend\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"79\",\"BUILD_NUMBER\":\"79\",\"DATETIME\":\"2023-12-20-11-22-51\",\"ENGINE_TASK_NAME\":\"pc-content-admin-ui 构建\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"buildNodeGroup\":\"K8S-9\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_ID\":\"58210655\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "LogPipelineJobRun"
+                }
+              ],
+              "status": "SUCCESS"
+            },
+            {
+              "name": "人工校验",
+              "startTime": 1703042699000,
+              "endTime": 1703042707000,
+              "id": 183682762,
+              "params": "{\"CI_COMMIT_TITLE\":\"Merge branch develop\",\"sources\":[{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"mayian\",\"credential\":10726,\"commitMsg\":\"[{\\\"commitId\\\": \\\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\\\", \\\"commitTime\\\": \\\"Wed Dec 20 11:22:11 2023 +0800\\\", \\\"commitAuthor\\\": \\\"luhongju\\\", \\\"commitMsg\\\": \\\"Merge%20branch%20%27develop%27\\\"}, {\\\"commitId\\\": \\\"f6ff75d4d7fbee2fc80876f2843d4ea29d5fb90e\\\", \\\"commitTime\\\": \\\"Wed Dec 20 11:06:22 2023 +0800\\\", \\\"commitAuthor\\\": \\\"luhongju\\\", \\\"commitMsg\\\": \\\"shortArticle\\\"}]\",\"repo\":\"http://git.pc.com.cn/rnd/content-platform/pc-content.git\",\"connection\":159332,\"label\":\"content-platform/pc-content\",\"commitId\":\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\",\"branch\":\"master\",\"previousCommitId\":\"65c25d292ee9958c54805202242eab2217d4e88d\",\"events\":[\"push\"]},\"name\":\"content-platform_pc-content_5Sxm\",\"sign\":\"content-platform_pc-content_5Sxm\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"test1\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"17_1626656996789\",\"BUILD_REMARK\":\"\",\"EXECUTOR_ID\":\"5f474da118c17e77482233d7\",\"CI_SOURCE_NAME\":\"pc-content\",\"PIPELINE_ID\":\"1232868\",\"ENGINE_PIPELINE_CONFIG_ID\":\"4433061\",\"BUILD_MESSAGE\":\"test1 • 页面手动触发\",\"validatorPipelineRole\":\"\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1703042571844\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"208864283390341257\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_1\":\"Merge branch develop\",\"validatorMethod\":\"or\",\"triggerMode\":\"1\",\"FLOW_INST_RUNNING_COMMENT\":\"\",\"CI_SOURCE_NAME_1\":\"pc-content\",\"validatorType\":\"user\",\"ENGINE_PIPELINE_ID\":\"1232868\",\"runnerCacheMode\":\"local\",\"CI_COMMIT_ID\":\"7dbe7e11\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f474da118c17e77482233d7\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"test1\",\"CI_COMMIT_REF_NAME\":\"master\",\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod]content-platform-frontend\",\"validatorRole\":\"\",\"ENGINE_PIPELINE_NAME\":\"[Prod]content-platform-frontend\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"79\",\"BUILD_NUMBER\":\"79\",\"DATETIME\":\"2023-12-20-11-22-51\",\"validatorUser\":\"[\\\"5f474da118c17e77482233d7\\\",\\\"5f237c8e4982eb42afca14c4\\\"]\",\"CI_COMMIT_SHA_1\":\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\",\"CI_COMMIT_ID_1\":\"7dbe7e11\",\"ENGINE_TASK_NAME\":\"人工校验\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"CI_COMMIT_SHA\":\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\",\"ENGINE_PIPELINE_INST_ID\":\"58210655\"}",
+              "actions": [],
+              "status": "SUCCESS"
+            },
+            {
+              "name": "pc-content-admin-ui 发布",
+              "startTime": 1703042707000,
+              "endTime": 1703042720000,
+              "id": 183682763,
+              "params": "{\"CI_COMMIT_TITLE\":\"Merge branch develop\",\"sources\":[{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"mayian\",\"credential\":10726,\"commitMsg\":\"[{\\\"commitId\\\": \\\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\\\", \\\"commitTime\\\": \\\"Wed Dec 20 11:22:11 2023 +0800\\\", \\\"commitAuthor\\\": \\\"luhongju\\\", \\\"commitMsg\\\": \\\"Merge%20branch%20%27develop%27\\\"}, {\\\"commitId\\\": \\\"f6ff75d4d7fbee2fc80876f2843d4ea29d5fb90e\\\", \\\"commitTime\\\": \\\"Wed Dec 20 11:06:22 2023 +0800\\\", \\\"commitAuthor\\\": \\\"luhongju\\\", \\\"commitMsg\\\": \\\"shortArticle\\\"}]\",\"repo\":\"http://git.pc.com.cn/rnd/content-platform/pc-content.git\",\"connection\":159332,\"label\":\"content-platform/pc-content\",\"commitId\":\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\",\"branch\":\"master\",\"previousCommitId\":\"65c25d292ee9958c54805202242eab2217d4e88d\",\"events\":[\"push\"]},\"name\":\"content-platform_pc-content_5Sxm\",\"sign\":\"content-platform_pc-content_5Sxm\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"test1\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"10_1626656753265\",\"BUILD_REMARK\":\"\",\"EXECUTOR_ID\":\"5f474da118c17e77482233d7\",\"CI_SOURCE_NAME\":\"pc-content\",\"PIPELINE_ID\":\"1232868\",\"ENGINE_PIPELINE_CONFIG_ID\":\"4433061\",\"BUILD_MESSAGE\":\"test1 • 页面手动触发\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1703042571844\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"208864283390341257\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_1\":\"Merge branch develop\",\"triggerMode\":\"1\",\"FLOW_INST_RUNNING_COMMENT\":\"\",\"CI_SOURCE_NAME_1\":\"pc-content\",\"ENGINE_PIPELINE_ID\":\"1232868\",\"runnerCacheMode\":\"local\",\"CI_COMMIT_ID\":\"7dbe7e11\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f474da118c17e77482233d7\",\"clone_option\":\"none\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"test1\",\"CI_COMMIT_REF_NAME\":\"master\",\"steps\":[{\"NAMESPACE\":\"content-platform\",\"freeInTaskGroupModeFields\":[],\"stepType\":\"update-prod-pcauto2020\",\"IMAGE\":\"{\\\"DOCKER_URL\\\":\\\"registry-vpc.cn-shenzhen.aliyuncs.com/pc-release/pc-content-admin-ui:20231220112251.79\\\",\\\"ARTIFACT_URL\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2019967/1703042689211/application_docker_url_config.desc&fileName=application_docker_url_config.desc&md5Sign=010a7812ff68cb964a4dfb797fa1d833\\\",\\\"ARTIFACT_MD5\\\":\\\"360db26812a2c93847543e65e83d5714\\\"}\",\"name\":\"生产环境升级\",\"CONTAINER\":\"pc-content-admin-ui\",\"stepIdentifier\":\"10_1626656753265__10_1655810927170\",\"SERVICE\":\"pc-content-admin-ui\",\"CLUSTER\":\"big-data\",\"TOKEN\":\"385baab609654bb8ed4caad7d0c7ab\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod]content-platform-frontend\",\"ENGINE_PIPELINE_NAME\":\"[Prod]content-platform-frontend\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"79\",\"BUILD_NUMBER\":\"79\",\"DATETIME\":\"2023-12-20-11-22-51\",\"CI_COMMIT_SHA_1\":\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\",\"CI_COMMIT_ID_1\":\"7dbe7e11\",\"ENGINE_TASK_NAME\":\"pc-content-admin-ui 发布\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"buildNodeGroup\":\"K8S-4\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"CI_COMMIT_SHA\":\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\",\"ENGINE_PIPELINE_INST_ID\":\"58210655\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "LogPipelineJobRun"
+                }
+              ],
+              "status": "SUCCESS"
+            }
+          ],
+          "name": "Group0-Stage0",
+          "startTime": 1703042572000,
+          "endTime": 1703042720000,
+          "status": "SUCCESS"
+        }
+      },
+      {
+        "name": "Group0-Stage1",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "pc-content-auto-ui 构建",
+              "startTime": 1703042572000,
+              "endTime": 1703042724000,
+              "id": 183682764,
+              "params": "{\"sources\":[{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"mayian\",\"credential\":10726,\"commitMsg\":\"[{\\\"commitMsg\\\": \\\"Merge%20branch%20%27develop%27\\\", \\\"commitAuthor\\\": \\\"luhongju\\\", \\\"commitId\\\": \\\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\\\", \\\"commitTime\\\": \\\"Wed Dec 20 11:22:11 2023 +0800\\\"}, {\\\"commitMsg\\\": \\\"shortArticle\\\", \\\"commitAuthor\\\": \\\"luhongju\\\", \\\"commitId\\\": \\\"f6ff75d4d7fbee2fc80876f2843d4ea29d5fb90e\\\", \\\"commitTime\\\": \\\"Wed Dec 20 11:06:22 2023 +0800\\\"}]\",\"repo\":\"http://git.pc.com.cn/rnd/content-platform/pc-content.git\",\"connection\":159332,\"label\":\"content-platform/pc-content\",\"commitId\":\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\",\"branch\":\"master\",\"previousCommitId\":\"65c25d292ee9958c54805202242eab2217d4e88d\",\"events\":[\"push\"]},\"name\":\"content-platform_pc-content_5Sxm\",\"sign\":\"content-platform_pc-content_5Sxm\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"test1\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"12_1626656790339\",\"BUILD_REMARK\":\"\",\"EXECUTOR_ID\":\"5f474da118c17e77482233d7\",\"PIPELINE_ID\":\"1232868\",\"ENGINE_PIPELINE_CONFIG_ID\":\"4433061\",\"BUILD_MESSAGE\":\"test1 • 页面手动触发\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1703042571844\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"208864283390341257\",\"branchRepoInfo\":\"[]\",\"triggerMode\":\"1\",\"FLOW_INST_RUNNING_COMMENT\":\"\",\"ENGINE_PIPELINE_ID\":\"1232868\",\"runnerCacheMode\":\"local\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f474da118c17e77482233d7\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"BUILD_EXECUTOR\":\"test1\",\"steps\":[{\"freeInTaskGroupModeFields\":[],\"stepType\":\"node_build\",\"USE_NPM_CACHE\":true,\"name\":\"Node.js 构建\",\"stepIdentifier\":\"12_1626656790339__13_1626656790341\",\"CI_RUNTIME_VERSION\":14.8,\"command\":\"# input your command here\\ncd pc-content-auto-ui\\nnpm install --registry=https://registry.npm.taobao.org\\nnpm run build:prod\\nls\\npwd\"},{\"freeInTaskGroupModeFields\":[\"ARGS\"],\"DOCKER_FILE_PATH\":\"pc-content-auto-ui/Dockerfile\",\"stepType\":\"docker_build_sc_production\",\"ARGS\":\"\",\"JSONEncoding\":true,\"CONTEXT_PATH\":\"\",\"EXTRA_TAGS\":\"latest\",\"stepIdentifier\":\"12_1626656790339__10_1626656870356\",\"DOCKER_TAG\":\"2023-12-20-11-22-51\",\"DOCKER_REGION\":\"cn-shenzhen\",\"SERVICE_CONNECTION_ID\":30651,\"NO_CACHE\":false,\"name\":\"pc-content-auto-ui 镜像构建\",\"DOCKER_REPOSITORY\":\"registry.cn-shenzhen.aliyuncs.com/pc-release/pc-content-auto-ui\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod]content-platform-frontend\",\"ENGINE_PIPELINE_NAME\":\"[Prod]content-platform-frontend\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"79\",\"BUILD_NUMBER\":\"79\",\"DATETIME\":\"2023-12-20-11-22-51\",\"ENGINE_TASK_NAME\":\"pc-content-auto-ui 构建\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"buildNodeGroup\":\"K8S-4\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_ID\":\"58210655\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "LogPipelineJobRun"
+                }
+              ],
+              "status": "SUCCESS"
+            },
+            {
+              "name": "人工校验",
+              "startTime": 1703042724000,
+              "endTime": 1703042738000,
+              "id": 183682765,
+              "params": "{\"CI_COMMIT_TITLE\":\"Merge branch develop\",\"sources\":[{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"mayian\",\"credential\":10726,\"commitMsg\":\"[{\\\"commitMsg\\\": \\\"Merge%20branch%20%27develop%27\\\", \\\"commitAuthor\\\": \\\"luhongju\\\", \\\"commitId\\\": \\\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\\\", \\\"commitTime\\\": \\\"Wed Dec 20 11:22:11 2023 +0800\\\"}, {\\\"commitMsg\\\": \\\"shortArticle\\\", \\\"commitAuthor\\\": \\\"luhongju\\\", \\\"commitId\\\": \\\"f6ff75d4d7fbee2fc80876f2843d4ea29d5fb90e\\\", \\\"commitTime\\\": \\\"Wed Dec 20 11:06:22 2023 +0800\\\"}]\",\"repo\":\"http://git.pc.com.cn/rnd/content-platform/pc-content.git\",\"connection\":159332,\"label\":\"content-platform/pc-content\",\"commitId\":\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\",\"branch\":\"master\",\"previousCommitId\":\"65c25d292ee9958c54805202242eab2217d4e88d\",\"events\":[\"push\"]},\"name\":\"content-platform_pc-content_5Sxm\",\"sign\":\"content-platform_pc-content_5Sxm\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"test1\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"18_1626657017182\",\"BUILD_REMARK\":\"\",\"EXECUTOR_ID\":\"5f474da118c17e77482233d7\",\"CI_SOURCE_NAME\":\"pc-content\",\"PIPELINE_ID\":\"1232868\",\"ENGINE_PIPELINE_CONFIG_ID\":\"4433061\",\"BUILD_MESSAGE\":\"test1 • 页面手动触发\",\"validatorPipelineRole\":\"\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1703042571844\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"208864283390341257\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_1\":\"Merge branch develop\",\"validatorMethod\":\"or\",\"triggerMode\":\"1\",\"FLOW_INST_RUNNING_COMMENT\":\"\",\"CI_SOURCE_NAME_1\":\"pc-content\",\"validatorType\":\"user\",\"ENGINE_PIPELINE_ID\":\"1232868\",\"runnerCacheMode\":\"local\",\"CI_COMMIT_ID\":\"7dbe7e11\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f474da118c17e77482233d7\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"test1\",\"CI_COMMIT_REF_NAME\":\"master\",\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod]content-platform-frontend\",\"validatorRole\":\"\",\"ENGINE_PIPELINE_NAME\":\"[Prod]content-platform-frontend\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"79\",\"BUILD_NUMBER\":\"79\",\"DATETIME\":\"2023-12-20-11-22-51\",\"validatorUser\":\"[\\\"5f474da118c17e77482233d7\\\",\\\"5f237c8e4982eb42afca14c4\\\"]\",\"CI_COMMIT_SHA_1\":\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\",\"CI_COMMIT_ID_1\":\"7dbe7e11\",\"ENGINE_TASK_NAME\":\"人工校验\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"CI_COMMIT_SHA\":\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\",\"ENGINE_PIPELINE_INST_ID\":\"58210655\"}",
+              "actions": [],
+              "status": "SUCCESS"
+            },
+            {
+              "name": "pc-content-auto-ui 发布",
+              "startTime": 1703042738000,
+              "endTime": 1703042752000,
+              "id": 183682766,
+              "params": "{\"CI_COMMIT_TITLE\":\"Merge branch develop\",\"sources\":[{\"data\":{\"credentialType\":\"personal-usernamepassword\",\"credentialLabel\":\"mayian\",\"credential\":10726,\"commitMsg\":\"[{\\\"commitMsg\\\": \\\"Merge%20branch%20%27develop%27\\\", \\\"commitAuthor\\\": \\\"luhongju\\\", \\\"commitId\\\": \\\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\\\", \\\"commitTime\\\": \\\"Wed Dec 20 11:22:11 2023 +0800\\\"}, {\\\"commitMsg\\\": \\\"shortArticle\\\", \\\"commitAuthor\\\": \\\"luhongju\\\", \\\"commitId\\\": \\\"f6ff75d4d7fbee2fc80876f2843d4ea29d5fb90e\\\", \\\"commitTime\\\": \\\"Wed Dec 20 11:06:22 2023 +0800\\\"}]\",\"repo\":\"http://git.pc.com.cn/rnd/content-platform/pc-content.git\",\"connection\":159332,\"label\":\"content-platform/pc-content\",\"commitId\":\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\",\"branch\":\"master\",\"previousCommitId\":\"65c25d292ee9958c54805202242eab2217d4e88d\",\"events\":[\"push\"]},\"name\":\"content-platform_pc-content_5Sxm\",\"sign\":\"content-platform_pc-content_5Sxm\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"test1\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"15_1626656831681\",\"BUILD_REMARK\":\"\",\"EXECUTOR_ID\":\"5f474da118c17e77482233d7\",\"CI_SOURCE_NAME\":\"pc-content\",\"PIPELINE_ID\":\"1232868\",\"ENGINE_PIPELINE_CONFIG_ID\":\"4433061\",\"BUILD_MESSAGE\":\"test1 • 页面手动触发\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1703042571844\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"208864283390341257\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_1\":\"Merge branch develop\",\"triggerMode\":\"1\",\"FLOW_INST_RUNNING_COMMENT\":\"\",\"CI_SOURCE_NAME_1\":\"pc-content\",\"ENGINE_PIPELINE_ID\":\"1232868\",\"runnerCacheMode\":\"local\",\"CI_COMMIT_ID\":\"7dbe7e11\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f474da118c17e77482233d7\",\"clone_option\":\"none\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"test1\",\"CI_COMMIT_REF_NAME\":\"master\",\"steps\":[{\"NAMESPACE\":\"content-platform\",\"freeInTaskGroupModeFields\":[],\"stepType\":\"update-prod-pcauto2020\",\"IMAGE\":\"{\\\"DOCKER_URL\\\":\\\"registry-vpc.cn-shenzhen.aliyuncs.com/pc-release/pc-content-auto-ui:2023-12-20-11-22-51\\\",\\\"ARTIFACT_URL\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2019967/1703042714231/application_docker_url_config.desc&fileName=application_docker_url_config.desc&md5Sign=b4170b543052452d6ef209d9e34e4a66\\\",\\\"ARTIFACT_MD5\\\":\\\"c6fce44c8055478b9317ca2beb928d63\\\"}\",\"name\":\"生产环境升级\",\"CONTAINER\":\"pc-content-auto-ui\",\"stepIdentifier\":\"15_1626656831681__10_1655810940238\",\"SERVICE\":\"pc-content-auto-ui\",\"CLUSTER\":\"big-data\",\"TOKEN\":\"385baab609654bb8ed4caad7d0c7ab\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod]content-platform-frontend\",\"ENGINE_PIPELINE_NAME\":\"[Prod]content-platform-frontend\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"79\",\"BUILD_NUMBER\":\"79\",\"DATETIME\":\"2023-12-20-11-22-51\",\"CI_COMMIT_SHA_1\":\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\",\"CI_COMMIT_ID_1\":\"7dbe7e11\",\"ENGINE_TASK_NAME\":\"pc-content-auto-ui 发布\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"buildNodeGroup\":\"K8S-4\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"CI_COMMIT_SHA\":\"7dbe7e11b5b16e8a3775deacc7fd05186a62f0ad\",\"ENGINE_PIPELINE_INST_ID\":\"58210655\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "LogPipelineJobRun"
+                }
+              ],
+              "status": "SUCCESS"
+            }
+          ],
+          "name": "Group0-Stage1",
+          "startTime": 1703042572000,
+          "endTime": 1703042752000,
+          "status": "SUCCESS"
+        }
+      }
+    ],
+    "updateTime": 1703042752000,
+    "stageGroup": [
+      [
+        "Group0-Stage0",
+        "Group0-Stage1"
+      ]
+    ],
+    "modifierAccountId": "229998698487899125",
+    "triggerMode": 1,
+    "pipelineId": 1232868,
+    "status": "SUCCESS"
+  },
+  "success": true
+}

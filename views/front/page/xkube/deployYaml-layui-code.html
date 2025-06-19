@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>pod日志</title>
+    <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script src="/js/jquery.min.js"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="table-search-fieldset">
+            <legend>日志查看</legend>
+            <div>
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <div class="layui-input-inline" style="width:200px"> 
+                                <select name="podName" id="podName">
+            	              			<option value="" selected="">Pod</option>
+            	              			<option value="ip">IP</option>
+            	              			<option value="url">URL</option>
+            	              			<option value="useragent">UserAgent</option>
+            	              			<option value="args">Args</option>
+            	              			<option value="referer">Referer</option>
+                		            </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-input-inline" style="width:150px"> 
+                                <select name="container" id="container">
+            	              			<option value="" selected="">Container</option>
+            	              			<option value="ip">IP</option>
+            	              			<option value="url">URL</option>
+            	              			<option value="useragent">UserAgent</option>
+            	              			<option value="args">Args</option>
+            	              			<option value="referer">Referer</option>
+                		            </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-input-inline" style="width:100px"> 
+                                <select name="logLine" id="logLine">
+            	              			<option value="" selected="">行数</option>
+            	              			<option value="50">50</option>
+            	              			<option value="100">100</option>
+            	              			<option value="200">200</option>
+                                  <option value="500">500</option>
+                		            </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn"  lay-submit lay-filter="ReloadLog"><i class="layui-icon">&#xe669;</i>刷新</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+      <pre class="layui-code" lay-height="600px"><div id="logtext"></div></pre>  
+    </div>
+</div>
+<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+function getQueryString(name) {
+  let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+  let r = window.location.search.substr(1).match(reg);
+  if (r != null) {
+      return unescape(r[2]);
+  };
+  return null;
+};
+
+
+    layui.use(['form', 'table','code'], function () {
+        var $ = layui.jquery;
+        var form = layui.form;
+
+        layui.code({
+            title: 'pod日志'
+            ,skin: 'notepad' //如果要默认风格，不用设定该key。
+        });
+
+        var htmls = getQueryString("deploy");
+        $('#appNameTitle').html(htmls);
+
+         $.ajax({
+           url: "/xkube/deploy/v1/Yaml"+location.search,
+           type: "GET",
+           success: function (resp) {
+              $('#logtext').html(resp);
+            }
+         });	
+
+        //添加
+        form.on('submit(ReloadLog)', function(datas){		
+    		    console.log(JSON.stringify(datas.field)); 
+             $.ajax({
+               url: "/xkube/pod/v1/Log"+location.search,
+               type: "POST",
+               data: JSON.stringify(datas.field),
+               dataType: "json",
+               success: function (resp) {
+                  $('#logtext').html(resp);
+                }
+             });		  	                      	   
+    	      return false; 	
+    		});
+
+    });
+</script>
+
+</body>
+</html>

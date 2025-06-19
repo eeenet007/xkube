@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+	
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/static/xadmin/css/font.css">
+	<link rel="stylesheet" href="/static/xadmin/css/xadmin.css">
+    <script type="text/javascript" src="/static/xadmin/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/xadmin/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/xadmin/js/xadmin.js"></script>
+	
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">权限管理</a>
+        <a>
+          <cite>角色管理</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">&#xe669;</i></a>
+    </div>
+    <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                      <table class="layui-table" lay-data="{url:'/rbac/role/index',headers: {'X-Requested-With':'XMLHttpRequest'},toolbar: '#toolbarHead',page:true,limit:25,limits:[25, 50,100],id:'RoleList'}" lay-filter="RoleList">
+                        <thead>
+                          <tr> 
+                            <!-- <th lay-data="{type:'checkbox'}"></th> -->
+                            <th lay-data="{field:'Id',sort: true}">ID</th>
+                  		      <th lay-data="{field:'Name',sort: true,edit:'txt'}">角色名</th>
+                  		      <th lay-data="{field:'Status',sort: true,edit:'txt', templet: '#statusTpl', unresize: true}">状态</th>
+                            <th lay-data="{field:'Remark',sort: true,edit:'txt'}">备注</th>
+                            <th lay-data="{fixed:'right',align: 'left', toolbar: '#listAction'}">操作</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                </div>
+            </div>
+            <!-- 添加弹出框	-->
+            <div class="layui-row" id="AddRoleInfodiv" style="display:none;">
+                  <div class="layui-col-md11">
+                      <form class="layui-form layui-form-pane" action="" lay-filter="AddRoleInfo">
+                           <div class="layui-form-item">
+                            <div class="layui-inline">
+                              <label class="layui-form-label">角色名</label>
+                              <div class="layui-input-inline" style="width: 213px;">
+                                <input type="text" name="Name" autocomplete="off" lay-verify="name" placeholder="" class="layui-input">
+                              </div>
+                          	<div class="layui-form-mid" style="color: red;">*</div>
+                             </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">状态</label>
+                                    <div class="layui-input-block">
+                                      <select name="Status" lay-filter="StatusKey">
+                                        <option value="2" selected="">启用</option>
+                          			  <option value="1">禁用</option>
+                                      </select>
+                                    </div>
+                          	  </div> 
+                            
+                              <div class="layui-inline">
+                                <label class="layui-form-label">备注</label>
+                                <div class="layui-input-inline" style="width: 213px;">
+                                  <input type="text" name="Remark" autocomplete="off" class="layui-input">
+                                </div>
+                              </div>   
+                            </div>
+                            <div class="layui-form-item">
+                              <button class="layui-btn" lay-submit="" lay-filter="AddRoleSubmit">确认添加</button>
+                            </div>
+                      </form>
+                  </div>
+            </div>
+            <!-- 添加弹出框	-->	
+    </div>
+<script type="text/html" id="statusTpl">
+  {{# if (d.Status == '2') { }}
+     <span style="color:#218868">启用</span>
+	{{# } else { }}
+    <span style="color:#7A8B8B">禁用</span>
+{{# } }}
+</script>	
+<script type="text/html" id="listAction">
+  <a class="layui-btn layui-btn-xs" lay-event="NodeToRole"><i class="layui-icon">&#xe672;</i>授权列表</a>
+  <a class="layui-btn layui-btn-xs" lay-event="RoleToUser"><i class="layui-icon">&#xe60a;</i>用户列表</a>
+  <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="Delete"><i class="layui-icon">&#xe640;</i>删除</a>
+</script>
+<script type="text/html" id="toolbarHead">
+  <div class="layui-btn-container">
+    <button class="layui-btn"  lay-event="AddRole"><i class="layui-icon"></i>添加</button>
+  </div>
+</script>
+    <script>
+		
+      layui.use(['form','table','laydate'], function(){
+        //var laydate = layui.laydate;
+		var table = layui.table;
+        var form=layui.form;
+
+	          //自定义验证规则
+		form.verify({
+		    name: [/(.+){2,}$/, '大于2个字符且不能有特殊字符']
+		});	
+		
+  //头工具栏事件
+  table.on('toolbar(RoleList)', function(obj){
+    var checkStatus = table.checkStatus(obj.config.id);
+    switch(obj.event){
+      case 'AddRole':	
+			layer.open({
+        	//layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+            type:1,
+			skin: 'layui-layer-rim',
+            title:"添加节点",
+            area: ['500px','400px'],
+            content:$("#AddRoleInfodiv").html()
+           });
+		   form.render();			
+		//添加提交
+        form.on('submit(AddRoleSubmit)', function(datas){		
+		       console.log(datas.field);
+			   layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
+                     $.ajax({
+                       url: "/rbac/role/AddAndEdit",
+                       type: "post",
+                       data: datas.field,
+                       dataType: "json",
+                       success: function (resp) {
+					            console.log(resp);
+                                 if(resp.status){
+                                    layer.msg('添加成功', {icon: 1});
+									 //window.location.reload();
+									table.reload('RoleList', {
+                                           url: '/rbac/role/index'
+                                    });
+                                 }else{
+                                     layer.msg('添加失败',{icon:2});
+                                 }
+                        }
+                   });		  	  
+               },
+                cancel: function(index, layero){ 
+                    layer.close(index);
+		            console.log("不操作");
+                } 
+            }); 		   
+	      return false; 	
+		});	
+         break;
+    };
+  });
+
+      //监听行工具事件
+  table.on('tool(RoleList)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'NodeToRole'){
+	     console.log(data);
+	    xadmin.open(data.Name+'角色的授权列表','/rbac/role/RoleToNodeList?Id='+data.Id);
+    } else if(obj.event === 'RoleToUser'){
+	     console.log(data);
+	    xadmin.open(data.Name+'角色的用户列表','/rbac/role/RoleToUserList?Id='+data.Id);
+    } else if(obj.event === 'Delete'){
+	    //console.log(data);
+        layer.confirm('确定删除?', {icon: 3, title:'删除提示',yes: function(index){
+			 $.ajax({
+			   url: "/rbac/role/DelRole",
+			   type: "post",
+			   data: data,
+			   dataType: "json",
+			   success: function (resp) {
+						console.log(resp);
+						 if(resp.status){
+							 layer.msg('删除成功', {icon: 1});
+							 //window.location.reload();
+							 obj.del();
+						 }else{
+							 layer.msg('删除失败',{icon:2});
+						 }
+				}
+		   });		  	  
+        },
+		cancel: function(index, layero){ 
+			layer.close(index);
+			console.log("不操作");
+		} 
+		}); 
+    }
+  });
+
+      //监听单元格编辑
+    table.on('edit(RoleList)', function(obj){
+        var value = obj.value //得到修改后的值
+        ,data = obj.data //得到所在行所有键值
+        ,field = obj.field; //得到字段
+		//console.log(value);
+		//console.log(data);
+        //layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
+		$.ajax({
+            url: "/rbac/role/AddAndEdit",
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (resp) {
+                if(resp.status){
+                    layer.msg('[ID: '+ data.Id +'] ' + field + ' 字段更改为：'+ value);
+                }else{
+                    layer.msg('[ID: '+ data.Id +'] ' + field + '更改失败',{icon:2});
+                }
+        }
+    });	
+    });
+  
+
+   $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });	
+ });  
+    </script>
+  </body>
+
+</html>

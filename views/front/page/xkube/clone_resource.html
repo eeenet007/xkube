@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>复制资源到其他集群</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <style type="text/css">
+        .layui-table-cell {
+          height: auto;
+          line-height: 22px !important;
+          text-overflow: inherit;
+          overflow: visible;
+          white-space: normal;
+        }
+        .layui-table-cell .layui-table-tool-panel li {
+          word-break: break-word;
+        }
+    </style>
+</head>
+<body>
+<blockquote class="layui-elem-quote layui-font-red">
+  资源克隆帮助：<a href="/page/wiki/editor/examples/full.html" target="_blank" style="text-decoration:underline;">资源克隆文档</a> <br>
+  注意事项：<br>
+    1.目标集群、目标空间、目标名称不能都为空<br>
+    2.当同时克隆多个资源时,如果目标名称为空，则保留源名称，如果目标名称需要不一样，则需要填写目标名称并且要一一对应。<br>
+    3.源集群和目标集群的k8s版本不能相差太大，相差太大可能会不成功。<br>
+    4.如果目标空间不存在则会自动创建。<br>
+    5.如果目标名称已存在，则将源对象名称的配置更新到目标上。
+</blockquote>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+      <fieldset class="table-search-fieldset">
+        <legend>资源克隆</legend>
+        <form class="layui-form layui-form-pane" action="" lay-filter="FormInfo">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label layui-font-red">资源类型</label>
+                  <div class="layui-input-inline" style="width:150px">
+                    <select name="resType" lay-filter="resType" lay-verify="required" lay-search="" id="resType">
+                			<option value="" selected="">选择克隆类型</option>
+                			<option value="deployment">deployment</option>
+                			<option value="service">service</option>
+                			<option value="configmap">configmap</option>
+                			<option value="secret">secret</option>
+                			<option value="cronjob">cronjob</option>
+                			<option value="statefulset">statefulset</option>
+    		            </select>
+                  </div>
+                  <div class="layui-form-mid layui-word-aux layui-font-red">先选择需要克隆的资源类型</div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label layui-font-green">当前集群</label>
+                    <div class="layui-input-inline" style="width:150px">
+                        <select name="clusterid" lay-filter="cluster_Id"  lay-verify="required" lay-search="" id="cluster_Id">
+                          <option value="">请选择集群</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label layui-font-green">命名空间</label>
+                    <div class="layui-input-inline" style="width:150px">
+                      <select name="namespace" lay-filter="name_Space"  lay-verify="required" lay-search="" id="name_Space">
+  	              			<option value="" selected="">选择命名空间</option>
+      		            </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <div type="button" class="layui-btn"><i class="layui-icon layui-icon-next"></i></div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label layui-font-blue">目标集群</label>
+                    <div class="layui-input-inline" style="width:150px">
+                        <select name="target_clusterid" lay-filter="target_clusterId" lay-search="" id="target_clusterId">
+                          <option value="">选择目标集群</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label layui-font-blue">目标空间</label>
+                    <div class="layui-input-inline" style="width:150px">
+                      <select name="target_namespace" lay-filter="target_namespace" lay-search="" id="target_namespace">
+  	              			<option value="" selected="">选择命名空间</option>
+      		            </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label layui-font-green">对象名称</label>
+                    <div class="layui-input-inline" style="width:433px">
+                      <textarea id="objname" name="objname" lay-verify="required" lay-reqtext="不能为空" placeholder="多个克隆时逗号隔开或换行" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-inline" style="margin-left:72px">    
+                    <label class="layui-form-label layui-font-blue">目标名称</label>
+                    <div class="layui-input-inline" style="width:433px">
+                      <textarea id="target_objname" name="target_objname" lay-reqtext="不能为空" placeholder="目标名称数量及顺序需要和源名称一对一,留空则保留源名称" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认克隆</button>
+                </div>
+            </div>
+        </form>
+      </fieldset>
+
+        <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
+</body>
+<script type="text/html" id="statusTpl">
+  {{# if ( d.status == "true" ) { }}
+     <span style="color:#009688">成功</span>
+	{{# } else { }}
+    <span style="color:#FF5722">失败</span>
+{{# } }}
+</script>
+<script type="text/javascript">
+    	$(document).ready(function(){
+          GetCurrClusterId();  
+          GetNamespace();	
+    	});		
+</script>
+
+<script>
+
+
+	$.get('/xkube/cluster/v1/List', function (resp) {
+		$.each(resp.data,function(i,item){
+			var html = '<option value="'+item.cluster_id+'">'+item.cluster_name+'</option>'	
+			$("#target_clusterId").append(html);
+		});
+	   layui.use('form', function(){
+	           var form = layui.form;
+	           form.render();
+	   });		
+  });
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+var cronjobApi = "v1";
+var clusterIdVersion = getCookie(clusterId);
+//console.log(compareVersions("1.26.0",clusterIdVersion));
+//console.log(clusterIdVersion);
+if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
+  cronjobApi = "beta1";
+}
+
+    layui.use(['form','table'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            table = layui.table,
+            $ = layui.$;
+
+      var resType = getQueryString("resType");
+      //console.log(resType);
+      if ( resType != "" && resType != null ){   
+				  form.val('FormInfo', {
+				    "resType": resType
+				  })     
+      }
+      //$('#appNameTitle').html(cronjobName);
+
+        //选择集群
+        form.on('select(target_clusterId)', function(data){
+          //console.log(data.value); //得到被选中的值
+      		$.get('/xkube/ns/v1/List?clusterId='+data.value, function (resp) {
+              $("#target_namespace").empty();
+              var html = '<option value="" selected="">选择命名空间</option>'
+              $("#target_namespace").append(html);
+        			$.each(resp.data,function(i,item){
+        				var html2 = '<option value="'+item.nameSpace+'">'+item.nameSpace+'</option>'
+        				$("#target_namespace").append(html2);
+        			});
+        			form.render();		
+      	  });	
+        });
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/xkube/clone/v1/List',
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                //{field: 'id', width:70, title: 'ID', sort: true, hide:true},
+                {field: 'clusterid', title: '集群id', sort: true},
+                {field: 'namespace',title: '命名空间'},
+                {field: 'restype',title: '资源类型'},
+                {field: 'objname',title: '资源名称'},
+                {field: 'target_clusterid',title: '目标集群'},
+                {field: 'target_namespace',title: '目标空间'},
+                {field: 'target_objname',title: '目标名称'},
+                {field: 'status', title: '成功',templet: '#statusTpl'},
+                {field: 'result', title: '执行结果'},
+                {field: 'user', title: '执行人'},
+                {field: 'createtime', title: '创建时间'},
+                {field: 'remarks', title: '备注', hide:true},
+            ]],
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true
+        });
+
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+                data.field.objname = data.field.objname.replace(/，|\r|\n/g,",");
+                data.field.objname = data.field.objname.replace(/^\s*|\s*$/g,"");
+                data.field.objname = data.field.objname.replace(/\s/g,"");
+
+                data.field.target_objname = data.field.target_objname.replace(/，|\r|\n/g,",");
+                data.field.target_objname = data.field.target_objname.replace(/^\s*|\s*$/g,"");
+                data.field.target_objname = data.field.target_objname.replace(/\s/g,"");
+
+                var url = '';  
+                if ( data.field.resType == "deployment" ){
+                  url = '/xkube/deploy/v1/Clone';
+                }else if ( data.field.resType == "service" ) {
+                  url = '/xkube/svc/v1/Clone';                  
+                }else if ( data.field.resType == "configmap" ) {
+                  url = '/xkube/cm/v1/Clone';                  
+                }else if ( data.field.resType == "secret" ) {
+                  url = '/xkube/secret/v1/Clone';                  
+                }else if ( data.field.resType == "statefulset" ) {
+                  url = '/xkube/sts/v1/Clone';                  
+                }else if ( data.field.resType == "cronjob" ) {
+                  url = '/xkube/cronjob/'+cronjobApi+'/Clone';                  
+                }else{
+                  layer.msg("不支持的类型",{icon:2});
+                  return;
+                }                                          
+					      console.log(data.field);
+			          layer.confirm('确定提交?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('稍等片刻');
+                     $.ajax({
+                       url: url+"?clusterId="+data.field.clusterid,
+                       type: "post",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                            layer.close(index2);
+                             if(resp.code == 0){
+                                layer.msg('执行完成', {icon: 1,time:1500},function(){
+                                  window.location.reload();
+                                })
+                             }else{
+                                layer.msg(resp.msg,{icon:2});
+                             }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+    });
+</script>
+</html>

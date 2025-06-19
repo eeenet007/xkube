@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: testapp-readonly
+  name: testapp-readonly
+  namespace: test-app
+spec:
+  ports:
+  - name: http
+    port: 8001
+    protocol: TCP
+    targetPort: 8001
+  selector:
+    app: testapp-readonly
+  sessionAffinity: None
+  type: LoadBalancer

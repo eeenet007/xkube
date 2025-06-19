@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>deploy详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+      <div class="layui-collapse" lay-filter="test">
+        <div class="layui-colla-item">
+          <h2 class="layui-colla-title">应用基本信息</h2>
+          <div class="layui-colla-content layui-show">
+                  <blockquote class="layui-elem-quote layui-quote-nm">
+                      <table class="layui-table" lay-even="" lay-skin="nob" style="table-layout: fixed;">
+                        <colgroup>
+                          <col width="150">
+                          <col width="450">
+                          <col width="150">
+                          <col>
+                        </colgroup>
+                        <tbody>
+                          <tr>
+                            <td>名称:</td>
+                            <td><div id="appname"></div></td>
+                            <td>创建时间:</td>
+                            <td><div id="createtime"></div></td>
+                          </tr>
+                          <tr>
+                            <td>备注:</td>
+                            <td><div id="remarks"></div></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table> 
+                  </blockquote> 
+                  <table class="layui-table" id="conditionsTableId" lay-filter="conditionsTableFilter"></table>
+          </div>
+        </div>
+        <div class="layui-colla-item">
+          <h2 class="layui-colla-title">deployment</h2>
+          <div class="layui-colla-content layui-show">
+            <table class="layui-table" id="deployTableId" lay-filter="deployTableFilter"></table>
+          </div>
+        </div>
+        <div class="layui-colla-item">
+          <h2 class="layui-colla-title">service</h2>
+          <div class="layui-colla-content layui-show">
+            <table class="layui-table" id="serviceTableId" lay-filter="serviceTableFilter"></table>
+          </div>
+        </div>
+        <div class="layui-colla-item">
+          <h2 class="layui-colla-title">ingress</h2>
+          <div class="layui-colla-content">
+            <table class="layui-table" id="ingressTableId" lay-filter="ingressTableFilter"></table>
+          </div>
+        </div>
+        <div class="layui-colla-item">
+          <h2 class="layui-colla-title">configmap</h2>
+          <div class="layui-colla-content">
+            <table class="layui-table" id="configmapTableId" lay-filter="configmapTableFilter"></table>
+          </div>
+        </div>
+        <div class="layui-colla-item">
+          <h2 class="layui-colla-title">cronJob</h2>
+          <div class="layui-colla-content">
+            <table class="layui-table" id="cronjobTableId" lay-filter="cronjobTableFilter"></table>
+          </div>
+        </div>
+        <div class="layui-colla-item">
+          <h2 class="layui-colla-title">statefulset</h2>
+          <div class="layui-colla-content">
+            <table class="layui-table" id="statefulsetTableId" lay-filter="statefulsetTableFilter"></table>
+          </div>
+        </div>
+        <div class="layui-colla-item">
+          <h2 class="layui-colla-title">secret</h2>
+          <div class="layui-colla-content">
+            <table class="layui-table" id="secretTableId" lay-filter="secretTableFilter"></table>
+          </div>
+        </div>
+        <div class="layui-colla-item">
+          <h2 class="layui-colla-title">pods</h2>
+          <div class="layui-colla-content">
+            <table class="layui-table" id="podTableId" lay-filter="podTableFilter"></table>
+          </div>
+        </div>
+      </div>
+          <!--
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>deployment<div id="deploycount"></div></legend>
+            </fieldset>
+            <table class="layui-table" id="deployTableId" lay-filter="deployTableFilter"></table>
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>statefulset</legend>
+            </fieldset>
+            <table class="layui-table" id="statefulsetTableId" lay-filter="statefulsetTableFilter"></table>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>cronJob</legend>
+            </fieldset>
+            <table class="layui-table" id="cronjobTableId" lay-filter="cronjobTableFilter"></table>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>service</legend>
+            </fieldset>
+            <table class="layui-table" id="serviceTableId" lay-filter="serviceTableFilter"></table>                
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>ingress</legend>
+            </fieldset>
+            <table class="layui-table" id="ingressTableId" lay-filter="ingressTableFilter"></table>                
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>configmap</legend>
+            </fieldset>
+            <table class="layui-table" id="configmapTableId" lay-filter="configmapTableFilter"></table>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>secret</legend>
+            </fieldset>
+            <table class="layui-table" id="secretTableId" lay-filter="secretTableFilter"></table>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>pods</legend>
+            </fieldset>
+            <table class="layui-table" id="podTableId" lay-filter="podTableFilter"></table>
+          -->
+    </div>
+</div>
+
+<script type="text/html" id="limitKeyTpl">
+  <div style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{d.limit_key}}</div>
+</script>
+
+<script type="text/html" id="deployTableBar">
+  {{#  var clusterId = getQueryString("clusterId"); }}
+  {{#  if (clusterId == null) { }}
+  {{#      clusterId = getCookie("clusterId") }}
+  {{#  } }}
+    <a href="javascript:;" layuimini-content-href="page/xkube/deployDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&deployName={{d.deployName}}" data-title="{{ d.deployName }}详情" class="layui-btn layui-btn-sm">详情</a>
+    <!-- <a href="javascript:;" layuimini-content-href="page/cicd/deploy.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&resName={{d.deployName}}&resType=Deployment" data-title="{{ d.deployName }}部署" class="layui-btn layui-btn-sm">部署</a> -->
+    <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="viewYaml">yaml编辑</a>
+    <a class="layui-btn layui-btn-sm layui-btn-warm" lay-event="restart">重启</a>
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
+</script>
+
+<script type="text/html" id="configmapTableBar">
+  {{#  var clusterId = getQueryString("clusterId"); }}
+  {{#  if (clusterId == null) { }}
+  {{#      clusterId = getCookie("clusterId") }}
+  {{#  } }}
+    <a href="javascript:;" layuimini-content-href="page/xkube/configmapDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&configmapName={{d.configmapName}}" data-title="{{ d.configmapName }}详情" class="layui-btn layui-btn-sm">详情</a>
+    <!-- <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a> -->
+    <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="viewYaml">yaml编辑</a>
+    <a class="layui-btn layui-btn-normal layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
+</script>
+
+<script type="text/html" id="podTableBar">
+    <!-- 
+      <a href="/page/xkube/podTerminal.html?nameSpace={{ d.nameSpace }}&podName={{ d.podName }}" target="_blank" class="layui-btn layui-btn-sm"><i class="layui-icon layui-icon-auz"></i>终端1</a>
+      <a class="layui-btn layui-btn-sm" lay-event="podDetail"><i class="layui-icon layui-icon-auz"></i>详情</a>
+   -->
+  {{#  var clusterId = getQueryString("clusterId"); }}
+  {{#  if (clusterId == null) { }}
+  {{#      clusterId = getCookie("clusterId") }}
+  {{#  } }}
+    <a href="javascript:;" layuimini-content-href="page/xkube/podDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&podName={{d.podName}}" data-title="{{d.podName}}详情" class="layui-btn layui-btn-sm">详情</a>
+    <a class="layui-btn layui-btn-sm" lay-event="podResLine"><i class="layui-icon">&#xe629;</i></a>
+    <a class="layui-btn layui-btn-sm" lay-event="podLog">日志</a>
+    <a class="layui-btn layui-btn-sm" lay-event="terminal">ssh终端</a>
+</script>
+
+<script type="text/html" id="serviceTableBar">
+  {{#  var clusterId = getQueryString("clusterId"); }}
+  {{#  if (clusterId == null) { }}
+  {{#      clusterId = getCookie("clusterId") }}
+  {{#  } }}
+    <a href="javascript:;" layuimini-content-href="page/xkube/serviceDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&serviceName={{d.serviceName}}" data-title="{{ d.serviceName }}详情" class="layui-btn layui-btn-sm">详情</a>
+    <!-- <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a> -->
+    <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="viewYaml">yaml编辑</a>
+    <a class="layui-btn layui-btn-normal layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
+</script>
+
+<script type="text/html" id="ingressTableBar">
+  {{#  var clusterId = getQueryString("clusterId"); }}
+  {{#  if (clusterId == null) { }}
+  {{#      clusterId = getCookie("clusterId") }}
+  {{#  } }}
+    <a href="javascript:;" layuimini-content-href="page/xkube/ingressDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&ingressName={{d.ingressName}}" data-title="{{ d.ingressName }}详情" class="layui-btn layui-btn-sm">详情</a>
+    <!-- <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a> -->
+    <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="viewYaml">yaml编辑</a>
+    <a class="layui-btn layui-btn-normal layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
+</script>
+
+<script type="text/html" id="cronjobTableBar">
+  {{#  var clusterId = getQueryString("clusterId"); }}
+  {{#  if (clusterId == null) { }}
+  {{#      clusterId = getCookie("clusterId") }}
+  {{#  } }}
+    <a href="javascript:;" layuimini-content-href="page/xkube/cronjobDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&cronjobName={{d.cronjobName}}" data-title="{{ d.cronjobName }}详情" class="layui-btn layui-btn-sm">详情</a>
+    <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="viewYaml">yaml编辑</a>
+    {{# if ( d.suspend == 'false' ) { }}
+      <a class="layui-btn layui-btn-normal layui-btn-sm layui-btn-warm" lay-event="stop">暂停</a>
+    {{# } else { }}
+      <a class="layui-btn layui-btn-sm" lay-event="start">启动</a>
+    {{# } }}  
+    <a class="layui-btn layui-btn-normal layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
+</script>
+
+<script type="text/html" id="statefulsetTableBar">
+  {{#  var clusterId = getQueryString("clusterId"); }}
+  {{#  if (clusterId == null) { }}
+  {{#      clusterId = getCookie("clusterId") }}
+  {{#  } }}
+    <a href="javascript:;" layuimini-content-href="page/xkube/stsDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&statefulsetName={{d.statefulsetName}}" data-title="{{ d.statefulsetName }}详情" class="layui-btn layui-btn-sm">详情</a>
+    <a href="javascript:;" layuimini-content-href="page/cicd/deploy.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&resName={{d.deployName}}&resType=Deployment" data-title="{{ d.deployName }}部署" class="layui-btn layui-btn-sm">部署</a>
+    <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="viewYaml">yaml编辑</a>
+    <a class="layui-btn layui-btn-sm layui-btn-warm" lay-event="restart">重启</a>
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
+</script>
+
+<script type="text/html" id="suspendTpl">
+  {{# if ( d.suspend == 'false' ) { }}
+     <span style="color:#218868">{{ d.suspend}}</span>
+	{{# } else { }}
+    <span style="color:#FF5722">{{ d.suspend}}</span>
+{{# } }}
+</script>
+
+<script type="text/html" id="rulesTpl">
+    {{# if (d.rules != "") { }}
+            {{# layui.each(d.rules.split(','), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span>{{ item }}</span>
+                {{# }else{ }}
+                        <br><span>{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+
+<script type="text/html" id="podPhaseTpl">
+  {{# if (d.podPhase == 'Running') { }}
+     <span style="color:#218868">{{ d.podPhase }}</span>
+	{{# } else { }}
+    <span style="color:#FF5722">{{ d.podPhase }}</span>
+{{# } }}
+</script>
+
+<script type="text/html" id="TagTpl">
+    {{# if (d.labels != "") { }}
+            {{# layui.each(d.labels.split(','), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span style="background-color: #1E9FFF; border: 0px solid #1E9FFF; color:#FFF;border-radius:3px;">{{ item }}</span>
+                {{# }else{ }}
+                        <br><br><span style="background-color: #1E9FFF; border: 0px solid #1E9FFF; color:#FFF;border-radius:3px;">{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+
+<script type="text/html" id="ipPortTpl">
+        <span>{{ d.svcIp }}:{{ d.svcPort }}</span>
+</script>	
+
+<script>
+//设置默认集群
+SetDefaultCluster();
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+    layui.use(['form', 'table','miniTab','element'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            element = layui.element,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+      var appname = getQueryString("appname");
+
+      //deatail
+			$.get('/xkube/appname/v1/List' + location.search, function (resp) {
+  				  if (resp.appname != '' ) {
+                //console.log(resp);
+                //详细信息
+                var appname = resp.data[0].appname;
+                $('#appname').html(appname);
+                var createtime = resp.data[0].createtime;
+                $('#createtime').html(createtime);
+                var remarks = resp.data[0].remarks;
+                $('#remarks').html(remarks);
+          }else{
+            layer.msg('请重新刷新',{icon:2});
+          }
+		  });
+
+
+      element.on('collapse(test2)', function(data){
+        console.log(data.show); //得到当前面板的展开状态，true或者false
+        console.log(data); //得到当前点击面板的标题区域DOM对象
+        //console.log(data.content); //得到当前点击面板的内容区域DOM对象
+      });
+
+        //deploy
+        table.render({
+            elem: '#deployTableId',
+            //url: '/xkube/deploy/v1/List'+location.search+'&nameSpace=zx-app&clusterId='+clusterId,
+            url: '/xkube/deploy/v1/List?clusterId='+clusterId+"&labels=appname:"+appname,
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            parseData: function(res) { //实现加载全部数据后再分页
+            	if(this.page.curr) {
+            		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+            	}else{
+            	  result=res.data.slice(0,this.limit);
+              }
+              return {
+              	"code": res.code,
+              	"msg":'',
+              	"count":res.count,
+              	"data":result
+              };
+            },
+            cols: [[
+                {type: "checkbox", width: 50},
+                {field: 'deployName', width: 250, title: '名称'},
+                {field: 'nameSpace', width: 120, title: '命名空间', sort: true},
+                {field: 'podNumber', width: 120,  title: '容器', sort: true},
+                {field: 'imageUrl', width: 250, title: '镜像', sort: true},
+                {field: 'labes', width: 250, hide:true, title: '标签', sort: true,templet: '#TagTpl'},
+                {field: 'createTime', width:180, title: '创建时间'},
+                {field: 'updateTime', width:150, title: '更新时间', hide:true},
+                {title: '操作', minWidth: 200, toolbar: '#deployTableBar', align: "center"}
+            ]],
+            //size:'lg',
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true,
+            done: function(res, curr, count){
+                  console.log(count);
+	                $('#deploycount').html(count);
+            }
+        });        
+        //deploy
+        table.on('tool(deployTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'viewYaml') {
+                var index = layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['45%', '92%'],
+                    content: '/page/xkube/deployYaml.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&deployName='+data.deployName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }  else if (obj.event === 'restart') {
+      	          layer.confirm('确定重启?', {icon: 3, title:'提示',yes: function(index){
+                       var index2 = layer.load(0, {shade: false});
+                       layer.msg('稍等片刻');
+                       $.ajax({
+                         url: "/xkube/deploy/v1/Restart"+location.search,
+                         type: "get",
+                         dataType: "json",
+                         success: function (resp) {
+                                  layer.close(index2);
+                                   if(resp.code == 0){
+                                      layer.msg('重启成功', {icon: 1});
+                                   }else{
+                                      layer.msg(resp.msg,{icon:2});
+                                   }
+                          }
+                        });		  	  
+                    },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            } else if (obj.event === 'delete') {
+                layer.confirm('确定删除'+data.deployName+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/deploy/v1/Del?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&deployName='+data.deployName,
+                			    type: "get",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 window.location.reload();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            }
+        });
+
+      
+        //statefulset
+        table.render({
+            elem: '#statefulsetTableId',
+            url: '/xkube/sts/v1/List'+location.search+'&clusterId='+clusterId,
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            parseData: function(res) { //实现加载全部数据后再分页
+            	if(this.page.curr) {
+            		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+            	}else{
+            	  result=res.data.slice(0,this.limit);
+              }
+              return {
+              	"code": res.code,
+              	"msg":'',
+              	"count":res.count,
+              	"data":result
+              };
+            },
+            cols: [[
+                //{type: "checkbox", width: 50},
+                {field: 'statefulsetName',width: 250,  title: '名称'},
+                {field: 'nameSpace', width: 120, title: '命名空间', sort: true},
+                {field: 'podNumber', width: 120,  title: '容器数量', sort: true},
+                {field: 'imgUrl', width: 220,title: '镜像地址', sort: true,templet: '#ImgTpl'},
+                {field: 'labes', width: 200,title: '标签',hide:true, sort: true,templet: '#TagTpl'},
+                {field: 'createTime', width:180, title: '创建时间'},
+                {field: 'updateTime', width:150, title: '更新时间', hide:true},
+                {title: '操作', minWidth: 200, toolbar: '#statefulsetTableBar', align: "center"}
+            ]],
+            //size:'lg',
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true
+        });
+        //statefulset
+        table.on('tool(statefulsetTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'viewYaml') {
+                var index = layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['45%', '92%'],
+                    content: '/page/xkube/stsYaml.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&statefulsetName='+data.statefulsetName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }  else if (obj.event === 'restart') {
+      	          layer.confirm('确定重启?', {icon: 3, title:'提示',yes: function(index){
+                       var index2 = layer.load(0, {shade: false});
+                       layer.msg('稍等片刻');
+                       $.ajax({
+                         url: "/xkube/sts/v1/Restart"+location.search,
+                         type: "get",
+                         dataType: "json",
+                         success: function (resp) {
+                                  layer.close(index2);
+                                   if(resp.code == 0){
+                                      layer.msg('重启成功', {icon: 1});
+                                   }else{
+                                      layer.msg(resp.msg,{icon:2});
+                                   }
+                          }
+                        });		  	  
+                    },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            } else if (obj.event === 'delete') {
+                layer.confirm('确定删除'+data.statefulsetName+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/sts/v1/Del?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&statefulsetName='+data.statefulsetName,
+                			    type: "get",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 window.location.reload();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            }
+        });
+
+        //cronjob
+        table.render({
+            elem: '#cronjobTableId',
+            initSort: {field:'createTime', type:'desc'},
+            url: '/xkube/cronjob/v1/List?clusterId='+clusterId+"&labels=appname:"+appname,
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            parseData: function(res) { //实现加载全部数据后再分页
+            	if(this.page.curr) {
+            		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+            	}else{
+            	  result=res.data.slice(0,this.limit);
+              }
+              return {
+              	"code": res.code,
+              	"msg":'',
+              	"count":res.count,
+              	"data":result
+              };
+            },
+            cols: [[
+                //{type: "checkbox", width: 50},
+                {field: 'cronjobName', width: 180, title: '名称'},
+                {field: 'nameSpace', width: 120, title: '命名空间', sort: true},
+                {field: 'labes', title: '标签', sort: true,templet: '#TagTpl',hide:true},
+                {field: 'imgUrl',width: 250, title: '镜像地址', sort: true,templet: '#ImgTpl'},
+                {field: 'suspend', width: 80,  title: '暂停', sort: true,templet: '#suspendTpl'},
+                {field: 'schedule', width: 100,  title: '计划', sort: true},
+                {field: 'active',width: 100,title: '活跃', sort: true,templet: '#activeTpl'},
+                {field: 'createTime', width:180, title: '创建时间',hide:true},
+                {field: 'lastScheduleTime', width:180, title: '最近调度'},
+                {title: '操作', toolbar: '#cronjobTableBar', align: "center"}
+            ]],
+            //size:'lg',
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true
+        });        
+        //cronjob
+        table.on('tool(cronjobTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'stop') {
+                layer.confirm('确定暂停'+data.cronjobName+'?', {icon: 3, title:'暂停提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     var bodystr = {key:"suspend",value:"true"};
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/cronjob/v1/Modify?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&cronjobName='+data.cronjobName,
+                			    type: "POST",
+                          data: JSON.stringify(bodystr),
+                			    success: function (resp) {
+                            layer.close(index2);
+                						 if(resp.code == 0){
+                							 layer.msg('暂停成功', {icon: 1});
+                							 window.location.reload();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });   
+            } else if (obj.event === 'start') {
+                layer.confirm('确定启动'+data.cronjobName+'?', {icon: 3, title:'启动提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     var bodystr = {key:"suspend",value:"false"};
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/cronjob/v1/Modify?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&cronjobName='+data.cronjobName,
+                			    type: "POST",
+                          data: JSON.stringify(bodystr),
+                			    success: function (resp) {
+                            layer.close(index2);
+                						 if(resp.code == 0){
+                							 layer.msg('启动成功', {icon: 1});
+                							 window.location.reload();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });   
+            } else if (obj.event === 'viewYaml') {
+                var index = layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['45%', '92%'],
+                    content: '/page/xkube/cronjobYaml.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&cronjobName='+data.cronjobName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('确定删除'+data.cronjobName+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/cronjob/v1/Del?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&cronjobName='+data.cronjobName,
+                			    type: "get",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 window.location.reload();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            }
+        });        
+
+        //configmap
+        table.render({
+            elem: '#configmapTableId',
+            url: '/xkube/cm/v1/List?clusterId='+clusterId+"&labels=appname:"+appname,
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            parseData: function(res) { //实现加载全部数据后再分页
+            	if(this.page.curr) {
+            		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+            	}else{
+            	  result=res.data.slice(0,this.limit);
+              }
+              return {
+              	"code": res.code,
+              	"msg":'',
+              	"count":res.count,
+              	"data":result
+              };
+            },
+            cols: [[
+                //{type: "checkbox", width: 50},
+                {field: 'configmapName', width: 250,title: '名称', sort: true},
+                {field: 'nameSpace', width: 150,title: '命名空间', sort: true},
+                {field: 'labels', title: '标签', sort: true,templet: '#TagTpl',hide:true},
+                {field: 'createTime', width:180, title: '创建时间',hide:true},
+                {title: '操作', toolbar: '#configmapTableBar', align: "center"}
+            ]],
+            //size:'lg',
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true
+        });        
+        //configmap
+        table.on('tool(configmapTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                var index = layer.open({
+                    title: '编辑',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['45%', '92%'],
+                    content: '/page/xkube/configmapEdit.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&configmapName='+data.configmapName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'viewYaml') {
+                var index = layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['45%', '92%'],
+                    content: '/page/xkube/configmapYaml.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&configmapName='+data.configmapName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                //layer.confirm('真的删除行么', function (index) {
+                //    obj.del();
+                 //   layer.close(index);
+                //});
+                //console.log(data);
+                layer.confirm('确定删除'+data.configmapName+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/cm/v1/Del?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&configmapName='+data.configmapName,
+                			    type: "get",
+                			    //data: data,
+                			    //dataType: "json",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						//console.log(resp);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 window.location.reload();
+                							 //obj.del();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            }
+        });
+        
+        //secret
+        table.render({
+            elem: '#secretTableId',
+            url: '/xkube/secret/v1/List?clusterId='+clusterId+"&labels=appname:"+appname,
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            parseData: function(res) { //实现加载全部数据后再分页
+            	if(this.page.curr) {
+            		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+            	}else{
+            	  result=res.data.slice(0,this.limit);
+              }
+              return {
+              	"code": res.code,
+              	"msg":'',
+              	"count":res.count,
+              	"data":result
+              };
+            },
+            cols: [[
+                //{type: "checkbox", width: 50},
+                {field: 'secretName',title: '名称', sort: true},
+                {field: 'nameSpace', width: 150,title: '命名空间', sort: true},
+                {field: 'secretType', title: '类型', sort: true},
+                {field: 'labels', title: '标签', sort: true,templet: '#TagTpl',hide:true},
+                {field: 'createTime', width:180, title: '创建时间',hide:true},
+                {title: '操作', toolbar: '#secretTableBar', align: "center"}
+            ]],
+            //size:'lg',
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true
+        });
+        //secret
+        table.on('tool(secretTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                var index = layer.open({
+                    title: '编辑',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '92%'],
+                    content: '/page/xkube/secretEdit.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&secretName='+data.secretName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'viewYaml') {
+                var index = layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '92%'],
+                    content: '/page/xkube/secretYaml.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&secretName='+data.secretName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                //layer.confirm('真的删除行么', function (index) {
+                //    obj.del();
+                 //   layer.close(index);
+                //});
+                //console.log(data);
+                layer.confirm('确定删除'+data.secretName+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/secret/v1/Del?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&secretName='+data.secretName,
+                			    type: "get",
+                			    //data: data,
+                			    //dataType: "json",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						//console.log(resp);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 window.location.reload();
+                							 //obj.del();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            }
+        });
+        
+        //service
+        table.render({
+            elem: '#serviceTableId',
+            url: '/xkube/svc/v1/List?clusterId='+clusterId+"&labels=appname:"+appname,
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            parseData: function(res) { //实现加载全部数据后再分页
+            	if(this.page.curr) {
+            		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+            	}else{
+            	  result=res.data.slice(0,this.limit);
+              }
+              return {
+              	"code": res.code,
+              	"msg":'',
+              	"count":res.count,
+              	"data":result
+              };
+            },
+            cols: [[
+                //{type: "checkbox", width: 50},
+                {field: 'serviceName', width: 250,title: '名称', sort: true},
+                {field: 'nameSpace', width: 150,title: '命名空间', sort: true},
+                {field: 'svcType', width: 100,title: '类型', sort: true},
+                {field: 'svcIp', width: 120,title: 'IP', sort: true,hide:true},
+                {field: 'svcPort', width: 120,title: '端口', sort: true,hide:true},
+                {field: '', width: 150,title: 'ip端口', sort: true,templet: '#ipPortTpl'},
+                {field: 'lanEndpoint', width: 300,title: '内部端点', sort: true},
+                {field: 'wanEndpoint', title: '外部端点', sort: true,hide:true},
+                {field: 'labels', title: '标签',hide:true, sort: true,templet: '#TagTpl'},
+                {field: 'createTime', width:180, title: '创建时间'},
+                {title: '操作', minWidth: 200, toolbar: '#serviceTableBar', align: "center"}
+            ]],
+            //size:'lg',
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true
+        });
+        //service
+        table.on('tool(serviceTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                var index = layer.open({
+                    title: '编辑',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['45%', '92%'],
+                    content: '/page/xkube/serviceEdit.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&serviceName='+data.serviceName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'viewYaml') {
+                var index = layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['45%', '92%'],
+                    content: '/page/xkube/serviceYaml.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&serviceName='+data.serviceName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                //layer.confirm('真的删除行么', function (index) {
+                //    obj.del();
+                 //   layer.close(index);
+                //});
+                //console.log(data);
+                layer.confirm('确定删除'+data.serviceName+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/ns/v1/Del?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&serviceName='+data.serviceName,
+                			    type: "get",
+                			    //data: data,
+                			    //dataType: "json",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						//console.log(resp);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 window.location.reload();
+                							 //obj.del();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            }
+        });
+
+        //ingresss
+        table.render({
+            elem: '#ingressTableId',
+            url: '/xkube/ing/v1/List?clusterId='+clusterId+"&labels=appname:"+appname,
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            parseData: function(res) { //实现加载全部数据后再分页
+            	if(this.page.curr) {
+            		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+            	}else{
+            	  result=res.data.slice(0,this.limit);
+              }
+              return {
+              	"code": res.code,
+              	"msg":'',
+              	"count":res.count,
+              	"data":result
+              };
+            },
+            cols: [[
+                //{type: "checkbox", width: 50},
+                {field: 'ingressName', width: 250,title: '名称', sort: true},
+                {field: 'nameSpace', width: 150,title: '命名空间', sort: true},
+                {field: 'ingressClass', width: 100,title: '类型', sort: true},
+                {field: 'rules', width: 600,title: '规则', sort: true,templet: '#rulesTpl'},
+                {field: 'endpoint', title: '端点', sort: true},
+                {field: 'labels', title: '标签', sort: true,templet: '#TagTpl',hide:true},
+                {field: 'createTime', width:180, title: '创建时间',hide:true},
+                {title: '操作', toolbar: '#ingressTableBar', align: "center"}
+            ]],
+            //size:'lg',
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true
+        });        
+        //ingress
+        table.on('tool(ingresssTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                var index = layer.open({
+                    title: '编辑',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['45%', '92%'],
+                    content: '/page/xkube/ingressEdit.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&ingressName='+data.ingressName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'viewYaml') {
+                var index = layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['45%', '92%'],
+                    content: '/page/xkube/ingressYaml.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&ingressName='+data.ingressName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                //layer.confirm('真的删除行么', function (index) {
+                //    obj.del();
+                 //   layer.close(index);
+                //});
+                //console.log(data);
+                layer.confirm('确定删除'+data.ingressName+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/ing/v1/Del?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&ingressName='+data.ingressName,
+                			    type: "get",
+                			    //data: data,
+                			    //dataType: "json",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						//console.log(resp);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 window.location.reload();
+                							 //obj.del();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            }
+        });
+        
+        //pod容器组
+        table.render({
+            elem: '#podTableId',
+            url: '/xkube/pod/v1/List?clusterId='+clusterId+"&labels=appname:"+appname,
+            //toolbar: '#toolbarDemo',
+            //editTrigger: 'dblclick',
+            //defaultToolbar: ['filter'],
+            cols: [[
+                {field: 'podName', title: '名称'},
+                {field: 'imgUrl', title: '镜像',hide:true},
+                {field: 'podPhase', title: '状态',width:100,templet: '#podPhaseTpl'},      
+                {field: 'restartCount',width:100,title: '重启次数'},                          
+                {field: 'podIp',title: 'podIp',width:120,sort: true},
+                {field: 'hostIp',width:120,title:'节点IP'},  
+                {field: 'nodeName',title:'节点名称',edit:true,hide:true},               
+                {field: 'createTime',width:180, title: '创建时间'},
+                {title: '操作', minWidth:200, toolbar: '#podTableBar', align: "center"}
+            ]],
+            limits: [25, 50, 100],
+            limit: 15,
+            page: false
+        });
+        //pod
+        table.on('tool(podTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                var index = layer.open({
+                    title: '编辑',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['55%', '92%'],
+                    content: '/page/xkube/podYaml.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+"&podName="+data.podName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'podResLine') {
+                var index = layer.open({
+                    title: '资源使用曲线',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['55%', '50%'],
+                    content: '/page/xkube/podCpuMemLine.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+"&podName="+data.podName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }else if (obj.event === 'podLog') {
+                var index = layer.open({
+                    title: '日志',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['55%', '92%'],
+                    content: '/page/xkube/podLog.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+"&podName="+data.podName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'terminal') {
+                var index = layer.open({
+                    title: '终端',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['55%', '92%'],
+                    content: '/page/xkube/podTerminal.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+"&podName="+data.podName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('确定删除'+data.nameSpace+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/pod/v1/Del?clusterId='+clusterId+'&nameSpace='+data.nameSpace+"&podName="+data.podName,
+                			    type: "get",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 //window.location.reload();
+                							 obj.del();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>

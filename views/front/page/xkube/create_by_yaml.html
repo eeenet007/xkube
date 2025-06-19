@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>yaml创建</title>
+    <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<link
+			rel="stylesheet"
+			data-name="vs/editor/editor.main"
+			href="/monaco-editor/min/vs/editor/editor.main.css"
+		/>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">当前集群</label>
+                            <div class="layui-input-inline">
+                                <select name="clusterId" lay-filter="cluster_Id" lay-search="" id="cluster_Id">
+                                  <option value="">请选择集群</option>
+                                </select>
+                            </div>
+                            <label class="layui-form-label">示例模板</label>
+                            <div class="layui-input-inline">
+                                <select name="yaml" lay-filter="selectYamlTpl" lay-search="" id="selectYamlTpl">
+                                  <option value="">选择yaml模板</option>
+                                  <option value="deploy_simple.yaml">deployment</option>
+                                  <option value="deploy_postStart_probe.yaml">deployment_probe</option>
+                                  <option value="service_ClusterIP.yaml">service_ClusterIP</option>
+                                  <option value="service_LoadBalancer.yaml">service_LoadBalancer</option>
+                                  <option value="service_headless.yaml">service_headless</option>
+                                  <option value="cronjob_curl.yaml">cronjob_curl调用接口</option>
+                                  <option value="cronjob_rsync.yaml">cronjob_rsync同步数据</option>
+                                  <option value="cronjob_shell.yaml">cronjob_shell执行脚本</option>
+                                </select>
+                            </div>
+                            <!-- <div class="layui-form-mid layui-word-aux"><span style="color:red">注:1.yaml中没有指定命名空间则为default</span></div>-->
+                        </div>
+                    </div>
+                </form>
+        </fieldset>
+        <div id="container" style="width: 100%; height:400px; border: 1px solid grey;margin-top:8px;"></div>
+        <br>
+        <fieldset class="table-search-fieldset">
+            <legend></legend>
+            <button class="layui-btn layui-btn-sm" id="SaveBtn" >创建</button>
+            <a href="https://k8syaml.com/"  target="_blank" class="layui-btn layui-btn-normal layui-btn-sm">yaml语法在线编写</a>
+        </fieldset>   
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    	$(document).ready(function(){
+          GetCurrClusterId();  
+          //GetNamespace();	
+    	});		
+</script>
+
+<script>
+	var require = { paths: { vs: '/monaco-editor/min/vs' } };
+</script>
+<script src="/monaco-editor/min/vs/loader.js"></script>
+<script src="/monaco-editor/min/vs/editor/editor.main.nls.js"></script>
+<script src="/monaco-editor/min/vs/editor/editor.main.js"></script>
+<script>
+
+//设置默认集群
+SetDefaultCluster();
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+
+    layui.use(['form', 'table','code'], function () {
+        var $ = layui.jquery;
+        var form = layui.form,
+            layer = layui.layer;
+  
+        /**
+          //选择集群
+        form.on('select(cluster_Id)', function(data){
+          //console.log(data.elem); //得到select原始DOM对象
+          console.log(data.value); //得到被选中的值
+          setCookie('clusterId',data.value,30);
+          window.location.reload();
+          //console.log(data.othis); //得到美化后的DOM对象
+        });
+        **/
+        
+    		var editor = monaco.editor.create(document.getElementById('container'), {
+    			value: '',
+    			language: 'yaml',
+    			//automaticLayout: true,
+    			minimap: {enabled: false},
+    			wordWrap: 'on',
+    			theme: 'vs-dark'
+    		});
+
+			//monaco.editor.setTheme('vs-dark');
+			//var code = `function x() {', '\tconsole.log("Hello world!");', '}`;			
+			//console.log(editor.getValue());
+
+        form.on('select(selectYamlTpl)', function(data){
+          //console.log(data.elem); //得到select原始DOM对象
+          console.log(data.value); //得到被选中的值
+      		$.ajax({
+      		    url: "/yaml_template/"+data.value,
+      		    type: "GET",
+      		    success: function (resp) {
+      			  //codeyaml = resp;
+      			  editor.setValue(resp);
+      			}
+      		});	
+        });
+
+        $('#SaveBtn').on("click",function(){
+              layer.confirm('确定提交?', {icon: 3, title:'提示',yes: function(index){
+                 $.ajax({
+                   url: "/xkube/apply/v1/CreateByYaml?clusterId="+clusterId,
+                   type: "POST",
+                   data: editor.getValue(),
+                   dataType: "json",
+                   success: function (resp) {
+                      //resp = JSON.stringify(resp),
+                      //console.log(resp);
+                      //layer.close(index);
+                      layer.msg(resp.msg);
+                    }
+                 });
+                  //console.log(editor.getValue());
+                  //layer.msg('ok');
+              },
+              cancel: function(index, layero){ 
+                  layer.close(index);
+              } 
+            });
+        });
+    });
+</script>
+</html>

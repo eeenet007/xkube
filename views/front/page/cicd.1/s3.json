@@ -1,0 +1,160 @@
+{
+  "requestId": "C12A5E3A-D603-5A16-9680-2CD4F13E417D",
+  "pipelineRun": {
+    "creatorAccountId": "298775283717414757",
+    "sources": [
+      {
+        "data": {
+          "commint": "[{\"commitMsg\": \"Merge%20remote-tracking%20branch%20%27origin/feature/hxConfig%27\", \"commitId\": \"76c5b48ab562ce6da27fb245dfaab45b548da269\", \"commitTime\": \"Tue Jan 2 16:44:49 2024 +0800\", \"commitAuthor\": \"gaochaochao\"}, {\"commitMsg\": \"Merge%20remote-tracking%20branch%20%27origin/feature/hxConfig%27%20into%20feature/hxConfig\", \"commitId\": \"a06e7660646bb8882fc2098c8629f7796ba0e5c4\", \"commitTime\": \"Tue Jan 2 14:33:02 2024 +0800\", \"commitAuthor\": \"gaochaochao\"}, {\"commitMsg\": \"%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9%E6%94%B9%E6%88%90%E4%BE%BF%E6%90%BA%E5%BC%8F%E5%85%85%E7%94%B5%E6%8A%A2\", \"commitId\": \"1ab69ecc886048965fa25c9c2da954917c93e0cc\", \"commitTime\": \"Tue Jan 2 14:30:44 2024 +0800\", \"commitAuthor\": \"gaochaochao\"}, {\"commitMsg\": \"feature%3A%E6%96%B0%E5%A2%9E%E5%8F%82%E9%85%8D%E5%93%81%E7%89%8C%E8%87%AA%E8%90%A5%E5%85%85%E7%94%B5%E7%AB%99%E5%92%8C%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9\", \"commitId\": \"321e04210f702eded7d3ad3716ab423349ec8e0b\", \"commitTime\": \"Thu Dec 28 12:03:27 2023 +0800\", \"commitAuthor\": \"huangjianfeng\"}, {\"commitMsg\": \"feature%3A%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9%E5%9B%9E%E6%98%BE\", \"commitId\": \"6b16254f1fed660fcf93be23ab474a8aa4906040\", \"commitTime\": \"Wed Dec 27 18:23:26 2023 +0800\", \"commitAuthor\": \"huangjianfeng\"}, {\"commitMsg\": \"feature%3A%E7%A7%92%E6%87%82%E9%80%89%E8%BD%A6%E5%A2%9E%E5%8A%A0%E5%88%86%E7%B1%BB\", \"commitId\": \"31150a0a648ee34c32dcfede975dd70cacd4d504\", \"commitTime\": \"Wed Dec 27 16:37:25 2023 +0800\", \"commitAuthor\": \"huangjianfeng\"}]",
+          "repo": "https://git.pc.com.cn/a_team/core_cars/auto_model.git",
+          "branch": "master"
+        },
+        "sign": "core_cars_auto_model_v0Pp",
+        "type": "customGitlab"
+      }
+    ],
+    "createTime": 1704186410000,
+    "pipelineRunId": 364,
+    "stages": [
+      {
+        "name": "Group0-Stage0",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "Java 构建上传",
+              "startTime": 1704186411000,
+              "endTime": 1704186504000,
+              "id": 186098729,
+              "params": "{\"sources\":[{\"data\":{\"credentialLabel\":\"Git证书 - yangfasheng\",\"repo\":\"https://git.pc.com.cn/a_team/core_cars/auto_model.git\",\"language\":\"java\",\"label\":\"core_cars/auto_model\",\"commitId\":\"76c5b48ab562ce6da27fb245dfaab45b548da269\",\"branch\":\"master\",\"credentialType\":\"personal-usernamepassword\",\"credential\":19336,\"commitMsg\":\"[{\\\"commitMsg\\\": \\\"Merge%20remote-tracking%20branch%20%27origin/feature/hxConfig%27\\\", \\\"commitId\\\": \\\"76c5b48ab562ce6da27fb245dfaab45b548da269\\\", \\\"commitTime\\\": \\\"Tue Jan 2 16:44:49 2024 +0800\\\", \\\"commitAuthor\\\": \\\"gaochaochao\\\"}, {\\\"commitMsg\\\": \\\"Merge%20remote-tracking%20branch%20%27origin/feature/hxConfig%27%20into%20feature/hxConfig\\\", \\\"commitId\\\": \\\"a06e7660646bb8882fc2098c8629f7796ba0e5c4\\\", \\\"commitTime\\\": \\\"Tue Jan 2 14:33:02 2024 +0800\\\", \\\"commitAuthor\\\": \\\"gaochaochao\\\"}, {\\\"commitMsg\\\": \\\"%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9%E6%94%B9%E6%88%90%E4%BE%BF%E6%90%BA%E5%BC%8F%E5%85%85%E7%94%B5%E6%8A%A2\\\", \\\"commitId\\\": \\\"1ab69ecc886048965fa25c9c2da954917c93e0cc\\\", \\\"commitTime\\\": \\\"Tue Jan 2 14:30:44 2024 +0800\\\", \\\"commitAuthor\\\": \\\"gaochaochao\\\"}, {\\\"commitMsg\\\": \\\"feature%3A%E6%96%B0%E5%A2%9E%E5%8F%82%E9%85%8D%E5%93%81%E7%89%8C%E8%87%AA%E8%90%A5%E5%85%85%E7%94%B5%E7%AB%99%E5%92%8C%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9\\\", \\\"commitId\\\": \\\"321e04210f702eded7d3ad3716ab423349ec8e0b\\\", \\\"commitTime\\\": \\\"Thu Dec 28 12:03:27 2023 +0800\\\", \\\"commitAuthor\\\": \\\"huangjianfeng\\\"}, {\\\"commitMsg\\\": \\\"feature%3A%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9%E5%9B%9E%E6%98%BE\\\", \\\"commitId\\\": \\\"6b16254f1fed660fcf93be23ab474a8aa4906040\\\", \\\"commitTime\\\": \\\"Wed Dec 27 18:23:26 2023 +0800\\\", \\\"commitAuthor\\\": \\\"huangjianfeng\\\"}, {\\\"commitMsg\\\": \\\"feature%3A%E7%A7%92%E6%87%82%E9%80%89%E8%BD%A6%E5%A2%9E%E5%8A%A0%E5%88%86%E7%B1%BB\\\", \\\"commitId\\\": \\\"31150a0a648ee34c32dcfede975dd70cacd4d504\\\", \\\"commitTime\\\": \\\"Wed Dec 27 16:37:25 2023 +0800\\\", \\\"commitAuthor\\\": \\\"huangjianfeng\\\"}]\",\"enableFilter\":false,\"connection\":162875,\"previousCommitId\":\"0e20a85c18f932e60e360488f682e79cbbfc0d71\",\"events\":[\"push\"]},\"name\":\"core_cars_auto_model_iSKL\",\"sign\":\"core_cars_auto_model_v0Pp\",\"type\":\"customGitlab\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"汽车资讯子账号2020\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"10_1632444688258\",\"EXECUTOR_ID\":\"5f48d417e1cf498f37d85539\",\"PIPELINE_ID\":\"1455207\",\"ENGINE_PIPELINE_CONFIG_ID\":\"6720980\",\"BUILD_MESSAGE\":\"汽车资讯子账号2020 • 页面手动触发\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1704186410503\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"244103500768013954\",\"branchRepoInfo\":\"[]\",\"triggerMode\":\"1\",\"ENGINE_PIPELINE_ID\":\"1455207\",\"runnerCacheMode\":\"local\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f48d417e1cf498f37d85539\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f6bf7ac769820a3e8186803\",\"BUILD_EXECUTOR\":\"汽车资讯子账号2020\",\"version\":\"jdk1.8\",\"steps\":[{\"freeInTaskGroupModeFields\":[],\"stepType\":\"java_build\",\"name\":\"Java 构建\",\"MAVEN_VERSION\":\"3.5.2\",\"stepIdentifier\":\"10_1632444688258__11_1632444688260\",\"CI_RUNTIME_VERSION\":\"jdk1.8\",\"version\":\"jdk1.8\",\"command\":\"# maven build default command\\nmvn -B clean package -Dmaven.test.skip=true -Dautoconfig.skip -P product\\n\\n# gradle build default command\\n# ./gradlew build\\n\\n# ant build default command\\n# ant \\n\"},{\"SERVICE_CONNECTION_ID\":\"\",\"REPO_ID\":\"flow_generic_repo\",\"ARCHIVE_PATH\":\"target/\",\"freeInTaskGroupModeFields\":[],\"stepType\":\"tb_oss_upload\",\"ARTIFACT\":\"Artifacts_1455207\",\"SHOULD_PACKAGE\":true,\"INCLUDE_PATH_IN_ARTIFACT\":false,\"name\":\"构建物上传\",\"uploadType\":\"PUBLIC_STORAGE\",\"stepIdentifier\":\"10_1632444688258__12_1632444688264\",\"ARTIFACT_VERSION\":\"2024-01-02-17-06-50\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"车型库 resin\",\"ENGINE_PIPELINE_NAME\":\"车型库 resin\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"364\",\"BUILD_NUMBER\":\"364\",\"DATETIME\":\"2024-01-02-17-06-50\",\"ENGINE_TASK_NAME\":\"Java 构建上传\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"buildNodeGroup\":\"K8S-4\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_ID\":\"59332488\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "LogPipelineJobRun"
+                },
+                {
+                  "disable": false,
+                  "type": "GetPipelineArtifactUrl",
+                  "params": {
+                    "files": [
+                      {
+                        "fileName": "Artifacts_1455207.tgz",
+                        "filePath": "aone2/2038906/1704186484724/Artifacts_1455207.tgz"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "status": "SUCCESS"
+            }
+          ],
+          "name": "Group0-Stage0",
+          "startTime": 1704186411000,
+          "endTime": 1704186504000,
+          "status": "SUCCESS"
+        }
+      },
+      {
+        "name": "Group1-Stage0",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "预发布主机部署",
+              "startTime": 1704186504000,
+              "endTime": 1704186583000,
+              "id": 186098730,
+              "params": "{\"needPackage\":true,\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"EXECUTOR_ID\":\"5f48d417e1cf498f37d85539\",\"CI_SOURCE_NAME\":\"auto_model\",\"PIPELINE_ID\":\"1455207\",\"ENGINE_PIPELINE_CONFIG_ID\":\"6720980\",\"pause_strategy\":\"FirstBatchPause\",\"TIMESTAMP\":\"1704186410503\",\"execute_user\":\"root\",\"triggerMode\":\"1\",\"CI_SOURCE_NAME_1\":\"auto_model\",\"CI_COMMIT_ID\":\"76c5b48a\",\"package_download_path\":\"/data/code_pipelines/package.tgz\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"汽车资讯子账号2020\",\"CI_COMMIT_REF_NAME\":\"master\",\"PIPELINE_NAME\":\"车型库 resin\",\"ENGINE_PIPELINE_NAME\":\"车型库 resin\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"364\",\"execute_cmd_tip\":\"\",\"FLOW_ENGINE_ENCODE_GLOBAL_PARAM\":false,\"CI_COMMIT_ID_1\":\"76c5b48a\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"machine_group_id\":40851,\"CI_COMMIT_TITLE\":\"Merge remote-tracking branch origin/feature/hxConfig\",\"default_batch\":\"1\",\"sources\":[{\"data\":{\"credentialLabel\":\"Git证书 - yangfasheng\",\"repo\":\"https://git.pc.com.cn/a_team/core_cars/auto_model.git\",\"language\":\"java\",\"label\":\"core_cars/auto_model\",\"commitId\":\"76c5b48ab562ce6da27fb245dfaab45b548da269\",\"branch\":\"master\",\"credentialType\":\"personal-usernamepassword\",\"credential\":19336,\"commitMsg\":\"[{\\\"commitMsg\\\": \\\"Merge%20remote-tracking%20branch%20%27origin/feature/hxConfig%27\\\", \\\"commitId\\\": \\\"76c5b48ab562ce6da27fb245dfaab45b548da269\\\", \\\"commitTime\\\": \\\"Tue Jan 2 16:44:49 2024 +0800\\\", \\\"commitAuthor\\\": \\\"gaochaochao\\\"}, {\\\"commitMsg\\\": \\\"Merge%20remote-tracking%20branch%20%27origin/feature/hxConfig%27%20into%20feature/hxConfig\\\", \\\"commitId\\\": \\\"a06e7660646bb8882fc2098c8629f7796ba0e5c4\\\", \\\"commitTime\\\": \\\"Tue Jan 2 14:33:02 2024 +0800\\\", \\\"commitAuthor\\\": \\\"gaochaochao\\\"}, {\\\"commitMsg\\\": \\\"%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9%E6%94%B9%E6%88%90%E4%BE%BF%E6%90%BA%E5%BC%8F%E5%85%85%E7%94%B5%E6%8A%A2\\\", \\\"commitId\\\": \\\"1ab69ecc886048965fa25c9c2da954917c93e0cc\\\", \\\"commitTime\\\": \\\"Tue Jan 2 14:30:44 2024 +0800\\\", \\\"commitAuthor\\\": \\\"gaochaochao\\\"}, {\\\"commitMsg\\\": \\\"feature%3A%E6%96%B0%E5%A2%9E%E5%8F%82%E9%85%8D%E5%93%81%E7%89%8C%E8%87%AA%E8%90%A5%E5%85%85%E7%94%B5%E7%AB%99%E5%92%8C%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9\\\", \\\"commitId\\\": \\\"321e04210f702eded7d3ad3716ab423349ec8e0b\\\", \\\"commitTime\\\": \\\"Thu Dec 28 12:03:27 2023 +0800\\\", \\\"commitAuthor\\\": \\\"huangjianfeng\\\"}, {\\\"commitMsg\\\": \\\"feature%3A%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9%E5%9B%9E%E6%98%BE\\\", \\\"commitId\\\": \\\"6b16254f1fed660fcf93be23ab474a8aa4906040\\\", \\\"commitTime\\\": \\\"Wed Dec 27 18:23:26 2023 +0800\\\", \\\"commitAuthor\\\": \\\"huangjianfeng\\\"}, {\\\"commitMsg\\\": \\\"feature%3A%E7%A7%92%E6%87%82%E9%80%89%E8%BD%A6%E5%A2%9E%E5%8A%A0%E5%88%86%E7%B1%BB\\\", \\\"commitId\\\": \\\"31150a0a648ee34c32dcfede975dd70cacd4d504\\\", \\\"commitTime\\\": \\\"Wed Dec 27 16:37:25 2023 +0800\\\", \\\"commitAuthor\\\": \\\"huangjianfeng\\\"}]\",\"enableFilter\":false,\"connection\":162875,\"previousCommitId\":\"0e20a85c18f932e60e360488f682e79cbbfc0d71\",\"events\":[\"push\"]},\"name\":\"core_cars_auto_model_iSKL\",\"sign\":\"core_cars_auto_model_v0Pp\",\"type\":\"customGitlab\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"汽车资讯子账号2020\",\"ENGINE_TASK_SIGN\":\"13_1642754386378\",\"BUILD_MESSAGE\":\"汽车资讯子账号2020 • 页面手动触发\",\"execute_cmd\":\"[[ -d /data/code_pipelines ]] || mkdir -p /data/code_pipelines\\n[[ -d /data/web/pcauto-price ]] || mkdir -p /data/web/pcauto-price\\n[[ -d /data/BAK ]] || mkdir -p /data/BAK\\ntar zcf /data/BAK/$(date +%y%m%d%H%M).tgz /data/web/pcauto-price\\ntar zxf /data/code_pipelines/package.tgz -C /data/code_pipelines\\nfind /data/BAK/ -name \\\"[0-9]*[0-9].tgz\\\" -mtime +10 -exec rm -fv {} \\\\;\\nrm -rfv /data/web/pcauto-price/*\\nmv -fv /data/code_pipelines/autoprice7-model/* /data/web/pcauto-price/\\nrm -rfv /data/code_pipelines/*\\nchown -R resin:resin /data/web/pcauto-price\\nsystemctl stop resin\\nsleep 3\\nsystemctl start resin\\nrm -f /data/code_pipelines/package.tgz\\nwhile true\\ndo\\n    netstat -nlpt | grep 8001\\n    if [[ $? -eq 0 ]]\\n    then\\n        break\\n    else\\n        echo \\\"waiting...\\\"\\n    fi\\n    sleep 5\\ndone\",\"pmLocalMount\":false,\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"244103500768013954\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_1\":\"Merge remote-tracking branch origin/feature/hxConfig\",\"ENGINE_PIPELINE_ID\":\"1455207\",\"package_label\":\"{\\\"ARTIFACT_URL\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2038906/1704186484724/Artifacts_1455207.tgz&fileName=Artifacts_1455207.tgz&md5Sign=7f75afa56475f67913b28d896701e945\\\",\\\"ARTIFACT_NAME\\\":\\\"Artifacts_1455207.tgz\\\", \\\"ARTIFACT_MD5\\\":\\\"a1774c47bd9e59f5414ce5319539e0dd\\\", \\\"WEB_DOWNLOAD_URL\\\":\\\"execution-component&bucketName=execution-component-rdc&fileId=aone2%2F2038906%2F1704186484724%2FArtifacts_1455207.tgz&artifactName=Artifacts_1455207.tgz\\\", \\\"artifact\\\":\\\"Artifacts_1455207.tgz\\\", \\\"type\\\":\\\"flowPublic\\\",\\\"downloadUrl\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2038906/1704186484724/Artifacts_1455207.tgz&fileName=Artifacts_1455207.tgz&md5Sign=7f75afa56475f67913b28d896701e945\\\", \\\"md5\\\":\\\"a1774c47bd9e59f5414ce5319539e0dd\\\"}\",\"runnerCacheMode\":\"local\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f48d417e1cf498f37d85539\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f6bf7ac769820a3e8186803\",\"HIDDEN_VALUES\":\"[]\",\"BUILD_NUMBER\":\"364\",\"DATETIME\":\"2024-01-02-17-06-50\",\"CI_COMMIT_SHA_1\":\"76c5b48ab562ce6da27fb245dfaab45b548da269\",\"ENGINE_TASK_NAME\":\"预发布主机部署\",\"CI_COMMIT_SHA\":\"76c5b48ab562ce6da27fb245dfaab45b548da269\",\"ENGINE_PIPELINE_INST_ID\":\"59332488\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "GetVMDeployOrder",
+                  "params": {
+                    "deployOrderId": 23790545
+                  }
+                }
+              ],
+              "status": "SUCCESS"
+            }
+          ],
+          "name": "Group1-Stage0",
+          "startTime": 1704186504000,
+          "endTime": 1704186583000,
+          "status": "SUCCESS"
+        }
+      },
+      {
+        "name": "Group2-Stage0",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "网友&爬虫主机部署",
+              "startTime": 1704188299000,
+              "endTime": 1704188695000,
+              "id": 186098731,
+              "params": "{\"needPackage\":true,\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"EXECUTOR_ID\":\"5f48d417e1cf498f37d85539\",\"CI_SOURCE_NAME\":\"auto_model\",\"PIPELINE_ID\":\"1455207\",\"ENGINE_PIPELINE_CONFIG_ID\":\"6720980\",\"pause_strategy\":\"FirstBatchPause\",\"TIMESTAMP\":\"1704186410503\",\"execute_user\":\"root\",\"triggerMode\":\"1\",\"CI_SOURCE_NAME_1\":\"auto_model\",\"CI_COMMIT_ID\":\"76c5b48a\",\"package_download_path\":\"/data/code_pipelines/package.tgz\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"汽车资讯子账号2020\",\"CI_COMMIT_REF_NAME\":\"master\",\"PIPELINE_NAME\":\"车型库 resin\",\"ENGINE_PIPELINE_NAME\":\"车型库 resin\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"364\",\"execute_cmd_tip\":\"\",\"FLOW_ENGINE_ENCODE_GLOBAL_PARAM\":false,\"CI_COMMIT_ID_1\":\"76c5b48a\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"machine_group_id\":28142,\"CI_COMMIT_TITLE\":\"Merge remote-tracking branch origin/feature/hxConfig\",\"default_batch\":\"5\",\"sources\":[{\"data\":{\"credentialLabel\":\"Git证书 - yangfasheng\",\"repo\":\"https://git.pc.com.cn/a_team/core_cars/auto_model.git\",\"language\":\"java\",\"label\":\"core_cars/auto_model\",\"commitId\":\"76c5b48ab562ce6da27fb245dfaab45b548da269\",\"branch\":\"master\",\"credentialType\":\"personal-usernamepassword\",\"credential\":19336,\"commitMsg\":\"[{\\\"commitMsg\\\": \\\"Merge%20remote-tracking%20branch%20%27origin/feature/hxConfig%27\\\", \\\"commitId\\\": \\\"76c5b48ab562ce6da27fb245dfaab45b548da269\\\", \\\"commitTime\\\": \\\"Tue Jan 2 16:44:49 2024 +0800\\\", \\\"commitAuthor\\\": \\\"gaochaochao\\\"}, {\\\"commitMsg\\\": \\\"Merge%20remote-tracking%20branch%20%27origin/feature/hxConfig%27%20into%20feature/hxConfig\\\", \\\"commitId\\\": \\\"a06e7660646bb8882fc2098c8629f7796ba0e5c4\\\", \\\"commitTime\\\": \\\"Tue Jan 2 14:33:02 2024 +0800\\\", \\\"commitAuthor\\\": \\\"gaochaochao\\\"}, {\\\"commitMsg\\\": \\\"%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9%E6%94%B9%E6%88%90%E4%BE%BF%E6%90%BA%E5%BC%8F%E5%85%85%E7%94%B5%E6%8A%A2\\\", \\\"commitId\\\": \\\"1ab69ecc886048965fa25c9c2da954917c93e0cc\\\", \\\"commitTime\\\": \\\"Tue Jan 2 14:30:44 2024 +0800\\\", \\\"commitAuthor\\\": \\\"gaochaochao\\\"}, {\\\"commitMsg\\\": \\\"feature%3A%E6%96%B0%E5%A2%9E%E5%8F%82%E9%85%8D%E5%93%81%E7%89%8C%E8%87%AA%E8%90%A5%E5%85%85%E7%94%B5%E7%AB%99%E5%92%8C%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9\\\", \\\"commitId\\\": \\\"321e04210f702eded7d3ad3716ab423349ec8e0b\\\", \\\"commitTime\\\": \\\"Thu Dec 28 12:03:27 2023 +0800\\\", \\\"commitAuthor\\\": \\\"huangjianfeng\\\"}, {\\\"commitMsg\\\": \\\"feature%3A%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9%E5%9B%9E%E6%98%BE\\\", \\\"commitId\\\": \\\"6b16254f1fed660fcf93be23ab474a8aa4906040\\\", \\\"commitTime\\\": \\\"Wed Dec 27 18:23:26 2023 +0800\\\", \\\"commitAuthor\\\": \\\"huangjianfeng\\\"}, {\\\"commitMsg\\\": \\\"feature%3A%E7%A7%92%E6%87%82%E9%80%89%E8%BD%A6%E5%A2%9E%E5%8A%A0%E5%88%86%E7%B1%BB\\\", \\\"commitId\\\": \\\"31150a0a648ee34c32dcfede975dd70cacd4d504\\\", \\\"commitTime\\\": \\\"Wed Dec 27 16:37:25 2023 +0800\\\", \\\"commitAuthor\\\": \\\"huangjianfeng\\\"}]\",\"enableFilter\":false,\"connection\":162875,\"previousCommitId\":\"0e20a85c18f932e60e360488f682e79cbbfc0d71\",\"events\":[\"push\"]},\"name\":\"core_cars_auto_model_iSKL\",\"sign\":\"core_cars_auto_model_v0Pp\",\"type\":\"customGitlab\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"汽车资讯子账号2020\",\"ENGINE_TASK_SIGN\":\"13_1632444688274\",\"BUILD_MESSAGE\":\"汽车资讯子账号2020 • 页面手动触发\",\"execute_cmd\":\"[[ -d /data/code_pipelines ]] || mkdir -p /data/code_pipelines\\n[[ -d /data/web/pcauto-price ]] || mkdir -p /data/web/pcauto-price\\n[[ -d /data/BAK ]] || mkdir -p /data/BAK\\ntar zcf /data/BAK/$(date +%y%m%d%H%M).tgz /data/web/pcauto-price\\ntar zxf /data/code_pipelines/package.tgz -C /data/code_pipelines\\nfind /data/BAK/ -name \\\"[0-9]*[0-9].tgz\\\" -mtime +10 -exec rm -fv {} \\\\;\\nrm -rfv /data/web/pcauto-price/*\\nmv -fv /data/code_pipelines/autoprice7-model/* /data/web/pcauto-price/\\nrm -rfv /data/code_pipelines/*\\nchown -R resin:resin /data/web/pcauto-price\\nsystemctl stop resin\\nsleep 3\\nsystemctl start resin\\nrm -f /data/code_pipelines/package.tgz\\nwhile true\\ndo\\n    netstat -nlpt | grep 8001\\n    if [[ $? -eq 0 ]]\\n    then\\n        break\\n    else\\n        echo \\\"waiting...\\\"\\n    fi\\n    sleep 5\\ndone\",\"pmLocalMount\":false,\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"244103500768013954\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_1\":\"Merge remote-tracking branch origin/feature/hxConfig\",\"ENGINE_PIPELINE_ID\":\"1455207\",\"package_label\":\"{\\\"ARTIFACT_URL\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2038906/1704186484724/Artifacts_1455207.tgz&fileName=Artifacts_1455207.tgz&md5Sign=7f75afa56475f67913b28d896701e945\\\",\\\"ARTIFACT_NAME\\\":\\\"Artifacts_1455207.tgz\\\", \\\"ARTIFACT_MD5\\\":\\\"a1774c47bd9e59f5414ce5319539e0dd\\\", \\\"WEB_DOWNLOAD_URL\\\":\\\"execution-component&bucketName=execution-component-rdc&fileId=aone2%2F2038906%2F1704186484724%2FArtifacts_1455207.tgz&artifactName=Artifacts_1455207.tgz\\\", \\\"artifact\\\":\\\"Artifacts_1455207.tgz\\\", \\\"type\\\":\\\"flowPublic\\\",\\\"downloadUrl\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2038906/1704186484724/Artifacts_1455207.tgz&fileName=Artifacts_1455207.tgz&md5Sign=7f75afa56475f67913b28d896701e945\\\", \\\"md5\\\":\\\"a1774c47bd9e59f5414ce5319539e0dd\\\"}\",\"runnerCacheMode\":\"local\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f48d417e1cf498f37d85539\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f6bf7ac769820a3e8186803\",\"HIDDEN_VALUES\":\"[]\",\"BUILD_NUMBER\":\"364\",\"DATETIME\":\"2024-01-02-17-06-50\",\"CI_COMMIT_SHA_1\":\"76c5b48ab562ce6da27fb245dfaab45b548da269\",\"ENGINE_TASK_NAME\":\"网友&爬虫主机部署\",\"CI_COMMIT_SHA\":\"76c5b48ab562ce6da27fb245dfaab45b548da269\",\"ENGINE_PIPELINE_INST_ID\":\"59332488\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "GetVMDeployOrder",
+                  "params": {
+                    "deployOrderId": 23792847
+                  }
+                }
+              ],
+              "status": "SUCCESS"
+            }
+          ],
+          "name": "Group2-Stage0",
+          "startTime": 1704188299000,
+          "endTime": 1704188696000,
+          "status": "SUCCESS"
+        }
+      },
+      {
+        "name": "Group2-Stage1",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "渠道主机部署",
+              "startTime": 1704188300000,
+              "endTime": 1704188499000,
+              "id": 186098732,
+              "params": "{\"needPackage\":true,\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"EXECUTOR_ID\":\"5f48d417e1cf498f37d85539\",\"CI_SOURCE_NAME\":\"auto_model\",\"PIPELINE_ID\":\"1455207\",\"ENGINE_PIPELINE_CONFIG_ID\":\"6720980\",\"pause_strategy\":\"FirstBatchPause\",\"TIMESTAMP\":\"1704186410503\",\"execute_user\":\"root\",\"triggerMode\":\"1\",\"CI_SOURCE_NAME_1\":\"auto_model\",\"CI_COMMIT_ID\":\"76c5b48a\",\"package_download_path\":\"/data/code_pipelines/package.tgz\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"汽车资讯子账号2020\",\"CI_COMMIT_REF_NAME\":\"master\",\"PIPELINE_NAME\":\"车型库 resin\",\"ENGINE_PIPELINE_NAME\":\"车型库 resin\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"364\",\"execute_cmd_tip\":\"\",\"FLOW_ENGINE_ENCODE_GLOBAL_PARAM\":false,\"CI_COMMIT_ID_1\":\"76c5b48a\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"machine_group_id\":40850,\"CI_COMMIT_TITLE\":\"Merge remote-tracking branch origin/feature/hxConfig\",\"default_batch\":\"3\",\"sources\":[{\"data\":{\"credentialLabel\":\"Git证书 - yangfasheng\",\"repo\":\"https://git.pc.com.cn/a_team/core_cars/auto_model.git\",\"language\":\"java\",\"label\":\"core_cars/auto_model\",\"commitId\":\"76c5b48ab562ce6da27fb245dfaab45b548da269\",\"branch\":\"master\",\"credentialType\":\"personal-usernamepassword\",\"credential\":19336,\"commitMsg\":\"[{\\\"commitMsg\\\": \\\"Merge%20remote-tracking%20branch%20%27origin/feature/hxConfig%27\\\", \\\"commitId\\\": \\\"76c5b48ab562ce6da27fb245dfaab45b548da269\\\", \\\"commitTime\\\": \\\"Tue Jan 2 16:44:49 2024 +0800\\\", \\\"commitAuthor\\\": \\\"gaochaochao\\\"}, {\\\"commitMsg\\\": \\\"Merge%20remote-tracking%20branch%20%27origin/feature/hxConfig%27%20into%20feature/hxConfig\\\", \\\"commitId\\\": \\\"a06e7660646bb8882fc2098c8629f7796ba0e5c4\\\", \\\"commitTime\\\": \\\"Tue Jan 2 14:33:02 2024 +0800\\\", \\\"commitAuthor\\\": \\\"gaochaochao\\\"}, {\\\"commitMsg\\\": \\\"%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9%E6%94%B9%E6%88%90%E4%BE%BF%E6%90%BA%E5%BC%8F%E5%85%85%E7%94%B5%E6%8A%A2\\\", \\\"commitId\\\": \\\"1ab69ecc886048965fa25c9c2da954917c93e0cc\\\", \\\"commitTime\\\": \\\"Tue Jan 2 14:30:44 2024 +0800\\\", \\\"commitAuthor\\\": \\\"gaochaochao\\\"}, {\\\"commitMsg\\\": \\\"feature%3A%E6%96%B0%E5%A2%9E%E5%8F%82%E9%85%8D%E5%93%81%E7%89%8C%E8%87%AA%E8%90%A5%E5%85%85%E7%94%B5%E7%AB%99%E5%92%8C%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9\\\", \\\"commitId\\\": \\\"321e04210f702eded7d3ad3716ab423349ec8e0b\\\", \\\"commitTime\\\": \\\"Thu Dec 28 12:03:27 2023 +0800\\\", \\\"commitAuthor\\\": \\\"huangjianfeng\\\"}, {\\\"commitMsg\\\": \\\"feature%3A%E9%9A%8F%E8%BD%A6%E5%85%85%E7%94%B5%E6%A1%A9%E5%9B%9E%E6%98%BE\\\", \\\"commitId\\\": \\\"6b16254f1fed660fcf93be23ab474a8aa4906040\\\", \\\"commitTime\\\": \\\"Wed Dec 27 18:23:26 2023 +0800\\\", \\\"commitAuthor\\\": \\\"huangjianfeng\\\"}, {\\\"commitMsg\\\": \\\"feature%3A%E7%A7%92%E6%87%82%E9%80%89%E8%BD%A6%E5%A2%9E%E5%8A%A0%E5%88%86%E7%B1%BB\\\", \\\"commitId\\\": \\\"31150a0a648ee34c32dcfede975dd70cacd4d504\\\", \\\"commitTime\\\": \\\"Wed Dec 27 16:37:25 2023 +0800\\\", \\\"commitAuthor\\\": \\\"huangjianfeng\\\"}]\",\"enableFilter\":false,\"connection\":162875,\"previousCommitId\":\"0e20a85c18f932e60e360488f682e79cbbfc0d71\",\"events\":[\"push\"]},\"name\":\"core_cars_auto_model_iSKL\",\"sign\":\"core_cars_auto_model_v0Pp\",\"type\":\"customGitlab\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"汽车资讯子账号2020\",\"ENGINE_TASK_SIGN\":\"12_1642754095217\",\"BUILD_MESSAGE\":\"汽车资讯子账号2020 • 页面手动触发\",\"execute_cmd\":\"[[ -d /data/code_pipelines ]] || mkdir -p /data/code_pipelines\\n[[ -d /data/web/pcauto-price ]] || mkdir -p /data/web/pcauto-price\\n[[ -d /data/BAK ]] || mkdir -p /data/BAK\\ntar zcf /data/BAK/$(date +%y%m%d%H%M).tgz /data/web/pcauto-price\\ntar zxf /data/code_pipelines/package.tgz -C /data/code_pipelines\\nfind /data/BAK/ -name \\\"[0-9]*[0-9].tgz\\\" -mtime +10 -exec rm -fv {} \\\\;\\nrm -rfv /data/web/pcauto-price/*\\nmv -fv /data/code_pipelines/autoprice7-model/* /data/web/pcauto-price/\\nrm -rfv /data/code_pipelines/*\\nchown -R resin:resin /data/web/pcauto-price\\nsystemctl stop resin\\nsleep 3\\nsystemctl start resin\\nrm -f /data/code_pipelines/package.tgz\\nwhile true\\ndo\\n    netstat -nlpt | grep 8001\\n    if [[ $? -eq 0 ]]\\n    then\\n        break\\n    else\\n        echo \\\"waiting...\\\"\\n    fi\\n    sleep 5\\ndone\",\"pmLocalMount\":false,\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"244103500768013954\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_1\":\"Merge remote-tracking branch origin/feature/hxConfig\",\"ENGINE_PIPELINE_ID\":\"1455207\",\"package_label\":\"{\\\"ARTIFACT_URL\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2038906/1704186484724/Artifacts_1455207.tgz&fileName=Artifacts_1455207.tgz&md5Sign=7f75afa56475f67913b28d896701e945\\\",\\\"ARTIFACT_NAME\\\":\\\"Artifacts_1455207.tgz\\\", \\\"ARTIFACT_MD5\\\":\\\"a1774c47bd9e59f5414ce5319539e0dd\\\", \\\"WEB_DOWNLOAD_URL\\\":\\\"execution-component&bucketName=execution-component-rdc&fileId=aone2%2F2038906%2F1704186484724%2FArtifacts_1455207.tgz&artifactName=Artifacts_1455207.tgz\\\", \\\"artifact\\\":\\\"Artifacts_1455207.tgz\\\", \\\"type\\\":\\\"flowPublic\\\",\\\"downloadUrl\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2038906/1704186484724/Artifacts_1455207.tgz&fileName=Artifacts_1455207.tgz&md5Sign=7f75afa56475f67913b28d896701e945\\\", \\\"md5\\\":\\\"a1774c47bd9e59f5414ce5319539e0dd\\\"}\",\"runnerCacheMode\":\"local\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f48d417e1cf498f37d85539\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f6bf7ac769820a3e8186803\",\"HIDDEN_VALUES\":\"[]\",\"BUILD_NUMBER\":\"364\",\"DATETIME\":\"2024-01-02-17-06-50\",\"CI_COMMIT_SHA_1\":\"76c5b48ab562ce6da27fb245dfaab45b548da269\",\"ENGINE_TASK_NAME\":\"渠道主机部署\",\"CI_COMMIT_SHA\":\"76c5b48ab562ce6da27fb245dfaab45b548da269\",\"ENGINE_PIPELINE_INST_ID\":\"59332488\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "GetVMDeployOrder",
+                  "params": {
+                    "deployOrderId": 23792850
+                  }
+                }
+              ],
+              "status": "SUCCESS"
+            }
+          ],
+          "name": "Group2-Stage1",
+          "startTime": 1704188300000,
+          "endTime": 1704188499000,
+          "status": "SUCCESS"
+        }
+      }
+    ],
+    "updateTime": 1704188695000,
+    "stageGroup": [
+      [
+        "Group0-Stage0"
+      ],
+      [
+        "Group1-Stage0"
+      ],
+      [
+        "Group2-Stage0",
+        "Group2-Stage1"
+      ]
+    ],
+    "modifierAccountId": "298775283717414757",
+    "triggerMode": 1,
+    "pipelineId": 1455207,
+    "status": "SUCCESS"
+  },
+  "success": true
+}

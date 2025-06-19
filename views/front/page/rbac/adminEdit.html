@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>管理员编辑</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+                <form class="layui-form layui-form-pane" action="" lay-filter="UpdateUserInfo">
+                  		<div class="layui-form-item" style="margin-bottom:2px">
+                              <div class="layui-inline">
+                                  <label class="layui-form-label">ID</label>
+                                      <div class="layui-input-inline" style="width: 213px;">
+                                          <input type="text" name="Id" autocomplete="off" readonly="true" placeholder="" class="layui-input">
+                                      </div>
+                              </div>
+                  		</div>			
+                  		<div class="layui-form-item" style="margin-bottom:2px">
+                              <div class="layui-inline">
+                                  <label class="layui-form-label">用户名</label>
+                                      <div class="layui-input-inline" style="width: 213px;">
+                                          <input type="text" name="Username" autocomplete="off" lay-verify="nickname" placeholder="" class="layui-input">
+                                      </div>
+                  	            <div class="layui-form-mid" style="color: red;">* 英文字母</div>
+                              </div>
+                  		</div>	
+
+                      <div class="layui-form-item" style="margin-bottom:2px">
+                				<div class="layui-inline">
+                  					<label class="layui-form-label">中文名</label>
+                  					<div class="layui-input-inline" style="width: 213px;">
+                    					<input type="text" name="Nickname" placeholder="" autocomplete="off"  class="layui-input">
+                  					</div>
+                				</div>
+                      </div>
+
+                  		<div class="layui-form-item" style="margin-bottom:2px">
+                  		    <div class="layui-inline">
+                  		      	<label class="layui-form-label">手机</label>
+                  		      		<div class="layui-input-inline" style="width: 213px;">
+                  		        		<input type="text" name="Telphone" placeholder=""  autocomplete="off"  class="layui-input">
+                  		      		</div>
+                            <div class="layui-form-mid" style="color: red;">*不为空且不能重复</div>
+                  		    </div>   
+                  		</div>	
+                  		<div class="layui-form-item" style="margin-bottom:2px">	
+                     			<div class="layui-inline">
+                      			<label class="layui-form-label">邮箱</label>
+                      				<div class="layui-input-inline" style="width: 213px;">
+                        					<input type="text" name="Email" placeholder="" autocomplete="off" class="layui-input">
+                      				</div>
+                            <div class="layui-form-mid" style="color: red;">*</div>
+                     			</div>
+                  		</div>	
+
+                      <div class="layui-form-item" style="margin-bottom:2px">	
+               					<div class="layui-inline">
+                					<label class="layui-form-label">组织机构</label>
+                					<div class="layui-input-inline" style="width: 213px;">
+                  						<input type="text" name="Company" placeholder="" autocomplete="off" class="layui-input">
+                					</div>
+               					</div>
+                      </div>
+
+                      <div class="layui-form-item" style="margin-bottom:2px">
+               					<div class="layui-inline">
+                					<label class="layui-form-label">部门</label>
+                					<div class="layui-input-inline" style="width: 213px;">
+                  						<input type="text" name="Department" placeholder="" autocomplete="off" class="layui-input">
+                					</div>
+               					</div> 
+                      </div>
+                  
+                      <div class="layui-form-item" style="margin-bottom:2px">
+                      			<div class="layui-inline">
+              		  				<label class="layui-form-label">角色</label>
+                         				<div class="layui-input-block" id="RoleCheckBox"></div>
+                      			</div>
+              		    </div>
+                  		
+                  		<div class="layui-form-item" style="margin-bottom:2px">
+                     			<div class="layui-inline">
+                      			<label class="layui-form-label">密码</label>
+                     					<div class="layui-input-inline" style="width: 213px;">
+                        					<input type="password" name="Password" placeholder="" lay-verify="pass" autocomplete="off" class="layui-input">
+                      				</div>
+                  				<div class="layui-form-mid" style="color: red;">*</div>
+                     			</div>
+                  		</div>	
+                  		<div class="layui-form-item" style="margin-bottom:2px">			
+                     			<div class="layui-inline">
+                      			<label class="layui-form-label">确认密码</label>
+                      				<div class="layui-input-inline" style="width: 213px;">
+                        					<input type="password" name="Repassword" placeholder="" lay-verify="repass" autocomplete="off" class="layui-input">
+                      				</div>
+                  				<div class="layui-form-mid" style="color: red;">*</div>
+                     			</div>   
+                  		</div>	
+                  	
+                  		<div class="layui-form-item" style="margin-bottom:2px">
+                  	      	<div class="layui-inline">
+                  	          	<label class="layui-form-label">状态</label>
+                  	          		<div class="layui-input-block">
+                  	            		<select name="Status" lay-filter="StatusKey">
+                  	              			<option value="1" selected="">启用</option>
+                  				  			      <option value="0">禁用</option>
+                  	            		</select>
+                  	          		</div>
+                  		  	</div> 
+                  		</div>	
+                  		<div class="layui-form-item" style="margin-bottom:2px">  
+                      		<div class="layui-inline">
+                        			<label class="layui-form-label">备注</label>
+                        				<div class="layui-input-inline" style="width: 213px;">
+                          				<input type="text" name="Remark" autocomplete="off" class="layui-input">
+                        				</div>
+                      		</div>   
+                      </div>
+                      <div class="layui-form-item">
+                            <button class="layui-btn" lay-submit="" lay-filter="UpdateUserSubmit">更改</button>
+                      </div>
+              </form>
+
+    </div>
+</div>
+</body>
+
+<script type="text/html" id="toolbarHead">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="Add"><i class="layui-icon">&#xe61f;</i>添加</button>
+    </div>
+</script>
+
+<script type="text/html" id="listAction">
+    <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="Edit">编辑</a>
+    <a class="layui-btn layui-btn-normal layui-btn-sm layui-btn-danger" lay-event="Delete">删除</a>
+</script>
+
+<script>
+	//加载编辑时的角色复选框
+    $.ajax({
+        url: "/rbac/role/List",
+        type: "GET",
+		    headers: {'X-Requested-With':'XMLHttpRequest'},
+        dataType: "json",
+        success: function(resp) {
+			  var jsondatas = eval(resp.data);
+    		$.ajax({
+        		url: "/rbac/role/GetridByuid" + location.search,
+        		type: "GET",
+				    headers: {'X-Requested-With':'XMLHttpRequest'},
+        		dataType: "json",
+        		success: function(resp2) {
+      					var jsondatas2 = eval(resp2);
+      					var html = '';
+      					var rolearry = new Array();
+      					$.each(resp2, function (j, item) {
+      						rolearry.push(jsondatas2[j].Role);
+      					});	
+      					
+      					$.each(resp.data, function (i, item) {
+      						//console.log(rolearry.indexOf(jsondatas[i].Id));
+      						if (rolearry.indexOf(jsondatas[i].Id) >= 0) {
+      							html += '<input type="checkbox" name="Roleid" value="' + jsondatas[i].Id + '" title="' + jsondatas[i].Name+'" checked="true">';
+      						}else{
+      							html += '<input type="checkbox" name="Roleid" value="' + jsondatas[i].Id + '" title="' + jsondatas[i].Name+'">';
+      						}	
+      					});	
+      					$("#RoleCheckBox").append(html);
+      					
+      					layui.use('form', function(){
+                   			var form = layui.form;
+                  			form.render();
+          			});						
+        		}
+    		});				
+        }
+    });	
+
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+
+			$.ajax({
+  			    url: "/rbac/user/Update" + location.search,
+  			    type: "GET",
+  			    headers:{'X-Requested-With':'XMLHttpRequest'},
+  			    success: function (resp) {
+    					//console.log(resp);
+    					  //表单初始赋值
+    				  form.val('UpdateUserInfo', {
+    				    "Id": resp.data.Id
+    				    ,"Username": resp.data.Username
+                ,"Nickname":resp.data.Nickname
+    				    ,"Telphone": resp.data.Telphone
+    				    ,"Email": resp.data.Email
+    				    ,"Company": resp.data.Company
+    				    ,"Department": resp.data.Department
+    				    //,"Password": resp.data.Password
+    				    ,"Remark": resp.data.Remark
+    				    ,"Status": resp.data.Status
+    				  })
+  				  }
+		    });	
+
+          //自定义验证规则
+		  form.verify({
+    			nickname: function(value){
+    			  if(value.length < 5){
+    				return '至少5个字符且不能有特殊字符';
+    			  }
+    			}
+    			//,pass: [/(.+){6,12}$/, '密码必须6到12位']
+    			,repass: function(value){
+    				if($('#L_pass').val()!=$('#L_repass').val()){
+    					return '两次密码不一致';
+    				}
+    			}
+    			,email: [/^[a-z0-9._%-]+@([a-z0-9-]+\.)+[a-z]{2,4}$|^1[3|4|5|7|8]\d{9}$/, '邮箱格式不对']
+		  });	
+
+      form.on('submit(UpdateUserSubmit)', function(datas){
+		        var arr = new Array();
+            $("input:checkbox[name='Roleid']:checked").each(function(i){
+                arr[i] = $(this).val();
+            });
+            datas.field.Roleid = arr.join(",");//将数组合并成字符串
+						
+      		    //console.log(datas.field);
+      			layer.confirm('确定更改?', {icon: 3, title:'提示',yes: function(index){
+                           $.ajax({
+                       url: "/rbac/user/Update",
+                       type: "post",
+                       data: datas.field,
+                       dataType: "json",
+                       success: function (resp) {
+                                 if(resp.status){
+                                    layer.msg('修改成功', {icon: 1});
+                                 }else{
+                                    layer.msg('修改失败',{icon:2});
+                                 }
+                        }
+                   });		  	  
+               },
+                cancel: function(index, layero){ 
+                    layer.close(index);
+		            console.log("不操作");
+                } 
+            }); 		   
+	        return false; 	
+		  });	
+
+    });
+</script>
+</html>

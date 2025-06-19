@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>分布式任务调度</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+        label.required:after {
+        	  content:'*';
+        	  color:red;
+        }   
+        .delbtn{
+            position: relative;
+            display: inline-block;
+            background: #FFB800;
+            border: 1px solid #FFB800;
+            border-radius: 2px;
+            padding: 4px 12px;
+            overflow: hidden;
+            color: #FFFFFF;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 27px;
+            width:92px;
+        }             
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <blockquote class="layui-elem-quote layui-text">
+            任务添加帮助文档及注意事项”：1. <a href="/doc/base/faq.html#form" target="_blank">帮助文档1</a> 2. <a href="/doc/modules/form.html#render" target="_blank">帮助文档2？</a>
+        </blockquote>
+        <form class="layui-form layui-form-pane" action="">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>基本配置项</legend>
+            </fieldset>           
+             
+            <div class="layui-form-item">
+                <label class="layui-form-label required">任务名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="taskName" lay-verify="required" lay-reqtext="任务名称不能为空" placeholder="请输入任务名称" value="" class="layui-input">
+                </div>
+            </div>            
+
+            <div class="layui-form-item" pane="">
+                  <label class="layui-form-label required">命名空间</label>
+                  <div class="layui-input-inline" lay-filter="selectZone">
+                      <select name="zone">
+        	              			<option value="" selected="">选择命名空间</option>
+        	              			<option value="pconline.com.cn">pconline.com.cn</option>
+        				  			      <option value="pcauto.com.cn">pcauto.com.cn</option>
+        	              			<option value="pc.com.cn">pc.com.cn</option>
+        				  			      <option value="pchouse.com.cn">pchouse.com.cn</option>                                    
+        	              			<option value="pcbaby.com.cn">pcbaby.com.cn</option>
+        				  			      <option value="pclady.com.cn">pclady.com.cn</option> 
+    	            		   </select>
+                  </div>
+                  <div class="layui-input-inline" lay-filter="selectZone"  style="margin-left:10px;">
+                      <select name="zone">
+        	              			<option value="" selected="">应用名</option>
+        	              			<option value="pconline.com.cn">pconline.com.cn</option>
+        				  			      <option value="pcauto.com.cn">pcauto.com.cn</option>
+        	              			<option value="pc.com.cn">pc.com.cn</option>
+        				  			      <option value="pchouse.com.cn">pchouse.com.cn</option>                                    
+        	              			<option value="pcbaby.com.cn">pcbaby.com.cn</option>
+        				  			      <option value="pclady.com.cn">pclady.com.cn</option> 
+    	            		    </select>
+                  </div>
+                  <div class="layui-input-inline" lay-filter="selectZone" style="margin-left:10px;">
+                      <select name="zone">
+        	              			<option value="" selected="">分组</option>
+        	              			<option value="pconline.com.cn">pconline.com.cn</option>
+        				  			      <option value="pcauto.com.cn">pcauto.com.cn</option>
+        	              			<option value="pc.com.cn">pc.com.cn</option>
+        				  			      <option value="pchouse.com.cn">pchouse.com.cn</option>                                    
+        	              			<option value="pcbaby.com.cn">pcbaby.com.cn</option>
+        				  			      <option value="pclady.com.cn">pclady.com.cn</option> 
+    	            		   </select>
+                  </div>
+            </div>
+            
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">执行时间</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="execTime" value="1"  lay-filter="execTime" title="每隔1分钟" checked="">
+                        <input type="radio" name="execTime" value="5" lay-filter="execTime" title="每隔5分钟">
+                        <input type="radio" name="execTime" value="10" lay-filter="execTime" title="每隔10分钟">      
+                        <input type="radio" name="execTime" value="-1" lay-filter="execTime" title="自定义时间">                                                                         
+                    </div>
+                    <div class="layui-input-inline" id="customTimeTpl">
+                        <input type="text" name="execTime" placeholder="* * * * * * *" value="" class="layui-input">
+                    </div>   
+            </div>   
+           
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">任务类型</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="taskType" value="http" lay-filter="configType" title="URL调用" checked="">
+                    <input type="radio" name="taskType" value="port" lay-filter="configType" title="端口检测">
+                    <input type="radio" name="taskType" value="ping" lay-filter="configType" title="ping检测">
+                    <input type="radio" name="taskType" value="dns" lay-filter="configType" title="DNS检测">
+                    <input type="radio" name="taskType" value="shell" lay-filter="configType" title="运行shell">                                                            
+                </div>
+            </div>
+
+        <div id="httpTpl">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">Url</label>
+                <div class="layui-input-block">
+                    <input type="text" name="httpUrl" lay-reqtext="url不能为空" placeholder="url不能为空" value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">请求方法</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="httpMethod" value="GET"  lay-filter="httpMethod" title="GET" checked="">
+                    <input type="radio" name="httpMethod" value="POST" lay-filter="httpMethod" title="POST">
+                    <input type="radio" name="httpMethod" value="HEAD" lay-filter="httpMethod" title="HEAD">                                                          
+                </div>
+            </div>      
+          
+          <div class="reqHeaderTpl">        
+            <div class="layui-form-item">
+                <label class="layui-form-label">请求头</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="httpHeader" placeholder="Key" value="" class="layui-input">
+                </div>
+                <div class="layui-input-inline">
+                    <input type="text" name="httpHeader" placeholder="Value" value="" class="layui-input">
+                </div>
+                <div class="layui-input-inline">  
+                    <button class="layui-btn layui-btn-normal" id="newaddbtn">添加一行</button>
+                </div>                                 
+            </div>
+          </div>   
+            
+            <div class="layui-form-item"  id="postBodyTpl">
+                <label class="layui-form-label">Body</label>
+                <div class="layui-input-block">
+                    <input type="text" name="httpReqBody" placeholder="json格式" value="" class="layui-input">
+                </div>
+            </div>                        
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">响应解析</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="httpRepParseBody" value="statuscode"  lay-filter="httpRepParseBody" title="状态码" checked="">
+                    <input type="radio" name="httpRepParseBody" value="text" lay-filter="httpRepParseBody" title="text">
+                    <input type="radio" name="httpRepParseBody" value="json" lay-filter="httpRepParseBody" title="json">                                                          
+                </div>
+            </div>  
+            <div class="layui-form-item" id="">
+                <label class="layui-form-label">响应校验</label>
+                <div class="layui-input-block" id="StatusCodeTpl">
+                    <input type="text" name="httpRepVerify" placeholder="200" value="" class="layui-input">
+                </div>
+                <div class="layui-input-block" id="TextTpl">
+                    <input type="text" name="httpRepVerify" placeholder="ok" value="" class="layui-input">
+                </div>
+                <div class="layui-input-block" id="JsonTpl">
+                    <input type="text" name="httpRepVerify" placeholder="code:200" value="" class="layui-input">
+                </div>                                
+            </div> 
+        </div>
+        <div id="portTpl">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">ip端口</label>
+                <div class="layui-input-block">
+                    <input type="text" name="portIp" placeholder="192.168.1.1:22" value="" class="layui-input">
+                </div>
+            </div> 
+        </div>
+        <div id="pingTpl">    
+            <div class="layui-form-item">
+                <label class="layui-form-label required">ping检测ip</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pingIp" placeholder="1.2.3.4" value="" class="layui-input">
+                </div>
+            </div> 
+            
+            <div class="layui-form-item">
+                <label class="layui-form-label">ping包数</label>
+                <div class="layui-input-block">
+                    <input type="number" name="pingPacketNum" placeholder="" value="10" class="layui-input">
+                </div>
+            </div> 
+            
+             <div class="layui-form-item">
+                <label class="layui-form-label">丢包率</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pingLossPacketRate" placeholder="" value="0.8" class="layui-input">
+                </div>
+            </div> 
+        </div>
+        <div id="dnsTpl">    
+             <div class="layui-form-item" id="">
+                <label class="layui-form-label required">检测域名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dnsDomain" placeholder="www.baidu.com" value="" class="layui-input">
+                </div>
+            </div> 
+
+             <div class="layui-form-item">
+                <label class="layui-form-label">DNS</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dnsIp" placeholder="114.114.114.114" value="" class="layui-input">
+                </div>
+            </div> 
+
+             <div class="layui-form-item">
+                <label class="layui-form-label">结果校验</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dnsRespIp" placeholder="1.2.3.4" value="" class="layui-input">
+                </div>
+            </div> 
+        </div>
+        <div id="shellTpl">   
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label required">Shell脚本</label>
+                <div class="layui-input-block">
+                    <textarea name="shellText" style="height:306px" class="layui-textarea" lay-verify="" lay-reqtext="不能为空" placeholder="!#/bin/bash"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">运行IP</label>
+                <div class="layui-input-block">
+                    <input type="number" name="shellTargetIp" placeholder="" value="" class="layui-input">
+                </div>
+            </div>
+        </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <input type="text" name="remarks" placeholder="不超过50字符" value="" class="layui-input">
+                </div>
+            </div>  
+                        
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>高级配置项</legend>
+            </fieldset>
+            <div class="layui-collapse" lay-filter="test">
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">重试及超时配置</h2>
+                    <div class="layui-colla-content">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">超时</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="runTimeOut"  value="30" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">重试次数</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="failRetryNum"  value="0" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">重试间隔</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="failRetryInterval" value="0" class="layui-input">
+                            </div>
+                        </div>                                                
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">回调</h2>
+                    <div class="layui-colla-content">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">成功回调</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="publicvip" placeholder="有就输入没有就留空" value="" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">失败回调</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="publicvip" placeholder="有就输入没有就留空" value="" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">webhook</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="publicvip" placeholder="有就输入没有就留空" value="" class="layui-input">
+                            </div>
+                        </div>  
+                   </div>
+                </div>    
+
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">通知</h2>
+                    <div class="layui-colla-content">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">成功通知</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="publicvip" placeholder="有就输入没有就留空" value="" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">失败通知</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="publicvip" placeholder="有就输入没有就留空" value="" class="layui-input">
+                            </div>
+                        </div>  
+                   </div>
+                </div>     
+            </div>    
+                                     
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+
+  function randomString(e) {  
+    e = e || 16;
+    var t = "abcdefghijkmnpqrstuvwxyz23456789",
+    a = t.length,
+    n = "lb_";
+    for (i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
+    return n
+  }
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+            //页面初始化
+              $("#httpTpl").show();
+              $("#portTpl").hide();
+              $("#pingTpl").hide();
+              $("#dnsTpl").hide();
+              $("#shellTpl").hide();
+
+        form.on('radio(configType)', function (data) { 
+            if(data.value == 'http'){
+              $("#httpTpl").show();
+              $("#portTpl").hide();
+              $("#pingTpl").hide();
+              $("#dnsTpl").hide();
+              $("#shellTpl").hide();
+            }else if(data.value == 'port') {
+              $("#httpTpl").hide();
+              $("#portTpl").show();
+              $("#pingTpl").hide();
+              $("#dnsTpl").hide();
+              $("#shellTpl").hide();       
+            }else if (data.value == 'ping') {
+              $("#httpTpl").hide();
+              $("#portTpl").hide();
+              $("#pingTpl").show();
+              $("#dnsTpl").hide();
+              $("#shellTpl").hide();                              
+            }else if (data.value == 'dns') {
+              $("#httpTpl").hide();
+              $("#portTpl").hide();
+              $("#pingTpl").hide();
+              $("#dnsTpl").show();
+              $("#shellTpl").hide();                              
+            }else{
+              $("#httpTpl").hide();
+              $("#portTpl").hide();
+              $("#pingTpl").hide();
+              $("#dnsTpl").hide();
+              $("#shellTpl").show();                
+            }  
+        });
+
+        $("#postBodyTpl").hide();
+        form.on('radio(httpMethod)', function (data) { 
+            if(data.value == 'POST'){
+              $("#postBodyTpl").show();
+            }else{
+              $("#postBodyTpl").hide();               
+            }  
+        });
+
+        $("#customTimeTpl").hide();
+        form.on('radio(execTime)', function (data) { 
+            if(data.value == '-1'){
+              $("#customTimeTpl").show();
+            }else{
+              $("#customTimeTpl").hide();               
+            }  
+        });
+
+        $("#StatusCodeTpl").show();
+        $("#TextTpl").hide();
+        $("#JsonTpl").hide();        
+        form.on('radio(httpRepParseBody)', function (data) { 
+            if(data.value == 'statuscode'){
+              $("#StatusCodeTpl").show();
+              $("#TextTpl").hide();
+              $("#JsonTpl").hide();  
+            }else if(data.value == 'text'){
+              $("#StatusCodeTpl").hide();
+              $("#TextTpl").show();
+              $("#JsonTpl").hide();              
+            }else{
+              $("#StatusCodeTpl").hide();
+              $("#TextTpl").hide();
+              $("#JsonTpl").show();               
+            }
+        });
+
+        var TplIndex = 0;
+        $('#newaddbtn').on("click",function(){
+          TplIndex++;
+          var addTpl =
+              '<div class="layui-form-item" id="tpl-'+TplIndex+'">' +
+                  '<label class="layui-form-label">请求头</label>' +
+                  '<div class="layui-input-inline">' +
+                        '<input type="text" name="httpHeaderKey" id="httpHeaderKey'+TplIndex+'" placeholder="Key" value="" class="layui-input">' +
+                  '</div>' +    
+                  '<div class="layui-input-inline">' +  
+                      '<input type="text" name="httpHeaderValue[]" id="httpHeaderValue'+TplIndex+'" placeholder="Value" value="" class="layui-input">' +
+                  '</div>' +
+                  '<div class="layui-input-inline">' +  
+                      '<input class="delbtn" type="button" id="newDelbtn" value="删除一行" onclick="delTpl('+TplIndex+');" />' +
+                  '</div>' +                
+              '</div>'
+            $('.reqHeaderTpl').append(addTpl);   
+          form.render(); 
+          return false;   
+        });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+
+                data.field.instanceid = randomString(12);
+                data.field.domain = data.field.domain.replace(/^\s*|\s*$/g,""); //替换空格
+                data.field.domain = data.field.domain.replace(/，|\s|;|\r|\n/g,","); //将空格等符号替换成逗号
+                data.field.listenport = data.field.listenport.replace(/^\s*|\s*$/g,""); //替换空格
+                data.field.publicvip = data.field.publicvip.replace(/^\s*|\s*$/g,""); //替换空格
+                data.field.rip = data.field.rip.replace(/server|;/g,"");
+                data.field.rip = data.field.rip.replace(/：/g,":");
+                data.field.rip = data.field.rip.replace(/，|\r|\n/g,",");
+                data.field.rip = data.field.rip.replace(/^\s*|\s*$/g,"");
+                data.field.rip = data.field.rip.replace(/\s/g,"");
+                
+                if(data.field.configtype == 2){
+                  data.field.rip = "";
+                }else{
+                  data.field.ngxconf = "";
+                }
+					      console.log(data.field);
+			          layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行3-5s左右');
+                     $.ajax({
+                       url: "/slb/intra/v1/Add",
+                       type: "post",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('添加成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+    });
+    
+    function delTpl(id) {
+      //console.log(id);
+      var TplIndex = id;
+      TplIndex--;
+      $("#tpl-"+id).remove();
+    }
+    
+</script>
+</body>
+</html>

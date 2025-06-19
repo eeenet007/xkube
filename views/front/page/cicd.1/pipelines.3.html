@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>流水线详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <style>
+      .layui-quote-red{border-style:solid;border-color:#FF5722;border-width:1px 1px 1px 5px;background:0 0}
+      .grid-demo-line{background-color: #31BDEC;height: 2px;width:100%;margin-top:40px;z-index:-999;}
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+            <blockquote class="layui-elem-quote layui-quote-nm">
+              <button class="layui-btn" id="RunJob">运行</button>
+              <button class="layui-btn layui-btn-warm" id="EditYamlBtn">暂停</button>
+              <button class="layui-btn layui-btn-danger" id="EditYamlBtn">终止</button>
+              <button class="layui-btn" id="RunJob">编辑</button>
+            </blockquote>
+
+
+
+            <div class="layui-row">
+              <div class="layui-col-xs2">
+                  <div class="layui-inline">
+                    <blockquote class="layui-elem-quote layui-input-inline" style="width:180px;">
+                      <div class="layui-text" style="margin-top:-5px;">演示联动排版动排版</div><br>
+                      <div class="layui-inline" style="margin-top:-20px;">
+                        <div class="layui-btn layui-btn-primary layui-btn-sm layui-btn-disabled">10s</div>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" id="RunJob">日志</button>
+                      </div>
+                    </blockquote>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+                    <div class="layui-input-inline layui-btn layui-btn-sm layui-btn-disabled"><i class="layui-icon">&#xe65b;</i></div>
+                  </div>
+              </div>
+              <div class="layui-col-xs2">
+                  <blockquote class="layui-elem-quote layui-quote-nm" style="width:180px;">
+                    <div class="layui-text" style="margin-top:-5px;">演示联动排版动排版</div><br>
+                    <div class="layui-inline" style="margin-top:-20px;">
+                      <div class="layui-btn layui-btn-sm">成功</div>
+                      <div class="layui-btn layui-btn-primary layui-btn-sm layui-btn-disabled">10s</div>
+                      <button class="layui-btn layui-btn-primary layui-btn-sm" id="RunJob">日志</button>
+                    </div>
+                  </blockquote>          
+              </div>
+              <div class="layui-col-xs2">
+                  <blockquote class="layui-elem-quote layui-quote-red" style="width:180px;">
+                    <div class="layui-text" style="margin-top:-5px;">演示联动排版动排版</div><br>
+                    <div class="layui-inline" style="margin-top:-20px;">
+                      <div class="layui-btn layui-btn-sm layui-btn-danger">重试</div>
+                      <div class="layui-btn layui-btn-primary layui-btn-sm layui-btn-disabled">10s</div>
+                      <button class="layui-btn layui-btn-primary layui-btn-sm" id="RunJob">日志</button>
+                    </div>
+                  </blockquote> 
+              </div>
+            </div>
+         
+            <div class="flowStageTpl"></div>
+        
+    </div>
+</div>
+</body>
+<script>
+    layui.use(['form', 'table','miniTab','element'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            element = layui.element,
+            table = layui.table;
+        
+//        $.ajax({
+//           url: "/xkube/pod/v1/Log"+location.search+"&logLine=50",
+//           type: "GET",
+//           success: function (resp) {
+//              $('#logtext').html(resp);
+//            }
+//         });	
+
+			$.get('/cicd/s3.json' + location.search, function (resp) {
+  				if (resp.success == true ) {
+              var total = resp.pipelineRun.sources.length;
+              var stagesLength = resp.pipelineRun.stageGroup.length;
+              var stages = resp.pipelineRun.stages;
+              var gits = resp.pipelineRun.sources;
+              if ( total == 1 && stagesLength >= 2 ) {
+                console.log("aa");
+                  var headTpl = '<div class="layui-row">'
+                  var itemTpl = '';
+                  $.each(stages,function(i,item){
+                    if ( i == 0 ) { //情况为：一个流水线只有一个任务："Group0-Stage0","Group1-Stage0"的情况
+                      $.each(stages[i].stageInfo.jobs,function(j,item2){
+                        var statusTpl = '';
+                        var colorBlockTpl = '';
+                        var jobLength = stages[i].stageInfo.jobs.length;
+                        if (stages[i].stageInfo.jobs[j].status == "SUCCESS"){
+                          statusTpl = '<div class="layui-btn layui-btn-primary layui-border-green layui-btn-sm">成功</div>'
+                        }else if (stages[i].stageInfo.jobs[j].status == "FAIL"){
+                          statusTpl = '<div class="layui-btn layui-btn-sm layui-btn-danger">失败</div>'
+                          colorBlockTpl = 'layui-quote-red';
+                        }else {
+                          statusTpl = '<div class="layui-btn layui-btn-sm layui-btn-disabled">'+stages[i].stageInfo.jobs[j].status+'</div>'
+                          colorBlockTpl = 'layui-quote-nm';
+                        }
+
+                        //if ( i == 0 && j == 0 ) {
+                        if ( i < stagesLength && j < jobLength ) { //不到最后一个都得加上向导符号：==>
+                          itemTpl += '<div class="layui-col-xs2">' +
+                              '<div class="layui-inline">' +
+                                '<blockquote class="layui-elem-quote layui-input-inline '+colorBlockTpl+'" style="width:180px;">' +
+                                  '<div class="layui-text" style="margin-top:-5px;">'+stages[i].stageInfo.jobs[j].name+'</div><br>' +
+                                  '<div class="layui-inline" style="margin-top:-20px;">' +
+                                    statusTpl+
+                                    '<div class="layui-btn layui-btn-primary layui-btn-sm layui-btn-disabled">10s</div>' +
+                                    '<input class="layui-btn layui-btn-sm" type="button" id="logbtn" onclick="VieLog('+stages[i].stageInfo.jobs[j].id+');" value="日志" />' +
+                                  '</div>' +
+                                '</blockquote>' +
+                                 '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' +  
+                                '<div class="layui-input-inline layui-btn layui-btn-sm layui-btn-disabled"><i class="layui-icon">&#xe65b;</i></div>' +
+                              '</div>' +
+                          '</div>'
+                        }else{
+                          itemTpl += '<div class="layui-col-xs2">' +
+                                '<blockquote class="layui-elem-quote layui-input-inline '+colorBlockTpl+'" style="width:180px;">' +
+                                  '<div class="layui-text" style="margin-top:-5px;">'+stages[i].stageInfo.jobs[j].name+'</div><br>' +
+                                  '<div class="layui-inline" style="margin-top:-20px;">' +
+                                    statusTpl+
+                                    '<div class="layui-btn layui-btn-primary layui-btn-sm layui-btn-disabled">10s</div>' +
+                                    '<input class="layui-btn layui-btn-sm" type="button" id="logbtn" onclick="VieLog('+stages[i].stageInfo.jobs[j].id+');" value="日志" />' +
+                                  '</div>' +
+                                '</blockquote>'+
+                              '</div>'        
+                        }
+                      });
+                    }else{
+                        $.each(stages[i].stageInfo.jobs,function(j,item2){
+                          var statusTpl = '';
+                          var colorBlockTpl = '';
+                          if (stages[i].stageInfo.jobs[j].status == "SUCCESS"){
+                            statusTpl = '<div class="layui-btn layui-btn-primary layui-border-green layui-btn-sm">成功</div>'
+                          }else if (stages[i].stageInfo.jobs[j].status == "FAIL"){
+                            statusTpl = '<div class="layui-btn layui-btn-sm layui-btn-danger">失败</div>'
+                            colorBlockTpl = 'layui-quote-red';
+                          }else {
+                            statusTpl = '<div class="layui-btn layui-btn-sm layui-btn-disabled">'+stages[i].stageInfo.jobs[j].status+'</div>'
+                            colorBlockTpl = 'layui-quote-nm';
+                          }
+                          itemTpl += '<div class="layui-col-xs2">' +
+                                '<blockquote class="layui-elem-quote layui-input-inline '+colorBlockTpl+'" style="width:180px;">' +
+                                  '<div class="layui-text" style="margin-top:-5px;">'+stages[i].stageInfo.jobs[j].name+'</div><br>' +
+                                  '<div class="layui-inline" style="margin-top:-20px;">' +
+                                    statusTpl+
+                                    '<div class="layui-btn layui-btn-primary layui-btn-sm layui-btn-disabled">10s</div>' +
+                                    '<input class="layui-btn layui-btn-sm" type="button" id="logbtn" onclick="VieLog('+stages[i].stageInfo.jobs[j].id+');" value="日志" />' +
+                                  '</div>' +
+                                '</blockquote>'+
+                              '</div>'    
+                        });             
+                    }
+                  });
+                var endTpl ='</div>'
+                allTpl = headTpl + itemTpl +endTpl;
+                $('.flowStageTpl').append(allTpl);
+              }else{ //情况为一个流水线多个任务的情况："Group0-Stage0","Group0-Stage1","Group0-Stage2","Group0-Stage3"
+                console.log("bb");
+                  $.each(stages,function(i,item){
+                        var headTpl = '<div class="layui-row">';
+                        var itemTpl = '';
+                        var jobLength = stages[i].stageInfo.jobs.length;
+                      $.each(stages[i].stageInfo.jobs,function(j,item2){
+                        var statusTpl = '';
+                        var colorBlockTpl = '';
+                        if (stages[i].stageInfo.jobs[j].status == "SUCCESS"){
+                          statusTpl = '<div class="layui-btn  layui-btn-primary layui-border-green layui-btn-sm">成功</div>'
+                        }else if (stages[i].stageInfo.jobs[j].status == "FAIL"){
+                          statusTpl = '<div class="layui-btn layui-btn-sm layui-btn-danger">失败</div>'
+                          colorBlockTpl = 'layui-quote-red';
+                        }else {
+                          statusTpl = '<div class="layui-btn layui-btn-sm layui-btn-disabled">'+stages[i].stageInfo.jobs[j].status+'</div>'
+                          colorBlockTpl = 'layui-quote-nm';
+                        }
+                        if ( j < jobLength - 1 ) { //不到最后一个都得加上向导符号：==>
+                          itemTpl += '<div class="layui-col-xs2">' +
+                              '<div class="layui-inline">' +
+                                '<blockquote class="layui-elem-quote layui-input-inline '+colorBlockTpl+'" style="width:180px;">' +
+                                  '<div class="layui-text" style="margin-top:-5px;">'+stages[i].stageInfo.jobs[j].name+'</div><br>' +
+                                  '<div class="layui-inline" style="margin-top:-20px;">' +
+                                    statusTpl+
+                                    '<div class="layui-btn layui-btn-primary layui-btn-sm layui-btn-disabled">10s</div>' +
+                                    '<input class="layui-btn layui-btn-sm" type="button" id="logbtn" onclick="VieLog('+stages[i].stageInfo.jobs[j].id+');" value="日志" />' +
+                                  '</div>' +
+                                '</blockquote>' +
+                                 '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' +  
+                                '<div class="layui-input-inline layui-btn layui-btn-sm layui-btn-disabled"><i class="layui-icon">&#xe65b;</i></div>' +
+                              '</div>' +
+                          '</div>'
+                        }else{
+                          itemTpl += '<div class="layui-col-xs2">' +
+                                '<blockquote class="layui-elem-quote layui-input-inline '+colorBlockTpl+'" style="width:180px;">' +
+                                  '<div class="layui-text" style="margin-top:-5px;">'+stages[i].stageInfo.jobs[j].name+'</div><br>' +
+                                  '<div class="layui-inline" style="margin-top:-20px;">' +
+                                    statusTpl+
+                                    '<div class="layui-btn layui-btn-primary layui-btn-sm layui-btn-disabled">10s</div>' +
+                                    '<input class="layui-btn layui-btn-primary layui-btn-sm" type="button" id="logbtn" onclick="VieLog('+stages[i].stageInfo.jobs[j].id+');" value="日志" />' +
+                                  '</div>' +
+                                '</blockquote>'+
+                              '</div>'          
+                        }
+                      }); 
+                      var endTpl ='</div>'
+                      allTpl = headTpl + itemTpl +endTpl;
+                      //console.log(allTpl);
+                      $('.flowStageTpl').append(allTpl);
+                  });                     
+              }
+
+          }else{
+            layer.msg('请重新刷新',{icon:2});
+          }
+		  });
+
+    });
+</script>
+</html>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>文章列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+</head>
+
+<body>
+<blockquote class="layui-elem-quote">
+  markdown语法帮助：<a href="/page/wiki/editor/examples/full.html" target="_blank" class="layui-btn layui-btn-primary layui-border-blue">markdown语法示例</a> 
+</blockquote>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+		  <table class="layui-hide" id="ListArticle" lay-filter="ListArticle"></table>
+    </div>
+</div>
+</body>
+
+<script type="text/html" id="toolbarHead">
+    <a href="javascript:;" layuimini-content-href="page/wiki/add.html{{ location.search }}" data-title="添加文章" class="layui-btn layui-btn-norml">添加文章</a>
+</script>
+
+<script type="text/html" id="TitleInfoTpl">
+  <a href="read.html?id={{d.id}}&key=content" class="layui-table-link" target="_blank">{{ d.title }}</a>
+</script>
+
+<script type="text/html" id="statusTpl">
+{{# if (d.authkey == "true") { }}
+     <span><i class="layui-icon layui-icon-password" style="font-size: 20px; color: #FF4040;"></i></span>
+{{# } else { }}
+    <span><i class="layui-icon layui-icon-read" style="font-size: 20px; color: #218868;"></i></span>
+{{# } }}
+</script>
+
+<script type="text/html" id="listAction">
+  <a href="javascript:;" layuimini-content-href="page/wiki/edit.html?id={{ d.id }}" data-title="编辑:{{ d.title }}" class="layui-btn layui-btn-warm layui-btn-xs">编辑</a>
+  <a href="javascript:;" layuimini-content-href="page/wiki/read.html?id={{ d.id }}&key=content" data-title="wiki:{{ d.title }}" class="layui-btn layui-btn-xs">查看</a>
+  <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
+</script>
+
+
+<script>
+layui.use(['form','table','element','miniTab'], function(){
+	var $ = layui.jquery
+  	var table = layui.table;
+	var element = layui.element;
+  	var form=layui.form;
+    var miniTab = layui.miniTab;
+    miniTab.listen();
+
+  element.on('nav(demo)', function(elem){
+    //console.log(elem)
+    layer.msg(elem.text());
+  });
+
+    table.render({
+    		elem: '#ListArticle'
+    		,url: '/wiki/v1/List' + location.search
+    		,toolbar: '#toolbarHead'
+    		//,totalRow: true
+    		,limit:20
+    		,limits:[20,50,100]
+    		,cols: [[
+    			//{type:'checkbox'}
+    			{field:'id', width:60, sort: true,title:'ID'}
+    			,{field:'xcolumn',sort: true,  width:120,title:'栏目'}
+    			,{field:'title',sort: true,templet: '#TitleInfoTpl',title:'标题'}
+    			,{field:'author',sort: true,  width:120,title:'作者'}
+    			,{field:'updatetime',sort: true, width: 170,title:'更新时间'}
+    			,{field:'authkey',sort: true, width: 80,title:'加密',templet: '#statusTpl'}
+    			,{fixed:'right',width:200,align: 'left', toolbar: '#listAction',title:'操作'}
+    		]]
+    		,id: 'ListArticle'
+    		,page: true
+    });  
+ 
+        table.on('tool(ListArticle)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'delete') {
+                layer.confirm('确定删除'+data.title+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/wiki/v1/Del?id='+data.id,
+                			    type: "get",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 window.location.reload();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            }
+        });
+
+ //没有这段会导致弹出框无法弹出
+$('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+ 
+});
+</script>
+</html>

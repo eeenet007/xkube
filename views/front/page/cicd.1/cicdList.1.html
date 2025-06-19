@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>流水线</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <style>
+      .layui-quote-red{border-style:solid;border-color:#FF5722;border-width:1px 1px 1px 5px;background:0 0}
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div style="margin-top=300px;margin-left:48%;">
+          <button class="layui-btn layui-btn-normal" id="Edit">去测试</button>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    layui.use(['form', 'table','miniTab','element'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            element = layui.element,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+        //编辑
+        $('#Edit').on("click",function(){
+            miniTab.openNewTabByIframe({
+                href:'/page/cicd/index.html?cicdName=auto-test',
+                title:"流水线",
+            });
+        });
+    });
+</script>
+</html>

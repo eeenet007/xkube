@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>添加</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="">
+          <div class="layui-input-inline">
+            <input type="hidden" name="id" readonly="true" value="" class="layui-input" disabled>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">集群id</label>
+                <div class="layui-input-block" style="width:250px">
+                    <input type="text" name="cluster_id" lay-reqtext="不能为空" placeholder="英文及数字" value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">集群名称</label>
+                <div class="layui-input-block" style="width:250px">
+                    <input type="text" name="cluster_name" placeholder="集群名称" value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">IDC</label>
+                <div class="layui-input-block" style="width:250px">
+                  <input type="text" name="idc_name" placeholder="所属IDC或区域" value="" class="layui-input">
+                  <!--
+                    <select name="idc_name" id="idc_name">
+	              			<option value="yatai" selected="">亚太</option>
+	              			<option value="aliyun">阿里云</option>
+	              			<option value="gaotao">高塘</option>
+    		            </select>
+                    -->
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block" style="width:250px">
+                    <input type="text" name="remarks" placeholder="不超过50字符" value="" class="layui-input">
+                </div>
+            </div> 
+          </div> 
+          <div class="layui-input-inline"> 
+            <div class="layui-form-item">
+                <label class="layui-form-label">k8s版本</label>
+                <div class="layui-input-block" style="width:250px">
+                    <input type="text" name="kube_version" placeholder="eg:1.26.3" value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">内网入口IP</label>
+                <div class="layui-input-block" style="width:250px">
+                    <input type="text" name="lan_slbip" placeholder="内网http入口" value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">公网入口IP</label>
+                <div class="layui-input-block" style="width:250px">
+                    <input type="text" name="wan_slbip" placeholder="公网http入口" value="" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-block" style="width:250px">
+                    <input type="radio" name="status" value="1" title="运行中" checked="">
+                    <input type="radio" name="status" value="0" title="下线">
+                </div>
+            </div>
+          </div> 
+            <div class="layui-form-item">
+                <label class="layui-form-label">BearerToken</label>
+                <div class="layui-input-block" style="width:614px">
+                    <textarea name="bearer_token" style="height:150px" class="layui-textarea" placeholder="选填,需要进行二次认证时才填,例如aws的eks"></textarea>
+                </div>
+            </div>  
+            <div class="layui-form-item">
+                <label class="layui-form-label">kubeconfig</label>
+                <div class="layui-input-block" style="width:614px">
+                    <textarea name="kube_config" style="height:300px" class="layui-textarea" lay-verify=""></textarea>
+                </div>
+            </div>           
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+                data.field.cluster_id = data.field.cluster_id.replace(/^\s*|\s*$/g,""); //替换空格
+                data.field.kube_version = data.field.kube_version.replace(/^\s*|\s*$/g,"");
+                data.field.lan_slbip = data.field.lan_slbip.replace(/^\s*|\s*$/g,"");
+                data.field.wan_slbip = data.field.wan_slbip.replace(/^\s*|\s*$/g,"");                
+					      console.log(data.field);
+			          layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行3-5s左右');
+                     $.ajax({
+                       url: "/xkube/cluster/v1/Add" + location.search,
+                       type: "POST",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('添加成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+    });
+</script>
+</body>
+</html>

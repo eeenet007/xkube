@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+	
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/static/xadmin/css/font.css">
+	<link rel="stylesheet" href="/static/xadmin/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/static/xadmin/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/xadmin/js/xadmin.js"></script>
+	
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+	<div class="x-body">
+
+	<div class="layui-btn-group">
+       <button class="layui-btn" data-type="AddUser"><i class="layui-icon"></i>添加</button>
+	   <button class="layui-btn layui-btn-danger" data-type="DelUser"><i class="layui-icon"></i>删除</button>
+	   <button class="layui-btn" data-type="ChangePasswd"><i class="layui-icon">&#xe642;</i>修改</button>		   
+	   <button class="layui-btn" id="btn-expand"><i class="layui-icon">&#xe625;</i>全部展开</button>
+       <button class="layui-btn" id="btn-fold"><i class="layui-icon">&#xe623;</i>全部折叠</button>
+	 </div>
+     &nbsp;&nbsp;
+     <input type="text" id="edt-search" placeholder="输入关键字" style="width: 150px;border: 1px solid #DADADA;height:36px"/>
+     <button class="layui-btn" id="btn-search"><i class="layui-icon">&#xe615;</i>搜索&nbsp;&nbsp;</button>
+       <table id="auth-table" class="layui-table" lay-filter="auth-table"></table>
+
+	<!--树表格 https://github.com/whvcse/treetable-lay https://whvse.gitee.io/treetable-lay/test5.html -->
+	<script>
+    layui.config({
+        base: '/static/xadmin/lib/layui/lay/modules/'
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['table', 'treetable'], function () {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var treetable = layui.treetable;
+
+        // 渲染表格
+        layer.load(2);
+        treetable.render({
+            treeColIndex: 2,
+            treeSpid: 0,
+            treeIdName: 'Id',
+            treePidName: 'Pid',
+            elem: '#auth-table',
+            url: '/rbac/role/AccessToNode?Id=1',
+			headers: {'X-Requested-With':'XMLHttpRequest'},
+            page: false,
+            cols: [[
+			    {type: 'checkbox'},
+                {field: 'Id', width: 60,title: 'ID'},
+                {field: 'Title', minWidth: 200, title: '显示名'},
+                {field: 'Name', title: '应用名'},
+				{field: 'Status', title: '状态'},
+                {field: 'Group__Id', title: '分组'},
+				{field: 'Remark', title: '描述'},
+                {
+                    field: 'isMenu', width: 80, align: 'center', templet: function (d) {
+                        if (d.isMenu == 1) {
+                            return '<span class="layui-badge layui-bg-gray">按钮</span>';
+                        }
+                        if (d.parentId == -1) {
+                            return '<span class="layui-badge layui-bg-blue">目录</span>';
+                        } else {
+                            return '<span class="layui-badge-rim">菜单</span>';
+                        }
+                    }, title: '类型'
+                }
+            ]],
+            done: function () {
+                layer.closeAll('loading');
+            }
+        });
+
+        $('#btn-expand').click(function () {
+            treetable.expandAll('#auth-table');
+        });
+
+        $('#btn-fold').click(function () {
+            treetable.foldAll('#auth-table');
+        });
+
+        $('#btn-search').click(function () {
+            var keyword = $('#edt-search').val();
+            var searchCount = 0;
+            $('#auth-table').next('.treeTable').find('.layui-table-body tbody tr td').each(function () {
+                $(this).css('background-color', 'transparent');
+                var text = $(this).text();
+                if (keyword != '' && text.indexOf(keyword) >= 0) {
+                    $(this).css('background-color', 'rgba(250,230,160,0.5)');
+                    if (searchCount == 0) {
+                        treetable.expandAll('#auth-table');
+                        $('html,body').stop(true);
+                        $('html,body').animate({scrollTop: $(this).offset().top - 150}, 500);
+                    }
+                    searchCount++;
+                }
+            });
+            if (keyword == '') {
+                layer.msg("请输入搜索内容", {icon: 5});
+            } else if (searchCount == 0) {
+                layer.msg("没有匹配结果", {icon: 5});
+            }
+        });
+    });
+</script>
+<!--树表格-->
+    <script>
+      layui.use(['form','table','laydate'], function(){
+        var laydate = layui.laydate;
+		var table = layui.table;
+        var form=layui.form;
+        
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#end' //指定元素
+        });
+
+   var $ = layui.$, active = {  
+    AddUser: function(){ //添加节点
+		layer.open({
+        	//layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+            type:1,
+			skin: 'layui-layer-rim',
+            title:"添加节点",
+            area: ['500px','550px'],
+            content:$("#AddUserInfodiv").html()
+        });
+		form.render();	
+			
+		//添加提交
+        form.on('submit(AddUserSubmit)', function(datas){		
+		       console.log(datas.field);
+			   layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
+                     $.ajax({
+                       url: "/rbac/user/AddUser",
+                       type: "post",
+                       data: datas.field,
+                       dataType: "json",
+                       success: function (resp) {
+					            console.log(resp);
+                                 if(resp.status){
+                                     layer.msg('添加成功', {icon: 1});
+                                 }else{
+                                     layer.msg('添加失败',{icon:2});
+                                 }
+                        }
+                   });		  	  
+               },
+                cancel: function(index, layero){ 
+                    layer.close(index);
+		            console.log("不操作");
+                } 
+            }); 		   
+	      return false; 	
+		});				
+    }
+ };	  
+ 
+       /*用户-停用*/
+      function member_stop(obj,id){
+          layer.confirm('确认要停用吗？',function(index){
+
+              if($(obj).attr('title')=='启用'){
+
+                //发异步把用户状态进行更改
+                $(obj).attr('title','停用')
+                $(obj).find('i').html('&#xe62f;');
+
+                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
+                layer.msg('已停用!',{icon: 5,time:1000});
+
+              }else{
+                $(obj).attr('title','启用')
+                $(obj).find('i').html('&#xe601;');
+
+                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+                layer.msg('已启用!',{icon: 5,time:1000});
+              }
+              
+          });
+      }
+
+      /*用户-删除*/
+      function member_del(obj,id){
+          layer.confirm('确认要删除吗？',function(index){
+              //发异步删除数据
+              $(obj).parents("tr").remove();
+              layer.msg('已删除!',{icon:1,time:1000});
+          });
+      }
+
+
+
+      function delAll (argument) {
+
+        var data = tableCheck.getData();
+  
+        layer.confirm('确认要删除吗？'+data,function(index){
+            //捉到所有被选中的，发异步进行删除
+            layer.msg('删除成功', {icon: 1});
+            $(".layui-form-checked").not('.header').parents('tr').remove();
+        });
+      }
+
+   $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });	
+ });  
+    </script>
+  </body>
+
+</html>

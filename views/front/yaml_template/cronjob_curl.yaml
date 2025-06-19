@@ -1,0 +1,25 @@
+#curl用法
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: testapp-task-test
+  labels:
+    app: testapp-task-test
+    appname: myapp
+  namespace: test-app  
+spec:
+  schedule: "*/1 * * * *"
+  suspend: true
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: testapp-task-test
+            image: xxx-registry-vpc.cn-shenzhen.cr.aliyuncs.com/xxx/curl:latest
+            imagePullPolicy: IfNotPresent
+            args:
+            - "/bin/sh"
+            - "-ec"
+            - "curl -o /dev/stdout --max-time 300 --connect-timeout 10 -H 'host:baidu.com' http://svcName.test-app.svc.cluster.local:8001/test.jsp"
+          restartPolicy: OnFailure

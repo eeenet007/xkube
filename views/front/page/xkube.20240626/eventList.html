@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>configmap列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+
+<style type="text/css">
+  .layui-table-cell {
+    height: auto;
+    line-height: 22px !important;
+    text-overflow: inherit;
+    overflow: visible;
+    white-space: normal;
+  }
+  .layui-table-cell .layui-table-tool-panel li {
+    word-break: break-word;
+  }
+</style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">事件类型</label>
+                            <div class="layui-input-inline">
+                              <select name="kind">
+          	              			<option value="warnning" selected="">warnning</option>
+              		            </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">对象</label>
+                            <div class="layui-input-inline">
+                              <select name="kind">
+          	              			<option value="deployment" selected="">deployment</option>
+          	              			<option value="daemonset">daemonset</option>
+          	              			<option value="pod">pod</option>
+          	              			<option value="job">job</option>                                                                
+          	              			<option value="cronjob">cronjob</option>
+              		            </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">命名空间</label>
+                            <div class="layui-input-inline">
+                              <select name="nameSpace" id="nameSpace">
+          	              			<option value="default" selected="">default</option>
+          	              			<option value="">所有空间</option>
+              		            </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                        </div>
+
+                        <div class="layui-inline" style="position: absolute;right:50px">
+                            <label class="layui-form-label">当前集群</label>
+                            <div class="layui-input-inline">
+                                <select name="clusterId" lay-filter="cluster_Id" lay-search="" id="cluster_Id">
+                                  <option value="">请选择集群</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <!--
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="create"><i class="layui-icon">&#xe61f;</i>创建configmap</button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="yamlCreate"><i class="layui-icon">&#xe61f;</i>yaml创建configmap</button>
+            </div>
+        </script>
+        -->
+        <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    	$(document).ready(function(){
+          GetCurrClusterId();  
+          //GetNamespace();	
+    	});		
+</script>
+
+<script>
+//设置默认集群
+SetDefaultCluster();
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+    layui.use(['form', 'table','miniTab'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+        //选择集群
+        form.on('select(cluster_Id)', function(data){
+          //console.log(data.elem); //得到select原始DOM对象
+          console.log(data.value); //得到被选中的值
+          setCookie('clusterId',data.value,30);
+          window.location.reload();
+          //console.log(data.othis); //得到美化后的DOM对象
+        });
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/xkube/event/v1/List'+location.search+'&clusterId='+clusterId,
+            toolbar: '#toolbarDemo',
+            //initSort: {field:'createTime', type:'desc'},
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            parseData: function(res) { //实现加载全部数据后再分页
+            	if(this.page.curr) {
+            		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+            	}else{
+            	  result=res.data.slice(0,this.limit);
+              }
+              return {
+              	"code": res.code,
+              	"msg":'',
+              	"count":res.count,
+              	"data":result
+              };
+            },
+            cols: [[
+                //{type: "checkbox", width: 50},
+                {field: 'eventType', width: 130,title: '类型', sort: true},
+                {field: 'kind', width: 150,title: '对象', sort: true},
+                {field: 'objName', width: 180,title: '名称', sort: true},                                
+                {field: 'message',title: '消息', sort: true},
+                {field: 'reason', title: '原因',width: 200, sort: true},
+                {field: 'createTime', width:180, title: '创建时间'}
+            ]],
+            //size:'lg',
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>pod终端</title>
+    <meta name="renderer" content="webkit">
+    <!--
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    -->
+    <link rel="stylesheet" href="/css/xterm.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script src="/js/xterm.js"></script>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script> -->
+    <script src="/js/sockjs.min.js"></script>
+    <style>
+        body {
+            color: #111;
+            margin: 20px;
+        }
+
+        #terminal-container{
+            margin: 0 auto;
+        }
+        #connect {
+            margin: 0 auto;
+        }
+        #terminal-container a {
+            color: #fff;
+        }
+        .panel-body{
+            background-color: #000;
+        }
+        .xterm-rows {
+            color: #e9e7e7;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body style="border-width: 0px;margin:0px;height:100%;">
+<!--
+<div class="layuimini-container">
+    <div class="layuimini-main">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend><div id="appNameTitle"></div>基本信息</legend>
+            </fieldset>  
+              <button class="layui-btn" onclick="ws_connect()" id="connect_container">连接</button>
+              <br><br>
+
+            <div style="padding: 0px;border: 0px;margin: 0px">
+                <div id="terminal-container"></div>
+            </div>
+    </div>
+</div>
+-->
+
+            <div style="padding: 0px;border: 0px;margin: 0px">
+                <div id="terminal-container"></div>
+            </div>
+<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+function getQueryString(name) {
+  let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+  let r = window.location.search.substr(1).match(reg);
+  if (r != null) {
+      return unescape(r[2]);
+  };
+  return null;
+};
+     $(document).ready(function(){
+         ws_connect();
+     });
+
+     // 获取宽度和高度
+     console.log(document.body.clientWidth)
+      console.log(document.documentElement.clientHeight)
+     cols=parseInt(document.body.clientWidth /9)
+     rows=parseInt(document.documentElement.clientHeight / 20)
+     console.log(rows,cols)
+     // 定义term对象
+     var term = new Terminal({
+         "backgroundColor":'#fff',
+         "cursorBlink":true,
+         "rows":rows,
+         "cols":cols,
+     });
+
+    // 定义ws链接
+    function ws_connect(){
+        var socket
+        // 隐藏连接按钮显示断开按钮
+        $("#connect_container").hide()
+        $("#drop_container").show()
+        h=$("input[name=h]").val()
+        p=$("input[name=p]").val()
+        // 获取容器id
+        containers_id=$("input[name=containers_id]").val()
+        // 打印容器id
+        console.log(h,p,containers_id)
+        if( h == "" || p == "" || containers_id == ""){
+            alert("不能为空!")
+            return false
+        }
+        // 获取term div
+        container = document.getElementById('terminal-container');
+        // 生成参数
+        //localurl=window.location.href.split('/')[2]
+        url = '/public/pod/terminal/ws' + location.search + '&context=&container=&rows='+rows+'&cols='+cols
+        console.log(url)
+        // 生成socket对象
+        socket = new SockJS(url);
+        $("#terminal-container").html("")
+        term.open(document.getElementById('terminal-container'));
+        term.on('data', function (data) {
+            if (socket.readyState == 1) {
+                socket.send(data);
+            }
+        });
+        socket.onmessage = function (e) {
+            term.write(e.data);
+        };
+        socket.onclose = function (e) {
+             term.write("session is close");
+             $("#connect_container").show()
+             $("#drop_container").hide()
+        };
+        socket.onopen = function () {
+                resize(socket)
+        };
+        window.onresize=function(){
+                resize(socket)
+        }
+
+    }
+    function resize(socket) {
+        cols=parseInt(document.body.clientWidth /9)
+        rows=parseInt(document.documentElement.clientHeight / 20)
+        term.resize(cols,rows)
+        socket.send('{"cols":'+cols+',"rows":'+rows+'}')
+    }
+
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery;
+        var htmls = getQueryString("deploy");
+    $('#appNameTitle').html(htmls);
+
+
+    });
+</script>
+
+</body>
+</html>

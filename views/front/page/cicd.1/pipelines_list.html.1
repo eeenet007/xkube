@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>流水线详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <style>
+      .layui-quote-red{border-style:solid;border-color:#FF5722;border-width:1px 1px 1px 5px;background:0 0}
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+            <blockquote class="layui-elem-quote layui-quote-nm">
+              <button class="layui-btn" id="RunJob">运行</button>
+              <button class="layui-btn layui-btn-warm" id="EditYamlBtn">暂停</button>
+              <button class="layui-btn layui-btn-danger" id="EditYamlBtn">终止</button>
+              <button class="layui-btn" id="RunJob">编辑</button>
+            </blockquote>
+            <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
+</body>
+<script type="text/html" id="runIdTpl">
+     <span style="color:#1E9FFF">#{{ d.pipelineRunId }}</span>
+</script>	
+<script type="text/html" id="statusTpl">
+  {{# if (d.status == 'SUCCESS') { }}
+    <span class="layui-font-green layui-font-16">成功</span>
+  {{# } else if (d.status == 'RUNNING') { }}
+    <span class="layui-font-orange layui-font-16">运行中</span>
+	{{# } else { }}
+    <span class="layui-font-red layui-font-16">失败</span>
+{{# } }}
+</script>	
+<script type="text/html" id="sTimeTpl">
+    {{# var tt = getTime(d.startTime);}}
+    <span>{{ tt }}</span>
+</script>	
+<script type="text/html" id="eTimeTpl">
+    {{# var tt = getTime(d.endTime);}}
+    <span>{{ tt }}</span>
+</script>	
+<script type="text/html" id="modeTpl">
+  {{# if (d.triggerMode == 1) { }}
+     <span style="color:#218868">人工触发</span>
+  {{# } else if (d.triggerMode == 2) { }}
+     <span style="color:#218868">定时触发</span>
+  {{# } else if (d.triggerMode == 3) { }}
+     <span style="color:#218868">代码提交触发</span>
+  {{# } else if (d.triggerMode == 4) { }}
+     <span style="color:#218868">流水线触发</span>
+	{{# } else { }}
+    <span style="color:#7A8B8B">WEBHOOK触发</span>
+{{# } }}
+</script>	
+<script type="text/html" id="currentTableBar">
+    <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="detail">详情</a>
+</script>
+<script>
+  function getTime(timestamp) {
+      var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      let Y = date.getFullYear(),
+          M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1),
+          D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()),
+          h = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours()),
+          m = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes()),
+          s = (date.getSeconds() < 10 ? '0' + (date.getSeconds()) : date.getSeconds());
+      return Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s
+  }
+//1 人工触发2 定时触发3 代码提交触发5 流水线触发6WEBHOOK 触发
+    layui.use(['form', 'table','miniTab','element'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            element = layui.element,
+            table = layui.table;
+        
+        table.render({
+            elem: '#currentTableId',
+            url: '/cicd/p_list.json',
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                {field: 'pipelineRunId',width: 150, title: '部署记录',templet: '#runIdTpl', sort: true},
+                {field: 'status',title: '状态',templet: '#statusTpl',},
+                {field: 'startTime', title: '开始时间',templet: '#sTimeTpl',},
+                {field: 'endTime',title: '结束时间',templet: '#eTimeTpl',},
+                {field: 'pipelineId', title: '流水线ID'},
+                {field: 'triggerMode', title: '触发模式',templet: '#modeTpl',},
+                {title: '操作', minWidth: 250, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true,
+            response: {
+              statusCode: true //重新规定成功的状态码为true，table 组件默认为 0
+            },
+            parseData: function(res){ //将原始数据解析成 table 组件所规定的数据
+              return {
+                "code": res.success, //解析接口状态
+                "msg": res.errorMessage, //解析提示文本
+                "count": res.totalCount, //解析数据长度
+                "data": res.pipelineRuns //解析数据列表
+              };
+            }           
+        });
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'detail') {
+                var index = layer.open({
+                    title: '编辑',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['98%', '92%'],
+                    content: '/cicd/pipelines.html?pipelineRunId='+data.pipelineRunId,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'setDefaultCluster') {               
+                console.log(data);               
+            }
+        });
+
+    });
+</script>
+</html>

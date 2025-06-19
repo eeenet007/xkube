@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>pod详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+<style type="text/css">
+  .layui-table-cell {
+    height: auto;
+    max-height: 200px;
+    line-height: 25px !important;
+    overflow: ellipsis;
+    white-space: normal;
+  }
+  .layui-table-cell .layui-table-tool-panel li {
+    word-wrap: break-word;
+  }
+</style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+              <button class="layui-btn" id="EditYamlBtn">编辑yaml</button>
+              <button class="layui-btn" id="terminal">终端</button>
+              <button class="layui-btn" id="podLog">日志</button>
+              <br><br>
+
+  <div class="layui-collapse" lay-filter="test">
+    <div class="layui-colla-item">
+    <h2 class="layui-colla-title">基本信息</h2>
+      <div class="layui-colla-content layui-show">
+              <blockquote class="layui-elem-quote layui-quote-nm">
+                  <table class="layui-table" lay-even="" lay-skin="nob" style="table-layout: fixed;">
+                    <colgroup>
+                      <col width="150">
+                      <col width="450">
+                      <col width="150">
+                      <col>
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td>名称:</td>
+                        <td><div id="podName"></div></td>
+                        <td>创建时间:</td>
+                        <td><div id="createTime"></div></td>
+                      </tr>
+                      <tr>
+                        <td>命名空间:</td>
+                        <td><div id="nameSpace"></div></td>
+                        <td>状态:</td>
+                        <td><div id="podPhase"></div></td>
+                      </tr>
+                      <tr>
+                        <td>节点:</td>
+                        <td><div id="nodeName"></div></td>
+                        <td>节点Ip:</td>
+                        <td><div id="hostIp"></div></td>
+                      </tr>
+                      <tr>
+                        <td>重启:</td>
+                        <td><div id="restartCount"></div></td>
+                        <td>podIp:</td>
+                        <td><div id="podIp"></div></td>
+                      </tr>
+                      <tr>
+                        <td>创建者类型:</td>
+                        <td><div id="ownerKind"></div></td>
+                        <td>创建者:</td>
+                        <td><div id="ownerName"></div></td>
+                      </tr>                      
+                      <tr>
+                        <td>标签:</td>
+                        <td><div id="labels"></div></td>
+                        <td>注解:</td>
+                        <td style="word-wrap: break-word;text-overflow: inherit;white-space: nowrap;"><div id="annotations"></div></td>
+                      </tr>
+                    </tbody>
+                  </table> 
+              </blockquote> 
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>现状详情</legend>
+            </fieldset>
+              <table class="layui-table" id="conditionsTableId" lay-filter="conditionsTableFilter"></table>
+      </div>
+    </div>
+  </div>
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>功能模块</legend>
+            </fieldset>
+
+            <div class="layui-tab" lay-filter="layTabFilter">
+              <ul class="layui-tab-title">
+                <li class="layui-this" lay-id="111">容器</li>
+                <li lay-id="222">存储</li>
+                <li lay-id="222">事件</li>
+              </ul>
+              <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                  <table class="layui-table" id="containerTableId" lay-filter="containerTableFilter"></table>
+                </div>
+                <div class="layui-tab-item">
+                  <table class="layui-table" id="volumeTableId" lay-filter="volumeTableFilter"></table>                
+                </div>
+                <div class="layui-tab-item">
+                  <table class="layui-table" id="eventTableId" lay-filter="eventTableFilter"></table>
+                </div>
+              </div>
+            </div>            
+    </div>
+</div>
+
+<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+
+<script type="text/html" id="limitKeyTpl">
+  <div style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{d.limit_key}}</div>
+</script>
+
+<script type="text/html" id="currentTableBar">
+    <!-- 
+      <a href="/page/xkube/podTerminal.html?nameSpace={{ d.nameSpace }}&podName={{ d.podName }}" target="_blank" class="layui-btn layui-btn-sm"><i class="layui-icon layui-icon-auz"></i>终端1</a>
+      <a class="layui-btn layui-btn-sm" lay-event="podDetail"><i class="layui-icon layui-icon-auz"></i>详情</a>
+   -->
+    <a href="javascript:;" layuimini-content-href="page/xkube/podDetail.html?clusterId=zx-pcauto&nameSpace={{d.nameSpace}}&podName={{d.podName}}" data-title="{{d.podName}}详情" class="layui-btn layui-btn-sm">详情</a>
+    <a class="layui-btn layui-btn-sm" lay-event="podLog">日志</a>
+    <a class="layui-btn layui-btn-sm" lay-event="terminal">ssh终端</a>
+</script>
+
+<script type="text/html" id="podPhaseTpl">
+  {{# if (d.podPhase == 'Running') { }}
+     <span style="color:#218868">{{ d.podPhase }}</span>
+	{{# } else { }}
+    <span style="color:#FF5722">{{ d.podPhase }}</span>
+{{# } }}
+</script>
+
+<script type="text/html" id="EnvsTpl">
+    {{# if (d.envs != "") { }}
+            {{# layui.each(d.envs.split(','), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span>{{ item }}</span>
+                {{# }else{ }}
+                        <br><span>{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+<script type="text/html" id="RequestsTpl">
+    {{# if (d.resRequests != "") { }}
+            {{# layui.each(d.resRequests.split(','), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span>{{ item }}</span>
+                {{# }else{ }}
+                        <br><span>{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+<script type="text/html" id="MountsTpl">
+    {{# if (d.mounts != "") { }}
+            {{# layui.each(d.mounts.split(','), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span>{{ item }}</span>
+                {{# }else{ }}
+                        <br><span>{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+<script type="text/html" id="LimitsTpl">
+    {{# if (d.resLimits != "") { }}
+            {{# layui.each(d.resLimits.split(','), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span>{{ item }}</span>
+                {{# }else{ }}
+                        <br><span>{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+<script type="text/html" id="volumeTpl">
+    {{# if (d.volumeInfo != "") { }}
+            {{# layui.each(d.volumeInfo.split(','), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span>{{ item }}</span>
+                {{# }else{ }}
+                        <br><span>{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+<script>
+
+    function getQueryString(name) {
+      let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+      let r = window.location.search.substr(1).match(reg);
+      if (r != null) {
+          return unescape(r[2]);
+      };
+      return null;
+    };
+
+    layui.use(['form', 'table','miniTab','element'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            element = layui.element,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+      var podName = getQueryString("podName");
+      var nameSpace = getQueryString("nameSpace");
+      //$('#appNameTitle').html(podName);
+
+      //deatail
+			$.get('/xkube/pod/v1/Detail' + location.search, function (resp) {
+  				  if (resp.podName != '' ) {
+                //console.log(resp);
+                //详细信息
+                var podName = resp.podName;
+                $('#podName').html(podName);
+
+                var podIp = resp.podIp;
+                $('#podIp').html(podIp);
+
+                var hostIp = resp.hostIp;
+                $('#hostIp').html(hostIp);
+
+                var nodeName = resp.nodeName;
+                $('#nodeName').html(nodeName);
+
+                var podPhase = resp.podPhase;
+                $('#podPhase').html(podPhase);
+
+                var restartCount = resp.restartCount;
+                $('#restartCount').html(restartCount);
+                
+                var ownerKind = resp.ownerKind;
+                $('#ownerKind').html(ownerKind);
+
+                var ownerName = resp.ownerName;
+                $('#ownerName').html(ownerName);
+  
+                var createTime = resp.createTime;
+                $('#createTime').html(createTime);
+  
+                var nameSpace = resp.nameSpace;
+                $('#nameSpace').html(nameSpace);
+  
+                var strategy= resp.strategy;
+                $('#strategy').html(strategy);
+
+                var annotations = resp.annotations;
+                $('#annotations').html(annotations);
+  
+                var labels = resp.labels;
+                $('#labels').html(labels);
+
+                form.val('PodNumberInfo', {
+				          "podNumber": resp.podNumber
+				        })
+                
+                //conditions
+                table.render({
+                    elem: '#conditionsTableId',
+                    cols: [[
+                        {field: 'ctype',width:150, title: '类型'},
+                        {field: 'status', width:150,title: '状态'},
+                        {field: 'lastUpdateTime',width:200, title: '更新时间'},      
+                        {field: 'reason',width:200,title: '内容'},                          
+                        {field: 'message',minWidth:400,title: '消息'},
+                    ]],
+                    data: resp.conditions,
+                    even: true
+                });
+
+                //volumes
+                table.render({
+                    elem: '#volumeTableId',
+                    cols: [[
+                        {field: 'volumeName',width:150, title: '名称'},
+                        {field: 'volumeType', width:150,title: '类型'},                        
+                        {field: 'volumeInfo',minWidth:400,title: '信息',templet: '#volumeTpl'},
+                    ]],
+                    data: resp.volumes,
+                    even: true
+                });
+
+                table.render({
+                    elem: '#containerTableId',
+                    cols: [[
+                        {field: 'containerName',width:250, title: '名称'},
+                        {field: 'containerImage', title: '镜像'},
+                        {field: 'pullPolicy',sort:true, title: '策略'},   
+                        {field: 'mounts', title: '挂载',templet: '#MountsTpl'},
+                        {field: 'envs', title: '变量',templet: '#EnvsTpl'},
+                        {field: 'ports', title: '端口'}, 
+                        {field: 'resLimits', title: '所需资源',templet: '#LimitsTpl'}, 
+                        {field: 'resRequests', title: '限制资源',templet: '#RequestsTpl'}
+                    ]],
+                    data: resp.containers,
+                    even: true
+                });
+
+          }else{
+            layer.msg('请重新刷新',{icon:2});
+          }
+		  });
+
+        //yaml编辑
+        $('#EditYamlBtn').on("click",function(){
+                layer.open({
+                    title: podName+'yaml编辑',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '90%'],
+                    content: '/page/xkube/podYaml.html'+ location.search,
+                });
+        });
+
+        //终端
+        $('#terminal').on("click",function(){
+                layer.open({
+                    title: podName+'终端',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '80%'],
+                    content: '/page/xkube/podTerminal.html'+ location.search,
+                });
+        });
+
+        //日志
+        $('#podLog').on("click",function(){
+                layer.open({
+                    title: podName+'日志',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '90%'],
+                    content: '/page/xkube/podLog.html'+location.search,
+                });
+        });
+   
+        element.on('tab(layTabFilter)',function(data) {
+            //console.log(data.index);
+            if(data.index == 2 ) {
+                //获取事件列表
+                table.render({
+                    elem: '#eventTableId',
+                    url: '/xkube/event/v1/List' + location.search+"&objName="+podName,
+                    parseData: function(res) { //实现加载全部数据后再分页
+                    	if(this.page.curr) {
+                    		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+                    	}else{
+                    	  result=res.data.slice(0,this.limit);
+                      }
+                      return {
+                      	"code": res.code,
+                      	"msg":'',
+                      	"count":res.count,
+                      	"data":result
+                      };
+                    },
+                    cols: [[
+                        //{type: "checkbox", width: 50},
+                        {field: 'eventType', width: 130,title: '类型', sort: true},
+                        {field: 'kind', width: 120,title: '对象', sort: true},
+                        {field: 'objName', width: 180,title: '名称', sort: true},                                
+                        {field: 'message',title: '消息', sort: true},
+                        {field: 'reason', title: '原因',width: 200, sort: true},
+                        {field: 'createTime', width:180, title: '创建时间',hide:true},
+                        {title: '操作', toolbar: '#currentTableBar', align: "center"}
+                    ]],
+                    //size:'lg',
+                    limits: [25, 50, 100],
+                    limit: 25,
+                    page: true
+        
+                });
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>

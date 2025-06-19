@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>资源限制</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="" lay-filter="UpdateInfo">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">资源限制</label>
+                <div class="layui-input-inline">  
+                    <input type="text" name="limitCpu" placeholder="CPU[1|200m]" value="" class="layui-input">
+                </div>
+                <div class="layui-input-inline">  
+                    <input type="text" name="limitMem" placeholder="内存[MiB|GiB]" value="" class="layui-input">
+                </div> 
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">注:limits,eg:cpu:1/200m,内存:2Gi/200Mi</span></div>              
+            </div> 
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">资源申请</label>
+                <div class="layui-input-inline">  
+                    <input type="text" name="requestCpu" placeholder="CPU[1|200m]" value="" class="layui-input">
+                </div>
+                <div class="layui-input-inline">  
+                    <input type="text" name="requestMem" placeholder="内存[MiB|GiB]" value="" class="layui-input">
+                </div>   
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">注:requests,eg:cpu:1/200m,内存:2Gi/200Mi</span></div>            
+            </div> 
+
+            <div class="layui-form-item">
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">注意事项:  CPU:1=1000m,内存:1Ti=1024Gi,1Gi=1024Mi</span></div>            
+            </div>
+
+  <br>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+			$.ajax({
+			   url: "/xkube/ns/v1/LimitRange" + location.search,
+			   type: "GET",
+			   headers:{'X-Requested-With':'XMLHttpRequest'},
+			   success: function (resp) {
+					if (resp.code == 0 ) {
+  				  form.val('UpdateInfo', {
+  				    "limitCpu": resp.data.limitCpu
+            	,"limitMem": resp.data.limitMem
+            	,"requestCpu": resp.data.requestCpu
+            	,"requestMem": resp.data.requestMem
+  				  })
+          }
+          //else{
+          //  layer.msg(resp.msg,{icon:2});
+          //}
+				}
+		    });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+                data.field.limitMem = data.field.limitMem.replace(/^\s*|\s*$/g,""); //替换空格
+                data.field.limitCpu = data.field.limitCpu.replace(/^\s*|\s*$/g,""); //替换空格
+                data.field.requestMem = data.field.requestMem.replace(/^\s*|\s*$/g,""); //替换空格
+                data.field.requestCpu = data.field.requestCpu.replace(/^\s*|\s*$/g,""); //替换空格
+					      console.log(data.field);
+			          layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('稍等片刻');
+                     $.ajax({
+                       url: "/xkube/ns/v1/LimitRange" + location.search,
+                       type: "POST",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('修改成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+    });
+</script>
+</html>

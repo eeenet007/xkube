@@ -1,0 +1,134 @@
+@charset "utf-8";
+
+:root {
+    /* 每一步的宽度 */
+    /* --layui-steps-barLength: 80px; */
+    /* 每一步的偏移量 */
+    /* --layui-steps-offsetRight: -30px; */
+    /* 灰白色 */
+    --layui-steps-colorWhiteGray: 204, 204, 204;
+    /* 浅灰色 */
+    --layui-steps-colorLightGray: 240, 240, 240;
+    /* 灰色 */
+    --layui-steps-colorGray: 100, 100, 100;
+    /* 高亮色 */
+    --layui-steps-colorHighlight: 255, 255, 255;
+    /* 主题色 */
+    --layui-steps-colorTheme: 0, 149, 135;
+}
+
+/**
+ * 步骤条容器样式
+ */
+.layui-steps-area {
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+}
+
+.layui-steps-bar {
+    position: relative;
+    display: inline-block;
+    /* width: var(--layui-steps-barLength); */
+    height: 18px;
+    margin-top: 9px;
+    background: rgba(var(--layui-steps-colorLightGray), 1);
+    box-shadow: 0px 0px 4px 2px rgba(var(--layui-steps-colorGray), 1) inset;
+}
+
+.layui-steps-bar:first-of-type {
+    width: 0px !important;
+}
+
+.layui-steps-barPart {
+    position: absolute;
+    right: -9px;
+    top: -9px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(var(--layui-steps-colorLightGray), 1);
+    box-shadow: 0px 2px 2px 0px rgba(var(--layui-steps-colorGray), 1) inset, 0px -2px 2px 0px rgba(var(--layui-steps-colorGray), 1) inset;
+    z-index: 99;
+    text-align: center;
+    line-height: 36px;
+}
+
+.layui-steps-barText {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    line-height: 24px;
+    border-radius: 50%;
+    background: rgba(var(--layui-steps-colorHighlight), 1);
+    color: rgba(var(--layui-steps-colorGray), 1);
+    box-shadow: 0 0 3px 2px rgba(var(--layui-steps-colorWhiteGray), 1) inset;
+}
+
+.layui-steps-barSelected {
+    background: rgba(var(--layui-steps-colorTheme), .3);
+    box-shadow: 0px 0px 4px 2px rgba(var(--layui-steps-colorTheme), 1) inset;
+}
+
+.layui-steps-barSelected .layui-steps-barPart {
+    box-shadow: 0px 2px 2px 0px rgba(var(--layui-steps-colorTheme), 1) inset, 0px -2px 2px 0px rgba(var(--layui-steps-colorTheme), 1) inset;
+    background: rgba(var(--layui-steps-colorHighlight), 1);
+}
+
+.layui-steps-barSelected .layui-steps-barText {
+    box-shadow: 0 0 3px 2px rgba(var(--layui-steps-colorTheme), 1) inset;
+    background: rgba(var(--layui-steps-colorHighlight), 1);
+    font-weight: bold;
+    color: rgba(var(--layui-steps-colorHighlight), 1);
+    text-shadow: 0px 1px 1px rgba(var(--layui-steps-colorTheme), 1), 1px 0px 1px rgba(var(--layui-steps-colorTheme), 1), 0px -1px 1px rgba(var(--layui-steps-colorTheme), 1), -1px 0px 1px rgba(var(--layui-steps-colorTheme), 1);
+}
+
+.layui-steps-barExtend {
+    position: absolute;
+    top: 28px;
+/*     width: var(--layui-steps-barLength);
+    right: var(--layui-steps-offsetRight); */
+    text-align: center;
+    color: rgba(var(--layui-steps-colorGray), 1);
+}
+
+.layui-steps-barSelected .layui-steps-barExtend {
+    color: rgba(var(--layui-steps-colorHighlight), 1);
+    text-shadow: 0px 1px 1px rgba(var(--layui-steps-colorTheme), 1), 1px 0px 1px rgba(var(--layui-steps-colorTheme), 1), 0px -1px 1px rgba(var(--layui-steps-colorTheme), 1), -1px 0px 1px rgba(var(--layui-steps-colorTheme), 1);
+}
+
+.layui-steps-barExtend .layui-steps-extend-name {
+    font-size: 18px;
+}
+
+.layui-steps-barExtend .layui-steps-extend-status{
+    line-height: 16px;
+    padding: 5px 0;
+}
+
+.layui-steps-barExtend .layui-steps-extend-content {
+    font-size: 12px;
+    line-height: 16px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.layui-steps-barExtend .layui-steps-extend-content::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+.layui-steps-barExtend .layui-steps-extend-content::-webkit-scrollbar-track {
+    background-color: rgba(var(--layui-steps-colorWhiteGray), 1);
+    -webkit-border-radius: 1em;
+    -moz-border-radius: 1em;
+    border-radius: 1em;
+}
+
+.layui-steps-barExtend .layui-steps-extend-content::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--layui-steps-colorTheme), 1);
+    -webkit-border-radius: 1em;
+    -moz-border-radius: 1em;
+    border-radius: 1em;
+}

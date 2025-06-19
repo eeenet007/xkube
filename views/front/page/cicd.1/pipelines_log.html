@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>流水线日志</title>
+    <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+</head>
+<body onload="window.scrollTo(0,document.body.scrollHeight);">
+<div class="layuimini-container">
+    <div class="layuimini-main">
+      <!--
+        <fieldset class="table-search-fieldset">
+            <legend>日志查看</legend>
+        </fieldset>
+      -->
+      <!-- <pre class="layui-code" lay-height="500px"><div id="logtext"></div></pre> -->
+      <pre class="layui-code"><div id="logtext"></div></pre>  
+    </div>
+</div>
+
+<script>
+
+    layui.use(['form', 'table','code'], function () {
+        var $ = layui.jquery;
+        var form = layui.form;
+
+        layui.code({
+            title: '日志'
+            ,skin: 'notepad' //如果要默认风格，不用设定该key。
+        });
+
+        $.ajax({
+          url: "/cicd/pipeline/GetJobLog" + location.search,
+          type: "GET",
+          success: function (resp) {
+            $('#logtext').html(resp.log.content);
+            window.scrollTo(0, document.body.scrollHeight); //滚动到底部
+          }
+        });	
+    });
+    //自动加载日志
+  	const timer = setInterval(function () {
+  		$.get("/cicd/pipeline/GetJobLog" + location.search, function (resp) {
+        $('#logtext').html(resp.log.content);	
+        window.scrollTo(0, document.body.scrollHeight)
+        if (resp.log.more == false) {
+          clearInterval(timer);
+        }
+  		});
+  	},2000);	
+
+    setTimeout(() => { //1小时后停止time2
+      clearInterval(timer);
+      console.log("Timer2 stop");
+    }, 3600000);
+    
+</script>
+
+</body>
+</html>

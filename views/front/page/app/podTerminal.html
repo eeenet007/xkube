@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>pod终端</title>
+    <meta name="renderer" content="webkit">
+    <!--
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    -->
+    <link rel="stylesheet" href="/css/xterm.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script src="/js/xterm.js"></script>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script> -->
+    <script src="/js/sockjs.min.js"></script>
+    <style>
+        body {
+            color: #111;
+            margin: 2px;
+        }
+
+        #terminal-container{
+            margin: 0 auto;
+        }
+        #connect {
+            margin: 0 auto;
+        }
+        #terminal-container a {
+            color: #fff;
+        }
+        .panel-body{
+            background-color: #000;
+        }
+        .xterm-rows {
+            color: #e9e7e7;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body style="border-width: 0px;margin:0px;height:100%;">
+<div class="layuimini-container">
+    <form class="layui-form layui-form-pane" action="">
+            <div class="layui-inline" style="margin-left:5px;">
+                <div class="layui-input-inline" style="margin-left:1px;width:190px"> 
+                    <select name="container" id="container" lay-filter="container"></select>
+                </div> 
+                <div class="layui-input-inline" id="connect_container">
+                    <button type="submit" class="layui-btn" lay-submit lay-filter="connect_container">连接</button>
+                </div>
+                <div class="layui-input-inline" id="close_container">
+                    <a class="layui-btn layui-btn-danger" style="float:right" href="javascript:location.replace(location.href);" title="刷新">断开</a>
+                </div>
+            </div>
+    </form> 
+</div>
+            <div style="padding: 0px;border: 0px;margin: 0px heigth:100vh">
+                <div id="terminal-container"></div>
+            </div>
+
+
+<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+function getQueryString(name) {
+  let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+  let r = window.location.search.substr(1).match(reg);
+  if (r != null) {
+      return unescape(r[2]);
+  };
+  return null;
+};
+     //$(document).ready(function(){
+     //    ws_connect();
+     //});
+
+     // 获取宽度和高度
+     console.log(document.body.clientWidth)
+      console.log(document.documentElement.clientHeight)
+     cols=parseInt(document.body.clientWidth /9)
+     rows=parseInt(document.documentElement.clientHeight / 20)
+     console.log(rows,cols)
+     // 定义term对象
+     var term = new Terminal({
+         "backgroundColor":'#fff',
+         "cursorBlink":true,
+         "rows":rows,
+         "cols":cols,
+     });
+
+    // 定义ws链接
+    function ws_connect(container_name){
+        var socket
+        // 隐藏连接按钮显示断开按钮
+        $("#connect_container").hide()
+        $("#drop_container").show()
+        h=$("input[name=h]").val()
+        p=$("input[name=p]").val()
+        // 获取容器id
+        containers_id=$("input[name=containers_id]").val()
+        // 打印容器id
+        console.log(h,p,containers_id)
+        if( h == "" || p == "" || containers_id == ""){
+            alert("不能为空!")
+            return false
+        }
+        // 获取term div
+        container = document.getElementById('terminal-container');
+        // 生成参数
+        //localurl=window.location.href.split('/')[2]
+        url = '/public/pod/terminal/ws' + location.search + '&context=&container='+container_name+'&rows='+rows+'&cols='+cols
+        console.log(url)
+        // 生成socket对象
+        socket = new SockJS(url);
+        $("#terminal-container").html("")
+        term.open(document.getElementById('terminal-container'));
+        term.on('data', function (data) {
+            if (socket.readyState == 1) {
+                socket.send(data);
+            }
+        });
+        socket.onmessage = function (e) {
+            term.write(e.data);
+        };
+        socket.onclose = function (e) {
+             term.write("session is close");
+             $("#connect_container").show()
+             $("#drop_container").hide()
+        };
+        socket.onopen = function () {
+                resize(socket)
+        };
+        window.onresize=function(){
+                resize(socket)
+        }
+
+    }
+
+    function resize(socket) {
+        cols=parseInt(document.body.clientWidth /9)
+        rows=parseInt(document.documentElement.clientHeight / 20)
+        term.resize(cols,rows)
+        socket.send('{"cols":'+cols+',"rows":'+rows+'}')
+    }
+
+    $("#connect_container").show()
+    $("#close_container").hide()
+
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery;
+        var form = layui.form;
+        var htmls = getQueryString("deploy");
+        $('#appNameTitle').html(htmls);
+
+			  $.get('/xkube/pod/v1/ContainerList' + location.search, function (resp) {
+  				$.each(resp.data,function(i,item){
+            if (i == 0 ) {
+    					   var html1 = '<option value="'+item.containerName+'" selected>'+item.containerName+'</option>'
+            }else {
+                var html1 = '<option value="'+item.containerName+'">'+item.containerName+'</option>'
+            }
+    					$("#container").append(html1);
+  				});
+  				form.render('');				
+		    });	
+
+        form.on('submit(connect_container)', function(datas){	
+    		    //console.log(JSON.stringify(datas.field)); 
+            console.log(datas.field.container);
+            ws_connect(datas.field.container); 
+            $("#connect_container").hide()   
+            $("#close_container").show()                 	   
+    	      return false; 	
+    		});
+    });
+</script>
+
+</body>
+</html>

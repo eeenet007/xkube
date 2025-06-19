@@ -1,0 +1,85 @@
+{
+  "requestId": "5C87F0B8-15FA-5E70-82C7-830232C7D667",
+  "pipelineRun": {
+    "creatorAccountId": "244103500768013954",
+    "sources": [
+      {
+        "data": {
+          "commint": "[{\"commitId\": \"570699865574a65c1b34b50fdfe91594e07d4b93\", \"commitMsg\": \"update%20autobbs-tengine-spider\", \"commitTime\": \"Thu Oct 26 17:06:37 2023 +0800\", \"commitAuthor\": \"akang\"}]",
+          "repo": "https://git.pc.com.cn/ops/system/pcauto-bbs/autobbs-tengine-spider.git",
+          "branch": "master"
+        },
+        "sign": "autobbs-tengine-spider_C1Xq",
+        "type": "customGitlab"
+      }
+    ],
+    "createTime": 1709620039000,
+    "pipelineRunId": 5,
+    "stages": [
+      {
+        "name": "Group0-Stage0",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "镜像构建并推送至阿里云镜像仓库企业版",
+              "startTime": 1709620040000,
+              "endTime": 1709620059000,
+              "id": 196543070,
+              "params": "{\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"wangbikang\",\"commitMsg\":\"[{\\\"commitId\\\": \\\"570699865574a65c1b34b50fdfe91594e07d4b93\\\", \\\"commitMsg\\\": \\\"update%20autobbs-tengine-spider\\\", \\\"commitTime\\\": \\\"Thu Oct 26 17:06:37 2023 +0800\\\", \\\"commitAuthor\\\": \\\"akang\\\"}]\",\"repo\":\"https://git.pc.com.cn/ops/system/pcauto-bbs/autobbs-tengine-spider.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":458786,\"label\":\"pcauto-bbs/autobbs-tengine-spider\",\"commitId\":\"570699865574a65c1b34b50fdfe91594e07d4b93\",\"branch\":\"master\",\"previousCommitId\":\"570699865574a65c1b34b50fdfe91594e07d4b93\"},\"name\":\"autobbs-tengine-spider_C1Xq\",\"sign\":\"autobbs-tengine-spider_C1Xq\",\"type\":\"customGitlab\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"ops-admin\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENCRYTPTION_GLOBAL_PARAMS_MAP_KEY\":{\"DB_USER\":\"bZ2RFX0Jq3nZEWPbZP4sdoQGE1vFI8qRjf56DAR57DA=\",\"DB_NAME\":\"bZ2RFX0Jq3nZEWPbZP4sdoQGE1vFI8qRjf56DAR57DA=\",\"DB_PASSWORD\":\"bZ2RFX0Jq3nZEWPbZP4sdoQGE1vFI8qRjf56DAR57DA=\",\"pipelineId\":\"2676652\"},\"ENGINE_TASK_SIGN\":\"12_1698302063546\",\"EXECUTOR_ID\":\"5f6d8a3018c17e7748a23db6\",\"PIPELINE_ID\":\"2676652\",\"ENGINE_PIPELINE_CONFIG_ID\":\"7976529\",\"BUILD_MESSAGE\":\"ops-admin -POP API 触发\",\"pmLocalMount\":false,\"SONAR\":\"http://sonar.pc.com.cn\",\"TIMESTAMP\":\"1709620039877\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"244103500768013954\",\"FLOW_SYSTEM_IDENTIFICATION_PARAM_TRIGGER_SOURCE\":\"POP_API\",\"triggerMode\":\"4\",\"ENGINE_PIPELINE_ID\":\"2676652\",\"runnerCacheMode\":\"local\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f6d8a3018c17e7748a23db6\",\"clone_option\":\"all\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"BUILD_EXECUTOR\":\"ops-admin\",\"steps\":[{\"BUILDKIT_VERSION\":\"v0.8.0\",\"DOCKER_FILE_PATH\":\"Dockerfile\",\"freeInTaskGroupModeFields\":[\"ARGS\"],\"stepType\":\"docker-build-tb-enterprise\",\"ARGS\":\"e30=\",\"JSONEncoding\":true,\"CONTEXT_PATH\":\"\",\"EXTRA_TAGS\":\"\",\"stepIdentifier\":\"12_1698302063546__13_1698302063547\",\"DOCKER_TAG\":\"2024-03-05-14-27-19\",\"DOCKER_REGION\":\"cn-shenzhen\",\"DOCKER_INSTANCE\":\"pcgroup\",\"SERVICE_CONNECTION_ID\":30651,\"artifact\":\"artifact\",\"invalidStepVersion\":false,\"DOCKER_REPO\":\"autobbs-tengine-spider\",\"NO_CACHE\":false,\"name\":\"镜像构建autobbs-tengine-spider\",\"DOCKER_NAMESPACE\":\"pcauto\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"autobbs-tengine-spider\",\"ENGINE_PIPELINE_NAME\":\"autobbs-tengine-spider\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[\\\"DB_USER\\\",\\\"DB_NAME\\\",\\\"DB_PASSWORD\\\"]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"5\",\"BUILD_NUMBER\":\"5\",\"DATETIME\":\"2024-03-05-14-27-19\",\"ENGINE_TASK_NAME\":\"镜像构建并推送至阿里云镜像仓库企业版\",\"buildNodeGroup\":\"K8S-4\",\"selected_sources\":\"\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[\\\"SONAR\\\"]\",\"ENGINE_PIPELINE_INST_ID\":\"64158681\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "LogPipelineJobRun"
+                }
+              ],
+              "status": "SUCCESS"
+            }
+          ],
+          "name": "Group0-Stage0",
+          "startTime": 1709620040000,
+          "endTime": 1709620059000,
+          "status": "SUCCESS"
+        }
+      },
+      {
+        "name": "Group1-Stage0",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "Kubernetes 镜像升级",
+              "startTime": 1709620060000,
+              "endTime": 1709620068000,
+              "id": 196543071,
+              "params": "{\"CI_COMMIT_TITLE\":\"update autobbs-tengine-spider\",\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"wangbikang\",\"commitMsg\":\"[{\\\"commitId\\\": \\\"570699865574a65c1b34b50fdfe91594e07d4b93\\\", \\\"commitMsg\\\": \\\"update%20autobbs-tengine-spider\\\", \\\"commitTime\\\": \\\"Thu Oct 26 17:06:37 2023 +0800\\\", \\\"commitAuthor\\\": \\\"akang\\\"}]\",\"repo\":\"https://git.pc.com.cn/ops/system/pcauto-bbs/autobbs-tengine-spider.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":458786,\"label\":\"pcauto-bbs/autobbs-tengine-spider\",\"commitId\":\"570699865574a65c1b34b50fdfe91594e07d4b93\",\"branch\":\"master\",\"previousCommitId\":\"570699865574a65c1b34b50fdfe91594e07d4b93\"},\"name\":\"autobbs-tengine-spider_C1Xq\",\"sign\":\"autobbs-tengine-spider_C1Xq\",\"type\":\"customGitlab\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"ops-admin\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENCRYTPTION_GLOBAL_PARAMS_MAP_KEY\":{\"DB_USER\":\"bZ2RFX0Jq3nZEWPbZP4sdoQGE1vFI8qRjf56DAR57DA=\",\"DB_NAME\":\"bZ2RFX0Jq3nZEWPbZP4sdoQGE1vFI8qRjf56DAR57DA=\",\"DB_PASSWORD\":\"bZ2RFX0Jq3nZEWPbZP4sdoQGE1vFI8qRjf56DAR57DA=\",\"pipelineId\":\"2676652\"},\"ENGINE_TASK_SIGN\":\"10_1698302014993\",\"EXECUTOR_ID\":\"5f6d8a3018c17e7748a23db6\",\"CI_SOURCE_NAME\":\"autobbs-tengine-spider\",\"PIPELINE_ID\":\"2676652\",\"ENGINE_PIPELINE_CONFIG_ID\":\"7976529\",\"BUILD_MESSAGE\":\"ops-admin -POP API 触发\",\"pmLocalMount\":false,\"SONAR\":\"http://sonar.pc.com.cn\",\"TIMESTAMP\":\"1709620039877\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"244103500768013954\",\"CI_COMMIT_TITLE_1\":\"update autobbs-tengine-spider\",\"FLOW_SYSTEM_IDENTIFICATION_PARAM_TRIGGER_SOURCE\":\"POP_API\",\"triggerMode\":\"4\",\"CI_SOURCE_NAME_1\":\"autobbs-tengine-spider\",\"ENGINE_PIPELINE_ID\":\"2676652\",\"runnerCacheMode\":\"local\",\"CI_COMMIT_ID\":\"57069986\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f6d8a3018c17e7748a23db6\",\"clone_option\":\"none\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"ops-admin\",\"CI_COMMIT_REF_NAME\":\"master\",\"steps\":[{\"NAMESPACE\":\"zx-app\",\"invalidStepVersion\":false,\"freeInTaskGroupModeFields\":[],\"stepType\":\"update-prod-pcauto2020\",\"IMAGE\":\"{\\\"DOCKER_URL\\\":\\\"pcgroup-registry-vpc.cn-shenzhen.cr.aliyuncs.com/pcauto/autobbs-tengine-spider:2024-03-05-14-27-19\\\",\\\"ARTIFACT_URL\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2019967/1709620051028/application_docker_url_config.desc&fileName=application_docker_url_config.desc&md5Sign=7650d038af4c20bfd84cb24ee9527018\\\",\\\"ARTIFACT_MD5\\\":\\\"8a40cd0099421aa4019fe3a6e8d69fb8\\\"}\",\"name\":\"生产环境升级\",\"CONTAINER\":\"autobbs-tengine-spider\",\"stepIdentifier\":\"10_1698302014993__10_1698303259440\",\"SERVICE\":\"autobbs-tengine-spider\",\"CLUSTER\":\"yt-pcauto-cluster\",\"TOKEN\":\"930958e3347e57b835000fedc7b28e\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"autobbs-tengine-spider\",\"ENGINE_PIPELINE_NAME\":\"autobbs-tengine-spider\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[\\\"DB_USER\\\",\\\"DB_NAME\\\",\\\"DB_PASSWORD\\\"]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"5\",\"BUILD_NUMBER\":\"5\",\"DATETIME\":\"2024-03-05-14-27-19\",\"CI_COMMIT_SHA_1\":\"570699865574a65c1b34b50fdfe91594e07d4b93\",\"CI_COMMIT_ID_1\":\"57069986\",\"ENGINE_TASK_NAME\":\"Kubernetes 镜像升级\",\"buildNodeGroup\":\"K8S-4\",\"selected_sources\":\"\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[\\\"SONAR\\\"]\",\"CI_COMMIT_SHA\":\"570699865574a65c1b34b50fdfe91594e07d4b93\",\"ENGINE_PIPELINE_INST_ID\":\"64158681\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "LogPipelineJobRun"
+                }
+              ],
+              "status": "SUCCESS"
+            }
+          ],
+          "name": "Group1-Stage0",
+          "startTime": 1709620060000,
+          "endTime": 1709620068000,
+          "status": "SUCCESS"
+        }
+      }
+    ],
+    "updateTime": 1709620068000,
+    "stageGroup": [
+      [
+        "Group0-Stage0"
+      ],
+      [
+        "Group1-Stage0"
+      ]
+    ],
+    "modifierAccountId": "244103500768013954",
+    "triggerMode": 4,
+    "pipelineId": 2676652,
+    "status": "SUCCESS"
+  },
+  "success": true
+}

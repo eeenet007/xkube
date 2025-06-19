@@ -1,0 +1,38 @@
+#将360的xml文件生成到挂载的存储下
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    app: testapp-360-sitemap
+    appname: myapp
+  name: testapp-360-sitemap
+  namespace: test-app
+spec:
+  schedule: "31 1 * * *"
+  suspend: false
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 3600
+      backoffLimit: 1
+      template:
+        spec:
+          containers:
+          - name: testapp-360-sitemap 
+            image: xxx-registry-vpc.cn-shenzhen.cr.aliyuncs.com/xxx/testapp-sitemap:20231102155608
+            imagePullPolicy: IfNotPresent
+            command: ["sh","/data/360/run.sh"]
+            volumeMounts:
+            - mountPath: /data/web/html_testapp
+              name: testapp-html
+            - mountPath: /etc/localtime
+              name: host-time
+              readOnly: true
+          restartPolicy: Never
+          volumes:
+            - name: testapp-html
+              persistentVolumeClaim:
+                claimName: testapp-html
+            - name: host-time
+              hostPath:
+                path: /etc/localtime
+                type: ""

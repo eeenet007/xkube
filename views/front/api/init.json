@@ -1,0 +1,321 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "page/xkube/xkube-main.html?t=1"
+  },
+  "logoInfo": {
+    "title": "XKUBE",
+    "image": "images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "K8S管理",
+      "icon": "fa fa-slideshare",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "K8S管理",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "",
+          "child": [
+            {
+              "title": "k8s列表",
+              "href": "page/xkube/clusterList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "我的k8s",
+              "href": "page/rbac/myClusterList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "我的收藏",
+              "href": "page/xkube/myFavorite.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            }                                                            
+          ]
+        },
+        {
+          "title": "集群信息",
+          "href": "",
+          "icon": "fa fa-server",
+          "target": "",
+          "child": [
+            {
+              "title": "节点池[nodePool]",
+              "href": "page/xkube/nodepoolList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "节点[node]",
+              "href": "page/xkube/nodeList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "命名空间[ns]",
+              "href": "page/xkube/namespaceList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "ClusterRoleBinding",
+              "href": "page/xkube/clusterRoleBindingList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "ClusterRoles",
+              "href": "page/xkube/clusterRolesList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "RoleBinding",
+              "href": "page/xkube/roleBindingList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "Roles",
+              "href": "page/xkube/rolesList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "ServiceAccounts",
+              "href": "page/xkube/serviceAccountsList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            }  
+          ]         
+        },
+        {
+          "title": "工作负载",
+          "href": "",
+          "icon": "fa fa-codepen",
+          "target": "",
+          "child": [
+            {
+              "title": "无状态[deploy]",
+              "href": "page/xkube/deployList.html?v=1",
+              "icon": "fa fa-codepen",
+              "target": "_self"
+            },          
+            {
+              "title": "有状态[sts]",
+              "href": "page/xkube/stsList.html?v=1",
+              "icon": "fa fa-list-alt",
+              "target": "_self"
+            },          
+            {
+              "title": "守护进程集[ds]",
+              "href": "page/xkube/dsList.html?v=1",
+              "icon": "fa fa-list-alt",
+              "target": "_self"
+            },          
+            {
+              "title": "任务[job]",
+              "href": "page/xkube/jobList.html?v=1",
+              "icon": "fa fa-list-alt",
+              "target": "_self"
+            },          
+            {
+              "title": "定时任务[cron]",
+              "href": "page/xkube/cronjobList.html?v=1",
+              "icon": "fa fa-list-alt",
+              "target": "_self"
+            },          
+            {
+              "title": "容器组[Pod]",
+              "href": "page/xkube/podList.html?v=1",
+              "icon": "fa fa-cubes",
+              "target": "_self"
+            },          
+            {
+              "title": "自定义资源[cdr]",
+              "href": "page/xkube/cdrList.html?v=1",
+              "icon": "fa fa-list-alt",
+              "target": "_self"
+            },
+            {
+              "title": "自动伸缩[hpa]",
+              "href": "page/xkube/hpaList.html?v=1",
+              "icon": "fa fa-list-alt",
+              "target": "_self"
+            },
+            {
+              "title": "applyYaml",
+              "href": "page/xkube/apply_yaml.html?v=1",
+              "icon": "fa fa-plus-square-o",
+              "target": "_self"
+            }                    
+          ]         
+        },
+        {
+          "title": "网络",
+          "href": "",
+          "icon": "fa fa-connectdevelop",
+          "target": "",
+          "child": [
+            {
+              "title": "服务[service]",
+              "href": "page/xkube/serviceList.html?v=1",
+              "icon": "fa fa-cube",
+              "target": "_self"
+            },          
+            {
+              "title": "路由[ingress]",
+              "href": "page/xkube/ingressList.html?v=1",
+              "icon": "fa fa-object-group",
+              "target": "_self"
+            }           
+          ]         
+        },
+        {
+          "title": "配置管理",
+          "href": "",
+          "icon": "fa fa-database",
+          "target": "",
+          "child": [
+            {
+              "title": "配置项[cm]",
+              "href": "page/xkube/configmapList.html?v=1",
+              "icon": "fa fa-file-code-o",
+              "target": "_self"
+            },          
+            {
+              "title": "保密字典[secret]",
+              "href": "page/xkube/secretList.html?v=1",
+              "icon": "fa fa-expeditedssl",
+              "target": "_self"
+            }           
+          ]         
+        },
+        {
+          "title": "存储",
+          "href": "",
+          "icon": "fa fa-cloud",
+          "target": "",
+          "child": [
+            {
+              "title": "存储声明[pvc]",
+              "href": "page/xkube/pvcList.html?v=1",
+              "icon": "fa fa-indent",
+              "target": "_self"
+            },          
+            {
+              "title": "存储卷[pv]",
+              "href": "page/xkube/pvList.html?v=1",
+              "icon": "fa fa-indent",
+              "target": "_self"
+            },          
+            {
+              "title": "存储类[storageclass]",
+              "href": "page/xkube/storageclassList.html?v=1",
+              "icon": "fa fa-indent",
+              "target": "_self"
+            }           
+          ]         
+        },
+        {
+          "title": "运维管理",
+          "href": "",
+          "icon": "fa fa-linux",
+          "target": "",
+          "child": [
+            {
+              "title": "事件中心",
+              "href": "page/xkube/eventList.html?v=1",
+              "icon": "fa fa-info-circle",
+              "target": "_self"
+            },          
+            {
+              "title": "应用集",
+              "href": "page/xkube/appnameList.html?v=1",
+              "icon": "fa fa-joomla",
+              "target": "_self"
+            },  
+            {
+              "title": "CICD",
+              "href": "page/cicd/cicdList.html?v=1",
+              "icon": "fa fa-gitlab",
+              "target": "_self"
+            },  
+            {
+              "title": "资源克隆",
+              "href": "page/xkube/clone_resource.html?v=1",
+              "icon": "fa fa-clone",
+              "target": "_self"
+            }   
+          ]         
+        },
+        {
+          "title": "权限管理",
+          "href": "",
+          "icon": "fa fa-user-secret",
+          "target": "",
+          "child": [
+            {
+              "title": "管理员",
+              "href": "page/rbac/adminList.html?v=1",
+              "icon": "fa fa-user",
+              "target": "_self"
+            },          
+            {
+              "title": "角色列表",
+              "href": "page/rbac/roleList.html?v=1",
+              "icon": "fa fa-bars",
+              "target": "_self"
+            },          
+            {
+              "title": "目录分组",
+              "href": "page/rbac/groupList.html?v=1",
+              "icon": "fa fa-bars",
+              "target": "_self"
+            },          
+            {
+              "title": "目录结构",
+              "href": "page/rbac/nodeList.html?v=1",
+              "icon": "fa fa-bars",
+              "target": "_self"
+            },
+            {
+              "title": "集群授权",
+              "href": "page/rbac/clusterToUserList.html?v=1",
+              "icon": "fa fa-bars",
+              "target": "_self"
+            }                  
+          ]         
+        },
+		{
+          "title": "文档中心",
+          "href": "",
+          "icon": "fa fa-wikipedia-w",
+          "target": "",
+          "child": [
+            {
+              "title": "栏目列表",
+              "href": "page/wiki/columnList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },          
+            {
+              "title": "文章列表",
+              "href": "page/wiki/list.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            }    
+          ]         
+        }                                                             
+      ]
+    }
+  ]
+}

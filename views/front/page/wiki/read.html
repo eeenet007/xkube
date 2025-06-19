@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>查看文章</title>
+        <link rel="stylesheet" href="static/css/style.css" />
+        <link rel="stylesheet" href="editor/css/editormd.preview.css" />
+    <!-- layui.css与editor的样式有冲突，例如：列表不会显示图标 -->
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+        <style>
+            body {padding: 40px;}
+            
+            #layout > header, .btns {
+                width: auto;
+            }
+            
+            #sidebar {
+                width: 400px;
+                height: 100%;
+                position: fixed;
+                top: 0;
+                right: 0;
+                overflow: hidden;
+                background: #fff;
+                z-index: 100;
+                padding: 18px; 
+                border: 1px solid #ddd;
+                border-top: none;
+                border-bottom: none;
+            }
+            
+            #sidebar:hover {
+                overflow: auto;
+            }
+            
+            #sidebar h1 {
+                font-size: 16px;
+            }
+            
+            #custom-toc-container {
+                padding-left: 0;
+            }
+            
+            #test-editormd-view, #test-editormd-view2 {
+                padding-left: 0;
+                padding-right: 430px;
+                margin: 0;
+            }
+.text{
+  width: 250px;
+  height: 40px;
+  float: left;
+  border: 1;
+  padding: 0 16px;
+}  
+  .btn {
+    width: 100px;
+    height: 40px;
+    float: left;
+    border: none;
+    background-color: #009688;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    background-color: #4662d9;
+  }
+        </style>
+    </head>
+    <body>		
+        <div id="layout">
+			<input id="show-Toc" type="button" class="layui-btn layui-btn-primary" value="显示右侧目录" onclick="TocShow()"></input>
+            <div id="sidebar" style="display:none;">
+                <h1>Table of Contents</h1>
+                <div class="markdown-body editormd-preview-container" id="custom-toc-container"></div>
+            </div>	
+            <div id="test-editormd-view">
+               <textarea style="display:none;" name="test-editormd-markdown-doc"></textarea>               
+            </div>
+        </div>
+
+ 	<!-- 弹出框	-->
+  	<div id="InputAuthKey" style="display:none;">
+      	<form class="layui-form" action="">
+            <input class="text" type="password" name="authkey" id="authkey2" placeholder="输入阅读密码" autocomplete="off" style="margin-left:25px;width:250px;margin-top:10px;">            
+          	<button class="btn" style="margin-left:50px;margin-top:10px;" lay-submit="" lay-filter="InputAuthKeySubmit">提交</button>
+      	</form>
+  	</div>
+ 	<!-- 弹出框	-->		
+        <!-- <script src="js/zepto.min.js"></script>
+		<script>		
+			var jQuery = Zepto;  // 为了避免修改flowChart.js和sequence-diagram.js的源码，所以使用Zepto.js时想支持flowChart/sequenceDiagram就得加上这一句
+		</script> -->
+        <script src="static/js/jquery.min.js"></script>
+        <script src="editor/lib/marked.min.js"></script>
+        <script src="editor/lib/prettify.min.js"></script>        
+        <script src="editor/lib/raphael.min.js"></script>
+        <script src="editor/lib/underscore.min.js"></script>
+        <script src="editor/lib/sequence-diagram.min.js"></script>
+        <script src="editor/lib/flowchart.min.js"></script>
+        <script src="editor/lib/jquery.flowchart.min.js"></script>
+        <script src="editor/editormd.js"></script>
+
+<script type="text/javascript">
+var btn1=document.getElementById('show-Toc');
+var box1=document.getElementById('sidebar');
+function TocShow(){ if(btn1.value=="关闭右侧目录"){box1.style.display='none';btn1.value="显示右侧目录";
+	}else{box1.style.display='';btn1.value="关闭右侧目录";}
+}
+		
+layui.use(['form','layer'], function(){
+	  var $ = layui.jquery
+  	//var table = layui.table;
+  	var form=layui.form;
+  	//var laydate = layui.laydate;
+  	//var element = layui.element;
+	  var layer = layui.layer;
+   			$.ajax({
+      			url: "/wiki/v1/ReadEncry"+ location.search,
+      			type: "GET",
+            dataType: "json",
+      			success: function (data) {
+         				if (data.result == "fail"){
+            				layer.msg('读取文章失败',{icon:2})
+         				}
+						    if(data.result == "true"){
+							    var index = layer.open({
+  									//layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+      								type:1,
+								      skin: 'layui-layer-rim',
+      								title:"输入阅读密码",
+      								area: ['310px','180px'],
+      								content:$("#InputAuthKey").html()
+  								});
+							    //form.render();								
+  								form.on('submit(InputAuthKeySubmit)', function(datas){	
+								    var testEditormdView;																								
+           								$.ajax({
+              								url: "/wiki/v1/Read" + location.search,
+              								type: "POST",
+              								data: datas.field,
+              								dataType: "text",
+              								success: function (markdown) {
+	    									            testEditormdView = editormd.markdownToHTML("test-editormd-view", {
+                  									markdown        : markdown ,//+ "\r\n" + $("#append-test").text(),
+                  									//htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
+                  									htmlDecode      : "style,script,iframe",  // you can filter tags decode
+                  									//toc             : false,
+                  									tocm            : true,    // Using [TOCM]
+                  									tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
+                  									//gfm             : false,
+                  									//tocDropdown     : true,
+                  										// markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
+                  									emoji           : true,
+                  									taskList        : true,
+                  									tex             : true,  // 默认不解析
+                  									flowChart       : true,  // 默认不解析
+                  									sequenceDiagram : true,  // 默认不解析
+              									});
+              								}
+           								});
+									layer.close(index);		  	    
+   							    	return false; 
+  								});
+						    }
+
+						    if(data.result == "false"){
+           							$.ajax({
+              								url: "/wiki/v1/Read" + location.search+"&aa=bb",
+              								type: "GET",
+              								success: function (respBody) {
+	    									        testEditormdView = editormd.markdownToHTML("test-editormd-view", {
+                  									markdown        : respBody ,//+ "\r\n" + $("#append-test").text(),
+                  									//htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
+                  									htmlDecode      : "style,script,iframe",  // you can filter tags decode
+                  									//toc             : false,
+                  									tocm            : true,    // Using [TOCM]
+                  									tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
+                  									//gfm             : false,
+                  									//tocDropdown     : true,
+                  										// markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
+                  									emoji           : true,
+                  									taskList        : true,
+                  									tex             : true,  // 默认不解析
+                  									flowChart       : true,  // 默认不解析
+                  									sequenceDiagram : true,  // 默认不解析
+              									});
+              								}
+           							});										
+						    }                      				
+            }
+   			});
+});							
+        </script>
+</body>	
+</html>

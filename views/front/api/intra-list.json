@@ -1,0 +1,28 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 20,
+  "data": [
+    {
+      "id": 10000,
+      "domain": "price.pcauto.com.cn",
+      "listen_port": "80",
+      "rip": "192.168.236.40:9090,192.168.236.70:9090",
+      "scheme": "http"
+    },
+    {
+      "id": 10001,
+      "domain": "bbs.pcauto.com.cn",
+      "listen_port": "80",
+      "rip": "192.168.236.40:9090,192.168.236.70:9090",
+      "scheme": "http"
+    },
+    {
+      "id": 10002,
+      "domain": "club.pcauto.com.cn",
+      "listen_port": "80",
+      "rip": "192.168.236.40:9090,192.168.236.70:9090",
+      "scheme": "http"
+    }
+  ]
+}

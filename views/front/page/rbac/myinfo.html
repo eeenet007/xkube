@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>基本资料</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <style>
+        .layui-form-item .layui-input-company {width: auto;padding-right: 10px;line-height: 38px;}
+    </style>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+      <form class="layui-form layuimini-form" action="" lay-filter="UpdateUserInfo">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">管理账号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="Id" readonly="true" placeholder="" class="layui-input layui-disabled">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label required">管理账号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="Username" lay-verify="required" lay-reqtext="管理账号不能为空" placeholder="请输入管理账号"  value="admin" class="layui-input">
+                    <tip>填写自己管理账号的名称。</tip>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">手机</label>
+                <div class="layui-input-block">
+                    <input type="number" name="phone" lay-verify="required" lay-reqtext="手机不能为空" placeholder="请输入手机"  value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-block">
+                    <input type="email" name="Email"  placeholder="请输入邮箱"  value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注信息</label>
+                <div class="layui-input-block">
+                    <textarea name="Remark" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="UpdateUserSubmit">确认保存</button>
+                </div>
+            </div>
+      </form>
+
+    </div>
+</div>
+
+<script>
+    layui.use(['form','miniTab'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            miniTab = layui.miniTab;
+			$.ajax({
+			   url: "/public/myinfo",
+			   type: "GET",
+			   headers:{'X-Requested-With':'XMLHttpRequest'},
+			   success: function (resp) {
+				  form.val('UpdateUserInfo', {
+				    "Id": resp.data.Id
+				    ,"Username": resp.data.Username
+				    ,"Nickname": resp.data.Nickname
+				    ,"Email": resp.data.Email
+				   // ,"Password": resp.data.Password
+				    ,"Remark": resp.data.Remark
+				   // ,"Status": resp.data.Status
+				  })
+				}
+		    });	
+
+        form.on('submit(UpdateUserSubmit)', function(datas){
+			    layer.confirm('确定更改?', {icon: 3, title:'提示',yes: function(index){
+                     $.ajax({
+                       url: "/rbac/user/UpdateUser",
+                       type: "post",
+                       data: datas.field,
+                       dataType: "json",
+                       success: function (resp) {
+                                 if(resp.status){
+                                    layer.msg('修改成功', {icon: 1});
+                                    miniTab.deleteCurrentByIframe();
+                                 }else{
+                                    layer.msg('修改失败',{icon:2});
+                                 }
+                        }
+                   });		  	  
+               },
+                cancel: function(index, layero){ 
+                    layer.close(index);
+		            console.log("不操作");
+                } 
+            }); 		   
+	      	return false; 	
+		    });
+    });
+</script>
+</body>
+</html>

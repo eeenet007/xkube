@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>创建</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="">
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">当前集群</label>
+                    <div class="layui-input-inline">
+                        <select name="clusterId" lay-filter="cluster_Id" lay-search="" id="cluster_Id">
+                          <option value="">请选择集群</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">命名空间</label>
+                <div class="layui-input-inline" style="width:215px">
+                  <select name="nameSpace" lay-filter="name_Space" lay-search="" id="name_Space">
+  		            </select>
+                </div>
+                <label class="layui-form-label required">ingress名称</label>
+                <div class="layui-input-inline" style="width:215px">
+                    <input type="text" name="ingressName" placeholder="不能为空" lay-verify="required" lay-reqtext="不能为空" value="" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">*</span></div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">域名</label>
+                <div class="layui-input-inline" style="width:550px">  
+                    <input type="text" name="ingressHost" placeholder="域名" lay-verify="required" lay-reqtext="不能为空" value="" class="layui-input">
+                </div> 
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">*</span></div>
+            </div>
+            <div class="ingressTpl">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">路径</label>
+                    <div class="layui-input-inline" style="width:135px">  
+                        <input type="text" id="ingress_path0" name="ingress_path[]" placeholder="路径" value="/" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline" style="width:100px">  
+                        <select name="pathType[]" id="pathType0" >
+                    			<option value="" selected="">匹配规则</option>
+                    			<option value="Prefix">Prefix</option>
+                    			<option value="Exact">Exact</option>
+                    			<option value="ImplementationSpecific">ImplementationSpecific</option>
+        		            </select>
+                    </div>
+                    <div class="layui-input-inline" style="width:130px">  
+                        <input type="text" id="ingress_svcName0" name="ingress_svcName[]" placeholder="服务" lay-verify="required" lay-reqtext="不能为空" value="" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline" style="width:90px">  
+                        <input type="text" id="ingress_svcPort0" name="ingress_svcPort[]" placeholder="端口" lay-verify="required" lay-reqtext="不能为空" value="" class="layui-input">
+                    </div>   
+                    <div class="layui-input-inline">  
+                        <button class="layui-btn layui-btn-normal" id="ingressaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                    </div>          
+                </div> 
+            </div> 
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>SSL配置</legend>
+            </fieldset>
+              <div class="layui-form-item">
+                  <label class="layui-form-label required">证书配置</label>
+                  <div class="layui-input-inline" style="width:550px">  
+                      <input type="text" id="tlsCert" name="tlsCert" placeholder="保密字典[secret]" value="" class="layui-input">
+                  </div>   
+              </div>    
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>标签与注解</legend>
+            </fieldset>
+            <div class="labelsTpl">
+              <div class="layui-form-item">
+                  <label class="layui-form-label">标签</label>
+                  <div class="layui-input-inline" style="width:240px">  
+                      <input type="text" id="labels_key0" name="labels_key[]" placeholder="key" value="" class="layui-input">
+                  </div>
+                  <div class="layui-input-inline" style="width:240px">  
+                      <input type="text" id="labels_value0" name="labels_value[]" placeholder="value" value="" class="layui-input">
+                  </div>
+                  <div class="layui-input-inline">  
+                      <button class="layui-btn layui-btn-normal" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                  </div>                
+              </div> 
+            </div>
+
+  <br>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    	$(document).ready(function(){
+          GetCurrClusterId();  
+          GetNamespace();	
+    	});		
+</script>
+<script>
+    //标签删除
+    var TplIndex = 0;
+    function delTpl(id) {
+      TplIndex--;
+      $("#tpl-"+id).remove();
+    }
+    //注解删除
+    //var aTplIndex = 0;
+    //function delaTpl(id) {
+    //  aTplIndex--;
+    //  $("#atpl-"+id).remove();
+    //}
+
+    //tls删除
+    var tTplIndex = 0;
+    function deltTpl(id) {
+      $("#ttpl-"+id).remove();
+      tTplIndex--;
+    }
+
+    //ingress删除
+    var iTplIndex = 0;
+    function deliTpl(id) {
+      iTplIndex--;
+      $("#itpl-"+id).remove();
+    }
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        //选择集群
+        form.on('select(cluster_Id)', function(data){
+          //console.log(data.elem); //得到select原始DOM对象
+          console.log(data.value); //得到被选中的值
+          setCookie('clusterId',data.value,30);
+          window.location.reload();
+          //console.log(data.othis); //得到美化后的DOM对象
+        });
+
+        //labes add
+        $('#newaddbtn').on("click",function(){
+          TplIndex++;
+          var addTpl =
+              '<div class="layui-form-item" id="tpl-'+TplIndex+'">' +
+                  '<label class="layui-form-label">标签</label>' +
+                  '<div class="layui-input-inline" style="width:240px">' +
+        	              '<input type="text" name="labels_key[]" id="labels_key'+TplIndex+'" placeholder="key" value="" class="layui-input">' +
+                  '</div>' +    
+                  '<div class="layui-input-inline" style="width:240px">' +  
+                      '<input type="text" name="labels_value[]" id="labels_value'+TplIndex+'" placeholder="value" value="" class="layui-input">' +
+                  '</div>' +
+                  '<div class="layui-input-inline">' +  
+                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" style="width:60px" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
+                  '</div>' +                
+              '</div>'
+            $('.labelsTpl').append(addTpl);   
+          form.render(); 
+          return false;   
+        });
+
+        //ingress增加
+        $('#ingressaddbtn').on("click",function(){
+          iTplIndex++;
+          var addTpl =
+                '<div class="layui-form-item" id="itpl-'+iTplIndex+'">' +
+                    '<label class="layui-form-label">路径</label>' +  
+                    '<div class="layui-input-inline" style="width:135px">' +  
+                        '<input type="text" name="ingress_path[]" id="ingress_path'+iTplIndex+'" placeholder="路径" value="/" class="layui-input">' +
+                    '</div>' +
+                    '<div class="layui-input-inline" style="width:100px">' +  
+                        '<select name="pathType[]" id="pathType'+iTplIndex+'">' +  
+                    			'<option value="" selected="">匹配规则</option>' +  
+                    			'<option value="Prefix">Prefix</option>' +  
+                    			'<option value="Exact">Exact</option>' +  
+                    			'<option value="ImplementationSpecific">ImplementationSpecific</option>' +  
+        		            '</select>' +  
+                    '</div>' +
+                    '<div class="layui-input-inline" style="width:130px">' +  
+                        '<input type="text" name="ingress_svcName[]" id="ingress_svcName'+iTplIndex+'" placeholder="服务" value="" class="layui-input">' +
+                    '</div>' +
+                    '<div class="layui-input-inline"  style="width:90px">' +  
+                        '<input type="text" name="ingress_svcPort[]" id="ingress_svcPort'+iTplIndex+'" placeholder="端口" value="" class="layui-input">' +                        
+                    '</div>' +   
+                    '<div class="layui-input-inline">' +  
+                        '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" style="width:60px" type="button" id="newDelbtn" value="&#xe616;" onclick="deliTpl('+iTplIndex+');" />' +
+                    '</div>' +              
+                '</div>' 
+            $('.ingressTpl').append(addTpl);   
+          form.render(); 
+          return false;   
+        });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+                data.field.ingressName = data.field.ingressName.replace(/^\s*|\s*$/g,""); //替换空格
+                data.field.ingressHost = data.field.ingressHost.replace(/^\s*|\s*$/g,""); //替换空格
+                //lables 处理
+                var labelsArry = [];
+                for (var i=0;i<=TplIndex;i++) {
+                  //delete data.field.lables_key[i];                  
+                  //delete data.field.labels_value[i];
+                  var kk = document.getElementById("labels_key"+i).value;
+                  var vv = document.getElementById("labels_value"+i).value; 
+                  if ( kk != "" && vv != "") {
+                    labelsArry.push(
+                      {
+                        key:kk,
+                        value:vv,
+                      }
+                    )
+                  }
+                }
+                if (labelsArry.length > 0) {
+                  data.field.lables = labelsArry;
+                }
+
+                //ingress 处理
+                var ingressArry = [];
+                for (var i=0;i<=iTplIndex;i++) {
+                  var vv = document.getElementById("ingress_path"+i).value; 
+                  var tt = document.getElementById("pathType"+i).value; 
+                  var ss = document.getElementById("ingress_svcName"+i).value; 
+                  var pp = document.getElementById("ingress_svcPort"+i).value; 
+                  if ( kk != "" && vv != "" && tt != "" && ss != "" && pp != "") {
+                    ingressArry.push(
+                      {
+                        path:vv,
+                        pathType:tt,
+                        serviceName:ss,
+                        servicePort:pp,
+                      }
+                    )
+                  }
+                }
+                if (ingressArry.length > 0) {
+                  data.field.paths = ingressArry;
+                }
+                    
+					      console.log(data.field);
+			          layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('稍等片刻');
+                     $.ajax({
+                       url: "/xkube/ing/v1/Create",
+                       type: "post",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('添加成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+    });
+</script>
+</html>

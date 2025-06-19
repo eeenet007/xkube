@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>镜像</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="">
+            <div class="labelsTpl"></div> 
+            <br>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    	$(document).ready(function(){
+          //GetCurrClusterId();  
+          GetNamespace();	
+    	});		
+</script>
+
+<script>
+
+    var TplIndex = 0;
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+			$.get('/xkube/deploy/v1/Image' + location.search, function (resp) {
+  				if (resp.code == 0 ) {
+          		$.each(resp.data,function(i,item){
+                    TplIndex++;
+                    //console.log(TplIndex);
+                    var addTpl =
+                        '<div id="tpl-'+TplIndex+'">' +
+                        '<blockquote class="layui-elem-quote layui-quote-nm">' +
+                        '<div class="layui-form-item">' +
+                            '<label class="layui-form-label">容器名称</label>' +
+                            '<div class="layui-input-inline" style="width:200px">' +
+                  	              '<input type="text" name="containerName[]" id="containerName'+TplIndex+'" placeholder="key" value="'+item.containerName+'" class="layui-input">' +
+                            '</div>' +    
+                        '</div>' +  
+                        '<div class="layui-form-item">' +  
+                            '<label class="layui-form-label">容器ID</label>' +
+                            '<div class="layui-input-inline" style="width:200px">' +  
+                                '<input type="text" name="containerId[]" id="containerId'+TplIndex+'" placeholder="value" value="'+item.containerId+'" class="layui-input">' +
+                            '</div>' +   
+                        '</div>' +  
+                        '<div class="layui-form-item">' + 
+                            '<label class="layui-form-label">容器镜像</label>' +
+                            '<div class="layui-input-inline" style="width:600px">' +  
+                                '<input type="text" name="image[]" id="image'+TplIndex+'" placeholder="value" value="'+item.image+'" class="layui-input">' +
+                            '</div>' +       
+                        '</div>' +   
+                        '</blockquote>' +
+                        '</div>'
+                      $('.labelsTpl').append(addTpl);  
+          		});    
+          	  layui.use('form', function(){
+          	           var form = layui.form;
+          	           form.render();
+          	           //form.render('select', 'clusterId');
+          	  });	        
+          }else{
+            layer.msg('请重新刷新',{icon:2});
+          }
+		  });
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+                console.log(data.field);
+			          layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('稍等片刻');
+                     $.ajax({
+                       url: "/xkube/deploy/v1/Image" + location.search,
+                       type: "post",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('修改成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+    });
+</script>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>job日志</title>
+    <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <script src="/js/jquery.min.js"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+      <!--
+        <fieldset class="table-search-fieldset">
+            <legend>日志查看</legend>
+        </fieldset>
+      -->
+      <pre class="layui-code"><div id="logtext"></div></pre>
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <div class="layui-input-inline" style="width:300px"> 
+                              <select name="podName" id="pod_Name" lay-filter="pod_Name">
+                		           </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-input-inline" style="width:100px"> 
+                                <select name="logLine" id="logLine">
+            	              			<option value="" selected="">行数</option>
+            	              			<option value="50">50</option>
+            	              			<option value="100">100</option>
+            	              			<option value="200">200</option>
+                                  <option value="500">500</option>
+                		            </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn"  lay-submit lay-filter="ReloadLog"><i class="layui-icon">&#xe669;</i>刷新</button>
+                            <button class="layui-btn layui-btn-normal" id="DownLoadBtn">下载日志</button>
+                        </div>
+                    </div>
+                </form>  
+    </div>
+</div>
+<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+
+    layui.use(['form', 'table','code'], function () {
+        var $ = layui.jquery;
+        var form = layui.form;
+
+        layui.code({
+            title: 'pod日志'
+            ,skin: 'notepad' //如果要默认风格，不用设定该key。
+        });
+
+        var jobName = getQueryString("jobName");
+        //var podName = getQueryString("podName");
+        $('#appNameTitle').html(jobName);
+        
+  			  $.get('/xkube/pod/v1/List' + location.search+ "&labels=job-name:"+jobName, function (resp) {
+    				$.each(resp.data,function(i,item){
+              if (item.podName == podName ) {
+      					   var html1 = '<option value="'+item.podName+'" selected>'+item.podName+'</option>'
+              }else {
+                  var html1 = '<option value="'+item.podName+'">'+item.podName+'</option>'
+              }
+      					$("#pod_Name").append(html1);
+    				});
+    			  //form.render('select', 'pod_Name');
+    				form.render('');				
+  		    });	
+
+        var podName = "";
+
+         $.ajax({
+           url: '/xkube/pod/v1/List' + location.search+ "&labels=job-name:"+jobName,
+           type: "GET",
+           async: false,
+           success: function (resp) {
+                if (resp.data.length > 0) {
+                  podName=resp.data[0].podName;
+                }
+        				$.each(resp.data,function(i,item){
+                  if (item.podName == podName ) {
+          					   var html1 = '<option value="'+item.podName+'" selected>'+item.podName+'</option>'
+                  }else {
+                      var html1 = '<option value="'+item.podName+'">'+item.podName+'</option>'
+                  }
+          				$("#pod_Name").append(html1);
+        				});
+        				form.render('');	
+                $.ajax({
+                 url: "/xkube/pod/v1/Log"+location.search+"&logLine=50&podName="+podName,
+                 type: "GET",
+                 success: function (resp) {
+                    $('#logtext').html(resp);
+                    window.scrollTo(0, document.body.scrollHeight);
+                  }
+                });	
+            }
+         });	
+
+
+        //添加
+        form.on('submit(ReloadLog)', function(datas){	
+    		    //console.log(JSON.stringify(datas.field)); 
+             $.ajax({
+               url: "/xkube/pod/v1/Log"+location.search,
+               type: "POST",
+               data: JSON.stringify(datas.field),
+               success: function (resp) {
+                  $('#logtext').html(resp);
+                  window.scrollTo(0, document.body.scrollHeight);
+                }
+             });		  	                      	   
+    	      return false; 	
+    		});
+
+        $('#DownLoadBtn').on("click",function(){
+             $.ajax({
+               url: "/xkube/pod/v1/Log"+location.search+"&logLine=500&podName="+podName,
+               type: "GET",
+               success: function (resp) {
+                  //$('#logtext').html(resp);
+                  var xName = getQueryString("jobName");
+                  ExportRaw(xName+'.log',resp);
+                }
+             });	
+          return false
+        });
+
+    });
+</script>
+
+</body>
+</html>

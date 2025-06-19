@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>创建</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="">
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">当前集群</label>
+                    <div class="layui-input-inline">
+                        <select name="clusterId" lay-filter="cluster_Id" lay-search="" id="cluster_Id">
+                          <option value="">请选择集群</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label required">名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="statefulsetName"  lay-verify="required" lay-reqtext="不能为空"  placeholder="不能为空" value="" class="layui-input">
+                </div>
+
+                <label class="layui-form-label">命名空间</label>
+                <div class="layui-input-inline">
+                  <select name="nameSpace" lay-filter="name_Space" lay-search="" id="name_Space">
+  		            </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">*</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">副本数量</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="replicas"  lay-verify="required" lay-reqtext="大于0" value="1" class="layui-input">
+                </div>
+
+                <label class="layui-form-label required">端口</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="containerPort"  lay-verify="required" lay-reqtext="不能为空"  placeholder="不能为空" value="80" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">镜像策略</label>
+                  <div class="layui-input-block">
+                    <!--
+                    <select name="nameSpace" lay-filter="name_Space" lay-search="" id="name_Space">
+                			<option value="Always" selected="">Always</option>
+                			<option value="IfNotPresent" selected="">IfNotPresent</option>
+                			<option value="Never" selected="">Never</option>
+    		            </select>
+                    -->
+                      <input type="radio" name="imagePullPolicy" value="Always" title="Always" checked="">
+                      <input type="radio" name="imagePullPolicy" value="IfNotPresent" title="IfNotPresent">
+                      <input type="radio" name="imagePullPolicy" value="Never" title="Never">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">镜像地址</label>
+                <div class="layui-input-inline" style="width:450px">
+                    <input type="text" name="imageUrl"  lay-verify="required" lay-reqtext="不能为空"  placeholder="不能为空" value="" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">*</span></div>
+            </div>
+
+            <div class="labelsTpl">
+              <div class="layui-form-item">
+                  <label class="layui-form-label">标签</label>
+                  <div class="layui-input-inline">  
+                      <input type="text" id="labels_key0" name="labels_key[]" placeholder="key" value="" class="layui-input">
+                  </div>
+                  <div class="layui-input-inline">  
+                      <input type="text" id="labels_value0" name="labels_value[]" placeholder="value" value="" class="layui-input">
+                  </div>
+                  <div class="layui-input-inline" style="width:80px">  
+                      <button class="layui-btn layui-btn-normal" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                  </div>                
+              </div> 
+            </div>
+ 
+            <div class="layui-form-item">
+                <label class="layui-form-label required">附加配置</label>
+                <div class="layui-input-block">
+                  <input type="checkbox" name="resourceLimitCheck" lay-skin="primary" lay-filter="resourceLimitCheck" title="资源限制">
+                  <input type="checkbox" name="healthCheck" lay-skin="primary" lay-filter="healthCheck" title="健康检查">
+                  <input type="checkbox" name="periodCheck" lay-skin="primary" lay-filter="periodCheck" title="生命周期">
+                  <input type="checkbox" name="variableCheck" lay-skin="primary" lay-filter="variableCheck" title="环境变量">
+                  <input type="checkbox" name="serviceCheck" lay-skin="primary" lay-filter="serviceCheck" title="service">
+                </div>
+            </div>
+
+  <div class="layui-collapse">
+    <div class="layui-colla-item" id="resourceLimitTpl">
+    <h2 class="layui-colla-title">资源限制</h2>
+      <div class="layui-colla-content layui-show">
+            <div class="layui-form-item">
+                <label class="layui-form-label">资源限制</label>
+                <div class="layui-input-inline" style="width:100px">  
+                    <input type="text" name="limit_cpu" placeholder="CPU[1|200m]" value="1" class="layui-input">
+                </div>
+                <div class="layui-input-inline" style="width:100px">  
+                    <input type="text" name="limit_mem" placeholder="内存[MiB|GiB]" value="1Gi" class="layui-input">
+                </div> 
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">注:limits,eg:cpu:1/200m,mem:2Gi/200Mi</span></div>              
+            </div> 
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">资源申请</label>
+                <div class="layui-input-inline" style="width:100px">  
+                    <input type="text" name="request_cpu" placeholder="CPU[1|200m]" value="500m" class="layui-input">
+                </div>
+                <div class="layui-input-inline" style="width:100px">  
+                    <input type="text" name="request_mem" placeholder="内存[MiB|GiB]" value="500Mi" class="layui-input">
+                </div>   
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">注:requests,eg:cpu:1/200m,mem:2Gi/200Mi</span></div>            
+            </div> 
+      </div>
+    </div>
+    <div class="layui-colla-item" id="healthCheckTpl">
+    <h2 class="layui-colla-title">健康检查</h2>
+      <div class="layui-colla-content layui-show">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">就绪检查</label>
+                <div class="layui-input-block">
+                  <input type="checkbox" name="readinessProbe" lay-skin="primary" lay-filter="readinessProbe" title="开启">
+                </div>
+            </div>
+            
+            <div id="readinessCheckTpl"> 
+             <blockquote class="layui-elem-quote">
+              <div class="layui-form-item" pane="">
+                  <label class="layui-form-label">检测类型</label>
+                  <div class="layui-input-block">
+                      <input type="radio" name="readiness_checkType" value="HTTP" lay-filter="checkType" title="URL调用" checked="">
+                      <input type="radio" name="readiness_checkType" value="TCP" lay-filter="checkType" title="端口检测">
+                      <input type="radio" name="readiness_checkType" value="CMD" lay-filter="checkType" title="命令行">                                                           
+                  </div>
+              </div>
+              <div id="urlCheckTpl">              
+                  <div class="layui-form-item">
+                      <label class="layui-form-label required">路径</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="readiness_path" placeholder="不能为空" value="/" class="layui-input">
+                      </div>
+                      <label class="layui-form-label required">端口</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="readiness_httpPort" placeholder="不能为空" value="80" class="layui-input">
+                      </div>
+                  </div>
+              </div>
+              <div id="tcpCheckTpl">              
+                  <div class="layui-form-item">
+                      <label class="layui-form-label required">端口</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="readiness_tcpPort" placeholder="不能为空" value="80" class="layui-input">
+                      </div>
+                  </div>
+              </div>
+              <div id="cmdCheckTpl"> 
+                  <div class="layui-form-item">
+                      <label class="layui-form-label required">命令</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="readiness_cmd" placeholder="不能为空" value="" class="layui-input">
+                      </div>
+                  </div>
+              </div>
+                  <div class="layui-form-item">
+                      <label class="layui-form-label required">延迟探测</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="readiness_initialDelaySeconds" placeholder="initialDelaySeconds" value="20" class="layui-input">
+                      </div>
+                      <label class="layui-form-label required">探测频率</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="readiness_periodSeconds" placeholder="periodSeconds" value="10" class="layui-input">
+                      </div>
+                  </div>
+                  <div class="layui-form-item">
+                      <label class="layui-form-label required">正常阀值</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="readiness_successThreshold" placeholder="successThreshold" value="1" class="layui-input">
+                      </div>
+                      <label class="layui-form-label required">异常阀值</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="readiness_failureThreshold" placeholder="failureThreshold" value="5" class="layui-input">
+                      </div>
+                  </div>
+                  <div class="layui-form-item">
+                      <label class="layui-form-label required">超时</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="readiness_timeoutSeconds" placeholder="timeoutSeconds" value="5" class="layui-input">
+                  </div>
+                </div>
+              </blockquote>
+            </div>
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label required">存活检查</label>
+                <div class="layui-input-block">
+                  <input type="checkbox" name="livenessProbe" lay-skin="primary" lay-filter="livenessProbe"  title="开启">
+                </div>
+            </div>
+            <div id="livenessCheckTpl"> 
+             <blockquote class="layui-elem-quote">
+              <div class="layui-form-item" pane="">
+                  <label class="layui-form-label">检测类型</label>
+                  <div class="layui-input-block">
+                      <input type="radio" name="liveness_checkType" value="HTTP" lay-filter="checkType2" title="URL调用" checked="">
+                      <input type="radio" name="liveness_checkType" value="TCP" lay-filter="checkType2" title="端口检测">
+                      <input type="radio" name="liveness_checkType" value="CMD" lay-filter="checkType2" title="命令行">                                                           
+                  </div>
+              </div>
+              <div id="urlCheckTpl2">              
+                  <div class="layui-form-item">
+                      <label class="layui-form-label required">路径</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="liveness_path" placeholder="不能为空" value="/" class="layui-input">
+                      </div>
+                      <label class="layui-form-label required">端口</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="liveness_httpPort" placeholder="不能为空" value="80" class="layui-input">
+                      </div>
+                  </div>
+              </div>
+              <div id="tcpCheckTpl2">              
+                  <div class="layui-form-item">
+                      <label class="layui-form-label required">端口</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="liveness_tcpPort" placeholder="不能为空" value="80" class="layui-input">
+                      </div>
+                  </div>
+              </div>
+              <div id="cmdCheckTpl2"> 
+                  <div class="layui-form-item">
+                      <label class="layui-form-label required">命令</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="liveness_cmd" placeholder="不能为空" value="" class="layui-input">
+                      </div>
+                  </div>
+              </div>
+                  <div class="layui-form-item">
+                      <label class="layui-form-label required">延迟探测</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="liveness_initialDelaySeconds" placeholder="initialDelaySeconds" value="20" class="layui-input">
+                      </div>
+                      <label class="layui-form-label required">探测频率</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="liveness_periodSeconds" placeholder="periodSeconds" value="10" class="layui-input">
+                      </div>
+
+                  </div>
+                  <div class="layui-form-item">
+                      <label class="layui-form-label required">正常阀值</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="liveness_successThreshold" placeholder="successThreshold" value="1" class="layui-input">
+                      </div>
+                      <label class="layui-form-label required">异常阀值</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="liveness_failureThreshold" placeholder="failureThreshold" value="5" class="layui-input">
+                      </div>
+                  </div>
+                  <div class="layui-form-item">
+                      <label class="layui-form-label required">超时</label>
+                      <div class="layui-input-inline">
+                          <input type="text" name="liveness_timeoutSeconds" placeholder="timeoutSeconds" value="5" class="layui-input">
+                      </div>
+                  </div> 
+              </blockquote>                     
+            </div>
+      </div>
+    </div>
+    <div class="layui-colla-item" id="periodTpl">
+    <h2 class="layui-colla-title">生命周期</h2>
+      <div class="layui-colla-content layui-show">
+          <!--
+            <div class="layui-form-item">
+                <label class="layui-form-label required">启动执行</label>
+                <div class="layui-input-inline" style="width:400px">
+                    <input type="text" name="imgUrl" placeholder="不能为空" value="" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">示例：["sleep", "3600"]</div> 
+            </div>
+          -->
+            <div class="layui-form-item">
+                <label class="layui-form-label required">启动后处理</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="postStart" placeholder="不能为空" value="" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">示例：sleep,30,命令之间用逗号隔开</div> 
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">停止前执行</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="preStop" placeholder="不能为空" value="" class="layui-input">
+                </div>
+            </div>
+      </div>
+    </div>
+    <div class="layui-colla-item" id="variableTpl">
+    <h2 class="layui-colla-title">环境变量</h2>
+      <div class="layui-colla-content layui-show">
+            <div class="variableTpl">
+              <div class="layui-form-item">
+                  <label class="layui-form-label">环境变量</label>
+                  <div class="layui-input-inline" style="width:150px">  
+                      <input type="text" id="env_name0" name="env_name[]" placeholder="name" value="" class="layui-input">
+                  </div>
+                  <div class="layui-input-inline" style="width:150px">  
+                      <input type="text" id="env_value0" name="env_value[]" placeholder="value" value="" class="layui-input">
+                  </div>
+                  <div class="layui-input-inline" style="width:80px">  
+                      <button class="layui-btn layui-btn-normal" id="variableddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                  </div>                
+              </div> 
+            </div>
+      </div>
+    </div>
+    <div class="layui-colla-item" id="serviceTpl">
+    <h2 class="layui-colla-title">service</h2>
+      <div class="layui-colla-content layui-show">
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">svc类型</label>
+                <div class="layui-input-inline" style="width:150px">
+                    <input type="radio" name="svcType" value="ClusterIp" title="ClusterIp" checked="">
+                </div>
+                <div class="layui-form-mid layui-word-aux">注:服务类型是HeadLess</div> 
+            </div>
+            <div class="serviceTpl">
+              <div class="layui-form-item">
+                  <label class="layui-form-label">svc端口</label>
+                  <div class="layui-input-inline" style="width:100px">  
+                      <input type="text" id="svc_portsName0" name="svc_portsName[]" placeholder="名称" value="http" class="layui-input">
+                  </div>
+                  <div class="layui-input-inline" style="width:100px">  
+                      <input type="text" id="svc_port0" name="svc_port[]" placeholder="服务端口" value="80" class="layui-input">
+                  </div>
+                  <div class="layui-input-inline" style="width:100px">  
+                      <input type="text" id="svc_targetPort0" name="svc_targetPort[]" placeholder="容器端口" value="80" class="layui-input">
+                  </div>
+                  <div class="layui-input-inline" style="width:80px">  
+                      <button class="layui-btn layui-btn-normal" id="svcaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                  </div>                
+              </div> 
+            </div>
+      </div>
+    </div>
+
+  </div>
+  <br>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    	$(document).ready(function(){
+          GetCurrClusterId();  
+          GetNamespace();	
+    	});		
+</script>
+<script>
+
+//SetDefaultCluster();
+//var clusterId = getQueryString("clusterId");
+//if (clusterId == null) {
+//	clusterId = getCookie("clusterId")
+//}
+
+    //标签删除
+    var TplIndex = 0;
+    function delTpl(id) {
+      $("#tpl-"+id).remove();
+      TplIndex--;
+    }
+
+    //变量删除
+    var vTplIndex = 0;
+    function delvTpl(id) {
+      vTplIndex--;
+      $("#vtpl-"+id).remove();
+    }
+
+    //服务删除
+    var sTplIndex = 0;
+    function delsTpl(id) {
+      sTplIndex--;
+      $("#stpl-"+id).remove();
+    }
+
+    //ingress删除
+    var iTplIndex = 0;
+    function deliTpl(id) {
+      iTplIndex--;
+      $("#itpl-"+id).remove();
+    }
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        //选择集群
+        form.on('select(cluster_Id)', function(data){
+          //console.log(data.elem); //得到select原始DOM对象
+          console.log(data.value); //得到被选中的值
+          setCookie('clusterId',data.value,30);
+          window.location.reload();
+          //console.log(data.othis); //得到美化后的DOM对象
+        });
+
+//附加配置处
+        $("#healthCheckTpl").hide();
+        $("#resourceLimitTpl").hide();
+        $("#periodTpl").hide();
+        $("#variableTpl").hide();
+        $("#serviceTpl").hide();
+        $("#ingressTpl").hide();        
+        form.on('checkbox(resourceLimitCheck)', function (data) { 
+              //console.log(data.elem.checked);
+              if (data.elem.checked) {
+                $("#resourceLimitTpl").show();
+              }else{
+                $("#resourceLimitTpl").hide();
+              }
+        });
+        form.on('checkbox(healthCheck)', function (data) { 
+              //console.log(data.elem.checked);
+              if (data.elem.checked) {
+                $("#healthCheckTpl").show();
+              }else{
+                $("#healthCheckTpl").hide();
+              }
+        });
+        form.on('checkbox(periodCheck)', function (data) { 
+              //console.log(data.elem.checked);
+              if (data.elem.checked) {
+                $("#periodTpl").show();
+              }else{
+                $("#periodTpl").hide();
+              }
+        });
+        form.on('checkbox(variableCheck)', function (data) { 
+              //console.log(data.elem.checked);
+              if (data.elem.checked) {
+                $("#variableTpl").show();
+              }else{
+                $("#variableTpl").hide();
+              }
+        });
+        form.on('checkbox(serviceCheck)', function (data) { 
+              //console.log(data.elem.checked);
+              if (data.elem.checked) {
+                $("#serviceTpl").show();
+              }else{
+                $("#serviceTpl").hide();
+              }
+        });
+        form.on('checkbox(ingressCheck)', function (data) { 
+              //console.log(data.elem.checked);
+              if (data.elem.checked) {
+                $("#ingressTpl").show();
+              }else{
+                $("#ingressTpl").hide();
+              }
+        });
+
+//健康检测处
+        $("#readinessCheckTpl").hide();
+        $("#livenessCheckTpl").hide();
+        $("#urlCheckTpl").show();
+        $("#tcpCheckTpl").hide();
+        $("#cmdCheckTpl").hide();
+        $("#urlCheckTpl2").show();
+        $("#tcpCheckTpl2").hide();
+        $("#cmdCheckTpl2").hide();
+
+        form.on('checkbox(readinessProbe)', function (data) { 
+              //console.log(data.elem.checked);
+              if (data.elem.checked) {
+                $("#readinessCheckTpl").show();
+              }else{
+                $("#readinessCheckTpl").hide();
+              }
+        });
+        form.on('checkbox(livenessProbe)', function (data) { 
+              //console.log(data.elem.checked);
+              if (data.elem.checked) {
+                $("#livenessCheckTpl").show();
+              }else{
+                $("#livenessCheckTpl").hide();
+              }
+        });
+        //检测类型
+        form.on('radio(checkType)', function (data) { 
+            if(data.value == 'HTTP'){
+              $("#urlCheckTpl").show();
+              $("#tcpCheckTpl").hide();
+              $("#cmdCheckTpl").hide();
+            }else if(data.value == 'TCP') {
+              $("#urlCheckTpl").hide();
+              $("#tcpCheckTpl").show();
+              $("#cmdCheckTpl").hide();     
+            } else{
+              $("#urlCheckTpl").hide();
+              $("#tcpCheckTpl").hide();
+              $("#cmdCheckTpl").show();     
+            }  
+        });
+        form.on('radio(checkType2)', function (data) { 
+            if(data.value == 'HTTP'){
+              $("#urlCheckTpl2").show();
+              $("#tcpCheckTpl2").hide();
+              $("#cmdCheckTpl2").hide();
+            }else if(data.value == 'TCP') {
+              $("#urlCheckTpl2").hide();
+              $("#tcpCheckTpl2").show();
+              $("#cmdCheckTpl2").hide();     
+            } else{
+              $("#urlCheckTpl2").hide();
+              $("#tcpCheckTpl2").hide();
+              $("#cmdCheckTpl2").show();     
+            }  
+        });
+        
+        //labes add
+        $('#newaddbtn').on("click",function(){
+          TplIndex++;
+          var addTpl =
+              '<div class="layui-form-item" id="tpl-'+TplIndex+'">' +
+                  '<label class="layui-form-label">标签</label>' +
+                  '<div class="layui-input-inline">' +
+        	              '<input type="text" name="labels_key[]" id="labels_key'+TplIndex+'" placeholder="key" value="" class="layui-input">' +
+                  '</div>' +    
+                  '<div class="layui-input-inline">' +  
+                      '<input type="text" name="labels_value[]" id="labels_value'+TplIndex+'" placeholder="value" value="" class="layui-input">' +
+                  '</div>' +
+                  '<div class="layui-input-inline" style="width:80px">' +  
+                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
+                  '</div>' +                
+              '</div>'
+            $('.labelsTpl').append(addTpl);   
+          form.render(); 
+          return false;   
+        });
+
+        //variable变量增加
+        $('#variableddbtn').on("click",function(){
+          vTplIndex++;
+          var addTpl =
+              '<div class="layui-form-item" id="vtpl-'+vTplIndex+'">' +
+                  '<label class="layui-form-label">环境变量</label>' +
+                  '<div class="layui-input-inline" style="width:150px">' +
+        	              '<input type="text" name="env_name[]" id="env_name'+vTplIndex+'" placeholder="key" value="" class="layui-input">' +
+                  '</div>' +    
+                  '<div class="layui-input-inline" style="width:150px">' +  
+                      '<input type="text" name="env_value[]" id="env_value'+vTplIndex+'" placeholder="value" value="" class="layui-input">' +
+                  '</div>' +
+                  '<div class="layui-input-inline" style="width:80px">' +  
+                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" type="button" value="&#xe616;" onclick="delvTpl('+vTplIndex+');" />' +
+                  '</div>' +                
+              '</div>'
+            $('.variableTpl').append(addTpl);   
+          form.render(); 
+          return false;   
+        });
+
+        //service增加
+        $('#svcaddbtn').on("click",function(){
+          sTplIndex++;
+          var addTpl =
+              '<div class="layui-form-item" id="stpl-'+sTplIndex+'">' +
+                  '<label class="layui-form-label">svc端口</label>' +
+                  '<div class="layui-input-inline" style="width:100px">' +
+        	              '<input type="text" name="svc_portsName[]" id="svc_portsName'+sTplIndex+'" placeholder="名称" value="" class="layui-input">' +
+                  '</div>' +    
+                  '<div class="layui-input-inline" style="width:100px">' +  
+                      '<input type="text" name="svc_port[]" id="svc_port'+sTplIndex+'" placeholder="服务端口" value="80" class="layui-input">' +
+                  '</div>' +
+                  '<div class="layui-input-inline" style="width:100px">' +  
+                      '<input type="text" name="svc_targetPort[]" id="svc_targetPort'+sTplIndex+'" placeholder="容器端口" value="80" class="layui-input">' +
+                  '</div>' +
+                  '<div class="layui-input-inline" style="width:80px">' +  
+                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" type="button" value="&#xe616;" onclick="delsTpl('+sTplIndex+');" />' +
+                  '</div>' +                
+              '</div>'
+            $('.serviceTpl').append(addTpl);   
+          form.render(); 
+          return false;   
+        });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+                //data.field.appname = data.field.appname.replace(/^\s*|\s*$/g,""); //替换空格
+                //lables 处理
+                var labelsArry = [];
+                for (var i=0;i<=TplIndex;i++) {
+                  //delete data.field.lables_key[i];                  
+                  //delete data.field.labels_value[i];
+                  var kk = document.getElementById("labels_key"+i).value;
+                  var vv = document.getElementById("labels_value"+i).value; 
+                  if ( kk != "" && vv != "") {
+                    labelsArry.push(
+                      {
+                        key:kk,
+                        value:vv,
+                      }
+                    )
+                  }
+                }
+                if (labelsArry.length > 0) {
+                  data.field.lables = labelsArry;
+                }
+                //资源限制
+                if (data.field.resourceLimitCheck == "on") {
+                    //console.log(data.field.limit_cpu.length);
+                    if ( data.field.limit_cpu.length == 0 || data.field.limit_mem == "" || data.field.request_cpu == "" || data.field.request_cpu == "" ){
+                        layer.msg('若勾选资源限制,资源限制及所需资源都不能留空!', {icon: 2});
+                        return false
+                    }
+                }
+                //健康检查
+                if (data.field.healthCheck == "on") {
+                    if (data.field.readinessProbe == "on") {
+                          if (data.field.readiness_checkType == "HTTP"){
+                            if (data.field.readiness_path == "" || data.field.readiness_httpPort == ""){
+                                layer.msg('若勾选健康检测的就绪检查,路径和端口不能为空!', {icon: 2});
+                                return false
+                            }
+                          }
+                          if (data.field.readiness_checkType == "TCP"){
+                            if (data.field.readiness_tcpPort == ""){
+                                layer.msg('若勾选健康检测的tcp检测,端口不能为空!', {icon: 2});
+                                return false
+                            }
+                          }
+                          if (data.field.readiness_checkType == "CMD"){
+                            if (data.field.readiness_cmd == ""){
+                                layer.msg('若勾选健康检测的命令检查,命令不能为空!', {icon: 2});
+                                return false
+                            }
+                          }
+                    }
+
+                    if (data.field.livenessProbe == "on") {
+                          if (data.field.liveness_checkType == "HTTP"){
+                            if (data.field.liveness_path == "" || data.field.liveness_httpPort == ""){
+                                layer.msg('若勾选健康检测的就绪检查,路径和端口不能为空!', {icon: 2});
+                                return false
+                            }
+                          }
+                          if (data.field.liveness_checkType == "TCP"){
+                            if (data.field.liveness_tcpPort == ""){
+                                layer.msg('若勾选健康检测的tcp检测,端口不能为空!', {icon: 2});
+                                return false
+                            }
+                          }
+                          if (data.field.liveness_checkType == "command"){
+                            if (data.field.liveness_cmd == ""){
+                                layer.msg('若勾选健康检测的命令检查,命令不能为空!', {icon: 2});
+                                return false
+                            }
+                          }
+                    }
+                }
+                //生命周期
+                if (data.field.periodCheck == "on") {
+                    if (data.field.postStart == "" || data.field.preStop == ""){
+                        layer.msg('若勾选生命周期,两个输入框不能都为空!', {icon: 2});
+                        return false
+                    }
+                    data.field.postStart = data.field.postStart.replace(/^\s*|\s*$/g,","); //替换空格为逗号
+                    data.field.preStop = data.field.preStop.replace(/^\s*|\s*$/g,","); //替换空格为逗号
+                }
+
+                //变量 处理
+                if (data.field.variableCheck == "on") {
+                    var envArry = [];
+                    for (var i=0;i<=vTplIndex;i++) {
+                      var kk = document.getElementById("env_name"+i).value;
+                      var vv = document.getElementById("env_value"+i).value; 
+                      if ( kk != "" && vv != "") {
+                        envArry.push(
+                          {
+                            key:kk,
+                            value:vv,
+                          }
+                        )
+                      }
+                    }
+                    if (envArry.length > 0) {
+                      data.field.envs = envArry;
+                    }else{
+                        layer.msg('若勾选环境变量,输入框都不能为空!', {icon: 2});
+                        return false
+                    }
+                }
+                //service 处理
+                if (data.field.serviceCheck == "on") {
+                    if (data.field.svcName == ""){
+                        data.field.svcName == data.field.deployName;
+                        //layer.msg('若勾选service,svc名称不能为空!', {icon: 2});
+                        //return false
+                    }
+                    var svcArry = [];
+                    for (var i=0;i<=sTplIndex;i++) {
+                      var kk = document.getElementById("svc_portsName"+i).value;
+                      var vv = document.getElementById("svc_port"+i).value; 
+                      var ss = document.getElementById("svc_targetPort"+i).value; 
+                      if ( kk != "" && vv != "" && ss != "") {
+                        svcArry.push(
+                          {
+                            portName:kk,
+                            svcPort:vv,
+                            targetPort:ss,
+                          }
+                        )
+                      }
+                    }
+                    if (svcArry.length > 0) {
+                      data.field.svc_ports = svcArry;
+                    }else{
+                        layer.msg('若勾选service,svc端口这行都不能为空!', {icon: 2});
+                        return false
+                    }
+                }
+
+					      console.log(data.field);
+			          layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('稍等片刻');
+                     $.ajax({
+                       url: "/xkube/sts/v1/Create?clusterId="+data.field.clusterId,
+                       type: "post",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('添加成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+    });
+</script>
+</html>

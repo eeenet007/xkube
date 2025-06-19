@@ -1,0 +1,243 @@
+{
+  "requestId": "8CFA761D-234C-5C77-B743-AC2C3F9C28C3",
+  "pipelineRun": {
+    "creatorAccountId": "229998698487899125",
+    "sources": [
+      {
+        "data": {
+          "commint": "[{\"commitId\": \"76891dd60ede92fdc59718648da8e9da91cd8509\", \"commitTime\": \"Fri Jul 14 14:03:54 2023 +0800\", \"commitMsg\": \"%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%20%27dev%27%20%E5%88%B0%20%27master%27\", \"commitAuthor\": \"\\u51af\\u96c5\\u8f69\"}]",
+          "repo": "https://git.pc.com.cn/data_dev/ai_advert.git",
+          "branch": "master"
+        },
+        "sign": "ai_advert_owAi",
+        "type": "git"
+      }
+    ],
+    "createTime": 1694166156000,
+    "pipelineRunId": 23,
+    "stages": [
+      {
+        "name": "Group0-Stage0",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "Java 代码扫描",
+              "startTime": 1694166164000,
+              "endTime": 1694166222000,
+              "id": 164642338,
+              "params": "{\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"commitMsg\":\"[{\\\"commitId\\\": \\\"76891dd60ede92fdc59718648da8e9da91cd8509\\\", \\\"commitTime\\\": \\\"Fri Jul 14 14:03:54 2023 +0800\\\", \\\"commitMsg\\\": \\\"%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%20%27dev%27%20%E5%88%B0%20%27master%27\\\", \\\"commitAuthor\\\": \\\"\\\\u51af\\\\u96c5\\\\u8f69\\\"}]\",\"repo\":\"https://git.pc.com.cn/data_dev/ai_advert.git\",\"connection\":158500,\"label\":\"data_dev/ai_advert\",\"commitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"branch\":\"master\",\"previousCommitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"events\":[\"push\"]},\"sign\":\"ai_advert_owAi\",\"name\":\"ai_advert_owAi\",\"label\":\"data_dev/ai_advert\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"test1\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"15_1686308261740\",\"EXECUTOR_ID\":\"5f474da118c17e77482233d7\",\"PIPELINE_ID\":\"2426259\",\"ENGINE_PIPELINE_CONFIG_ID\":\"6728195\",\"BUILD_MESSAGE\":\"test1 • 页面手动触发\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1694166156984\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"247356467288291733\",\"branchRepoInfo\":\"[]\",\"triggerMode\":\"1\",\"ENGINE_PIPELINE_ID\":\"2426259\",\"runnerCacheMode\":\"local\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f474da118c17e77482233d7\",\"clone_option\":\"all\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"BUILD_EXECUTOR\":\"test1\",\"steps\":[{\"freeInTaskGroupModeFields\":[],\"stepType\":\"p3c\",\"RULE_SET\":\"ali-comment.xml,ali-concurrent.xml,ali-constant.xml,ali-exception.xml,ali-flowcontrol.xml,ali-naming.xml,ali-oop.xml,ali-orm.xml,ali-other.xml,ali-set.xml\",\"MAVEN_VERSION\":\"3.5.2\",\"stepIdentifier\":\"15_1686308261740__16_1686308261740\",\"JDK_VERSION\":\"jdk1.8\",\"USE_CUSTOM_RULE\":false,\"RULE_DIR\":\".\",\"SUB_DIR\":\"\",\"EXCLUSION\":\"test/\",\"CHECK_REDLINES\":\"\",\"INCREASE\":false,\"name\":\"Java 代码规约扫描\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"ENGINE_PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"23\",\"BUILD_NUMBER\":\"23\",\"DATETIME\":\"2023-09-08-17-42-36\",\"ENGINE_TASK_NAME\":\"Java 代码扫描\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"buildNodeGroup\":\"K8S-4\",\"selected_sources\":\"\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_ID\":\"49531025\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "LogPipelineJobRun"
+                },
+                {
+                  "disable": false,
+                  "type": "GetPipelineScanReportUrl",
+                  "params": {
+                    "reportPath": "assets/2019967/2426259/d59fd7ab-cc23-495e-8352-0f78d78915cb//tmp/index.html",
+                    "reportInfo": {
+                      "Major": {
+                        "name": "issue",
+                        "style": "text-danger",
+                        "title": "Major",
+                        "value": "1774",
+                        "key": "Major"
+                      },
+                      "Total": {
+                        "name": "issue",
+                        "style": "text-danger",
+                        "title": "Total",
+                        "value": "2824",
+                        "key": "Total"
+                      },
+                      "Critical": {
+                        "name": "issue",
+                        "style": "text-danger",
+                        "title": "Critical",
+                        "value": "785",
+                        "key": "Critical"
+                      },
+                      "Blocker": {
+                        "name": "issue",
+                        "style": "text-danger",
+                        "title": "Blocker",
+                        "value": "265",
+                        "key": "Blocker"
+                      },
+                      "_REPORT": {
+                        "title": "report",
+                        "value": "link",
+                        "key": "_REPORT",
+                        "url": "https://flow.aliyun.com/assets/2019967/2426259/d59fd7ab-cc23-495e-8352-0f78d78915cb//tmp/index.html"
+                      },
+                      "File": {
+                        "name": "issue",
+                        "style": "text-danger",
+                        "title": "File",
+                        "value": "424",
+                        "key": "File"
+                      }
+                    }
+                  }
+                }
+              ],
+              "status": "SUCCESS"
+            },
+            {
+              "name": "代码扫描结果确认",
+              "startTime": 1694166222000,
+              "endTime": 1694166227000,
+              "id": 164642339,
+              "params": "{\"CI_COMMIT_TITLE\":\"合并分支 dev 到 master\",\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"commitMsg\":\"[{\\\"commitId\\\": \\\"76891dd60ede92fdc59718648da8e9da91cd8509\\\", \\\"commitTime\\\": \\\"Fri Jul 14 14:03:54 2023 +0800\\\", \\\"commitMsg\\\": \\\"%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%20%27dev%27%20%E5%88%B0%20%27master%27\\\", \\\"commitAuthor\\\": \\\"\\\\u51af\\\\u96c5\\\\u8f69\\\"}]\",\"repo\":\"https://git.pc.com.cn/data_dev/ai_advert.git\",\"connection\":158500,\"label\":\"data_dev/ai_advert\",\"commitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"branch\":\"master\",\"previousCommitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"events\":[\"push\"]},\"sign\":\"ai_advert_owAi\",\"name\":\"ai_advert_owAi\",\"label\":\"data_dev/ai_advert\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"test1\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"17_1686308286124\",\"EXECUTOR_ID\":\"5f474da118c17e77482233d7\",\"CI_SOURCE_NAME\":\"ai_advert\",\"PIPELINE_ID\":\"2426259\",\"ENGINE_PIPELINE_CONFIG_ID\":\"6728195\",\"BUILD_MESSAGE\":\"test1 • 页面手动触发\",\"validatorPipelineRole\":\"member,admin,owner\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1694166156984\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"247356467288291733\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_1\":\"合并分支 dev 到 master\",\"validatorMethod\":\"or\",\"triggerMode\":\"1\",\"CI_SOURCE_NAME_1\":\"ai_advert\",\"validatorType\":\"PIPELINE_ROLE\",\"ENGINE_PIPELINE_ID\":\"2426259\",\"runnerCacheMode\":\"local\",\"CI_COMMIT_ID\":\"76891dd6\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f474da118c17e77482233d7\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"test1\",\"CI_COMMIT_REF_NAME\":\"master\",\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"validatorRole\":\"\",\"timeoutTime\":\"0\",\"ENGINE_PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"23\",\"BUILD_NUMBER\":\"23\",\"DATETIME\":\"2023-09-08-17-42-36\",\"CI_COMMIT_SHA_1\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"CI_COMMIT_ID_1\":\"76891dd6\",\"ENGINE_TASK_NAME\":\"代码扫描结果确认\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"CI_COMMIT_SHA\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"ENGINE_PIPELINE_INST_ID\":\"49531025\"}",
+              "actions": [],
+              "status": "SUCCESS"
+            }
+          ],
+          "name": "Group0-Stage0",
+          "startTime": 1694166164000,
+          "endTime": 1694166227000,
+          "status": "SUCCESS"
+        }
+      },
+      {
+        "name": "Group1-Stage0",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "Java 构建上传",
+              "startTime": 1694166231000,
+              "endTime": 1694166329000,
+              "id": 164642340,
+              "params": "{\"CI_COMMIT_TITLE\":\"合并分支 dev 到 master\",\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"commitMsg\":\"[{\\\"commitId\\\": \\\"76891dd60ede92fdc59718648da8e9da91cd8509\\\", \\\"commitTime\\\": \\\"Fri Jul 14 14:03:54 2023 +0800\\\", \\\"commitMsg\\\": \\\"%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%20%27dev%27%20%E5%88%B0%20%27master%27\\\", \\\"commitAuthor\\\": \\\"\\\\u51af\\\\u96c5\\\\u8f69\\\"}]\",\"repo\":\"https://git.pc.com.cn/data_dev/ai_advert.git\",\"connection\":158500,\"label\":\"data_dev/ai_advert\",\"commitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"branch\":\"master\",\"previousCommitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"events\":[\"push\"]},\"sign\":\"ai_advert_owAi\",\"name\":\"ai_advert_owAi\",\"label\":\"data_dev/ai_advert\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"test1\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"10_1686295981053\",\"EXECUTOR_ID\":\"5f474da118c17e77482233d7\",\"CI_SOURCE_NAME\":\"ai_advert\",\"PIPELINE_ID\":\"2426259\",\"ENGINE_PIPELINE_CONFIG_ID\":\"6728195\",\"BUILD_MESSAGE\":\"test1 • 页面手动触发\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1694166156984\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"247356467288291733\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_1\":\"合并分支 dev 到 master\",\"triggerMode\":\"1\",\"CI_SOURCE_NAME_1\":\"ai_advert\",\"ENGINE_PIPELINE_ID\":\"2426259\",\"runnerCacheMode\":\"local\",\"CI_COMMIT_ID\":\"76891dd6\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f474da118c17e77482233d7\",\"clone_option\":\"all\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"test1\",\"CI_COMMIT_REF_NAME\":\"master\",\"version\":\"jdk1.8\",\"steps\":[{\"freeInTaskGroupModeFields\":[],\"stepType\":\"java_build\",\"name\":\"Java 构建\",\"MAVEN_VERSION\":\"3.5.2\",\"stepIdentifier\":\"10_1686295981053__11_1686295981053\",\"CI_RUNTIME_VERSION\":\"jdk1.8\",\"version\":\"jdk1.8\",\"command\":\"# maven build default command\\n\\nPROJECT_DIR=${PROJECT_DIR}\\necho PROJECT_DIR=${PROJECT_DIR}\\necho \\\"ls -ltrh ${PROJECT_DIR}\\\"\\nls -ltrh ${PROJECT_DIR}\\n\\nif [ -d ${PROJECT_DIR}/aiAdvertise ]\\nthen\\n  cd ${PROJECT_DIR}/aiAdvertise\\n  mvn -B clean package -Dmaven.test.skip=true -Dautoconfig.skip\\n  if [ ! -f ${PROJECT_DIR}/aiAdvertise/target/aiAdvertise-1.0-SNAPSHOT.jar ]\\n  then\\n    echo \\\"${PROJECT_DIR}/aiAdvertise/target/aiAdvertise-1.0-SNAPSHOT.jar not such file, build failed\\\"\\n    exit 1\\n  else\\n    echo \\\"${PROJECT_DIR}/aiAdvertise/target/aiAdvertise-1.0-SNAPSHOT.jar build succeed\\\"\\n  fi\\nelse\\n  echo \\\"${PROJECT_DIR}/aiAdvertise not such directory, download code failed\\\"\\n  exit 1\\nfi\\n\\nif [ ! -d ${PROJECT_DIR}/target ]\\nthen\\n  mkdir -p ${PROJECT_DIR}/target\\nelse\\n  rm -rf ${PROJECT_DIR}/target/*\\nfi\\n\\n\\\\cp -avx ${PROJECT_DIR}/aiAdvertise/src/main/resources/shell/pcauto-jzz_9001.sh ${PROJECT_DIR}/target\\n\\\\cp -avx ${PROJECT_DIR}/aiAdvertise/src/main/resources/shell/pcauto-jzz_9005.sh ${PROJECT_DIR}/target\\n\\\\cp -avx ${PROJECT_DIR}/aiAdvertise/target/aiAdvertise-1.0-SNAPSHOT.jar ${PROJECT_DIR}/target\\n\\\\cp -avx ${PROJECT_DIR}/aiAdvertise/target/config ${PROJECT_DIR}/target\\n\\\\cp -avx ${PROJECT_DIR}/aiAdvertise/target/syncAdClue.properties ${PROJECT_DIR}/target\\n\\\\cp -avx ${PROJECT_DIR}/aiAdvertise/target/adModel.properties ${PROJECT_DIR}/target\\n\\n\\necho -e \\\"\\\\n===========================\\\"\\necho \\\"check ${PROJECT_DIR}: ls -ltrh ${PROJECT_DIR}\\\"\\nls -ltrh ${PROJECT_DIR}\\n\\n\\necho -e \\\"\\\\n===========================\\\"\\necho \\\"check ${PROJECT_DIR}/target: ls -ltrh ${PROJECT_DIR}/target\\\"\\nls -ltrh ${PROJECT_DIR}/target\\n\\n\\necho -e \\\"\\\\n===========================\\\"\\necho \\\"check ${PROJECT_DIR}/target/config: ls -ltrh ${PROJECT_DIR}/target/config\\\"\\nls -ltrh ${PROJECT_DIR}/target/config\\n\\n\\n# gradle build default command\\n# ./gradlew build\\n\\n# ant build default command\\n# ant\\n\"},{\"SERVICE_CONNECTION_ID\":\"\",\"REPO_ID\":\"\",\"ARCHIVE_PATH\":\"target/aiAdvertise-1.0-SNAPSHOT.jar target/config target/syncAdClue.properties target/adModel.properties target/pcauto-jzz_9001.sh\",\"freeInTaskGroupModeFields\":[],\"stepType\":\"tb_oss_upload\",\"ARTIFACT\":\"Artifacts_2426259\",\"SHOULD_PACKAGE\":true,\"INCLUDE_PATH_IN_ARTIFACT\":false,\"name\":\"构建物上传\",\"uploadType\":\"PUBLIC_STORAGE\",\"stepIdentifier\":\"10_1686295981053__12_1686295981053\",\"ARTIFACT_VERSION\":\"2023-09-08-17-42-36\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"ENGINE_PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"23\",\"BUILD_NUMBER\":\"23\",\"DATETIME\":\"2023-09-08-17-42-36\",\"CI_COMMIT_SHA_1\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"CI_COMMIT_ID_1\":\"76891dd6\",\"ENGINE_TASK_NAME\":\"Java 构建上传\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"buildNodeGroup\":\"K8S-4\",\"selected_sources\":\"\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"CI_COMMIT_SHA\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"ENGINE_PIPELINE_INST_ID\":\"49531025\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "LogPipelineJobRun"
+                },
+                {
+                  "disable": false,
+                  "type": "GetPipelineArtifactUrl",
+                  "params": {
+                    "files": [
+                      {
+                        "fileName": "Artifacts_2426259.tgz",
+                        "filePath": "aone2/2019967/1694166320103/Artifacts_2426259.tgz"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "status": "SUCCESS"
+            },
+            {
+              "name": "构建结果确认",
+              "startTime": 1694166329000,
+              "endTime": 1694166337000,
+              "id": 164642341,
+              "params": "{\"CI_COMMIT_TITLE\":\"合并分支 dev 到 master\",\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"commitMsg\":\"[{\\\"commitId\\\": \\\"76891dd60ede92fdc59718648da8e9da91cd8509\\\", \\\"commitTime\\\": \\\"Fri Jul 14 14:03:54 2023 +0800\\\", \\\"commitMsg\\\": \\\"%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%20%27dev%27%20%E5%88%B0%20%27master%27\\\", \\\"commitAuthor\\\": \\\"\\\\u51af\\\\u96c5\\\\u8f69\\\"}]\",\"repo\":\"https://git.pc.com.cn/data_dev/ai_advert.git\",\"connection\":158500,\"label\":\"data_dev/ai_advert\",\"commitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"branch\":\"master\",\"previousCommitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"events\":[\"push\"]},\"sign\":\"ai_advert_owAi\",\"name\":\"ai_advert_owAi\",\"label\":\"data_dev/ai_advert\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"test1\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"12_1686308130059\",\"EXECUTOR_ID\":\"5f474da118c17e77482233d7\",\"CI_SOURCE_NAME\":\"ai_advert\",\"PIPELINE_ID\":\"2426259\",\"ENGINE_PIPELINE_CONFIG_ID\":\"6728195\",\"BUILD_MESSAGE\":\"test1 • 页面手动触发\",\"validatorPipelineRole\":\"member,admin,owner\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1694166156984\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"247356467288291733\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_1\":\"合并分支 dev 到 master\",\"validatorMethod\":\"or\",\"triggerMode\":\"1\",\"CI_SOURCE_NAME_1\":\"ai_advert\",\"validatorType\":\"PIPELINE_ROLE\",\"ENGINE_PIPELINE_ID\":\"2426259\",\"runnerCacheMode\":\"local\",\"CI_COMMIT_ID\":\"76891dd6\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f474da118c17e77482233d7\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"test1\",\"CI_COMMIT_REF_NAME\":\"master\",\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"validatorRole\":\"\",\"timeoutTime\":\"0\",\"ENGINE_PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"23\",\"BUILD_NUMBER\":\"23\",\"DATETIME\":\"2023-09-08-17-42-36\",\"CI_COMMIT_SHA_1\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"CI_COMMIT_ID_1\":\"76891dd6\",\"ENGINE_TASK_NAME\":\"构建结果确认\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"CI_COMMIT_SHA\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"ENGINE_PIPELINE_INST_ID\":\"49531025\"}",
+              "actions": [],
+              "status": "SUCCESS"
+            }
+          ],
+          "name": "Group1-Stage0",
+          "startTime": 1694166231000,
+          "endTime": 1694166337000,
+          "status": "SUCCESS"
+        }
+      },
+      {
+        "name": "Group2-Stage0",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "亚太-IDC VM部署-pcauto-jzz-244-226",
+              "startTime": 1694166340000,
+              "endTime": 1694166364000,
+              "id": 164642342,
+              "params": "{\"needPackage\":true,\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"EXECUTOR_ID\":\"5f474da118c17e77482233d7\",\"CI_SOURCE_NAME\":\"ai_advert\",\"PIPELINE_ID\":\"2426259\",\"ENGINE_PIPELINE_CONFIG_ID\":\"6728195\",\"pause_strategy\":\"EveryBatchPause\",\"TIMESTAMP\":\"1694166156984\",\"execute_user\":\"root\",\"triggerMode\":\"1\",\"CI_SOURCE_NAME_1\":\"ai_advert\",\"CI_COMMIT_ID\":\"76891dd6\",\"package_download_path\":\"/data/PRG/pcauto-jzz.tar.gz\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"test1\",\"CI_COMMIT_REF_NAME\":\"master\",\"PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"ENGINE_PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"23\",\"execute_cmd_tip\":\"\",\"FLOW_ENGINE_ENCODE_GLOBAL_PARAM\":false,\"CI_COMMIT_ID_1\":\"76891dd6\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"machine_group_id\":131570,\"CI_COMMIT_TITLE\":\"合并分支 dev 到 master\",\"default_batch\":\"1\",\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"commitMsg\":\"[{\\\"commitId\\\": \\\"76891dd60ede92fdc59718648da8e9da91cd8509\\\", \\\"commitTime\\\": \\\"Fri Jul 14 14:03:54 2023 +0800\\\", \\\"commitMsg\\\": \\\"%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%20%27dev%27%20%E5%88%B0%20%27master%27\\\", \\\"commitAuthor\\\": \\\"\\\\u51af\\\\u96c5\\\\u8f69\\\"}]\",\"repo\":\"https://git.pc.com.cn/data_dev/ai_advert.git\",\"connection\":158500,\"label\":\"data_dev/ai_advert\",\"commitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"branch\":\"master\",\"previousCommitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"events\":[\"push\"]},\"sign\":\"ai_advert_owAi\",\"name\":\"ai_advert_owAi\",\"label\":\"data_dev/ai_advert\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"test1\",\"ENGINE_TASK_SIGN\":\"13_1686295981054\",\"BUILD_MESSAGE\":\"test1 • 页面手动触发\",\"execute_cmd\":\"#!/bin/bash\\n\\n\\nDATE_DAY=$(date +\\\"%Y%m%d\\\")\\nROOTPATH=/data/PRG\\nSERVICE=pcauto-jzz\\nWORK_PORT=9001\\nSERVER_BACKUP_DIR=${ROOTPATH}/backup_${DATE_DAY}\\nROLLBACK_VERSION=${SERVICE}_$(date +\\\"%Y%m%d%H%M\\\")\\nRESTART_CMD=${ROOTPATH}/${SERVICE}/${SERVICE}_${WORK_PORT}.sh\\nLOGFILE=${ROOTPATH}/${SERVICE}.stdout.log\\n\\nif [ ! -f ${ROOTPATH}/${SERVICE}.tar.gz ]\\nthen\\n  echo \\\"${ROOTPATH}/${SERVICE}.tar.gz download failed\\\"\\n  exit 1\\nfi\\n\\nif [ ! -f ${ROOTPATH}/deploy-${SERVICE}.sh ]\\nthen\\n  echo \\\"${ROOTPATH}/deploy-${SERVICE}.sh not such file, rollback failed\\\"\\n  exit 1\\nfi\\n\\n\\ncd ${ROOTPATH} || exit 1\\ndos2unix *.sh\\nchmod +x *.sh\\nsh deploy-${SERVICE}.sh > ${LOGFILE}\\n\\necho \\\"check log ${LOGFILE}\\\"\\necho \\\"check process command: ps -ef | grep -i ${SERVICE}\\\"\\nps -ef | grep -i ${SERVICE}\\necho \\\"check port    command: netstat -ntpl | grep -i ${WORK_PORT}\\\"\\nnetstat -ntpl | grep -i ${WORK_PORT}\\necho -e \\\"**********============> $0 exec completed <**********============\\\\n\\\"\\n\\n\\necho -e \\\"deploy ${SERVICE} completed\\\\n\\\"\\nexit 0\",\"pmLocalMount\":false,\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"247356467288291733\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_1\":\"合并分支 dev 到 master\",\"ENGINE_PIPELINE_ID\":\"2426259\",\"package_label\":\"{\\\"ARTIFACT_URL\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2019967/1694166320103/Artifacts_2426259.tgz&fileName=Artifacts_2426259.tgz&md5Sign=1d70b09d5fbac5b493655cd466a111e3\\\",\\\"ARTIFACT_NAME\\\":\\\"Artifacts_2426259.tgz\\\", \\\"ARTIFACT_MD5\\\":\\\"7d9e8f26bdea5a905d2bac7583620170\\\", \\\"WEB_DOWNLOAD_URL\\\":\\\"execution-component&bucketName=execution-component-rdc&fileId=aone2%2F2019967%2F1694166320103%2FArtifacts_2426259.tgz&artifactName=Artifacts_2426259.tgz\\\", \\\"artifact\\\":\\\"Artifacts_2426259.tgz\\\", \\\"type\\\":\\\"flowPublic\\\",\\\"downloadUrl\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2019967/1694166320103/Artifacts_2426259.tgz&fileName=Artifacts_2426259.tgz&md5Sign=1d70b09d5fbac5b493655cd466a111e3\\\", \\\"md5\\\":\\\"7d9e8f26bdea5a905d2bac7583620170\\\"}\",\"runnerCacheMode\":\"local\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f474da118c17e77482233d7\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"HIDDEN_VALUES\":\"[]\",\"BUILD_NUMBER\":\"23\",\"DATETIME\":\"2023-09-08-17-42-36\",\"CI_COMMIT_SHA_1\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"ENGINE_TASK_NAME\":\"亚太-IDC VM部署-pcauto-jzz-244-226\",\"CI_COMMIT_SHA\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"ENGINE_PIPELINE_INST_ID\":\"49531025\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "GetVMDeployOrder",
+                  "params": {
+                    "deployOrderId": 19817083
+                  }
+                }
+              ],
+              "status": "SUCCESS"
+            },
+            {
+              "name": "发版结果确认",
+              "startTime": 1694166364000,
+              "endTime": 1694166377000,
+              "id": 164642343,
+              "params": "{\"CI_COMMIT_TITLE\":\"合并分支 dev 到 master\",\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"commitMsg\":\"[{\\\"commitId\\\": \\\"76891dd60ede92fdc59718648da8e9da91cd8509\\\", \\\"commitTime\\\": \\\"Fri Jul 14 14:03:54 2023 +0800\\\", \\\"commitMsg\\\": \\\"%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%20%27dev%27%20%E5%88%B0%20%27master%27\\\", \\\"commitAuthor\\\": \\\"\\\\u51af\\\\u96c5\\\\u8f69\\\"}]\",\"repo\":\"https://git.pc.com.cn/data_dev/ai_advert.git\",\"connection\":158500,\"label\":\"data_dev/ai_advert\",\"commitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"branch\":\"master\",\"previousCommitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"events\":[\"push\"]},\"sign\":\"ai_advert_owAi\",\"name\":\"ai_advert_owAi\",\"label\":\"data_dev/ai_advert\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"test1\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"13_1686308204725\",\"EXECUTOR_ID\":\"5f474da118c17e77482233d7\",\"CI_SOURCE_NAME\":\"ai_advert\",\"PIPELINE_ID\":\"2426259\",\"ENGINE_PIPELINE_CONFIG_ID\":\"6728195\",\"BUILD_MESSAGE\":\"test1 • 页面手动触发\",\"validatorPipelineRole\":\"member,admin,owner\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1694166156984\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"247356467288291733\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_1\":\"合并分支 dev 到 master\",\"validatorMethod\":\"or\",\"triggerMode\":\"1\",\"CI_SOURCE_NAME_1\":\"ai_advert\",\"validatorType\":\"PIPELINE_ROLE\",\"ENGINE_PIPELINE_ID\":\"2426259\",\"runnerCacheMode\":\"local\",\"CI_COMMIT_ID\":\"76891dd6\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f474da118c17e77482233d7\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"test1\",\"CI_COMMIT_REF_NAME\":\"master\",\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"validatorRole\":\"\",\"timeoutTime\":\"0\",\"ENGINE_PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"23\",\"BUILD_NUMBER\":\"23\",\"DATETIME\":\"2023-09-08-17-42-36\",\"CI_COMMIT_SHA_1\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"CI_COMMIT_ID_1\":\"76891dd6\",\"ENGINE_TASK_NAME\":\"发版结果确认\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"CI_COMMIT_SHA\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"ENGINE_PIPELINE_INST_ID\":\"49531025\"}",
+              "actions": [],
+              "status": "SUCCESS"
+            }
+          ],
+          "name": "Group2-Stage0",
+          "startTime": 1694166340000,
+          "endTime": 1694166377000,
+          "status": "SUCCESS"
+        }
+      },
+      {
+        "name": "Group2-Stage1",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "亚太-IDC VM部署-pcauto-jzz-244-227",
+              "startTime": 1694166382000,
+              "endTime": 1694166406000,
+              "id": 164642344,
+              "params": "{\"needPackage\":true,\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"EXECUTOR_ID\":\"5f474da118c17e77482233d7\",\"CI_SOURCE_NAME\":\"ai_advert\",\"PIPELINE_ID\":\"2426259\",\"ENGINE_PIPELINE_CONFIG_ID\":\"6728195\",\"pause_strategy\":\"EveryBatchPause\",\"TIMESTAMP\":\"1694166156984\",\"execute_user\":\"root\",\"triggerMode\":\"1\",\"CI_SOURCE_NAME_1\":\"ai_advert\",\"CI_COMMIT_ID\":\"76891dd6\",\"package_download_path\":\"/data/PRG/pcauto-jzz.tar.gz\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"test1\",\"CI_COMMIT_REF_NAME\":\"master\",\"PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"ENGINE_PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"23\",\"execute_cmd_tip\":\"\",\"FLOW_ENGINE_ENCODE_GLOBAL_PARAM\":false,\"CI_COMMIT_ID_1\":\"76891dd6\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"machine_group_id\":131631,\"CI_COMMIT_TITLE\":\"合并分支 dev 到 master\",\"default_batch\":\"1\",\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"commitMsg\":\"[{\\\"commitId\\\": \\\"76891dd60ede92fdc59718648da8e9da91cd8509\\\", \\\"commitTime\\\": \\\"Fri Jul 14 14:03:54 2023 +0800\\\", \\\"commitMsg\\\": \\\"%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%20%27dev%27%20%E5%88%B0%20%27master%27\\\", \\\"commitAuthor\\\": \\\"\\\\u51af\\\\u96c5\\\\u8f69\\\"}]\",\"repo\":\"https://git.pc.com.cn/data_dev/ai_advert.git\",\"connection\":158500,\"label\":\"data_dev/ai_advert\",\"commitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"branch\":\"master\",\"previousCommitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"events\":[\"push\"]},\"sign\":\"ai_advert_owAi\",\"name\":\"ai_advert_owAi\",\"label\":\"data_dev/ai_advert\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"test1\",\"ENGINE_TASK_SIGN\":\"10_1686307754587\",\"BUILD_MESSAGE\":\"test1 • 页面手动触发\",\"execute_cmd\":\"#!/bin/bash\\n\\n\\nDATE_DAY=$(date +\\\"%Y%m%d\\\")\\nROOTPATH=/data/PRG\\nSERVICE=pcauto-jzz\\nWORK_PORT=9001\\nSERVER_BACKUP_DIR=${ROOTPATH}/backup_${DATE_DAY}\\nROLLBACK_VERSION=${SERVICE}_$(date +\\\"%Y%m%d%H%M\\\")\\nRESTART_CMD=${ROOTPATH}/${SERVICE}/${SERVICE}_${WORK_PORT}.sh\\nLOGFILE=${ROOTPATH}/${SERVICE}.stdout.log\\n\\nif [ ! -f ${ROOTPATH}/${SERVICE}.tar.gz ]\\nthen\\n  echo \\\"${ROOTPATH}/${SERVICE}.tar.gz download failed\\\"\\n  exit 1\\nfi\\n\\nif [ ! -f ${ROOTPATH}/deploy-${SERVICE}.sh ]\\nthen\\n  echo \\\"${ROOTPATH}/deploy-${SERVICE}.sh not such file, rollback failed\\\"\\n  exit 1\\nfi\\n\\n\\ncd ${ROOTPATH} || exit 1\\ndos2unix *.sh\\nchmod +x *.sh\\nsh deploy-${SERVICE}.sh > ${LOGFILE}\\n\\necho \\\"check log ${LOGFILE}\\\"\\necho \\\"check process command: ps -ef | grep -i ${SERVICE}\\\"\\nps -ef | grep -i ${SERVICE}\\necho \\\"check port    command: netstat -ntpl | grep -i ${WORK_PORT}\\\"\\nnetstat -ntpl | grep -i ${WORK_PORT}\\necho -e \\\"**********============> $0 exec completed <**********============\\\\n\\\"\\n\\n\\necho -e \\\"deploy ${SERVICE} completed\\\\n\\\"\\nexit 0\",\"pmLocalMount\":false,\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"247356467288291733\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_1\":\"合并分支 dev 到 master\",\"ENGINE_PIPELINE_ID\":\"2426259\",\"package_label\":\"{\\\"ARTIFACT_URL\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2019967/1694166320103/Artifacts_2426259.tgz&fileName=Artifacts_2426259.tgz&md5Sign=1d70b09d5fbac5b493655cd466a111e3\\\",\\\"ARTIFACT_NAME\\\":\\\"Artifacts_2426259.tgz\\\", \\\"ARTIFACT_MD5\\\":\\\"7d9e8f26bdea5a905d2bac7583620170\\\", \\\"WEB_DOWNLOAD_URL\\\":\\\"execution-component&bucketName=execution-component-rdc&fileId=aone2%2F2019967%2F1694166320103%2FArtifacts_2426259.tgz&artifactName=Artifacts_2426259.tgz\\\", \\\"artifact\\\":\\\"Artifacts_2426259.tgz\\\", \\\"type\\\":\\\"flowPublic\\\",\\\"downloadUrl\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2019967/1694166320103/Artifacts_2426259.tgz&fileName=Artifacts_2426259.tgz&md5Sign=1d70b09d5fbac5b493655cd466a111e3\\\", \\\"md5\\\":\\\"7d9e8f26bdea5a905d2bac7583620170\\\"}\",\"runnerCacheMode\":\"local\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f474da118c17e77482233d7\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"HIDDEN_VALUES\":\"[]\",\"BUILD_NUMBER\":\"23\",\"DATETIME\":\"2023-09-08-17-42-36\",\"CI_COMMIT_SHA_1\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"ENGINE_TASK_NAME\":\"亚太-IDC VM部署-pcauto-jzz-244-227\",\"CI_COMMIT_SHA\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"ENGINE_PIPELINE_INST_ID\":\"49531025\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "GetVMDeployOrder",
+                  "params": {
+                    "deployOrderId": 19817133
+                  }
+                }
+              ],
+              "status": "SUCCESS"
+            },
+            {
+              "name": "发版结果确认",
+              "startTime": 1694166406000,
+              "endTime": 1695380767000,
+              "id": 164642345,
+              "params": "{\"CI_COMMIT_TITLE\":\"合并分支 dev 到 master\",\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"commitMsg\":\"[{\\\"commitId\\\": \\\"76891dd60ede92fdc59718648da8e9da91cd8509\\\", \\\"commitTime\\\": \\\"Fri Jul 14 14:03:54 2023 +0800\\\", \\\"commitMsg\\\": \\\"%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF%20%27dev%27%20%E5%88%B0%20%27master%27\\\", \\\"commitAuthor\\\": \\\"\\\\u51af\\\\u96c5\\\\u8f69\\\"}]\",\"repo\":\"https://git.pc.com.cn/data_dev/ai_advert.git\",\"connection\":158500,\"label\":\"data_dev/ai_advert\",\"commitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"branch\":\"master\",\"previousCommitId\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"events\":[\"push\"]},\"sign\":\"ai_advert_owAi\",\"name\":\"ai_advert_owAi\",\"label\":\"data_dev/ai_advert\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"test1\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"14_1686308222028\",\"EXECUTOR_ID\":\"5f474da118c17e77482233d7\",\"CI_SOURCE_NAME\":\"ai_advert\",\"PIPELINE_ID\":\"2426259\",\"ENGINE_PIPELINE_CONFIG_ID\":\"6728195\",\"BUILD_MESSAGE\":\"test1 • 页面手动触发\",\"validatorPipelineRole\":\"member,admin,owner\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1694166156984\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"247356467288291733\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_1\":\"合并分支 dev 到 master\",\"validatorMethod\":\"or\",\"triggerMode\":\"1\",\"CI_SOURCE_NAME_1\":\"ai_advert\",\"validatorType\":\"PIPELINE_ROLE\",\"ENGINE_PIPELINE_ID\":\"2426259\",\"runnerCacheMode\":\"local\",\"CI_COMMIT_ID\":\"76891dd6\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"5f474da118c17e77482233d7\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"CI_COMMIT_REF_NAME_1\":\"master\",\"BUILD_EXECUTOR\":\"test1\",\"CI_COMMIT_REF_NAME\":\"master\",\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"validatorRole\":\"\",\"timeoutTime\":\"0\",\"ENGINE_PIPELINE_NAME\":\"[Prod]pc-pcauto-jzz-ad_admin-9001\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"23\",\"BUILD_NUMBER\":\"23\",\"DATETIME\":\"2023-09-08-17-42-36\",\"CI_COMMIT_SHA_1\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"CI_COMMIT_ID_1\":\"76891dd6\",\"ENGINE_TASK_NAME\":\"发版结果确认\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"CI_COMMIT_SHA\":\"76891dd60ede92fdc59718648da8e9da91cd8509\",\"ENGINE_PIPELINE_INST_ID\":\"49531025\"}",
+              "actions": [],
+              "status": "SUCCESS"
+            }
+          ],
+          "name": "Group2-Stage1",
+          "startTime": 1694166382000,
+          "endTime": 1695380768000,
+          "status": "SUCCESS"
+        }
+      }
+    ],
+    "updateTime": 1695380767000,
+    "stageGroup": [
+      [
+        "Group0-Stage0"
+      ],
+      [
+        "Group1-Stage0"
+      ],
+      [
+        "Group2-Stage0",
+        "Group2-Stage1"
+      ]
+    ],
+    "modifierAccountId": "229998698487899125",
+    "triggerMode": 1,
+    "pipelineId": 2426259,
+    "status": "SUCCESS"
+  },
+  "success": true
+}

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>CRD列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+
+<style type="text/css">
+  .layui-table-cell {
+    height: auto;
+    line-height: 22px !important;
+    text-overflow: inherit;
+    overflow: ellipsis;
+    white-space: normal;
+  }
+  .layui-table-cell .layui-table-tool-panel li {
+    word-break: break-word;
+  }
+</style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">当前集群</label>
+                            <div class="layui-input-inline">
+                                <select name="clusterId" lay-filter="cluster_Id" lay-search="" id="cluster_Id">
+                                  <option value="">请选择集群</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+        </fieldset>
+        <!--
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="yamlCreate"><i class="layui-icon">&#xe61f;</i>yaml创建cdr</button>
+            </div>
+        </script>
+        -->
+
+        <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="viewYaml">查看yaml</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
+        </script>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    	$(document).ready(function(){
+          GetCurrClusterId();  
+          //GetNamespace();	
+    	});		
+</script>
+
+<script type="text/html" id="tagTpl">
+    {{# if (d.labels != "") { }}
+            {{# layui.each(d.labels.split(','), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span>{{ item }}</span>
+                {{# }else{ }}
+                        <br><span>{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+<script type="text/html" id="annotationsTpl">
+    {{# if (d.annotations != "") { }}
+            {{# layui.each(d.annotations.split(','), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span>{{ item }}</span>
+                {{# }else{ }}
+                        <br><span>{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+<script>
+//设置默认集群
+SetDefaultCluster();
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+    layui.use(['form', 'table','miniTab'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+        //选择集群
+        form.on('select(cluster_Id)', function(data){
+          //console.log(data.elem); //得到select原始DOM对象
+          console.log(data.value); //得到被选中的值
+          setCookie('clusterId',data.value,30);
+          window.location.reload();
+          //console.log(data.othis); //得到美化后的DOM对象
+        });
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/xkube/cdr/v1/List'+location.search+'&clusterId='+clusterId,
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            parseData: function(res) { //实现加载全部数据后再分页
+              if(res.code != 0){
+                return {
+               	  "code": res.code,
+              	  "msg": res.msg,                 
+                }
+              }
+            	if(this.page.curr) {
+            		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+            	}else{
+            	  result=res.data.slice(0,this.limit);
+              }
+              return {
+              	"code": res.code,
+              	"msg":'',
+              	"count":res.count,
+              	"data":result
+              };
+            },
+            cols: [[
+                {field: 'cdrName',title: '名称', sort: true},
+                {field: 'cdrKind',title: '类型', sort: true},
+                {field: 'apiGroup',title: 'api组', sort: true},
+                {field: 'apiVersion', title: 'api版本', sort: true},
+                {field: 'scope',title: '范围', sort: true},
+                //{field: 'labels', width: 150,title: '标签', sort: true,templet: '#tagTpl',hide:true},
+                //{field: 'createTime', width:180, title: '创建时间'},
+                {title: '操作', toolbar: '#currentTableBar', align: "center"}
+            ]],
+            //size:'lg',
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true
+        });
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'create') {  // 监听添加操作
+                var index = layer.open({
+                    title: '创建',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '90%'],
+                    content: '/page/xkube/create_by_yaml.html',
+                    end: function(){
+                    	window.parent.location.reload();//关闭open打开的页面时，刷新父页面
+                    }
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            } else if (obj.event === 'yamlCreate') {  // 监听删除操作
+                var index = layer.open({
+                    title: '创建',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '85%'],
+                    content: '/page/xkube/create_by_yaml.html',
+                    end: function(){
+                    	window.parent.location.reload();//关闭open打开的页面时，刷新父页面
+                    }
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            } 
+        });
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'viewYaml') {
+                var index = layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '92%'],
+                    content: '/page/xkube/cdrYaml.html?clusterId='+clusterId+'&cdrName='+data.cdrName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('确定删除'+data.crdName+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/cdr/v1/Del?clusterId='+clusterId+'&cdrName='+data.cdrName,
+                			    type: "get",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 window.location.reload();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            }
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>流水线详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+          <form class="layui-form layui-form-pane" action="" lay-filter="UpdateInfo">
+          		<div class="layui-form-item" style="margin-bottom:2px;">
+                      <div class="layui-inline">
+                          <label class="layui-form-label">ID</label>
+                              <div class="layui-input-inline">
+                                  <input type="hide" name="id" autocomplete="off" readonly="true" placeholder="" class="layui-input">
+                              </div>
+                      </div> 
+                      <div class="layui-inline">
+                          <label class="layui-form-label">名称</label>
+                              <div class="layui-input-inline">
+                                  <input type="text" name="cicd_name" autocomplete="off" placeholder="" class="layui-input">
+                              </div>
+                      </div>
+          		</div>
+              <div class="layui-form-item" pane=""  style="width:620px;">
+                  <label class="layui-form-label">流水线类型</label>
+                  <div class="layui-input-block">
+                      <input type="radio" name="cicd_type" value="1" lay-filter="cicdType" title="阿里云流水线" checked="">
+                      <input type="radio" name="cicd_type" value="2" lay-filter="cicdType" title="本地流水线" disabled>
+                  </div>
+              </div>    
+<!-- aliyun flow config -->
+              <div id ="aliyunTpl">     
+              		<div class="layui-form-item" style="margin-bottom:2px">                                
+                    			<div class="layui-inline">
+            		  				    <label class="layui-form-label">阿里云帐号</label>
+                                  <div class="layui-input-inline">
+                    	            		<select name="aliyun_id" lay-filter="aliyunId" lay-search="" id="aliyunId">
+                    	              			<option value="" selected="">请选择</option>
+                    	            		</select>
+                                  </div>
+                    			</div>
+              		</div>	
+              		<div class="layui-form-item" style="margin-bottom:2px">   
+                    			<div class="layui-inline">
+            		  				    <label class="layui-form-label">组织ID</label>
+                                  <div class="layui-input-inline">
+                    	            		<select name="organization_id" lay-filter="organizationId"  lay-search="" id="organizationId">
+                    	              			<option value="" selected="">请选择</option>
+                    	            		</select>
+                                  </div>
+                    			</div>
+              		</div>	
+              		<div class="layui-form-item" style="margin-bottom:2px">   
+                          <div class="layui-inline">
+                              <label class="layui-form-label">流水线ID</label>
+                                  <div class="layui-input-inline">
+                                      <input type="text" name="pipeline_id" autocomplete="off" placeholder="" class="layui-input">
+                                  </div>
+                          </div>
+              		</div>	            
+              </div>
+                <div class="layui-form-item" id="updateBtn">
+                      <button class="layui-btn" lay-submit="" lay-filter="updateSubmit">保存更改</button>
+                </div>
+                <div class="layui-form-item" id="addBtn">
+                      <button class="layui-btn" lay-submit="" lay-filter="addSubmit">添加</button>
+                </div>
+        </form>         
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    	$(document).ready(function(){
+          //GetCurrClusterId();  
+          //GetNamespace();	
+    	});		
+</script>
+
+
+<script>
+
+  var cicdName = getQueryString("cicdName");
+
+	  //$.get('/cicd/v1/GetAliyunIdList', function (resp) {
+  	//	$.each(resp.data,function(i,item){
+  	//		var html = '<option value="'+item.aliyun_id+'">'+item.aliyun_id+'</option>'	
+  	//		$("#aliyunId").append(html);
+  	//	});
+	  //  layui.use('form', function(){
+	  //         var form = layui.form;
+	  //         form.render();
+	           //form.render('select', 'clusterId');
+	  //  });		
+    //});	
+
+    layui.use(['form', 'table','miniTab','element'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            element = layui.element,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+        $("#updateBtn").show();
+        $("#addBtn").hide();
+
+        //$("#xkubeTpl").hide();
+        //$("#aliyunTpl").show();
+        //form.on('radio(cicdType)', function (data) { 
+        //    if(data.value == '2'){
+        //      $("#xkubeTpl").show();
+        //      $("#aliyunTpl").hide();
+        //    }else{
+        //      $("#xkubeTpl").hide();
+        //      $("#aliyunTpl").show();        
+        //    }  
+        //});
+
+        //form.on('select(aliyunId)', function(data){
+        //  console.log(data.value); //得到被选中的值
+        //	$.get('/cicd/v1/GetAliyunIdList?aliyun_id='+data.value, function (resp) {
+        //      var orgids = JSON.parse(data[0].organization_id);
+        //      console.log(orgids);
+        //  		$.each(orgids,function(i,item){
+        //  			var html = '<option value="'+item.id+'">'+item.name+'</option>'	
+        //  			$("#organizationId").append(html);
+        //  		});
+        //	    form.render();
+        //    });	
+        //}); 
+
+      //var nameSpace = getQueryString("nameSpace");
+      //$('#appNameTitle').html(deployName);
+
+      //deatail
+			$.get('/cicd/v1/GetCicdInfo' + location.search, function (resp) {
+				  if (resp.code == 0 ) {
+              $("#updateBtn").show();
+              $("#addBtn").hide();  
+              if ( resp.data.cicd_type == 1 ) {
+                $.get('/cicd/v1/GetPipelines?cicdId='+resp.data.id, function (resp2) {
+                  console.log(resp2);
+        				  form.val('UpdateInfo', {
+        				    "id": resp.data.id
+                    ,"cicd_name": resp.data.cicd_name
+                  	,"cicd_type": resp.data.cicd_type
+                  	,"aliyun_id": resp2.data.aliyun_id
+                  	,"organization_id": resp2.data.organization_id
+                  	,"pipeline_id": resp2.data.pipeline_id
+        				  });
+                  form.render();
+                });                     
+              }else if ( resp.data.cicd_type == 2 ) {        
+                  $.get('/cicd/v1/GetCicdAllConfig' + location.search, function (resp2) {            
+            				  form.val('UpdateInfo', {
+            				    "id": resp.data.id
+                        ,"cicd_name": resp.data.cicd_name
+                      	,"cicd_type": resp.data.cicd_type
+                      	,"remarks": resp2.data.remarks
+            				  });   
+                  }); 
+              }             
+          }else{
+              $("#updateBtn").hide();
+              $("#addBtn").show();
+              console.log(cicdName);
+    				  form.val('UpdateInfo', {
+                "cicd_name": cicdName
+    				  });
+          }
+		  });
+
+/**
+         $.ajax({
+           url: "/xkube/job/v1/Log"+location.search,
+           type: "GET",
+           success: function (resp) {
+              $('#logtext').html(resp);
+            }
+         });	
+**/
+        //添加
+        form.on('submit(addSubmit)', function (data) {
+                data.field.cicd_name = data.field.cicd_name.replace(/^\s*|\s*$/g,""); //替换空格
+                data.field.cicd_type = data.field.cicd_type.replace(/^\s*|\s*$/g,"");
+                data.field.pipeline_id = data.field.cicd_giturl.replace(/^\s*|\s*$/g,"");             
+					      console.log(data.field);
+			          layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行3-5s左右');
+                     $.ajax({
+                        url: "/xkube/cicd/Add" + location.search,
+                        type: "POST",
+                        data: JSON.stringify(data.field),
+                        dataType: "json",
+                        success: function (resp) {
+                              layer.close(index2);
+                              if(resp.code == 0){
+                                  layer.msg('添加成功', {icon: 1});
+                              }else{
+                                  layer.msg(resp.msg,{icon:2});
+                              }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+        //更新
+        form.on('submit(updateSubmit)', function (data) {
+                data.field.cicd_name = data.field.cicd_name.replace(/^\s*|\s*$/g,""); //替换空格
+                data.field.namespace = data.field.namespace.replace(/^\s*|\s*$/g,"");
+                data.field.cicd_giturl = data.field.cicd_giturl.replace(/^\s*|\s*$/g,"");
+                data.field.cicd_image = data.field.cicd_image.replace(/^\s*|\s*$/g,"");                
+					      console.log(data.field);
+			          layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行3-5s左右');
+                     $.ajax({
+                       url: "/xkube/cicd/Update" + location.search,
+                       type: "POST",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('修改成功', {icon: 1});
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+    });
+</script>
+</html>

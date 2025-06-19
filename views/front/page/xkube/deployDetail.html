@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>deploy详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+
+<style type="text/css">
+.progress-bar-container {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+ 
+.progress-bar {
+  height: 20px;
+  background-color: #5cb85c;
+  border-radius: 4px;
+  transition: width 0.5s ease-in-out;
+  position: relative;
+  width: 0;
+}
+ 
+.progress-bar-text {
+  position: absolute;
+  color: white;
+  text-align: center;
+  width: 100%;
+  line-height: 20px;
+  font-size: 14px;
+}
+</style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+              <button class="layui-btn" id="EditYamlBtn">编辑yaml</button>
+              <button class="layui-btn" id="EditReplicas">副本伸缩</button>
+              <button class="layui-btn" id="DeployRestart">重新部署</button>
+              <button class="layui-btn" id="RollingUpdate">升级策略</button>
+              <button class="layui-btn" id="LablesUpdate">标签更新</button>
+              <button class="layui-btn" id="ImageUpdate">镜像更新</button>
+              <button class="layui-btn" id="CicdDeploy">CICD</button>
+              <br><br>
+
+  <div class="layui-collapse" lay-filter="test">
+    <div class="layui-colla-item">
+    <h2 class="layui-colla-title">基本信息</h2>
+      <div class="layui-colla-content">
+              <blockquote class="layui-elem-quote layui-quote-nm">
+                  <table class="layui-table" lay-even="" lay-skin="nob" style="table-layout: fixed;">
+                    <colgroup>
+                      <col width="150">
+                      <col width="450">
+                      <col width="150">
+                      <col>
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td>名称:</td>
+                        <td><div id="deployName"></div></td>
+                        <td>创建时间:</td>
+                        <td><div id="createTime"></div></td>
+                      </tr>
+                      <tr>
+                        <td>命名空间:</td>
+                        <td><div id="nameSpace"></div></td>
+                        <td>策略:</td>
+                        <td><div id="strategy"></div></td>
+                      </tr>
+                      <tr>
+                        <td>滚动升级策略:</td>
+                        <td><div id="strategyRollingUpdate"></div></td>
+                        <td>标签:</td>
+                        <td><div id="labels"></div></td>
+                      </tr>
+                      <tr>
+                        <td>选择器:</td>
+                        <td><div id="selector"></div></td>
+                        <td>注解:</td>
+                        <td style="overflow: ellipsis;word-break: break-word;"><div id="annotations"></div></td>
+                      </tr>
+                      <tr>
+                        <td>状态:</td>
+                        <td><div id="status"></div></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table> 
+              </blockquote> 
+              <table class="layui-table" id="conditionsTableId" lay-filter="conditionsTableFilter"></table>
+      </div>
+    </div>
+  </div>
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>功能模块</legend>
+            </fieldset>
+
+            <div class="layui-tab" lay-filter="layTabFilter">
+              <ul class="layui-tab-title">
+                <li class="layui-this" lay-id="111">容器组</li>
+                <li lay-id="222">访问方式</li>
+                <li lay-id="333">容器伸缩</li>
+                <li lay-id="444">历史版本</li>
+                <li lay-id="555">事件</li>
+              </ul>
+              <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                  <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
+                </div>
+                <div class="layui-tab-item">
+                  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend>service</legend>
+                  </fieldset>
+                  <table class="layui-table" id="serviceTableId" lay-filter="serviceTableFilter"></table>
+                  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend>ingress</legend>
+                  </fieldset>
+                  <table class="layui-table" id="ingressTableId" lay-filter="ingressTableFilter"></table>
+                </div>
+                <div class="layui-tab-item">
+                  <table class="layui-table" id="hpaTableId" lay-filter="hpaTableFilter"></table>                
+                </div>
+                <div class="layui-tab-item">
+                  <table class="layui-table" id="replicasetTableId" lay-filter="replicasetTableFilter"></table>                
+                </div>
+                <div class="layui-tab-item">
+                  <table class="layui-table" id="eventTableId" lay-filter="eventTableFilter"></table>
+                </div>
+              </div>
+            </div>
+            
+   	<!-- 升级策略隆框-->
+  	<div class="layui-row" id="strategyPolicyInfo" style="display:none;">
+    	<div class="layui-col-md11">
+      		<form class="layui-form layui-form-pane" action="" lay-filter="strategyPolicyInfo">
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">策略类型</label>
+                <div class="layui-input-block" style="width:250px">
+                    <input type="radio" name="strategyType" value="RollingUpdate" lay-filter="strategyPolicyType" title="滚动升级" checked="">
+                    <input type="radio" name="strategyType" value="Recreate" lay-filter="strategyPolicyType" title="替换升级">
+                </div>
+            </div>
+        		<div class="layui-form-item" id="strategyPolicyTpl">
+                <label class="layui-form-label">策略类型</label>
+          				<div class="layui-input-inline" style="width:220px;">
+            				<input type="text" name="maxSurge" placeholder="不可用pod的最大数量%" autocomplete="off" class="layui-input">
+          				</div>
+          				<div class="layui-input-inline" style="width:220px;">
+            				<input type="text" name="maxUnavailable" placeholder="超过期望的Pod数量%" autocomplete="off" class="layui-input">
+          				</div>
+        		</div>				
+        		<div class="layui-form-item">
+                <label class="layui-form-label">准备时间</label>
+          				<div class="layui-input-inline" style="width:150px;">
+            				<input type="text" name="minReadySeconds" placeholder="最小准备时间[秒]" autocomplete="off" class="layui-input">
+          				</div>
+        		</div>				
+        		<div class="layui-form-item">
+          			<button class="layui-btn" lay-submit="" lay-filter="strategyPolicySubmit">确认修改</button>
+        		</div>
+      		</form>
+    	</div>
+  	</div>
+	<!-- 升级策略弹框 end-->   
+
+   	<!-- 伸缩弹出框-->
+  	<div class="layui-row" id="ReplicasInfo" style="display:none;">
+    	<div class="layui-col-md11">
+      		<form class="layui-form layui-form-pane" action="" lay-filter="PodNumberInfo" >
+        		<div class="layui-form-item" style="margin-top:30px;margin-left:20px">
+          			<label class="layui-form-label">容器数量</label>
+          				<div class="layui-input-inline" style="width:160px">
+            				<input type="text" name="podNumber" placeholder="" class="layui-input">
+          				</div>
+						    <div class="layui-form-mid" style="color: red;">*</div>
+        		</div>	
+        		<div class="layui-form-item" style="margin-left:20px">
+						    <div class="layui-form-mid" style="color: red;">修改pod的数量</div>
+        		</div>	
+            <br>			
+        		<div class="layui-form-item">
+                <div class="layui-input-block">
+          			  <button class="layui-btn" lay-submit="" lay-filter="PodNumberSubmit">确定</button>
+                </div>
+        		</div>
+      		</form>
+    	</div>
+  	</div>
+	<!-- 伸缩弹出框 end-->         
+            
+    </div>
+</div>
+
+<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+
+<script type="text/html" id="limitKeyTpl">
+  <div style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{d.limit_key}}</div>
+</script>
+
+<script type="text/html" id="currentTableBar">
+    <!-- 
+      <a href="/page/xkube/podTerminal.html?nameSpace={{ d.nameSpace }}&podName={{ d.podName }}" target="_blank" class="layui-btn layui-btn-sm"><i class="layui-icon layui-icon-auz"></i>终端1</a>
+      <a class="layui-btn layui-btn-sm" lay-event="podDetail"><i class="layui-icon layui-icon-auz"></i>详情</a>
+   -->
+  {{#  var clusterId = getQueryString("clusterId"); }}
+  {{#  if (clusterId == null) { }}
+  {{#      clusterId = getCookie("clusterId") }}
+  {{#  } }}
+    <a href="javascript:;" layuimini-content-href="page/xkube/podDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&podName={{d.podName}}" data-title="{{d.podName}}详情" class="layui-btn layui-btn-sm">详情</a>
+    <a class="layui-btn layui-btn-sm" lay-event="podResLine"><i class="layui-icon">&#xe629;</i></a>
+    <a class="layui-btn layui-btn-sm" lay-event="podLog">日志</a>
+    <a class="layui-btn layui-btn-sm" lay-event="terminal">ssh终端</a>
+</script>
+
+<script type="text/html" id="serviceTableBar">
+  {{#  var clusterId = getQueryString("clusterId"); }}
+  {{#  if (clusterId == null) { }}
+  {{#      clusterId = getCookie("clusterId") }}
+  {{#  } }}
+    <a href="javascript:;" layuimini-content-href="page/xkube/serviceDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&serviceName={{d.serviceName}}" data-title="{{ d.serviceName }}详情" class="layui-btn layui-btn-xs">详情</a>
+</script>
+
+<script type="text/html" id="ingressTableBar">
+  {{#  var clusterId = getQueryString("clusterId"); }}
+  {{#  if (clusterId == null) { }}
+  {{#      clusterId = getCookie("clusterId") }}
+  {{#  } }}
+    <a href="javascript:;" layuimini-content-href="page/xkube/ingressDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&ingressName={{d.ingressName}}" data-title="{{ d.ingressName }}详情" class="layui-btn layui-btn-xs">详情</a>
+</script>
+
+<script type="text/html" id="hpaTableBar">
+    <a class="layui-btn layui-btn-xs" lay-event="hpaYaml">yaml详情</a>
+</script>
+
+<script type="text/html" id="rulesTpl">
+    {{# if (d.rules != "") { }}
+            {{# layui.each(d.rules.split(','), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span>{{ item }}</span>
+                {{# }else{ }}
+                        <br><span>{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+
+<script type="text/html" id="replicasettoolbarDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="replicasetYaml">yaml详情</a>
+    <a class="layui-btn layui-btn-xs" lay-event="RollBack">回滚到此版本</a>
+</script>
+
+<script type="text/html" id="hpaToolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="createHpa"><i class="layui-icon">&#xe61f;</i>创建HPA</button>
+    </div>
+</script>
+
+<script type="text/html" id="podPhaseTpl">
+  {{# if (d.podPhase == 'Running') { }}
+     <span style="color:#218868">{{ d.podPhase }}</span>
+	{{# } else { }}
+    <span style="color:#FF5722">{{ d.podPhase }}</span>
+{{# } }}
+</script>
+
+<script type="text/html" id="cpuUsageTpl">
+  {{# var width = 0; }}
+  {{# if(d.cpuUsage < 2 ) { }}
+  {{#    width = 2  }}   
+  {{# }else{ }}
+  {{#    width = d.cpuUsage  }}
+  {{# } }}     
+  <div class="progress-bar-container">
+    <div class="progress-bar" style="width:{{ width }}%;">
+      <div class="progress-bar-text">{{ d.cpuUsage }}%</div>
+    </div>
+  </div>      
+</script>	
+
+<script type="text/html" id="memUsageTpl">
+  {{# var width = 0; }}
+  {{# if(d.memUsage < 2 ) { }}
+  {{#    width = 2  }}   
+  {{# }else{ }}
+  {{#    width = d.memUsage  }}
+  {{# } }}     
+  <div class="progress-bar-container">
+    <div class="progress-bar" style="width:{{ width }}%;">
+      <div class="progress-bar-text">{{ d.memUsage }}%</div>
+    </div>
+  </div>      
+</script>
+
+<script>
+
+    function getQueryString(name) {
+      let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+      let r = window.location.search.substr(1).match(reg);
+      if (r != null) {
+          return unescape(r[2]);
+      };
+      return null;
+    };
+
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+
+var apiVersion = "v1";
+var clusterIdVersion = getCookie(clusterId);
+//console.log(compareVersions("1.26.0",clusterIdVersion));
+//console.log(clusterIdVersion);
+if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
+  apiVersion = "v2beta2";
+}
+
+    layui.use(['form', 'table','miniTab','element'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            element = layui.element,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+      var deployName = getQueryString("deployName");
+      var nameSpace = getQueryString("nameSpace");
+      //$('#appNameTitle').html(deployName);
+
+      //deatail
+			$.get('/xkube/deploy/v1/Detail' + location.search, function (resp) {
+  				  if (resp.deployName != '' ) {
+                //console.log(resp);
+                //详细信息
+                var deployName = resp.deployName;
+                $('#deployName').html(deployName);
+  
+                var createTime = resp.createTime;
+                $('#createTime').html(createTime);
+  
+                var nameSpace = resp.nameSpace;
+                $('#nameSpace').html(nameSpace);
+  
+                var strategy= resp.strategy;
+                $('#strategy').html(strategy);
+ 
+                var strategyRollingUpdate= resp.strategyRollingUpdate;
+                $('#strategyRollingUpdate').html(strategyRollingUpdate);
+ 
+                var selector = resp.selector;
+                $('#selector').html(selector);
+  
+                var annotations = resp.annotations;
+                $('#annotations').html(annotations);
+  
+                var labels = resp.labels;
+                $('#labels').html(labels);
+  
+                var status = resp.status;
+                $('#status').html(status);
+                
+                //form.val('PodNumberInfo', {
+				        //  "podNumber": resp.podNumber
+				        //})
+                
+                //conditions
+                table.render({
+                    elem: '#conditionsTableId',
+                    cols: [[
+                        {field: 'ctype',width:150, title: '类型'},
+                        {field: 'status', width:150,title: '状态'},
+                        {field: 'lastUpdateTime',width:200, title: '更新时间'},      
+                        {field: 'reason',width:200,title: '内容'},                          
+                        {field: 'message',minWidth:400,title: '消息'},
+                    ]],
+                    data: resp.conditions,
+                    even: true
+                });
+
+                table.render({
+                    elem: '#replicasetTableId',
+                    initSort: {field:'createTime', type:'desc'},
+                    cols: [[
+                        {field: 'replicasetName',width:250, title: '名称'},
+                        {field: 'imageUrl', title: '镜像地址'},
+                        {field: 'createTime',width:200,sort:true, title: '创建时间'},    
+                        {title: '操作', minWidth:200, toolbar: '#replicasettoolbarDemo', align: "center"}  
+                    ]],
+                    data: resp.replicasets,
+                    even: true
+                });
+
+          }else{
+            layer.msg('请重新刷新',{icon:2});
+          }
+		  });
+
+        $(".podlist-marks").mouseover(function() {
+          layer.tips('点击此标签刷新容器组状态!', this, {
+            tips: [1, "#000"],
+            time:3000
+          });
+        });
+
+        //yaml编辑
+        $('#EditYamlBtn').on("click",function(){
+                layer.open({
+                    title: deployName+'yaml编辑',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '90%'],
+                    content: '/page/xkube/deployYaml.html'+ location.search,
+                });
+        });
+
+			$.get('/xkube/deploy/v1/Replicas' + location.search, function (resp) {
+  				if (resp.code == 0 ) { 
+              //console.log(resp.number)
+    				  form.val('PodNumberInfo', {
+    				    "podNumber": resp.number,
+    				  });
+              form.render();   
+          }else{
+            layer.msg('获取副本数失败',{icon:2});
+          }
+		  });
+        //伸缩
+        $('#EditReplicas').on("click",function(){
+                layer.open({
+                    title: '副本伸缩',
+                    skin:'layui-layer-rim',
+                    type: 1,
+                    //shade: 0.2,
+                    //maxmin:true,
+                    shadeClose: true,
+                    area: ['350px', '300px'],
+                    content: $("#ReplicasInfo"),
+                });
+                //form.render();
+        });
+
+        form.on('submit(PodNumberSubmit)', function (data) {
+                //console.log(data.field);
+			          layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('稍等片刻');
+                     $.ajax({
+                       url: "/xkube/deploy/v1/Replicas" + location.search,
+                       type: "post",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('修改成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+
+        $("#strategyPolicyTpl").show();
+        form.on('radio(strategyPolicyType)', function (data) { 
+            //console.log(data.value);
+            if(data.value == 'RollingUpdate'){
+              $("#strategyPolicyTpl").show();
+            }else{
+              $("#strategyPolicyTpl").hide();       
+            } 
+        });
+
+        //升级策略
+        $('#RollingUpdate').on("click",function(){
+                layer.open({
+                    title: '升级策略',
+                    skin:'layui-layer-rim',
+                    type: 1,
+                    //shade: 0.2,
+                    //maxmin:true,
+                    shadeClose: true,
+                    area: ['40%', '40%'],
+                    content: $("#strategyPolicyInfo"),
+                });
+                form.render();
+        });
+
+  			$.get('/xkube/deploy/v1/Strategy' + location.search, function (resp) {
+    				if (resp.code == 0 ) { 
+      				  form.val('strategyPolicyInfo', {
+      				    "strategyType": resp.data.strategyType,
+      				    "minReadySeconds": resp.data.minReadySeconds,
+      				    "maxSurge": resp.data.maxSurge,
+      				    "maxUnavailable": resp.data.maxUnavailable,
+      				  });
+                form.render();   
+            }else{
+              layer.msg('获取升级策略失败',{icon:2});
+            }
+  		  });
+
+        form.on('submit(strategyPolicySubmit)', function (data) {
+                console.log(data.field);
+                data.field.maxSurge = data.field.maxSurge.replace(/%/g,"%25");
+                data.field.maxUnavailable = data.field.maxUnavailable.replace(/%/g,"%25");
+                data.field.minReadySeconds = parseInt(data.field.minReadySeconds);
+			          layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('稍等片刻');
+                     $.ajax({
+                       url: "/xkube/deploy/v1/Strategy" + location.search,
+                       type: "post",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('修改成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+        //标签修改
+        $('#LablesUpdate').on("click",function(){
+                var index = layer.open({
+                    title: deployName+'标签修改',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '90%'],
+                    content: '/page/xkube/deployLables.html'+location.search,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;  
+        });
+
+        //镜像修改
+        $('#ImageUpdate').on("click",function(){
+                var index = layer.open({
+                    title: deployName+'镜像修改',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '90%'],
+                    content: '/page/xkube/deployImage.html'+location.search,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;  
+        });
+
+        //镜像修改
+        $('#CicdDeploy').on("click",function(){
+                var index = layer.open({
+                    title: deployName+'流水线',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '80%'],
+                    content: '/page/cicd/index.html'+location.search+'&resType=Deployment&cicdName='+deployName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;  
+        });
+
+        //deploy restart
+        $('#DeployRestart').on("click",function(){
+	          layer.confirm('确定重启?', {icon: 3, title:'提示',yes: function(index){
+                 var index2 = layer.load(0, {shade: false});
+                 layer.msg('稍等片刻');
+                 $.ajax({
+                   url: "/xkube/deploy/v1/Restart"+location.search,
+                   type: "get",
+                   dataType: "json",
+                   success: function (resp) {
+                            layer.close(index2);
+                             if(resp.code == 0){
+                                layer.msg('重启成功', {icon: 1});
+                             }else{
+                                layer.msg(resp.msg,{icon:2});
+                             }
+                    }
+                  });		  	  
+              },
+              cancel: function(index, layero){ 
+                layer.close(index);
+                layer.close(index2);
+                console.log("不操作");
+              } 
+            });
+        });
+
+       table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'terminal') {
+                var index = layer.open({
+                    title: data.podName+'终端',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '80%'],
+                    content: '/page/xkube/podTerminal.html'+ location.search+"&podName="+data.podName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'podDetail') {
+                window.open('/page/xkube/podDetail.html'+location.search+"&podName="+data.podName, '_blank');                
+            } else if (obj.event === 'podResLine') {
+                var index = layer.open({
+                    title: '资源使用曲线',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '50%'],
+                    content: '/page/xkube/podCpuMemLine.html'+ location.search+"&podName="+data.podName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }else if (obj.event === 'podLog') {
+                var index = layer.open({
+                    title: data.podName+'日志',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '90%'],
+                    content: '/page/xkube/podLog.html'+location.search+"&podName="+data.podName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;              
+            }
+        });
+  
+        //pod容器组
+        table.render({
+            elem: '#currentTableId',
+            url: '/xkube/pod/v1/List' + location.search+"&resType=deploy&resName="+deployName,
+            //toolbar: '#toolbarDemo',
+            //editTrigger: 'dblclick',
+            //defaultToolbar: ['filter'],
+            cols: [[
+                {field: 'podName', title: '名称'},
+                {field: 'imgUrl', title: '镜像',hide:true},
+                {field: 'podPhase', title: '状态',width:100,templet: '#podPhaseTpl'},      
+                {field: 'restartCount',width:70,title: '重启'},                          
+                {field: 'podIp',title: 'podIp',width:120,sort: true},
+                {field: 'hostIp',width:120,title:'节点IP'},  
+                {field: 'nodeName',title:'节点名称',hide:true},               
+                {field: 'resUsage', width:220,title: '资源使用'},
+                {field: 'createTime',width:170, title: '创建时间'},
+                {title: '操作', minWidth:280, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [25, 50, 100],
+            limit: 15,
+            page: false
+        });
+        // 定时刷新pod表格，每10秒刷新一次
+        var intervalId = setInterval(function(){
+          table.reload('currentTableId', {
+            url: '/xkube/pod/v1/List' + location.search+"&resType=deploy&resName="+deployName,
+            page: {
+              curr: 1 // 从第一页开始
+            }
+          });
+        }, 10000);
+        setTimeout(() => { //30分后停止time2
+          clearInterval(intervalId);
+          console.log("Timer stop");
+        }, 600000);
+            
+        element.on('tab(layTabFilter)',function(data) {
+            console.log(data.index);
+
+            if(data.index == 0 ) {
+                //pod容器组
+                table.render({
+                    elem: '#currentTableId',
+                    url: '/xkube/pod/v1/List' + location.search+"&resType=deploy&resName="+deployName,
+                    //toolbar: '#toolbarDemo',
+                    //editTrigger: 'dblclick',
+                    //defaultToolbar: ['filter'],
+                    cols: [[
+                        {field: 'podName', title: '名称'},
+                        {field: 'imgUrl', title: '镜像',hide:true},
+                        {field: 'podPhase', title: '状态',width:100,templet: '#podPhaseTpl'},      
+                        {field: 'restartCount',width:70,title: '重启'},                          
+                        {field: 'podIp',title: 'podIp',width:120,sort: true},
+                        {field: 'hostIp',width:120,title:'节点IP'},  
+                        {field: 'nodeName',title:'节点名称',hide:true},   
+                        {field: 'resUsage', width:220,title: '资源使用'},            
+                        {field: 'createTime',width:170, title: '创建时间'},
+                        {title: '操作', minWidth:280, toolbar: '#currentTableBar', align: "center"}
+                    ]],
+                    limits: [25, 50, 100],
+                    limit: 15,
+                    page: false
+                });              
+            }
+
+            if(data.index == 1 ) {
+                //获取service列表
+                table.render({
+                    elem: '#serviceTableId',
+                    url: '/xkube/svc/v1/List' + location.search+"&labels=app:"+deployName,
+                    cols: [[
+                        {field: 'serviceName', width: 250,title: '名称', sort: true},
+                        {field: 'nameSpace', width: 150,title: '命名空间', sort: true},
+                        {field: 'svcType', width: 100,title: '类型', sort: true},
+                        {field: 'svcIp', width: 120,title: 'IP', sort: true,hide:true},
+                        {field: 'svcPort', width: 120,title: '端口', sort: true,hide:true},
+                        {field: '', width: 150,title: 'ip端口', sort: true,templet: '#ipPortTpl'},
+                        {field: 'lanEndpoint', width: 300,title: '内部端点', sort: true},
+                        {field: 'wanEndpoint', title: '外部端点', sort: true,hide:true},
+                        {field: 'labels', title: '标签', sort: true,templet: '#TagTpl'},
+                        {field: 'createTime', width:180, title: '创建时间'},
+                        {title: '操作', minWidth: 200, toolbar: '#serviceTableBar', align: "center"}
+                    ]],
+                });
+                //获取ingress列表
+                table.render({
+                    elem: '#ingressTableId',
+                    url: '/xkube/ing/v1/List' + location.search+"&serviceName="+deployName,
+                    cols: [[
+                        {field: 'ingressName', width: 250,title: '名称', sort: true},
+                        {field: 'nameSpace', width: 150,title: '命名空间', sort: true},
+                        {field: 'ingressClass', width: 100,title: '类型', sort: true},
+                        {field: 'rules', width: 600,title: '规则', sort: true,templet: '#rulesTpl'},
+                        {field: 'endpoint', title: '端点', sort: true},
+                        {field: 'labels', title: '标签', sort: true,templet: '#TagTpl',hide:true},
+                        {field: 'createTime', width:180, title: '创建时间',hide:true},
+                        {title: '操作', toolbar: '#ingressTableBar', align: "center"}
+                    ]],
+                });
+            }
+
+            if(data.index == 2 ) {
+                //获取hpa列表
+                table.render({
+                    elem: '#hpaTableId',
+                    toolbar: '#hpaToolbarDemo',
+                    defaultToolbar: [],
+                    url: '/xkube/hpa/'+apiVersion+'/List' + location.search+"&targetName="+deployName,
+                    cols: [[
+                        {field: 'hpaName',width: 150,title: '名称', sort: true},
+                        {field: 'nameSpace',title: '命名空间', sort: true},
+                        {field: 'targetKind', title: '类型', sort: true},
+                        {field: 'targetName', title: '对象名称', sort: true},
+                        {field: 'minReplicas',title: '最小副本', sort: true},
+                        {field: 'maxReplicas',title: '最大副本', sort: true},
+                        {field: 'currentReplicas', title: '当前副本', sort: true},
+                        {field: 'metrics', width: 250,title: '触发阀值', sort: true,templet: '#tagTpl'},
+                        {field: 'createTime', width:180, title: '创建时间'},
+                        {title: '操作', toolbar: '#hpaTableBar', align: "center"}
+                    ]],
+                });
+            }
+
+            if(data.index == 4 ) {
+                //获取事件列表
+                table.render({
+                    elem: '#eventTableId',
+                    //initSort: {field:'createTime', type:'desc'},
+                    url: '/xkube/event/v1/List' + location.search+"&objName="+deployName,
+                    parseData: function(res) { //实现加载全部数据后再分页
+                    	if(this.page.curr) {
+                    		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+                    	}else{
+                    	  result=res.data.slice(0,this.limit);
+                      }
+                      return {
+                      	"code": res.code,
+                      	"msg":'',
+                      	"count":res.count,
+                      	"data":result
+                      };
+                    },
+                    cols: [[
+                        //{type: "checkbox", width: 50},
+                        {field: 'eventType', width: 130,title: '类型', sort: true},
+                        {field: 'kind', width: 120,title: '对象', sort: true},
+                        {field: 'objName', width: 180,title: '名称', sort: true},                                
+                        {field: 'message',title: '消息', sort: true},
+                        {field: 'reason', title: '原因',width: 200, sort: true},
+                        {field: 'createTime', width:180, title: '创建时间',hide:true}
+                    ]],
+                    //size:'lg',
+                    limits: [25, 50, 100],
+                    limit: 25,
+                    page: true
+        
+                });
+            }
+        });
+
+        //Replicaset操作
+        table.on('tool(replicasetTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'replicasetYaml') {
+                var index = layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '92%'],
+                    content: '/page/xkube/replicasetYaml.html'+location.search+'&replicasetName='+data.replicasetName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'RollBack') {
+                layer.confirm('确定回退到此版本'+data.replicasetName+'?', {icon: 3, title:'回滚提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/deploy/v1/RollBack'+location.search+'&replicasetName='+data.replicasetName,
+                			    type: "GET",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						 if(resp.code == 0){
+                							 layer.msg('回滚成功', {icon: 1});
+                							 //window.location.reload();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            }
+        });
+
+        //hpa操作
+        table.on('tool(hpaTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'hpaYaml') {
+                var index = layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '92%'],
+                    content: '/page/xkube/hpaYaml.html'+location.search+'&hpaName='+data.hpaName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }
+        });
+
+        //hpa create
+        table.on('toolbar(hpaTableFilter)', function (obj) {
+            if (obj.event === 'createHpa') {  // 监听添加操作
+                var index = layer.open({
+                    title: '创建HPA',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '80%'],
+                    content: '/page/xkube/hpaCreate.html'
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>

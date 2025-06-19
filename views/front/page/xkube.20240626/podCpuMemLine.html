@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>pod实时资源曲线</title>
+    <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script src="/js/echarts.min.js" charset="utf-8"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/chartline.js" charset="utf-8"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+      <!--
+        <fieldset class="table-search-fieldset">
+            <legend>日志查看</legend>
+        </fieldset>
+      -->
+      <div class="layui-row">
+        <div class="layui-col-xs6">
+          <div id="MemDynamicLine" style="width:98%; height:250px;"></div>
+        </div>
+        <div class="layui-col-xs6">
+          <div id="CpuDynamicLine" style="width:98%; height:250px;"></div>
+        </div>
+      </div>      
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    	$(document).ready(function(){
+          dashboard.DynamicLine();  
+    	});		
+</script>
+</html>

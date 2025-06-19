@@ -1,0 +1,149 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: xkube 
+  labels:
+    env: prod
+    team: devops
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: xkube-admin-config
+  namespace: xkube
+  labels:
+    app: xkube-admin-config 
+data:
+  app.conf: |
+    #
+    appname = xkube
+    httpport = 80
+    runmode = prod
+    
+    #mysql配置信息
+    db_host = mysql_server
+    db_port = 3306
+    db_user = db_xkube
+    db_pass = xkube_DB_123456
+    db_name = db_xkube
+    db_type = mysql
+    #redis配置信息
+    redisDb = "redis_server:6379"
+    redisPasswd = "Redis_123456"
+    
+    ########################常规配置#############################
+    ###template_type=front
+    copyrequestbody = true
+    TemplateLeft = "<<<" 
+    TemplateRight = ">>>"
+    ############################session#####################
+    
+    SessionOn = true
+    SessionName = "BsessionId"
+    ServerName = "Bserver"
+    SessionGCMaxLifetime = 7200
+    SessionProvider = redis
+    SessionProviderConfig = "redis_server:6379,100,Redis_123456"
+    ############################RBAC#####################
+    rbac_role_table = role
+    rbac_node_table = node
+    rbac_group_table = group
+    rbac_user_table = user
+    
+    #admin用户名 此用户登录不用认证
+    rbac_admin_user = admin
+    
+    #默认需要认证全部模块，添加排除认证的模块
+    not_auth_package = public,index
+    #默认认证类型 0 不认证 1 登录认证 2 实时认证
+    user_auth_type = 1
+    #默认登录网关
+    rbac_auth_gateway = /login.html
+    #####################################################
+    securityLog = sec.log
+    apiKey="dfsdfdmoj32asdf3rmwefwxdfwewefwfwr"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xkube-admin 
+  namespace: xkube 
+  labels:
+    app: xkube-admin 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xkube-admin 
+  template:
+    metadata:
+      labels:
+        app: xkube-admin 
+    spec:
+      containers:
+      - name: xkube-admin
+        image: eeenet/xkube:3.5
+        ports:
+          - containerPort: 80
+        volumeMounts:
+          - mountPath: /app/conf
+            name: config-volume
+            readOnly: true
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /public/check
+            port: 80
+            scheme: HTTP
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 3
+        readinessProbe:
+          failureThreshold: 2
+          httpGet:
+            path: /public/check
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 3
+      volumes:
+        - configMap:
+            defaultMode: 420
+            name: xkube-admin-config 
+          name: config-volume
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xkube-admin 
+  namespace: xkube 
+  labels:
+    app: xkube-admin 
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP 
+  selector:
+    app: xkube-admin 
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: xkube-admin
+  namespace: xkube 
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: xkube.xxxx.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: xkube-admin
+            port: 
+              number: 80

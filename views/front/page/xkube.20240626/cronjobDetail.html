@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>cronjob详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+<style type="text/css">
+  .layui-table-cell {
+    height: auto;
+    line-height: 15px !important;
+    text-overflow: inherit;
+    overflow: ellipsis;
+    white-space: normal;
+  }
+  .layui-table-cell .layui-table-tool-panel li {
+    word-break: break-word;
+  }
+</style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+              <button class="layui-btn" id="EditYamlBtn">编辑yaml</button>           
+              <button class="layui-btn" id="LablesUpdate">标签更新</button>  
+              <br><br>
+
+  <div class="layui-collapse" lay-filter="test">
+    <div class="layui-colla-item">
+    <h2 class="layui-colla-title">基本信息</h2>
+      <div class="layui-colla-content layui-show">
+              <blockquote class="layui-elem-quote layui-quote-nm">
+                  <table class="layui-table" lay-even="" lay-skin="nob" style="table-layout: fixed;">
+                    <colgroup>
+                      <col width="150">
+                      <col width="450">
+                      <col width="150">
+                      <col>
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td>名称:</td>
+                        <td><div id="cronjobName"></div></td>
+                        <td>创建时间:</td>
+                        <td><div id="createTime"></div></td>
+                      </tr>
+                      <tr>
+                        <td>命名空间:</td>
+                        <td><div id="nameSpace"></div></td>
+                        <td>标签:</td>
+                        <td><div id="labels"></div></td>
+                      </tr>
+                      <tr>
+                        <td>计划:</td>
+                        <td><div id="schedule"></div></td>
+                        <td>注解:</td>
+                        <td><div id="annotations"></div></td>
+                      </tr>
+                      <tr>
+                        <td>挂起:</td>
+                        <td style="word-wrap: break-word;text-overflow: inherit;white-space: nowrap;"><div id="suspend"></div></td>
+                        <td>最近调度:</td>
+                        <td><div id="lastScheduleTime"></div></td>
+                      </tr>
+                    </tbody>
+                  </table> 
+              </blockquote> 
+              <table class="layui-table" id="conditionsTableId" lay-filter="conditionsTableFilter"></table>
+      </div>
+    </div>
+  </div>
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>功能模块</legend>
+            </fieldset>
+
+            <div class="layui-tab" lay-filter="layTabFilter">
+              <ul class="layui-tab-title">
+                <li class="layui-this" lay-id="111">任务列表</li>
+                <li lay-id="222">事件</li>
+              </ul>
+              <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                  <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
+                </div>
+                <div class="layui-tab-item">
+                  <table class="layui-table" id="eventTableId" lay-filter="eventTableFilter"></table>
+                </div>
+              </div>
+            </div>              
+                                   
+    </div>
+</div>
+
+<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+
+<script type="text/html" id="limitKeyTpl">
+  <div style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{d.limit_key}}</div>
+</script>
+
+<script type="text/html" id="currentTableBar">
+          {{#  var clusterId = getQueryString("clusterId"); }}
+          {{#  if (clusterId == null) { }}
+	        {{#      clusterId = getCookie("clusterId") }}
+          {{#  } }}
+    <a href="javascript:;" layuimini-content-href="page/xkube/jobDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&jobName={{d.jobName}}" data-title="{{d.jobName}}详情" class="layui-btn layui-btn-sm">详情</a>
+    <a class="layui-btn layui-btn-sm" lay-event="EditYamlBtn">查看yaml</a>
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="DeleteJob">删除</a>
+</script>
+
+
+<script type="text/html" id="hpaTableBar">
+    <a class="layui-btn layui-btn-xs" lay-event="hpaYaml">yaml详情</a>
+</script>
+
+<script type="text/html" id="rulesTpl">
+    {{# if (d.rules != "") { }}
+            {{# layui.each(d.rules.split(','), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span>{{ item }}</span>
+                {{# }else{ }}
+                        <br><span>{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+
+<script type="text/html" id="podPhaseTpl">
+  {{# if (d.podPhase == 'Running') { }}
+     <span style="color:#218868">{{ d.podPhase }}</span>
+	{{# } else { }}
+    <span style="color:#FF5722">{{ d.podPhase }}</span>
+{{# } }}
+</script>
+<script type="text/html" id="statusTpl">
+  {{# if ( d.status == '成功' ) { }}
+     <span style="color:#218868">{{ d.status}}</span>
+	{{# } else { }}
+    <span style="color:#FF5722">{{ d.status}}</span>
+{{# } }}
+</script>
+<script>
+
+    function getQueryString(name) {
+      let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+      let r = window.location.search.substr(1).match(reg);
+      if (r != null) {
+          return unescape(r[2]);
+      };
+      return null;
+    };
+
+    layui.use(['form', 'table','miniTab','element'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            element = layui.element,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+      var cronjobName = getQueryString("cronjobName");
+      var nameSpace = getQueryString("nameSpace");
+      //$('#appNameTitle').html(cronjobName);
+
+      //deatail
+			$.get('/xkube/cronjob/v1/Detail' + location.search, function (resp) {
+  				  if (resp.cronjobName != '' ) {
+                //console.log(resp);
+                //详细信息
+                var cronjobName = resp.cronjobName;
+                $('#cronjobName').html(cronjobName);
+  
+                var createTime = resp.createTime;
+                $('#createTime').html(createTime);
+  
+                var nameSpace = resp.nameSpace;
+                $('#nameSpace').html(nameSpace);
+  
+                var annotations = resp.annotations;
+                $('#annotations').html(annotations);
+  
+                var labels = resp.labels;
+                $('#labels').html(labels);
+  
+                var suspend = resp.suspend;
+                $('#suspend').html(suspend);
+
+                var schedule = resp.schedule;
+                $('#schedule').html(schedule);
+
+                var lastScheduleTime = resp.lastScheduleTime;
+                $('#lastScheduleTime').html(lastScheduleTime);
+                
+          }else{
+            layer.msg('请重新刷新',{icon:2});
+          }
+		  });
+
+        $(".internalRequest-marks").mouseover(function() {
+          layer.tips('nginx内部的rewrite、404重试之类的请求!', this, {
+            tips: [1, "#000"],
+            time:3000
+          });
+        });
+
+        //yaml编辑
+        $('#EditYamlBtn').on("click",function(){
+                layer.open({
+                    title: cronjobName+'yaml编辑',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '90%'],
+                    content: '/page/xkube/cronjobYaml.html'+ location.search,
+                });
+        });
+
+        //标签修改
+        $('#LablesUpdate').on("click",function(){
+                var index = layer.open({
+                    title: cronjobName+'标签修改',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '90%'],
+                    content: '/page/xkube/cronjobLables.html'+location.search,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;  
+        });
+
+       table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'terminal') {
+                var index = layer.open({
+                    title: data.podName+'终端',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '80%'],
+                    content: '/page/xkube/podTerminal.html'+ location.search+"&podName="+data.podName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'podDetail') {
+                window.open('/page/xkube/podDetail.html'+location.search+"&podName="+data.podName, '_blank');                
+            }else if (obj.event === 'podLog') {
+                var index = layer.open({
+                    title: data.podName+'日志',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '90%'],
+                    content: '/page/xkube/podLog.html'+location.search+"&podName="+data.podName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;              
+            }
+        });
+  
+        //任务列表
+        table.render({
+            elem: '#currentTableId',
+            url: '/xkube/job/v1/List' + location.search+"&jobName="+cronjobName,
+            //toolbar: '#toolbarDemo',
+            //editTrigger: 'dblclick',
+            //defaultToolbar: ['filter'],
+            cols: [[
+                {field: 'jobName', width: 150, title: '名称'},
+                {field: 'nameSpace', width: 120, title: '命名空间', sort: true,hide:true},
+                {field: 'status', width: 100,  title: '状态', sort: true,templet: '#statusTpl'},
+                {field: 'podStatus', width: 120,  title: '容器状态', sort: true},
+                {field: 'imgUrl',width: 350, title: '镜像地址', sort: true,templet: '#ImgTpl'},
+                {field: 'containerName: ',title: 'container', sort: true,hide:true},
+                {field: 'labes', title: '标签', sort: true,templet: '#TagTpl',hide:true},
+                {field: 'createTime', width:180, title: '创建时间'},
+                {field: 'completeTime', width:180, title: '完成时间'},
+                {title: '操作', minWidth: 200, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [25, 50, 100],
+            limit: 15,
+            page: false
+        });
+            
+        element.on('tab(layTabFilter)',function(data) {
+            console.log(data.index);
+
+            if(data.index == 0 ) {
+                //pod容器组
+                table.render({
+                    elem: '#currentTableId',
+                    url: '/xkube/job/v1/List' + location.search+"&jobName="+cronjobName,
+                    //toolbar: '#toolbarDemo',
+                    //editTrigger: 'dblclick',
+                    //defaultToolbar: ['filter'],
+                    cols: [[
+                        {field: 'jobName', width: 150, title: '名称'},
+                        {field: 'nameSpace', width: 120, title: '命名空间', sort: true,hide:true},
+                        {field: 'status', width: 100,  title: '状态', sort: true,templet: '#statusTpl'},
+                        {field: 'podStatus', width: 120,  title: '容器状态', sort: true},
+                        {field: 'imgUrl',width: 350, title: '镜像地址', sort: true,templet: '#ImgTpl'},
+                        {field: 'containerName: ',title: 'container', sort: true,hide:true},
+                        {field: 'labes', title: '标签', sort: true,templet: '#TagTpl',hide:true},
+                        {field: 'createTime', width:180, title: '创建时间'},
+                        {field: 'completeTime', width:180, title: '完成时间'},
+                        {title: '操作', minWidth: 200, toolbar: '#currentTableBar', align: "center"}
+                    ]],
+                    limits: [25, 50, 100],
+                    limit: 15,
+                    page: false
+                });              
+            }
+
+            if(data.index == 1 ) {
+                //获取事件列表
+                table.render({
+                    elem: '#eventTableId',
+                    url: '/xkube/event/v1/List' + location.search+"&objName="+cronjobName,
+                    parseData: function(res) { //实现加载全部数据后再分页
+                    	if(this.page.curr) {
+                    		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+                    	}else{
+                    	  result=res.data.slice(0,this.limit);
+                      }
+                      return {
+                      	"code": res.code,
+                      	"msg":'',
+                      	"count":res.count,
+                      	"data":result
+                      };
+                    },
+                    cols: [[
+                        //{type: "checkbox", width: 50},
+                        {field: 'eventType', width: 130,title: '类型', sort: true},
+                        {field: 'kind', width: 120,title: '对象', sort: true},
+                        {field: 'objName', width: 180,title: '名称', sort: true},                                
+                        {field: 'message',title: '消息', sort: true},
+                        {field: 'reason', title: '原因',width: 200, sort: true},
+                        {field: 'createTime', width:180, title: '创建时间',hide:true},
+                        {title: '操作', toolbar: '#currentTableBar', align: "center"}
+                    ]],
+                    //size:'lg',
+                    limits: [25, 50, 100],
+                    limit: 25,
+                    page: true
+        
+                });
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>

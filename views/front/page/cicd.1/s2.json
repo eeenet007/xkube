@@ -1,0 +1,164 @@
+{
+  "requestId": "0355A129-1A3A-5CFC-8EA2-2B7EC5984E78",
+  "pipelineRun": {
+    "creatorAccountId": "254082077663392273",
+    "sources": [
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/a_team/main_news/pcauto-new-baike",
+          "branch": "master"
+        },
+        "sign": "pangku-pro_aRpU",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/pcauto-c/front-end-projects/baike-personage/personage-nuxt-pc.git",
+          "branch": "master"
+        },
+        "sign": "personage-nuxt-pc_Lmz9",
+        "type": "git"
+      },
+      {
+        "data": {
+          "repo": "https://git.pc.com.cn/pcauto-c/front-end-projects/baike-personage/personage-nuxt-wap.git",
+          "branch": "master"
+        },
+        "sign": "personage-nuxt-wap_lmM5",
+        "type": "git"
+      },
+      {
+        "data": {
+          "commint": "[{\"commitAuthor\": \"huangjianfeng\", \"commitTime\": \"Tue Feb 27 10:51:34 2024 +0800\", \"commitMsg\": \"feature%3A%E5%8E%BB%E6%8E%89%E6%97%B6%E9%97%B4%E9%99%90%E5%88%B6\", \"commitId\": \"e185eafff42a4d5e770541f50c565b0995060408\"}]",
+          "repo": "http://git.pc.com.cn/a_team/main_news/pcauto_baike.git",
+          "branch": "master"
+        },
+        "sign": "pcauto_baike_zq9v",
+        "type": "git"
+      }
+    ],
+    "createTime": 1709002366000,
+    "pipelineRunId": 70,
+    "stages": [
+      {
+        "name": "Group0-Stage0",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "api 构建",
+              "id": 195112462,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "api 部署",
+              "id": 195112463,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage0",
+          "startTime": 1709002367000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage1",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "Wap 构建",
+              "id": 195112464,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "Wap 部署",
+              "id": 195112465,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage1",
+          "startTime": 1709002367000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage2",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "PC 构建",
+              "id": 195112466,
+              "actions": [],
+              "status": "INIT"
+            },
+            {
+              "name": "PC 部署",
+              "id": 195112467,
+              "actions": [],
+              "status": "INIT"
+            }
+          ],
+          "name": "Group0-Stage2",
+          "startTime": 1709002367000,
+          "status": "SWITCH_MANUAL"
+        }
+      },
+      {
+        "name": "Group0-Stage3",
+        "stageInfo": {
+          "jobs": [
+            {
+              "name": "旧百科 构建",
+              "startTime": 1709002372000,
+              "endTime": 1709002465000,
+              "id": 195112468,
+              "params": "{\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/a_team/main_news/pcauto-new-baike\",\"enableFilter\":false,\"connection\":158500,\"language\":\"other\",\"label\":\"main_news/pcauto-new-baike\",\"branch\":\"master\",\"previousCommitId\":\"74a7b385858a69db7ee59889662979566059512f\",\"events\":[\"push\"]},\"name\":\"pcauto-new-baike_KWEC\",\"sign\":\"pangku-pro_aRpU\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/pcauto-c/front-end-projects/baike-personage/personage-nuxt-pc.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158500,\"label\":\"baike-personage/personage-nuxt-pc\",\"branch\":\"master\",\"previousCommitId\":\"e29c1f813c52b8353329825c42e3eeb4118cc205\",\"events\":[\"push\"]},\"name\":\"personage-nuxt-pc_Lmz9\",\"sign\":\"personage-nuxt-pc_Lmz9\",\"type\":\"git\"},{\"data\":{\"connectionPrefer\":true,\"credentialType\":\"connection\",\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/pcauto-c/front-end-projects/baike-personage/personage-nuxt-wap.git\",\"enableFilter\":false,\"connection\":158500,\"label\":\"baike-personage/personage-nuxt-wap\",\"branch\":\"master\",\"previousCommitId\":\"07ca378ec021430970b5f79d50d739301917bb62\",\"events\":[\"push\"]},\"name\":\"personage-nuxt-wap_lmM5\",\"sign\":\"personage-nuxt-wap_lmM5\",\"type\":\"git\"},{\"data\":{\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"http://git.pc.com.cn/a_team/main_news/pcauto_baike.git\",\"language\":\"java\",\"label\":\"main_news/pcauto_baike\",\"commitId\":\"e185eafff42a4d5e770541f50c565b0995060408\",\"branch\":\"master\",\"credentialType\":\"connection\",\"commitMsg\":\"[{\\\"commitAuthor\\\": \\\"huangjianfeng\\\", \\\"commitTime\\\": \\\"Tue Feb 27 10:51:34 2024 +0800\\\", \\\"commitMsg\\\": \\\"feature%3A%E5%8E%BB%E6%8E%89%E6%97%B6%E9%97%B4%E9%99%90%E5%88%B6\\\", \\\"commitId\\\": \\\"e185eafff42a4d5e770541f50c565b0995060408\\\"}]\",\"enableFilter\":false,\"connection\":158500,\"previousCommitId\":\"62b5e59fc67e28003da8d28ed88d2571c931cf65\",\"events\":[\"push\"]},\"name\":\"pcauto_baike_zq9v\",\"sign\":\"pcauto_baike_zq9v\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"汽车网C端线上\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"10_1679987867246\",\"EXECUTOR_ID\":\"63ff1cd75d66d6f07ef9d584\",\"PIPELINE_ID\":\"2319087\",\"ENGINE_PIPELINE_CONFIG_ID\":\"7730028\",\"BUILD_MESSAGE\":\"汽车网C端线上-页面手动触发\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1709002366555\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"254082077663392273\",\"branchRepoInfo\":\"[]\",\"triggerMode\":\"1\",\"ENGINE_PIPELINE_ID\":\"2319087\",\"runnerCacheMode\":\"local\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"63ff1cd75d66d6f07ef9d584\",\"clone_option\":\"selected\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"BUILD_EXECUTOR\":\"汽车网C端线上\",\"version\":\"jdk1.8\",\"steps\":[{\"freeInTaskGroupModeFields\":[],\"stepType\":\"java_build\",\"name\":\"Java 构建\",\"MAVEN_VERSION\":\"3.2.5\",\"stepIdentifier\":\"10_1679987867246__11_1679987867246\",\"CI_RUNTIME_VERSION\":\"jdk1.7\",\"version\":\"jdk1.8\",\"command\":\"# maven build default command\\nmvn -B clean package -Dmaven.test.skip=true -Dautoconfig.skip\\n\\n# gradle build default command\\n# ./gradlew build\\n\\n# ant build default command\\n# ant\\n\"},{\"freeInTaskGroupModeFields\":[\"ARGS\"],\"DOCKER_FILE_PATH\":\"Dockerfile\",\"stepType\":\"docker-build-tb-enterprise\",\"ARGS\":\"e30=\",\"JSONEncoding\":true,\"CONTEXT_PATH\":\"\",\"EXTRA_TAGS\":\"\",\"stepIdentifier\":\"10_1679987867246__10_1679987901155\",\"DOCKER_TAG\":\"release-${DATETIME//\\\\-/}.70\",\"DOCKER_REGION\":\"cn-shenzhen\",\"DOCKER_INSTANCE\":\"pcgroup\",\"SERVICE_CONNECTION_ID\":30651,\"artifact\":\"artifact\",\"DOCKER_REPO\":\"pcauto-baike\",\"NO_CACHE\":false,\"name\":\"pcauto-baike 镜像构建\",\"DOCKER_NAMESPACE\":\"pcauto\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod] 百科\",\"ENGINE_PIPELINE_NAME\":\"[Prod] 百科\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"70\",\"BUILD_NUMBER\":\"70\",\"DATETIME\":\"2024-02-27-10-52-46\",\"ENGINE_TASK_NAME\":\"旧百科 构建\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"buildNodeGroup\":\"K8S-4\",\"selected_sources\":[\"pcauto_baike_zq9v\"],\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_ID\":\"63507837\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "LogPipelineJobRun"
+                }
+              ],
+              "status": "SUCCESS"
+            },
+            {
+              "name": "旧百科 部署",
+              "startTime": 1709002466000,
+              "endTime": 1709002477000,
+              "id": 195112469,
+              "params": "{\"CI_COMMIT_TITLE\":\"feature:去掉时间限制\",\"sources\":[{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/a_team/main_news/pcauto-new-baike\",\"enableFilter\":false,\"connection\":158500,\"language\":\"other\",\"label\":\"main_news/pcauto-new-baike\",\"branch\":\"master\",\"previousCommitId\":\"74a7b385858a69db7ee59889662979566059512f\",\"events\":[\"push\"]},\"name\":\"pcauto-new-baike_KWEC\",\"sign\":\"pangku-pro_aRpU\",\"type\":\"git\"},{\"data\":{\"credentialType\":\"connection\",\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/pcauto-c/front-end-projects/baike-personage/personage-nuxt-pc.git\",\"enableFilter\":false,\"language\":\"java\",\"connection\":158500,\"label\":\"baike-personage/personage-nuxt-pc\",\"branch\":\"master\",\"previousCommitId\":\"e29c1f813c52b8353329825c42e3eeb4118cc205\",\"events\":[\"push\"]},\"name\":\"personage-nuxt-pc_Lmz9\",\"sign\":\"personage-nuxt-pc_Lmz9\",\"type\":\"git\"},{\"data\":{\"connectionPrefer\":true,\"credentialType\":\"connection\",\"credentialLabel\":\"reader\",\"repo\":\"https://git.pc.com.cn/pcauto-c/front-end-projects/baike-personage/personage-nuxt-wap.git\",\"enableFilter\":false,\"connection\":158500,\"label\":\"baike-personage/personage-nuxt-wap\",\"branch\":\"master\",\"previousCommitId\":\"07ca378ec021430970b5f79d50d739301917bb62\",\"events\":[\"push\"]},\"name\":\"personage-nuxt-wap_lmM5\",\"sign\":\"personage-nuxt-wap_lmM5\",\"type\":\"git\"},{\"data\":{\"connectionPrefer\":true,\"credentialLabel\":\"reader\",\"repo\":\"http://git.pc.com.cn/a_team/main_news/pcauto_baike.git\",\"language\":\"java\",\"label\":\"main_news/pcauto_baike\",\"commitId\":\"e185eafff42a4d5e770541f50c565b0995060408\",\"branch\":\"master\",\"credentialType\":\"connection\",\"commitMsg\":\"[{\\\"commitAuthor\\\": \\\"huangjianfeng\\\", \\\"commitTime\\\": \\\"Tue Feb 27 10:51:34 2024 +0800\\\", \\\"commitMsg\\\": \\\"feature%3A%E5%8E%BB%E6%8E%89%E6%97%B6%E9%97%B4%E9%99%90%E5%88%B6\\\", \\\"commitId\\\": \\\"e185eafff42a4d5e770541f50c565b0995060408\\\"}]\",\"enableFilter\":false,\"connection\":158500,\"previousCommitId\":\"62b5e59fc67e28003da8d28ed88d2571c931cf65\",\"events\":[\"push\"]},\"name\":\"pcauto_baike_zq9v\",\"sign\":\"pcauto_baike_zq9v\",\"type\":\"git\"}],\"caches\":\"[\\\"/root/.m2\\\",\\\"/root/.gradle/caches\\\",\\\"/root/.npm\\\",\\\"/root/.yarn\\\",\\\"/go/pkg/mod\\\",\\\"/root/.cache\\\"]\",\"EXECUTOR_NAME\":\"汽车网C端线上\",\"ENGINE_PIPELINE_PORTAL_URL\":\"https://flow.aliyun.com\",\"ENGINE_TASK_SIGN\":\"13_1679987991000\",\"EXECUTOR_ID\":\"63ff1cd75d66d6f07ef9d584\",\"CI_SOURCE_NAME\":\"pcauto_baike\",\"PIPELINE_ID\":\"2319087\",\"ENGINE_PIPELINE_CONFIG_ID\":\"7730028\",\"BUILD_MESSAGE\":\"汽车网C端线上-页面手动触发\",\"pmLocalMount\":false,\"TIMESTAMP\":\"1709002366555\",\"ENGINE_PIPELINE_CREATOR_ALIYUN_PK\":\"254082077663392273\",\"branchRepoInfo\":\"[]\",\"CI_COMMIT_TITLE_4\":\"feature:去掉时间限制\",\"triggerMode\":\"1\",\"CI_SOURCE_NAME_4\":\"pcauto_baike\",\"ENGINE_PIPELINE_ID\":\"2319087\",\"runnerCacheMode\":\"local\",\"CI_COMMIT_ID\":\"e185eaff\",\"ENGINE_GLOBAL_PARAM_OPERATOR_ID\":\"63ff1cd75d66d6f07ef9d584\",\"clone_option\":\"none\",\"ENGINE_GLOBAL_PARAM_ORGANIZATION_ID\":\"5f20ed2cd2481460393387e0\",\"CI_COMMIT_REF_NAME_4\":\"master\",\"BUILD_EXECUTOR\":\"汽车网C端线上\",\"CI_COMMIT_SHA_4\":\"e185eafff42a4d5e770541f50c565b0995060408\",\"CI_COMMIT_REF_NAME\":\"master\",\"steps\":[{\"NAMESPACE\":\"zx-app\",\"freeInTaskGroupModeFields\":[],\"stepType\":\"update-prod-pcauto2020\",\"IMAGE\":\"{\\\"DOCKER_URL\\\":\\\"pcgroup-registry-vpc.cn-shenzhen.cr.aliyuncs.com/pcauto/pcauto-baike:release-20240227105246.70\\\",\\\"ARTIFACT_URL\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2019967/1709002441805/application_docker_url_config.desc&fileName=application_docker_url_config.desc&md5Sign=483542b1bc2488c886233cf8fac15abd\\\",\\\"ARTIFACT_MD5\\\":\\\"be6f3b83d494ae8008a02c3c8bf939cf\\\"}\",\"name\":\"pcauto-baike 升级\",\"CONTAINER\":\"pcauto-baike\",\"stepIdentifier\":\"13_1679987991000__10_1679987997711\",\"SERVICE\":\"pcauto-baike\",\"CLUSTER\":\"zx-pcauto\",\"TOKEN\":\"930958e3347e57b835000fedc7b28e\"},{\"NAMESPACE\":\"zx-app\",\"freeInTaskGroupModeFields\":[],\"stepType\":\"update-prod-pcauto2020\",\"IMAGE\":\"{\\\"DOCKER_URL\\\":\\\"pcgroup-registry-vpc.cn-shenzhen.cr.aliyuncs.com/pcauto/pcauto-baike:release-20240227105246.70\\\",\\\"ARTIFACT_URL\\\":\\\"https://devops.aliyuncs.com/ossproxy/download?ns=execution-component&bucketName=execution-component-rdc&fileId=aone2/2019967/1709002441805/application_docker_url_config.desc&fileName=application_docker_url_config.desc&md5Sign=483542b1bc2488c886233cf8fac15abd\\\",\\\"ARTIFACT_MD5\\\":\\\"be6f3b83d494ae8008a02c3c8bf939cf\\\"}\",\"name\":\"pcauto-baike-admin 升级\",\"CONTAINER\":\"pcauto-baike-admin\",\"stepIdentifier\":\"13_1679987991000__10_1679988024911\",\"SERVICE\":\"pcauto-baike-admin\",\"CLUSTER\":\"zx-pcauto\",\"TOKEN\":\"930958e3347e57b835000fedc7b28e\"}],\"HIDDEN_VALUES\":\"[]\",\"PIPELINE_NAME\":\"[Prod] 百科\",\"ENGINE_PIPELINE_NAME\":\"[Prod] 百科\",\"SYSTEM_GLOBAL_VARIABLES_ENCRYPT_KEYS\":\"[]\",\"ENGINE_PIPELINE_INST_NUMBER\":\"70\",\"BUILD_NUMBER\":\"70\",\"DATETIME\":\"2024-02-27-10-52-46\",\"ENGINE_TASK_NAME\":\"旧百科 部署\",\"PIPELINE_ENVIRONMENT\":\"正式环境\",\"CI_COMMIT_ID_4\":\"e185eaff\",\"buildNodeGroup\":\"K8S-4\",\"selected_sources\":\"\",\"PIPELINE_TAGS\":\"生产\",\"SYSTEM_GLOBAL_VARIABLES_KEYS\":\"[]\",\"CI_COMMIT_SHA\":\"e185eafff42a4d5e770541f50c565b0995060408\",\"ENGINE_PIPELINE_INST_ID\":\"63507837\"}",
+              "actions": [
+                {
+                  "disable": false,
+                  "type": "LogPipelineJobRun"
+                }
+              ],
+              "status": "SUCCESS"
+            }
+          ],
+          "name": "Group0-Stage3",
+          "startTime": 1709002372000,
+          "endTime": 1709002477000,
+          "status": "SUCCESS"
+        }
+      }
+    ],
+    "updateTime": 1709002467000,
+    "stageGroup": [
+      [
+        "Group0-Stage0",
+        "Group0-Stage1",
+        "Group0-Stage2",
+        "Group0-Stage3"
+      ]
+    ],
+    "modifierAccountId": "254082077663392273",
+    "triggerMode": 1,
+    "pipelineId": 2319087,
+    "status": "SUCCESS"
+  },
+  "success": true
+}

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>node列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+
+<style type="text/css">
+  .layui-table-cell {
+    height: auto;
+    line-height: 22px !important;
+    text-overflow: inherit;
+    overflow: ellipsis;
+    white-space: normal;
+  }
+  .layui-table-cell .layui-table-tool-panel li {
+    word-break: break-word;
+  }
+
+.progress-bar-container {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+ 
+.progress-bar {
+  height: 20px;
+  background-color: #5cb85c;
+  border-radius: 4px;
+  transition: width 0.5s ease-in-out;
+  position: relative;
+  width: 0;
+}
+ 
+.progress-bar-text {
+  position: absolute;
+  color: white;
+  text-align: center;
+  width: 100%;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+</style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">IP</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="nodeIp" autocomplete="off" lay-verify="required" lay-reqtext="不能为空" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                        </div>
+
+                        <div class="layui-inline" style="position: absolute;right:50px">
+                            <label class="layui-form-label">当前集群</label>
+                            <div class="layui-input-inline">
+                                <select name="clusterId" lay-filter="cluster_Id" lay-search="" id="cluster_Id">
+                                  <option value="">请选择集群</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        
+        <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+          {{#  var clusterId = getQueryString("clusterId"); }}
+          {{#  if (clusterId == null) { }}
+	        {{#      clusterId = getCookie("clusterId") }}
+          {{#  } }}
+            <a href="javascript:;" layuimini-content-href="page/xkube/nodeDetail.html?clusterId={{clusterId}}&nodeName={{d.nodeName}}" data-title="{{ d.nodeName }}详情" class="layui-btn layui-btn-sm">详情</a>
+            <a class="layui-btn layui-btn-sm" lay-event="nodeResLine"><i class="layui-icon">&#xe629;</i></a>
+            <!-- 
+            <a href="/page/xwaf/datav/index.html"  target="_blank" class="layui-btn layui-btn-sm"><i class="layui-icon layui-icon-chart-screen"></i>监控</a>
+            <a href="/page/xwaf/reqlimit_rule.html" target="_blank" class="layui-btn layui-btn-sm layui-btn-normal"><i class="layui-icon layui-icon-engine"></i>控制面板</a>
+            <a href="/page/xwaf/datav/index.html"  target="_blank" class="layui-btn layui-btn-sm layui-btn-normal">调度设置</a>
+            <a href="/page/xwaf/datav/index.html"  target="_blank" class="layui-btn layui-btn-sm layui-btn-normal">节点排水</a>
+            <a href="/page/xwaf/datav/index.html"  target="_blank" class="layui-btn layui-btn-sm layui-btn-normal">移除</a>
+           -->
+        </script>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    	$(document).ready(function(){
+          GetCurrClusterId();  
+          //GetNamespace();	
+    	});		
+</script>
+
+
+<script type="text/html" id="nodeInfoTpl">
+    {{# layui.each(d.nodeInfo.split(','), function(index, item){ }}
+        <span>{{ item }}<br></span>
+    {{# });  }}
+</script>	
+
+<script type="text/html" id="capacityTpl">
+    {{# layui.each(d.capacity.split(','), function(index, item){ }}
+        <span>{{ item }}<br></span>
+    {{# });  }}
+</script>	
+
+<script type="text/html" id="allocatableTpl">
+    {{# layui.each(d.allocatable.split(','), function(index, item){ }}
+        <span>{{ item }}<br></span>
+    {{# });  }}
+</script>	
+
+<script type="text/html" id="nodeNameTpl">
+        <span>{{ d.nodeName }}<br>{{ d.nodeIp }}</span>
+</script>	
+
+<script type="text/html" id="nodeStateTpl">
+        <span>{{ d.nodeRole }}</span><br>
+                {{# if(d.nodeState == "Ready:True") { }}
+                        <span style="color:#009688">{{ d.nodeState }}</span>
+                {{# }else{ }}
+                        <span style="color:#FF5722">{{ d.nodeState }}</span>
+                {{# } }}          
+</script>	
+
+<script type="text/html" id="cpuUsageTpl">
+  {{# var width = 0; }}
+  {{# if(d.cpuUsage < 2 ) { }}
+  {{#    width = 2  }}   
+  {{# }else{ }}
+  {{#    width = d.cpuUsage  }}
+  {{# } }}     
+  <div class="progress-bar-container">
+    <div class="progress-bar" style="width:{{ width }}%;">
+      <div class="progress-bar-text">{{ d.cpuUsage }}%</div>
+    </div>
+  </div>      
+</script>	
+
+<script type="text/html" id="memUsageTpl">
+  {{# var width = 0; }}
+  {{# if(d.memUsage < 2 ) { }}
+  {{#    width = 2  }}   
+  {{# }else{ }}
+  {{#    width = d.memUsage  }}
+  {{# } }}     
+  <div class="progress-bar-container">
+    <div class="progress-bar" style="width:{{ width }}%;">
+      <div class="progress-bar-text">{{ d.memUsage }}%</div>
+    </div>
+  </div>      
+</script>	
+
+<script>
+
+//设置默认集群
+SetDefaultCluster();
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+//console.log(clusterId);
+    layui.use(['form', 'table','miniTab'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+        //选择集群
+        form.on('select(cluster_Id)', function(data){
+          //console.log(data.elem); //得到select原始DOM对象
+          console.log(data.value); //得到被选中的值
+          setCookie('clusterId',data.value,30);
+          window.location.reload();
+          //console.log(data.othis); //得到美化后的DOM对象
+        });
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/xkube/node/v1/List?clusterId='+clusterId,
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            parseData: function(res) { //实现加载全部数据后再分页
+              if(res.code != 0){
+                return {
+               	  "code": res.code,
+              	  "msg": res.msg,                 
+                }
+              }
+            	if(this.page.curr) {
+            		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+            	}else{
+            	  result=res.data.slice(0,this.limit);
+              }
+              return {
+              	"code": res.code,
+              	"msg": res.msg,
+              	"count":res.count,
+              	"data":result
+              };
+            },
+            cols: [[
+                //{type: "checkbox", width: 50},
+                {field: 'nodeName', title: '节点名称',hide:true},
+                {field: 'nodeIp', title: 'IP',hide:true},
+                {field: '', title: '节点名称',templet: '#nodeNameTpl'},
+                {field: 'nodeRole', title: '角色', sort: true,hide:true},
+                {field: 'nodeState', title: '状态', sort: true,hide:true},
+                {field: '', title: '状态', sort: true,templet: '#nodeStateTpl'},
+                {field: 'podNum', title: '容器组额度', sort: true},
+                {field: 'nodeInfo',title: '节点信息', sort: true,templet: '#nodeInfoTpl',hide:true},
+                {field: 'podCIDR',  title: 'podCIDR', sort: true,hide:true},
+                {field: 'capacity', title: '容量', sort: true,templet: '#capacityTpl'},
+                {field: 'allocatable', title: '可分配', sort: true,hide:true,templet: '#allocatableTpl'},
+                {field: 'cpuUsage', title: 'CPU使用率',templet: '#cpuUsageTpl'},
+                {field: 'memUsage', title: '内存使用率',templet: '#memUsageTpl'},
+                {field: 'resusage', title: '资源使用',hide:true},
+                {field: 'createTime',title: '创建时间',hide:true},
+                {title: '操作', minWidth: 200, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            //size:'lg',
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true,
+            error: function(res){
+                console.log(res);
+            }
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            //var result = JSON.stringify(data.field);
+            data.field.nodeIp = data.field.nodeIp.replace(/^\s*|\s*$/g,"");
+            //执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                },
+                where: {
+                  key:{
+                    nodeIp:data.field.nodeIp
+                  }
+                }
+            });
+            return false;
+        });
+
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'createDeploy') {  // 监听添加操作
+                var index = layer.open({
+                    title: '创建应用',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '90%'],
+                    content: '/page/xkube/deployCreate.html'
+                    //end: function(){
+                    //	window.parent.location.reload();//关闭open打开的页面时，刷新父页面
+                    //}
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            } else if (obj.event === 'yamlCreateDeploy') {  // 监听删除操作
+                var index = layer.open({
+                    title: '创建应用',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['50%', '85%'],
+                    content: '/page/xkube/deploy_yaml_create.html'
+                    //end: function(){
+                    //	window.parent.location.reload();//关闭open打开的页面时，刷新父页面
+                    //}
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            }
+        });
+
+       table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'nodeResLine') {
+                var index = layer.open({
+                    title: '资源使用曲线',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['55%', '50%'],
+                    content: '/page/xkube/nodeCpuMemLine.html?clusterId='+clusterId+'&nodeName='+data.nodeName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }
+        });
+
+
+    });
+</script>
+</html>

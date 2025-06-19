@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>集群授权</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">用户</label>
+                                <div class="layui-input-block">
+                                  <select name="username" lay-filter="user_Id2" lay-search="" id="user_Id2">
+                                    <option value="">请选择用户</option>
+                                  </select>
+                                </div>
+                      	    </div> 
+                            <div class="layui-inline">
+                                <label class="layui-form-label">当前集群</label>
+                                <div class="layui-input-inline">
+                                    <select name="cluster_id" lay-filter="cluster_Id2" lay-search="" id="cluster_Id2">
+                                      <option value="">请选择集群</option>
+                                      <option value="all">全部集群</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <button type="submit" class="layui-btn"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+    <!-- 添加弹出框	-->
+    	<div class="layui-row" id="AddUserInfodiv" style="display:none;">
+                  <div class="layui-col-md11">
+                      <form class="layui-form layui-form-pane" action="" lay-filter="AddRoleInfo">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">用户</label>
+                                    <div class="layui-input-block">
+                                      <select name="username" lay-filter="user_Id" lay-search="" id="user_Id">
+                                        <option value="">请选择用户</option>
+                                      </select>
+                                    </div>
+                          	    </div> 
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">集群</label>
+                                    <div class="layui-input-block">
+                                        <select name="clusterId" lay-filter="cluster_Id" lay-search="" id="cluster_Id">
+                                          <option value="">请选择集群</option>
+                                          <option value="all">全部集群</option>
+                                        </select>
+                                    </div>
+                          	    </div> 
+                            </div>
+                            <div class="layui-form-item">
+                              <button class="layui-btn" lay-submit="" lay-filter="AddSubmit">确认添加</button>
+                            </div>
+                      </form>
+                  </div>
+    	</div>
+    <!-- 添加弹出框	-->	
+
+    </div>
+</div>
+</body>
+
+<script type="text/html" id="listAction">
+  <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="Delete"><i class="layui-icon">&#xe640;</i>删除</a>
+</script>
+
+<script type="text/html" id="toolbarHead">
+  <div class="layui-btn-container">
+    <button class="layui-btn"  lay-event="Add"><i class="layui-icon"></i>添加</button>
+  </div>
+</script>
+
+<script>
+	//加载集群
+	$.get('/xkube/cluster/v1/List', function (resp) {
+		$.each(resp.data,function(i,item){
+				var html = '<option value="'+item.cluster_id+'">'+item.cluster_id+'</option>'	
+			  $("#cluster_Id").append(html);
+			  $("#cluster_Id2").append(html);
+		});
+	   layui.use('form', function(){
+	           var form = layui.form;
+	           form.render();
+	   });		
+    });	
+
+	//加载用户下拉框
+    $.ajax({
+        url: "/rbac/user/List",
+        type: "GET",
+		    headers: {'X-Requested-With':'XMLHttpRequest'},
+        dataType: "json",
+        success: function(resp) {
+			      var jsondatas = eval(resp.data);
+			      $.each(resp.data, function (i, item) {
+		  		    var html = '<option value="' + jsondatas[i].Username + '">' + jsondatas[i].Username+'</option>';
+          		$("#user_Id").append(html);	
+          		$("#user_Id2").append(html);							
+			      });	
+			      layui.use('form', function(){
+             	var form = layui.form;
+            	form.render();
+    		    });			
+        }
+    });
+
+    layui.use(['form', 'table','miniTab'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+            form.render();
+
+         //头工具栏事件
+          table.on('toolbar(currentTableFilter)', function(obj){
+              var checkStatus = table.checkStatus(obj.config.id);
+              switch(obj.event){
+                case 'Add':							
+    		            layer.open({
+                    	//layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                        type:1,
+            			      skin: 'layui-layer-rim',
+                        title:"集群授权用户",
+                        area: ['450px','400px'],
+                        content:$("#AddUserInfodiv") //content:$("#AddUserInfodiv").html()
+                    });				
+    		            form.render();	
+		                //添加提交
+                    form.on('submit(AddSubmit)', function(datas){		
+            		       console.log(datas.field);
+            			     layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
+                                 $.ajax({
+                                   url: "/rbac/cluster/Add",
+                                   type: "post",
+                                   data: JSON.stringify(datas.field),
+                                   dataType: "json",
+                                   success: function (resp) {
+                                             if(resp.code == 0 ){
+                                                layer.msg('添加成功', {icon: 1});
+            									                 //window.location.reload();
+            									                  table.reload('currentTableId', {
+                                                       url: '/rbac/cluster/List'
+                                                });
+                                             }else{
+                                                 layer.msg('添加失败',{icon:2});
+                                             }
+                                    }
+                               });		  	  
+                           },
+                            cancel: function(index, layero){ 
+                                layer.close(index);
+            		            console.log("不操作");
+                            } 
+                        }); 		   
+            	        return false; 	
+            		    });		
+                break;
+                case 'DelUser':
+                   var data = checkStatus.data;
+                   layer.msg('选中了：'+ data.length + ' 个');
+                   break;  
+                };
+          });	
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/rbac/cluster/List'+location.search,
+            toolbar: '#toolbarHead',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                //{type: "checkbox", width: 50},
+                {field:'id',width:80,sort: true, title: 'ID'},
+      		      {field:'clusterId',sort: true, title: '集群'},
+      		      {field:'username',sort: true, title: '用户'},
+      		      {field:'createtime',sort: true, title: '创建时间'},
+                {fixed:'right',align: 'left', toolbar: '#listAction', title: '操作'}
+            ]],
+            //size:'lg',
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            var result = JSON.stringify(data.field);
+            data.field.username = data.field.username.replace(/^\s*|\s*$/g,"");
+            data.field.cluster_id = data.field.cluster_id.replace(/^\s*|\s*$/g,"");
+            //执行搜索重载
+            table.reload('currentTableId', {
+                method:'POST',
+                url: '/rbac/cluster/List',
+                contentType: 'application/json',
+                where: data.field,
+                done: function(res, curr, count){
+                  //console.log(res);
+                  //this.where={};
+                  //不清空，有问题：搜索条件会保留
+                  //清空，  有问题：分页的时候没有搜索条件了,分页会受到影响
+                  //https://copyfuture.com/blogs-details/20200729003153292ltjtf01kvp048gr
+                }
+            }, 'data');
+
+            return false;
+        });
+
+     //监听行工具事件
+        table.on('tool(currentTableFilter)', function(obj){
+          var data = obj.data;
+          if(obj.event === 'Delete'){
+      	    //console.log(data);
+              layer.confirm('确定删除?', {icon: 3, title:'删除提示',yes: function(index){
+          			  $.ajax({
+              			    url: "/rbac/cluster/Delete?id="+data.id,
+              			    type: "GET",
+              			    //data: data,
+              			    dataType: "json",
+              			    success: function (resp) {
+              						 if(resp.code == 0 ){
+              							 layer.msg('删除成功', {icon: 1});
+              							 obj.del();
+              						 }else{
+              							 layer.msg('删除失败',{icon:2});
+              						 }
+              				  }
+          		    });		  	  
+                },
+          		  cancel: function(index, layero){ 
+          			  layer.close(index);
+          			  console.log("不操作");
+          		  } 
+      		    }); 
+          }
+        });
+
+    });
+</script>
+</html>

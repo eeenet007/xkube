@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: testapp-readonly
+    appname: myapp
+  name: testapp-readonly
+  namespace: test-app
+spec:
+  replicas: 2 
+  selector:
+    matchLabels:
+      app: testapp-readonly
+  template:
+    metadata:
+      labels:
+        app: testapp-readonly
+    spec:
+      containers:
+      - name: testapp-readonly
+        image: xxx-registry-vpc.cn-shenzhen.cr.aliyuncs.com/xxx/testapp-readonly:20231020105811
+        imagePullPolicy: Always
+        lifecycle:
+          postStart:
+            exec:
+              command:
+                - /bin/sh
+                - /usr/local/resin/bin/init.sh
+                - start        
+          preStop:
+            exec:
+              command:
+                - /bin/sh
+                - /usr/local/resin/bin/init.sh
+                - stop      
+        volumeMounts:
+        - mountPath: /etc/localtime
+          name: host-time
+          readOnly: true
+        - mountPath: /data/public_web
+          name: public-globalssi   
+          readOnly: true                
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /test/status
+            port: 8001
+            scheme: HTTP
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 3
+        readinessProbe:
+          failureThreshold: 2
+          httpGet:
+            path: /test/status
+            port: 8001
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 3
+          successThreshold: 1
+          timeoutSeconds: 3
+      volumes:
+        - name: public-globalssi
+          persistentVolumeClaim:
+            claimName: public-web
+        - name: host-time
+          hostPath:
+            path: /etc/localtime
+            type: ""
