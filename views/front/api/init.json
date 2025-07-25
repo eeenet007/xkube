@@ -292,7 +292,13 @@
               "href": "page/rbac/clusterToUserList.html?v=1",
               "icon": "fa fa-bars",
               "target": "_self"
-            }                  
+            },
+            {
+              "title": "登录解锁",
+              "href": "page/rbac/lockList.html?v=1",
+              "icon": "fa fa-bars",
+              "target": "_self"
+            }                   
           ]         
         },
 		{

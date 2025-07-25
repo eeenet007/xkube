@@ -14,6 +14,9 @@
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
 </head>
 <body>
+<blockquote class="layui-elem-quote layui-text">
+    注:需要在权限管理--集群授权,将集群授权到用户以后,这里才会显示。
+</blockquote>
 <div class="layuimini-container">
     <div class="layuimini-main">
         <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
@@ -68,7 +71,7 @@
         table.on('tool(currentTableFilter)', function (obj) {
             var data = obj.data;
             if (obj.event === 'setDefaultCluster') {
-                setCookie('clusterId',data.clusterId,30);
+                setCookie('clusterId',data.cluster_id,30);
                 layer.msg('设置成功');
                 window.location.reload();                               
             }

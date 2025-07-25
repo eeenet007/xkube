@@ -2,9 +2,9 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>管理平台</title>
-    <meta name="keywords" content="网络运维管理平台">
-    <meta name="description" content="网络运维管理平台">
+    <title>xkube管理平台</title>
+    <meta name="keywords" content="k8s多集群管理平台">
+    <meta name="description" content="一款永久免费且无任何功能限制的云原生kubernates多集群管理工具，提供PC端和移动端全平台支持，具备完善的集群管理、运维监控和CI/CD发布功能，让企业轻松实现跨集群的统一管理和自动化运维。">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
@@ -24,6 +24,15 @@
     <style id="layuimini-bg-color"></style>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script src="js/xkube.js?v=1" charset="utf-8"></script>
+    <style>
+      .layui-input-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+    </style>
 </head>
 <body class="layui-layout-body layuimini-all">
 <div class="layui-layout layui-layout-admin">
@@ -50,6 +59,20 @@
             </ul>
 
             <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item" lay-unselect>
+                    <div class="layui-inline" style="margin-right:100px">
+                      <div class="layui-input-inline" style="width:300px">
+                        <input type="text" name="searchKey" lay-verify="searchKey" autocomplete="on" placeholder="请输入搜索的内容" class="layui-input">
+                        <i class="layui-icon layui-icon-close layui-input-icon" id="close-icon" style="font-size: 14px; color: #c2c2c2;"></i>
+                      </div>
+                      <div class="layui-input-inline">  
+                        <button type="button" class="layui-btn layui-btn-primary" id="search">
+                          <i class="layui-icon layui-icon-search"></i>搜索
+                        </button>
+                      </div>
+                    </div>
+                </li>
+
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript:;" data-refresh="刷新"><i class="fa fa-refresh"></i></a>
                 </li>
@@ -130,15 +153,54 @@
 <script>
 //设置默认集群
 SetDefaultCluster();
+    
+    $("#close-icon").hide();
+    document.querySelector('.layui-icon-close').addEventListener('click', function() {
+      var input = this.previousElementSibling; // 获取输入框元素
+      if (input) {
+        input.value = ''; // 清空输入框内容       
+      }
+      $("#close-icon").hide();
+    });
 
-    layui.use(['jquery', 'layer', 'miniAdmin','miniTongji'], function () {
+      $("input").keyup(function(){
+            if( $(this).val().length > 0){
+                $("#close-icon").show();
+            }else{
+                $("#close-icon").hide();
+            }
+        });
+       /*监听输入框聚焦事件*/
+        $("input").on("focus",function () {
+              if( $(this).val().length > 0){
+                  $("#close-icon").show();
+              }else{
+                  $("#close-icon").hide();
+              }
+        })
+        /*输入框失去焦点的blur事件
+        $("input").on("blur",function () {
+            $("#close-icon").hide();
+        });
+
+        $(".layui-icon-close").on("mousedown",function(e) {
+            e.preventDefault();
+        })
+*/
+      /*删除图标的点击事件
+      $(".delete-icon").on("click",function () {
+          $(this).prev("input").val("").focus();
+      });
+      */
+
+    layui.use(['jquery', 'layer', 'miniAdmin','miniTongji','miniTab'], function () {
         var $ = layui.jquery,
             layer = layui.layer,
             //miniTongji = layui.miniTongji,
-            //miniTab = layui.miniTab,
+            miniTab = layui.miniTab,
             miniAdmin = layui.miniAdmin;
 
-        //miniTab.listen();
+        miniTab.listen();
         //if ( clusterId == "" || clusterId == null ) {
         //		layer.msg('先设置常用集群',{icon:0,time:2000},function(){
         //        miniTab.openNewTabByIframe({
@@ -147,6 +209,16 @@ SetDefaultCluster();
         //        });
         //    });
         //}
+
+        $('#search').on("click",function(){
+            var searchKey = $('input[name="searchKey"]').val()
+            if ( searchKey != "" ) {
+                 miniTab.openNewTabByIframe({
+                      href:"page/search.html?keyword="+searchKey,
+                      title:"搜索",
+                  });
+            }
+        });
 
         var options = {
             iniUrl: "api/init.json?v=1",    // 初始化接口

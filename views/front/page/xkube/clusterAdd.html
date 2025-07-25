@@ -23,13 +23,13 @@
             <div class="layui-form-item">
                 <label class="layui-form-label required">集群id</label>
                 <div class="layui-input-block" style="width:250px">
-                    <input type="text" name="cluster_id" lay-reqtext="不能为空" placeholder="英文及数字" value="" class="layui-input">
+                    <input type="text" name="cluster_id" lay-reqtext="不能为空" placeholder="必填,英文、数字、横线，eg:gz-aliyun" value="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label required">集群名称</label>
                 <div class="layui-input-block" style="width:250px">
-                    <input type="text" name="cluster_name" placeholder="集群名称" value="" class="layui-input">
+                    <input type="text" name="cluster_name" placeholder="必填,集群中文名称" value="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -56,7 +56,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">k8s版本</label>
                 <div class="layui-input-block" style="width:250px">
-                    <input type="text" name="kube_version" placeholder="eg:1.26.3" value="" class="layui-input">
+                    <input type="text" name="kube_version" placeholder="必填,eg:1.26.3" value="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -89,7 +89,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">kubeconfig</label>
                 <div class="layui-input-block" style="width:614px">
-                    <textarea name="kube_config" style="height:300px" class="layui-textarea" lay-verify=""></textarea>
+                    <textarea name="kube_config" style="height:300px" class="layui-textarea" placeholder="必填:拷贝/root/.kube/config内容到此处" lay-verify=""></textarea>
                 </div>
             </div>           
             <div class="layui-form-item">

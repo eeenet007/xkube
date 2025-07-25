@@ -43,7 +43,7 @@ function SetDefaultCluster() {
 	var clusterId = getQueryString("clusterId");
 	if (clusterId == null) {
 		clusterId = getCookie("clusterId")
-		console.log(clusterId);
+		//console.log(clusterId);
 		if  (clusterId == "") {
 			$.ajax({
 			   url: "/rbac/cluster/MyClusterList",
@@ -56,7 +56,8 @@ function SetDefaultCluster() {
 							setCookie('clusterId',myClusterId,30);
 						}
 					}else{
-						layer.msg('读取集群列表失败',{icon:2});
+						//layer.msg('读取集群列表失败',{icon:2});
+						console.log('读取集群列表失败');
 					}
 				},
 				error: function(xhr, status, error) {
@@ -102,6 +103,8 @@ function compareVersions(v1, v2) {
   return 0;
 }
 
+
+var deployApiVersion = 'v1';
 
 function GetCurrClusterId() {
 	var clusterId = getQueryString("clusterId");

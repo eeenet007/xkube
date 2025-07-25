@@ -16,6 +16,9 @@
               <button class="layui-btn" id="EditYamlBtn">编辑yaml</button>
               <button class="layui-btn" id="EditReplicas">副本伸缩</button>
               <button class="layui-btn" id="StsRestart">重新部署</button>
+              <button class="layui-btn" id="LablesUpdate">标签更新</button>
+              <button class="layui-btn" id="ImageUpdate">镜像更新</button>
+              <button class="layui-btn" id="CicdDeploy">CICD</button>
               <br><br>
 
   <div class="layui-collapse" lay-filter="test">
@@ -275,13 +278,6 @@
           }
 		  });
 
-        $(".internalRequest-marks").mouseover(function() {
-          layer.tips('nginx内部的rewrite、404重试之类的请求!', this, {
-            tips: [1, "#000"],
-            time:3000
-          });
-        });
-
         //yaml编辑
         $('#EditYamlBtn').on("click",function(){
                 layer.open({
@@ -295,6 +291,18 @@
                 });
         });
 
+  			$.get('/xkube/sts/v1/Replicas' + location.search, function (resp) {
+    				if (resp.code == 0 ) { 
+                console.log(resp.number)
+      				  form.val('PodNumberInfo', {
+      				    "podNumber": resp.number,
+      				  });
+                form.render();   
+            }else{
+              layer.msg('获取副本数失败',{icon:2});
+            }
+  		  });
+
         //伸缩
         $('#EditReplicas').on("click",function(){
                 layer.open({
@@ -305,9 +313,39 @@
                     //maxmin:true,
                     shadeClose: true,
                     area: ['350px', '300px'],
-                    content: $("#ReplicasInfo").html(),
+                    content: $("#ReplicasInfo"),
                 });
                 form.render();
+        });
+
+        form.on('submit(PodNumberSubmit)', function (data) {
+                //console.log(data.field);
+			          layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('稍等片刻');
+                     $.ajax({
+                       url: "/xkube/sts/v1/Replicas" + location.search,
+                       type: "post",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('修改成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
         });
 
         //升级策略
@@ -349,6 +387,57 @@
                 console.log("不操作");
               } 
             });
+        });
+
+        //标签修改
+        $('#LablesUpdate').on("click",function(){
+                var index = layer.open({
+                    title: statefulsetName+'标签修改',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '90%'],
+                    content: '/page/xkube/stsLables.html'+location.search,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;  
+        });
+
+        //镜像修改
+        $('#ImageUpdate').on("click",function(){
+                var index = layer.open({
+                    title: statefulsetName+'镜像修改',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '90%'],
+                    content: '/page/xkube/stsImage.html'+location.search,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;  
+        });
+
+        //cicd
+        $('#CicdDeploy').on("click",function(){
+                var index = layer.open({
+                    title: statefulsetName+'流水线',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '80%'],
+                    content: '/page/cicd/index.html'+location.search+'&resType=statefulset&cicdName='+statefulsetName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;  
         });
 
        table.on('tool(currentTableFilter)', function (obj) {

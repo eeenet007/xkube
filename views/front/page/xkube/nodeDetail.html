@@ -293,7 +293,7 @@ if (clusterId == null) {
                 }
 
                 form.val('unschedulableInfo', {
-                  "unschedulable": unschedulable                        
+                  "unschedulable": resp.unschedulable                        
                 });
   
                 var annotations = resp.annotations;
@@ -370,7 +370,7 @@ if (clusterId == null) {
                 //maxmin:true,
                 shadeClose: true,
                 area: ['400px', '200px'],
-                content: $("#NodeUnschedulableTpl").html(),
+                content: $("#NodeUnschedulableTpl"),
             });
             form.render();
         });
@@ -378,11 +378,10 @@ if (clusterId == null) {
         form.on('switch(switchTest)', function(data){
           //var bodystr = {"name":this.name,"value":this.checked};
           var bodystr = {"unschedulable":this.checked};
-          console.log(bodystr);
+          //console.log(bodystr);
           layer.confirm('确认修改该节点调度设置:'+nodeName, {icon: 3, title:'调度设置',yes: function(index){
         			$.ajax({
         			   url: "/xkube/node/v1/Unschedulable" + location.search,
-        			   type: "GET",
         			   headers:{'X-Requested-With':'XMLHttpRequest'},
                  type: "post",
                  data: JSON.stringify(bodystr),

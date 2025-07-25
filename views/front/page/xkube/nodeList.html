@@ -135,6 +135,9 @@
 </script>	
 
 <script type="text/html" id="nodeStateTpl">
+        {{# if(d.unschedulable == "true") { }}
+            <span style="color:#FF5722">不可调度</span><br>
+        {{# } }}        
         <span>{{ d.nodeRole }}</span><br>
                 {{# if(d.nodeState == "Ready:True") { }}
                         <span style="color:#009688">{{ d.nodeState }}</span>
@@ -231,6 +234,7 @@ if (clusterId == null) {
                 {field: '', title: '节点名称',templet: '#nodeNameTpl'},
                 {field: 'nodeRole', title: '角色', sort: true,hide:true},
                 {field: 'nodeState', title: '状态', sort: true,hide:true},
+                {field: 'unschedulable', title: '调度', sort: true,hide:true},
                 {field: '', title: '状态', sort: true,templet: '#nodeStateTpl'},
                 {field: 'podNum', title: '容器组额度', sort: true},
                 {field: 'nodeInfo',title: '节点信息', sort: true,templet: '#nodeInfoTpl',hide:true},

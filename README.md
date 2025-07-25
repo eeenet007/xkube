@@ -1,29 +1,29 @@
 [TOC]
-# 一.项目介绍
-  一款永久免费且无任何功能限制的云原生kubernates多集群管理工具，提供PC端和移动端全平台支持，具备完善的集群管理、运维监控和CI/CD发布功能，让企业轻松实现跨集群的统一管理和自动化运维。
 
-# 二.源代码说明
+  
+  ![logo](https://xkube.eeenet.net/res/images/xkube/logo.png)
 
-1. 本项目中前端部分提供了源代码，后端部分均采用源代码编译的二进制。
+  xkube一款永久免费且无任何功能限制的云原生kubernates多集群管理工具，提供PC端和APP端全平台支持，具备完善的集群管理、运维监控和CI/CD发布功能，让企业轻松实现跨集群的统一管理和自动化运维。
+
+### [官方网址](https://xkube.eeenet.net/)      [APP下载](https://xkube.eeenet.net/app.html)      [演示地址](https://xkube.eeenet.net/)      [文档](https://xkube.eeenet.net/doc/xkube.html)    [意见反馈](https://xkube.eeenet.net/feedback.html) 联系邮箱: `eeenet@qq.com` 
+
+## 关注公众号了解xkube最新动态
+<img src="https://gitee.com/eeenet/xkube/raw/master/images/gongzhonghao.jpg" width="200" height="200" alt="关注公众号" title="公众号">
+
+***
+
+# 一.源代码说明
+
+1. 本项目中前端部分提供了源代码，采用layui+layuimini 实现。后端部golang+beego开发编译出的二进制。
 2. 该项目旨在进行关于kubernates、client-go、go语言开发的学习与技术交流。
 3. 本人郑重承诺不做任何功能限制，永久免费使用、无广告、不用注册、不用授权、无后门、代码无加密、可二次开发、无法律限制、无附加条款。
 4. 关于后端源代码的开源问题，作如下说明:
-- 本项目会持续更新迭代，持续发布windows、Linux的二进制程序及相关更新信息。
-- 为避免不尊重他人劳动成果、能理解作者辛苦付出并表示支持的，源代码采取有偿提供。 
-5. 如果需要定制开发，发邮件至`eeenet@qq.com`。
+  - 本项目会持续更新迭代，持续发布windows、Linux的二进制程序及相关更新信息。
+  - 后端部分的golang源代码还在整理中，不久会发布出来。
+5. 如果需要定制开发，邮箱和微信联系：`eeenet@qq.com`。
+6. APP端的iOS版和鸿蒙版正在开发中...
 
-# 三.源代码有偿提供说明如下：
-1. 有偿方式为支付100元人民币，作者提供当前最新版本的源代码。
-2. 购买源代码为虚拟物品交易，购买后不支持退换货。
-3. 仅为源代码交易，不提供任何售后服务和技术支持，作者会视情况免费提供一些基本的技术指导。
-4. 用户在购买源代码以后，在成交后一年内有新的版本迭代、免费提供最新的源代码。
-5. 该项目及代码仅作为学习、技术交流、不支持二次销售或包装成商业产品销售。
-6. 用户在使用该项目过程中所产生的任何问题和后果，作者不承担任何责任。
-7. 有兴趣购买源代码，微信联系作者或发邮件至：`eeenet@qq.com`。
-
-![作者微信](https://gitee.com/eeenet/xkube/raw/master/images/weixin.png)
-
-# 四.安全建议：
+# 二.安全建议：
 1. 不建议将该项目部署环境暴漏在公网。若需部署在公网环境建议采取https、IP白名单、nginx的auth_basic、jwt-token等方式进行二次安全校验。
 2. 作者无法保证该项目100%无漏洞，所以在使用过程中请自行进行网络安全的规划。
 3. 尽快修改项目中配置的数据库密码、后台默认密码。
@@ -31,7 +31,7 @@
 5. 后续会继续完善手机验证码校验、app安全码校验等功能。
 
 
-# 五.功能特性
+# 三.功能特性
 - 跨公有云、跨IDC的多k8s集群统一管理平台
 - 具备节点、节电池、命名空间、clusterRoleBinding、clusterRoles、RoleBinding、Roles、serviceAccounts的创建、详情、yaml文件查看、删除等功能。
 - workload方面支持对deployment、statefuleset、dameset、cronjob、job、pod容器组、cdr自定义资源、hpa伸缩的功能创建、yaml查看修改、删除功能。
@@ -58,15 +58,15 @@
 - CICD:支持对接阿里云流水线，可以试下流水线的运行、信息查看、流程查看、日志查看等功能。
 - aws的eks集群管理：eks的管理需要进行通过aws进行认证才能进行管理，可以通过bearerToken实现对接管理。
 
-# 六.安装部署
+# 四.安装部署
 
 ## 1.docker-compose部署
 
 将docker-compose拷贝到服务器后，进入docker-compose目录，执行启动命令：`docker-compose up -d` 然后浏览器打开：http://ip:8080/
 输入用户名:admin,密码:admin 进行登录，登录后添加k8s配置即可进行管理。停止命令：`docker-compose down`
-作者运行环境版本参考：
+行环境版本要求：
 - docker版本：version 27.3.1
-- docker-compose版本： version v2.32.4
+- docker-compose版本： version v2.32.4 及以上
 
 ## 2.k8s环境部署
 

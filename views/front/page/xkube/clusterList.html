@@ -41,9 +41,7 @@
             <!-- <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="monitor">监控</a> -->
             <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="setDefaultCluster">设为常用集群</a>
             <a href="javascript:;" layuimini-content-href="page/wiki/list.html?xcolumn={{d.cluster_id}}" data-title="{{ d.cluster_id }}文章" class="layui-btn layui-btn-normal layui-btn-sm" lay-event="wiki">wiki</a>
-            <!-- 
             <a class="layui-btn layui-btn-sm layui-btn-danger data-count-delete" lay-event="delete">删除</a>
-            -->
         </script>
 
     </div>
@@ -94,7 +92,7 @@
                 {field: '', title: '默认集群',templet: '#DefaultClusterTpl', width: 100},
                 {field: 'createtime', width:150, title: '创建时间', hide:true},
                 {field: 'remarks', width:100, title: '备注'},
-                {title: '操作', minWidth: 250, toolbar: '#currentTableBar', align: "center"}
+                {title: '操作', minWidth: 350, toolbar: '#currentTableBar', align: "center"}
             ]],
             limits: [25, 50, 100],
             limit: 25,
@@ -202,6 +200,34 @@
                 layer.msg('设置成功');
                 window.location.reload();                
                 //console.log(data);               
+            } else if (obj.event === 'delete') {
+                layer.confirm('确定删除'+data.cluster_id+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/cluster/v1/Del?id='+data.id,
+                			    type: "get",
+                			    //data: data,
+                			    //dataType: "json",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						//console.log(resp);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 //window.location.reload();
+                							 obj.del();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });              
             }
         });
     });

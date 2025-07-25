@@ -178,7 +178,10 @@ if ( compareVersions("1.20.1",clusterIdVersion) == 1 ) {
                         {field: 'servicePort',title: '服务端口'},
                     ]],
                     data: resp.rules,
-                    even: true
+                    even: true,
+                    limits: [30, 60, 100],
+                    limit: 30,
+                    page: true
                 });
 
 

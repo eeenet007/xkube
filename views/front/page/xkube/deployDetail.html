@@ -48,6 +48,7 @@
               <button class="layui-btn" id="LablesUpdate">标签更新</button>
               <button class="layui-btn" id="ImageUpdate">镜像更新</button>
               <button class="layui-btn" id="CicdDeploy">CICD</button>
+              <button class="layui-btn" id="addFav">收藏</button>
               <br><br>
 
   <div class="layui-collapse" lay-filter="test">
@@ -90,6 +91,12 @@
                       <tr>
                         <td>状态:</td>
                         <td><div id="status"></div></td>
+                        <td>端口:</td>
+                        <td><div id="ports"></div></td>
+                      </tr>
+                      <tr>
+                        <td>镜像:</td>
+                        <td><div id="imageUrl"></div></td>
                         <td></td>
                         <td></td>
                       </tr>
@@ -371,7 +378,12 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
   
                 var status = resp.status;
                 $('#status').html(status);
-                
+
+                var imageUrl = resp.imageUrl;
+                $('#imageUrl').html(imageUrl);
+
+                var ports = resp.ports;
+                $('#ports').html(ports);                                
                 //form.val('PodNumberInfo', {
 				        //  "podNumber": resp.podNumber
 				        //})
@@ -591,7 +603,7 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                 return false;  
         });
 
-        //镜像修改
+        //cicd
         $('#CicdDeploy').on("click",function(){
                 var index = layer.open({
                     title: deployName+'流水线',
@@ -633,6 +645,30 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                 console.log("不操作");
               } 
             });
+        });
+
+        //添加收藏
+        $('#addFav').on("click",function(){
+            var myFav = {
+                  fav_type: "deploy",
+                  cluster_id: clusterId,
+                  name_space: nameSpace,
+                  fav_name: deployName
+              };
+      			 $.ajax({
+      			    url: '/fav/v1/Add',
+      			    type: "POST",
+                dataType: "json",
+                data: JSON.stringify(myFav),
+                contentType: 'application/json',
+      			    success: function (resp) {
+      						 if(resp.code == 0){
+      							 layer.msg('收藏成功', {icon: 1});
+      						 }else{
+      							 layer.msg(resp.msg,{icon:2});
+      						 }
+      				  }
+      		   });
         });
 
        table.on('tool(currentTableFilter)', function (obj) {
@@ -699,13 +735,21 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                 {field: 'podIp',title: 'podIp',width:120,sort: true},
                 {field: 'hostIp',width:120,title:'节点IP'},  
                 {field: 'nodeName',title:'节点名称',hide:true},               
-                {field: 'resUsage', width:220,title: '资源使用'},
+                {field: 'resUsage', width:220,title: '资源使用<i class="layui-icon layui-icon-about resUsed-marks" style="color: #1E9FFF;"></i>'},
                 {field: 'createTime',width:170, title: '创建时间'},
                 {title: '操作', minWidth:280, toolbar: '#currentTableBar', align: "center"}
             ]],
             limits: [25, 50, 100],
             limit: 15,
-            page: false
+            page: false,
+            done(){
+                $(".resUsed-marks").mouseover(function() {
+                  layer.tips('需k8s安装了metrics-server才支持!', this, {
+                    tips: [1, "#000"],
+                    time:3000
+                  });
+                });
+            }
         });
         // 定时刷新pod表格，每10秒刷新一次
         var intervalId = setInterval(function(){
