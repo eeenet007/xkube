@@ -195,7 +195,7 @@ if (clusterId == null) {
                     area: ['50%', '85%'],
                     content: '/page/xkube/create_by_yaml.html',
                     end: function(){
-                    	window.parent.location.reload();//关闭open打开的页面时，刷新父页面
+                    	window.location.reload();//关闭open打开的页面时，刷新父页面
                     }
                 });
                 $(window).on("resize", function () {

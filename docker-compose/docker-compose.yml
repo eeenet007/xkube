@@ -16,7 +16,7 @@ services:
       - "23306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./xkube.sql:/docker-entrypoint-initdb.d/xkube.sql
+      - ./db_xkube.sql:/docker-entrypoint-initdb.d/db_xkube.sql
     restart: always
     networks:
       - app_network
@@ -39,7 +39,7 @@ services:
       - app_network
 
   myapp:
-    image: crpi-44hgz4440mgo9lnt.cn-guangzhou.personal.cr.aliyuncs.com/eeenet/xkube:3.6
+    image: crpi-44hgz4440mgo9lnt.cn-guangzhou.personal.cr.aliyuncs.com/eeenet/xkube:3.7
     container_name: xkube_admin
     healthcheck:
       test: ["CMD","curl","-f","http://127.0.0.1:8080/public/check"]

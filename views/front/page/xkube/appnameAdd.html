@@ -51,7 +51,7 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-                data.field.appname = data.field.appname.replace(/^\s*|\s*$/g,""); //替换空格               
+                data.field.appname = data.field.appname.replace(/\s+/g,""); //替换空格               
 					      console.log(data.field);
 			          layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
                      var index2 = layer.load(0, {shade: false});

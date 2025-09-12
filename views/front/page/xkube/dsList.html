@@ -149,6 +149,9 @@ if (clusterId == null) {
 
         table.render({
             elem: '#currentTableId',
+            headers: {   
+                'xktoken':  'xktoken', 
+            },  
             url: '/xkube/ds/v1/List'+location.search+'&clusterId='+clusterId,
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
@@ -198,6 +201,9 @@ if (clusterId == null) {
             //执行搜索重载
             table.reload('currentTableId', {
                 method:'POST',
+                headers: {  
+                    'xktoken':  'xktoken', 
+                }, 
                 url: '/xkube/ds/v1/List?clusterId='+clusterId,
                 contentType: 'application/json',
                 where: data.field,
@@ -269,6 +275,9 @@ if (clusterId == null) {
                 			 $.ajax({
                 			    url: '/xkube/ds/v1/Del?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&daemonsetName='+data.daemonsetName,
                 			    type: "get",
+                          headers: {   
+                              'xktoken':  'xktoken', 
+                          }, 
                 			    //data: data,
                 			    //dataType: "json",
                 			    success: function (resp) {

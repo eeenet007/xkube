@@ -94,6 +94,8 @@
                   srcUrl = 'page/xkube/configmapDetail.html?configmapName='
                 }else if( fav_type == 'ing' ) {
                   srcUrl = 'page/xkube/ingressDetail.html?ingressName='
+                }else if( fav_type == 'app' ) {
+                  srcUrl = 'page/xkube/resourceList.html?appname='
                 }
                 miniTab.openNewTabByIframe({
                     href:srcUrl+fav_name+'&clusterId='+cluster_id+'&nameSpace='+name_space,

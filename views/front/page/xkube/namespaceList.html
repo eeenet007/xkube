@@ -171,7 +171,8 @@ if (clusterId == null) {
                     area: ['50%', '90%'],
                     content: '/page/xkube/namespaceCreate.html?clusterId='+clusterId,
                     end: function(){
-                    	window.parent.location.reload();//关闭open打开的页面时，刷新父页面
+                    	//window.parent.location.reload();//关闭open打开的页面时，刷新父页面
+                      window.location.reload();
                     }
                 });
                 $(window).on("resize", function () {

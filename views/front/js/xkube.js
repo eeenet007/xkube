@@ -68,6 +68,11 @@ function SetDefaultCluster() {
 	}
 }
 
+//function SetMyLanguage() {
+//		myLang = getCookie("myLang")
+//		setCookie('myLang',"english",30);
+//}
+
 //function SetDefaultCluster() {
 //	var clusterId = getQueryString("clusterId");
 //	if (clusterId == null) {

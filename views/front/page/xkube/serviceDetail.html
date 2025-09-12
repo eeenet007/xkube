@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
     <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
 
 </head>
@@ -140,11 +141,15 @@
 </body>
 
 <script type="text/html" id="currentTableBar">
+          {{#  var clusterId = getQueryString("clusterId"); }}
+          {{#  if (clusterId == null) { }}
+	        {{#      clusterId = getCookie("clusterId") }}
+          {{#  } }}
     <!-- 
       <a href="/page/xkube/podTerminal.html?nameSpace={{ d.nameSpace }}&podName={{ d.podName }}" target="_blank" class="layui-btn layui-btn-sm"><i class="layui-icon layui-icon-auz"></i>终端1</a>
       <a class="layui-btn layui-btn-sm" lay-event="podDetail"><i class="layui-icon layui-icon-auz"></i>详情</a>
    -->
-    <a href="javascript:;" layuimini-content-href="page/xkube/podDetail.html?clusterId=zx-pcauto&nameSpace={{d.nameSpace}}&podName={{d.podName}}" data-title="{{d.podName}}详情" class="layui-btn layui-btn-sm">详情</a>
+    <a href="javascript:;" layuimini-content-href="page/xkube/podDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&podName={{d.podName}}" data-title="{{d.podName}}详情" class="layui-btn layui-btn-sm">详情</a>
     <!-- 
     <a class="layui-btn layui-btn-sm" lay-event="podLog">日志</a>
     <a class="layui-btn layui-btn-sm" lay-event="terminal">ssh终端</a>
@@ -152,7 +157,7 @@
 </script>
 
 <script>
-
+/**
     function getQueryString(name) {
       let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
       let r = window.location.search.substr(1).match(reg);
@@ -161,6 +166,7 @@
       };
       return null;
     };
+**/
 
     function toDeployDetail(obj) {
       var clusterId = getQueryString("clusterId");
@@ -195,6 +201,10 @@
 
         var resType = "deploy";
         var serviceName = getQueryString("serviceName");
+        var svcIp = getQueryString("svcIp")
+        if (svcIp == "None"){
+          resType = "sts"
+        }
         $('#appNameTitle').html(serviceName);
 
         $('#DelBtn').on("click",function(){

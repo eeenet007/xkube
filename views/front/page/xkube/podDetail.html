@@ -28,6 +28,7 @@
               <button class="layui-btn" id="EditYamlBtn">编辑yaml</button>
               <button class="layui-btn" id="terminal">终端</button>
               <button class="layui-btn" id="podLog">日志</button>
+              <button class="layui-btn" id="podCheck">服务检测</button>
               <br><br>
 
   <div class="layui-collapse" lay-filter="test">
@@ -246,6 +247,14 @@
       var podName = getQueryString("podName");
       var nameSpace = getQueryString("nameSpace");
       //$('#appNameTitle').html(podName);
+
+        //服务检测
+        $('#podCheck').on("click",function(){
+            miniTab.openNewTabByIframe({
+                href:"page/xkube/podCheck.html"+location.search,
+                title:"pod服务检测",
+            });
+        });
 
       //deatail
 			$.get('/xkube/pod/v1/Detail' + location.search, function (resp) {

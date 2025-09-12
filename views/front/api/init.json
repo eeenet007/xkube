@@ -298,6 +298,12 @@
               "href": "page/rbac/lockList.html?v=1",
               "icon": "fa fa-bars",
               "target": "_self"
+            },
+            {
+              "title": "审计日志",
+              "href": "page/rbac/auditLogList.html",
+              "icon": "fa fa-bars",
+              "target": "_self"
             }                   
           ]         
         },

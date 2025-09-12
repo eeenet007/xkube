@@ -107,7 +107,7 @@ spec:
     spec:
       containers:
       - name: xkube-admin
-        image: crpi-44hgz4440mgo9lnt.cn-guangzhou.personal.cr.aliyuncs.com/eeenet/xkube:3.6
+        image: crpi-44hgz4440mgo9lnt.cn-guangzhou.personal.cr.aliyuncs.com/eeenet/xkube:3.7
         ports:
           - containerPort: 80
         volumeMounts:

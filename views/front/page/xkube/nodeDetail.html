@@ -196,6 +196,7 @@
     <a href="javascript:;" layuimini-content-href="page/xkube/podDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&podName={{d.podName}}" data-title="{{ d.podName }}详情" class="layui-btn layui-btn-sm">详情</a>
     <a class="layui-btn layui-btn-sm" lay-event="podLog">日志</a>
     <a class="layui-btn layui-btn-sm" lay-event="terminal">ssh终端</a>
+    <a class="layui-btn layui-btn-normal layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
 </script>
                 
 <script type="text/html" id="podPhaseTpl">
@@ -207,6 +208,9 @@
     <span style="color:#FF5722">{{ d.podPhase}}</span>
 {{# } }}
 </script>        
+
+<script type="text/html" id="toolbarDemo">
+</script>
         
 <script>
 
@@ -215,6 +219,13 @@ SetDefaultCluster();
 var clusterId = getQueryString("clusterId");
 if (clusterId == null) {
 	clusterId = getCookie("clusterId")
+}
+
+//小于1.22版本,排水接口用betav1版本
+var beta = 0;
+var clusterIdVersion = getCookie(clusterId);
+if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
+  beta = 1;
 }
 
     layui.use(['form', 'table','miniTab'], function () {
@@ -336,11 +347,11 @@ if (clusterId == null) {
 
         //节点排水
         $('#NodeDrain').on("click",function(){
-                layer.confirm('请确认是否要将以下进行排空节点操作（同时设置为不可调度）'+nodeName, {icon: 3, title:'排水提示',yes: function(index){
+                layer.confirm('确认排空节点并设置为不可调度?:'+nodeName, {icon: 3, title:'排水提示',yes: function(index){
                      var index2 = layer.load(0, {shade: false});
                      layer.msg('此处需运行1-2s左右');
                 			 $.ajax({
-                			    url: '/xkube/node/v1/Drain?clusterId='+clusterId+"&nodeName="+nodeName,
+                			    url: '/xkube/node/v1/Drain?clusterId='+clusterId+"&nodeName="+nodeName+"&beta="+beta,
                 			    type: "get",
                 			    success: function (resp) {
                             layer.close(index2);
@@ -447,32 +458,68 @@ if (clusterId == null) {
                     layer.full(index);
                 });
                 return false;              
+            }else if (obj.event === 'delete') {
+                layer.confirm('确定删除'+data.podName+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/pod/v1/Del?clusterId='+clusterId+"&nameSpace="+data.nameSpace +"&podName="+data.podName,
+                			    type: "get",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 //window.location.reload();
+                							 obj.del();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
             }
         });
 
         table.render({
             elem: '#currentTableId',
             url: '/xkube/pod/v1/List' + location.search,
-            //toolbar: '#toolbarDemo',
+            toolbar: '#toolbarDemo',
             //editTrigger: 'dblclick',
-            //defaultToolbar: ['filter'],
+            defaultToolbar: ['filter', 'exports'],
             cols: [[
-                {field: 'podName',width: 200, title: '名称'},
-                {field: 'imgUrl', title: '镜像'},
+                {field: 'podName',title: '名称',sort: true},
+                {field: 'imgUrl', title: '镜像',hide:true},
                 {field: 'podPhase', title: '状态',width:120,sort: true,templet: '#podPhaseTpl'},      
                 {field: 'nameSpace', width: 120, title: '命名空间', sort: true},
                 {field: 'restartCount',width:80,title: '重启',sort: true},                          
                 {field: 'podIp',title: 'podIp',width:120,sort: true},
                 {field: 'hostIp',width:120,title:'节点IP',hide:true}, 
-                {field: 'resUsage', width:220,title: '资源使用'}, 
+                //{field: 'resUsage', width:220,title: '资源使用'}, 
+                {field: 'memUsage',sort: true,width:120,title:'内存[MB]'},
+                {field: 'cpuUsage',sort: true,width:120,title:'CPU[核]<i class="layui-icon layui-icon-about resUsed-marks" style="color: #1E9FFF;"></i>'},              
+                {field: 'resUsage',hide:true,width:240,title: '资源使用'},  
                 {field: 'nodeName',title:'节点名称',edit:true,hide:true},    
                 {field: 'labes', width: 250, title: '标签',edit:true,hide:true, sort: true,templet: '#TagTpl'},           
                 {field: 'createTime',width:160, title: '创建时间'},
-                {title: '操作', minWidth:200, toolbar: '#currentTableBar', align: "center"}
+                {title: '操作', minWidth:260, toolbar: '#currentTableBar', align: "center"}
             ]],
-            limits: [25, 50, 100],
-            limit: 25,
-            page: true
+            limits: [50, 100, 200],
+            limit: 50,
+            page: false,
+            done(){
+                $(".resUsed-marks").mouseover(function() {
+                  layer.tips('需k8s安装了metrics-server才支持!', this, {
+                    tips: [1, "#000"],
+                    time:3000
+                  });
+                });
+            }
         });
     });
 </script>

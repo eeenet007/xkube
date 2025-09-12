@@ -208,7 +208,7 @@
   {{#  if (clusterId == null) { }}
   {{#      clusterId = getCookie("clusterId") }}
   {{#  } }}
-    <a href="javascript:;" layuimini-content-href="page/xkube/serviceDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&serviceName={{d.serviceName}}" data-title="{{ d.serviceName }}详情" class="layui-btn layui-btn-sm">详情</a>
+    <a href="javascript:;" layuimini-content-href="page/xkube/serviceDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&serviceName={{d.serviceName}}&svcIp={{d.svcIp}}" data-title="{{ d.serviceName }}详情" class="layui-btn layui-btn-sm">详情</a>
     <!-- <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a> -->
     <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="viewYaml">yaml编辑</a>
     <a class="layui-btn layui-btn-normal layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>

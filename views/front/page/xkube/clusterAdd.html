@@ -109,10 +109,10 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-                data.field.cluster_id = data.field.cluster_id.replace(/^\s*|\s*$/g,""); //替换空格
-                data.field.kube_version = data.field.kube_version.replace(/^\s*|\s*$/g,"");
-                data.field.lan_slbip = data.field.lan_slbip.replace(/^\s*|\s*$/g,"");
-                data.field.wan_slbip = data.field.wan_slbip.replace(/^\s*|\s*$/g,"");                
+                data.field.cluster_id = data.field.cluster_id.replace(/\s+/g,""); //替换空格
+                data.field.kube_version = data.field.kube_version.replace(/\s+/g,"");
+                data.field.lan_slbip = data.field.lan_slbip.replace(/\s+/g,"");
+                data.field.wan_slbip = data.field.wan_slbip.replace(/\s+/g,"");                
 					      console.log(data.field);
 			          layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
                      var index2 = layer.load(0, {shade: false});
