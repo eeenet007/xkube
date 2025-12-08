@@ -1,4 +1,33 @@
-# 3.7 更新日志：
+# 3.9 更新日志：20251201
+1.增加deployment变量界面修改功能
+2.增加deployment生命周期界面修改功能
+2.增加deployment的所有修改自动备份功能
+3.增加权限管理中所有变更的审计日志
+4.增加jenkins流水线支持
+5.增加ingress路由编辑、tls域名添加功能
+6.增加ingress修改自动备份功能
+7.增加node的yaml文件修改功能,并自动备份yaml配置
+8.增加node的标签修改功能,并自动备份yaml配置
+9.增加node的污点修改功能,并自动备份yaml配置
+10.增加一个用于apikey的方式定时任务调用重启deployment的接口
+11.修复用户登录后在特定场景下获得未授权集群权限的问题
+12.修复创建新资源后，列表还存在缓存的情况
+13.修复rbac map线程安全问题
+14.修复在资源列表中点击了分页后，搜索结果不显示的问题
+
+# 3.8 更新日志：20250929
+1. 修复更改个人信息失败的问题
+2. 增加app网络检测功能
+3. 增加deployment界面修改hostAlias域名映射功能
+4. 增加deployment界面修改cpu和内存requests和limits的功能
+5. 增加deployment界面配置存活探针、就绪探针的功能
+6. 增加deployment、configmap、ingress、statefulset、secret、cronjob的yaml备份还原功能
+7. 增加顶部导航栏显示版本和app下载
+8. 增加statefulset的yaml更新功能
+9. 修复yaml配置修改中包含分号引起requestBody解析错误的问题
+10. 优化阿里云流水线的查询方法
+
+# 3.7 更新日志：20250912
 1. 新增对deployment下的pod的URL、tcp、command的快速服务检测。
 2. 新增对pod的URL、tcp、command的快速服务检测。
 3. 新增deployment 详情页对pod状态刷新的开关。
@@ -18,7 +47,7 @@
 17. 优化登录验证码的存储引擎从内存更改为redis便于k8s多pod部署。
 18. 优化代码结构、增加注释,为后续开源代码做准备。
 
-# 3.6 更新日志：
+# 3.6 更新日志：20250722
 1. 新增对登录用户、登录IP的失败次数限制，超出次数限制一段时间不允许登录。
 2. 新增登录失败记录到日志。
 3. 新增登录时需要输入验证码。
@@ -33,7 +62,7 @@
 13. 新增集群列表删除功能。
 14. 修复pod 在详细查询时在异常状态下metric查询失败和State.Waiting.Reason获取失败的问题。
 
-# 3.5 更新日志：
+# 3.5 更新日志：20250620
 1、修复pod的状态在出现CrashLoopBackOff时显示为Running的问题。
 2、修复pod列表页搜索以后，一直保留着搜索条件,无法刷新的问题。
 3、增加node列表页pod数量额度，详情页增加cpu内存使用率显示。

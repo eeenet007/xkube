@@ -22,8 +22,13 @@
         <br>
         <fieldset class="table-search-fieldset">
             <legend></legend>
+          <div class="layui-inline">
             <button class="layui-btn layui-btn-sm" id="SaveBtn" >保存更新</button>
             <button class="layui-btn layui-btn-normal layui-btn-sm" id="DownLoadBtn">下载</button>
+          </div>
+          <div class="layui-inline">
+            <div class="layui-word-aux"><span style="color:#FFB800">注:yaml修改前会自动备份</span></div>
+          </div>
         </fieldset>   
     </div>
 </div>
@@ -64,6 +69,7 @@
         $('#SaveBtn').on("click",function(){
               var yamlBody = editor.getValue();
               yamlBody = yamlBody.replace(/%/g,"%25");
+              yamlBody = yamlBody.replace(/;/g,"%3B");
               layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){
                   $.ajax({
                    url: "/xkube/deploy/v1/ModifyByYaml"+location.search,
@@ -88,7 +94,6 @@
               var deployName = getQueryString("deployName");
               ExportRaw(deployName+'.yaml',editor.getValue());
         });
-
     });
 </script>
 

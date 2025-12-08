@@ -430,9 +430,10 @@ layui.define(["jquery", "layer"], function (exports) {
                     '<ul>\n' + bgColorHtml + '</ul>\n' +
                     '</div>\n' +
                     '<div class="more-menu-list">\n' +
-                    '<a class="more-menu-item" href="/page/wiki/list.html?xcolumn=%E5%B8%AE%E5%8A%A9%E4%B8%AD%E5%BF%83" target="_blank"><i class="layui-icon layui-icon-read" style="font-size: 19px;"></i> 帮助中心</a>\n' +
+                    '<a class="more-menu-item" href="https://xkube.eeenet.net/doc/xkube.html" target="_blank"><i class="layui-icon layui-icon-read" style="font-size: 19px;"></i> 帮助文档</a>\n' +
                     '<a class="more-menu-item" href="https://gitee.com/eeenet/xkube" target="_blank"><i class="layui-icon layui-icon-tabs" style="font-size: 16px;"></i> 开源地址</a>\n' +
-                    '<a class="more-menu-item" href="#" target="_blank"><i class="layui-icon layui-icon-theme"></i> 官方网站</a>\n' +
+                    '<a class="more-menu-item" href="https://xkube.eeenet.net" target="_blank"><i class="layui-icon layui-icon-theme"></i> 官方网站</a>\n' +
+                    '<a class="more-menu-item" href="https://xkube.eeenet.net/feedback.html" target="_blank"><i class="layui-icon layui-icon-survey"></i> 意见反馈</a>\n' +
                     '</div>' +
                     '</div>';
                 layer.open({

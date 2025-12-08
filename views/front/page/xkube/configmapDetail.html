@@ -78,6 +78,7 @@ textarea{
             </fieldset>  
 
               <button class="layui-btn" id="EditYamlBtn">yaml编辑</button>
+              <button class="layui-btn" id="YamlBackup">yaml备份</button>
               <button class="layui-btn layui-btn-danger" id="DelBtn">删除</button>
               <br><br>
               <blockquote class="layui-elem-quote layui-quote-nm">
@@ -139,7 +140,7 @@ textarea{
 
         $('#EditYamlBtn').on("click",function(){
                 layer.open({
-                    title: 'yaml',
+                    title: '编辑yaml',
                     type: 2,
                     shade: 0.2,
                     maxmin:true,
@@ -147,6 +148,13 @@ textarea{
                     area: ['45%', '92%'],
                     content: '/page/xkube/configmapYaml.html'+location.search,
                 });
+        });
+
+        $('#YamlBackup').on("click",function(){
+                miniTab.openNewTabByIframe({
+                  href:'page/xkube/yamlBackup.html'+location.search+"&resType=configmap"+"&resName="+configmapName,
+                  title:configmapName+"备份",
+                }); 
         });
 
         $('#DelBtn').on("click",function(){
@@ -201,7 +209,7 @@ textarea{
         				$('#currentTableId').html(html);
 
           }else{
-            layer.msg('请重新刷新',{icon:2});
+            layer.msg('加载失败',{icon:2});
           }
 		    });
     });

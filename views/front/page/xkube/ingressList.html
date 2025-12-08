@@ -212,8 +212,12 @@ if ( compareVersions("1.20.1",clusterIdVersion) == 1 ) {
 
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
-            data.field.ingressName = data.field.ingressName.replace(/^\s*|\s*$/g,"");
+            data.field.ingressName = data.field.ingressName.replace(/\s+/g,"");
             table.reload('currentTableId', {
+                page: {
+                    curr: 1,
+                    limit:25
+                },
                 method:'POST',
                 url: '/xkube/ing/'+Apiver+'/List?clusterId='+clusterId,
                 contentType: 'application/json',
@@ -237,9 +241,9 @@ if ( compareVersions("1.20.1",clusterIdVersion) == 1 ) {
                     shadeClose: true,
                     area: ['60%', '90%'],
                     content: '/page/xkube/ingressCreate.html',
-                    //end: function(){
-                    //	window.parent.location.reload();//关闭open打开的页面时，刷新父页面
-                    //}
+                    end: function(){
+                    	window.location.reload();//关闭open打开的页面时，刷新父页面
+                    }
                 });
                 $(window).on("resize", function () {
                     layer.full(index);

@@ -1,5 +1,5 @@
 services:
-  mysql:
+  mysql_server:
     image: crpi-44hgz4440mgo9lnt.cn-guangzhou.personal.cr.aliyuncs.com/eeenet/mysql:8.0
     container_name: mysql_server
     environment:
@@ -7,6 +7,7 @@ services:
       MYSQL_DATABASE: db_xkube
       MYSQL_CHARACTER_SET_SERVER: utf8mb4
       MYSQL_COLLATION_SERVER: utf8mb4_general_ci 
+      MYSQL_TIME_ZONE: Asia/Shanghai
     healthcheck:
       test: ["CMD", "mysql" ,"-uroot", "-h", "127.0.0.1","-pxkube_DB_123456","-e","select 1"]
       interval: 10s
@@ -21,7 +22,7 @@ services:
     networks:
       - app_network
 
-  redis:
+  redis_server:
     image: crpi-44hgz4440mgo9lnt.cn-guangzhou.personal.cr.aliyuncs.com/eeenet/redis:7.4.5-alpine3.21 
     container_name: redis_server
     healthcheck:
@@ -38,8 +39,8 @@ services:
     networks:
       - app_network
 
-  myapp:
-    image: crpi-44hgz4440mgo9lnt.cn-guangzhou.personal.cr.aliyuncs.com/eeenet/xkube:3.7
+  xkube_admin:
+    image: crpi-44hgz4440mgo9lnt.cn-guangzhou.personal.cr.aliyuncs.com/eeenet/xkube:3.9
     container_name: xkube_admin
     healthcheck:
       test: ["CMD","curl","-f","http://127.0.0.1:8080/public/check"]

@@ -61,16 +61,22 @@
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item" lay-unselect>
                     <div class="layui-inline" style="margin-right:100px">
-                      <div class="layui-input-inline" style="width:300px">
+                      <div class="layui-input-inline" style="width:280px">
                         <input type="text" name="searchKey" lay-verify="searchKey" autocomplete="on" placeholder="请输入搜索的内容" class="layui-input">
                         <i class="layui-icon layui-icon-close layui-input-icon" id="close-icon" style="font-size: 14px; color: #c2c2c2;"></i>
                       </div>
                       <div class="layui-input-inline">  
-                        <button type="button" class="layui-btn layui-btn-primary" id="search">
+                        <button type="button" class="layui-btn layui-btn-primary layui-border-green" id="search">
                           <i class="layui-icon layui-icon-search"></i>搜索
                         </button>
                       </div>
                     </div>
+                </li>
+                <li class="layui-nav-item" lay-unselect style="margin-right:40px">
+                    <div class="layui-form-mid layui-word-aux"><span style="color:#009688">版本:v3.9</span></div>
+                </li>
+                <li class="layui-nav-item" lay-unselect style="margin-right:20px">
+                    <button type="button" class="layui-btn layui-btn-primary layui-border-blue" id="appDown">APP下载</button>
                 </li>
 
                 <li class="layui-nav-item" lay-unselect>
@@ -120,7 +126,6 @@
     <div class="layuimini-site-mobile"><i class="layui-icon"></i></div>
 
     <div class="layui-body">
-
         <div class="layuimini-tab layui-tab-rollTool layui-tab" lay-filter="layuiminiTab" lay-allowclose="true">
             <ul class="layui-tab-title">
                 <li class="layui-this" id="layuiminiHomeTabId" lay-id=""></li>
@@ -145,8 +150,8 @@
                 <div id="layuiminiHomeTabIframe" class="layui-tab-item layui-show"></div>
             </div>
         </div>
-
     </div>
+    
 </div>
 <script src="lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script src="js/lay-config.js?v=2.0.0" charset="utf-8"></script>
@@ -209,6 +214,22 @@ SetDefaultCluster();
         //        });
         //    });
         //}
+
+        $('#appDown').on("click",function(){
+            var index = layer.open({
+                title: 'APP下载',
+                type: 2,
+                shade: 0.2,
+                maxmin:true,
+                shadeClose: true,
+                area: ['60%', '70%'],
+                content: '/page/appDown.html',
+            });
+            $(window).on("resize", function () {
+                layer.full(index);
+            });
+            return false;
+        });
 
         $('#search').on("click",function(){
             var searchKey = $('input[name="searchKey"]').val()

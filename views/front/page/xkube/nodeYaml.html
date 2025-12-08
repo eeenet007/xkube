@@ -22,7 +22,10 @@
         <br>
         <fieldset class="table-search-fieldset">
             <legend></legend>
+          <div class="layui-inline">
+            <button class="layui-btn layui-btn-sm" id="SaveBtn" >保存更新</button>
             <button class="layui-btn layui-btn-normal layui-btn-sm" id="DownLoadBtn">下载</button>
+          </div>
         </fieldset>   
     </div>
 </div>
@@ -56,6 +59,30 @@
     			  editor.setValue(resp);
     			}
     		});	
+
+        $('#SaveBtn').on("click",function(){
+              var yamlBody = editor.getValue();
+              yamlBody = yamlBody.replace(/%/g,"%25");
+              yamlBody = yamlBody.replace(/;/g,"%3B");
+              layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){
+                  $.ajax({
+                   url: "/xkube/node/v1/ModifyByYaml"+location.search,
+                   type: "POST",
+                   data: yamlBody,
+                   dataType: "json",
+                   success: function (resp) {
+                      layer.msg(resp.msg);
+                      console.log(resp);
+                    }
+                  });
+                  //console.log(editor.getValue());
+                  //layer.msg('ok');
+              },
+              cancel: function(index, layero){ 
+                  layer.close(index);
+              } 
+            });
+        });
 
         $('#DownLoadBtn').on("click",function(){
               var nodeName = getQueryString("nodeName");

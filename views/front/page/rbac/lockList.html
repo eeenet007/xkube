@@ -31,7 +31,7 @@
 </body>
 <script type="text/html" id="lockTimeTpl">
   {{# if (d.lockTime == '0') { }}
-     <span style="color:#FF5722">不过期</span>
+     <span style="color:#FF5722">永久</span>
 	{{# } else { }}
     <span>{{ d.lockTime}}</span>
 {{# } }}
@@ -55,8 +55,8 @@
                 icon: 'layui-icon-tips'
             }],
             cols: [[
-      		      {field:'lockKey',sort: true, title: '对象'},
-                {field:'lockTime',sort: true,templet: '#lockTimeTpl', title: '过期时间'},
+      		      {field:'lockKey',sort: true, title: '锁定对象'},
+                {field:'lockTime',sort: true,templet: '#lockTimeTpl', title: '锁定时长'},
                 {title: '操作', minWidth: 250, toolbar: '#currentTableBar', align: "center"}
             ]],
             limits: [25, 50, 100],

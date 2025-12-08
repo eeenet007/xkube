@@ -18,6 +18,11 @@
 </head>
 <body>
 <div class="layuimini-container">
+        <blockquote class="layui-elem-quote layui-text">
+            注:添加流水线前，需要先添加阿里云AK 或Jenkins设置。
+            <a class="layui-btn" style="float:right" href="javascript:location.replace(location.href);" title="刷新">
+              <i class="layui-icon">&#xe669;</i></a>
+        </blockquote>
     <div class="layuimini-main">
         <fieldset class="table-search-fieldset">
             <legend>搜索信息</legend>
@@ -56,7 +61,7 @@
   {{# if (d.cicd_type == 1) { }}
      <span style="color:#218868">阿里云流水线</span>
 	{{# } else { }}
-    <span style="color:#1E9FFF">本地流水线</span>
+    <span style="color:#1E9FFF">jenkins</span>
 {{# } }}
 </script>
 <script type="text/html" id="statusTpl">
@@ -73,8 +78,8 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="addAliFlow"><i class="layui-icon">&#xe61f;</i>添加阿里云流水线</button>
-        <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="AliFlowSet"><i class="layui-icon">&#xe716;</i>阿里云帐号设置</button>
+        <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="addAliFlow"><i class="layui-icon">&#xe61f;</i>添加流水线</button>
+        <!-- <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="AliFlowSet"><i class="layui-icon">&#xe716;</i>阿里云帐号设置</button> -->
     </div>
 </script>
 
@@ -146,7 +151,7 @@
                 {field: 'cluster_id',title: '集群', sort: true},
                 {field: 'namespace',title: '命名空间', sort: true},
                 {field: 'cicd_type',title: '类型', sort: true,templet: '#cicdTypeTpl',},
-                {field: 'status', width: 150,title: '状态', sort: true,templet: '#statusTpl'},
+                {field: 'status', width: 150,title: '状态',hide:true, sort: true,templet: '#statusTpl'},
                 {field: 'remarks', title: '备注', sort: true,hide:true},
                 {field: 'last_runtime', width:180, title: '上次运行'},
                 {field: 'createtime', width:180, title: '创建时间',hide:true},
@@ -161,7 +166,7 @@
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
             //var result = JSON.stringify(data.field);
-            data.field.cicdName = data.field.cicdName.replace(/^\s*|\s*$/g,"");
+            data.field.cicdName = data.field.cicdName.replace(/\s+/g,"");
             table.reload('currentTableId', {
                 //page: {
                 //    curr: 1,
@@ -185,10 +190,10 @@
                     maxmin:true,
                     shadeClose: true,
                     area: ['55%', '80%'],
-                    content: '/page/cicd/pipelines_add.html?v=1'
-                    //end: function(){
-                    //	window.parent.location.reload();//关闭open打开的页面时，刷新父页面
-                    //}
+                    content: '/page/cicd/pipelines_add.html?v=1',
+                    end: function(){
+                    	window.location.reload();//关闭open打开的页面时，刷新父页面
+                    }
                 });
                 $(window).on("resize", function () {
                     layer.full(index);
@@ -196,6 +201,7 @@
             }else if(obj.event === 'addCicd'){
               console.log('no');
             }else if(obj.event === 'AliFlowSet'){
+                /**
                 var index = layer.open({
                     title: '阿里云帐号设置',
                     type: 2,
@@ -208,24 +214,30 @@
                 $(window).on("resize", function () {
                     layer.full(index);
                 });
+                **/
+                console.log('no');
             }
         });
 
         table.on('tool(currentTableFilter)', function (obj) {
             var data = obj.data;
             if (obj.event === 'detail') {
-                var index = layer.open({
-                    title: data.cicd_name+'流水线',
-                    type: 2,
-                    shade: 0.2,
-                    maxmin:true,
-                    shadeClose: true,
-                    area: ['97%', '97%'],
-                    content: '/page/cicd/index.html?cicdName='+data.cicd_name+'&cicdId='+ data.id
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
-                });
+                //var index = layer.open({
+                //    title: data.cicd_name+'流水线',
+                //    type: 2,
+                //    shade: 0.2,
+                //    maxmin:true,
+                //    shadeClose: true,
+                //    area: ['97%', '97%'],
+                //    content: '/page/cicd/index.html?cicdName='+data.cicd_name+'&cicdId='+ data.id
+                //});
+                //$(window).on("resize", function () {
+                //    layer.full(index);
+                //});
+                 miniTab.openNewTabByIframe({
+                      href:'/page/cicd/index.html?cicdName='+data.cicd_name+'&cicdId='+ data.id,
+                      title:data.cicd_name+'流水线',
+                  });
                 return false;
             } else if (obj.event === 'edit') {               
                 var index = layer.open({
@@ -234,7 +246,7 @@
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['53%', '70%'],
+                    area: ['55%', '80%'],
                     content: '/page/cicd/pipelines_edit.html?cicdName='+data.cicd_name+'&cicdId='+ data.id
                 });
                 $(window).on("resize", function () {
@@ -253,27 +265,51 @@
                             layer.msg("获取流水线信息失败",{icon:2});
                             return; 
                           }
-                          $.ajax({
-                           url: "/cicd/pipeline/Start?aliyun_id="+resp.data.aliyun_id+"&organization_id="+resp.data.organization_id+"&pipeline_id="+resp.data.pipeline_id,
-                           type: "GET",
-                           dataType: "json",
-                           success: function (resp2) {
-                                      layer.close(index2);
-                                      if(resp2.success == true){
-                                        PostStatus(data.id,'RUNNING');
-                                        layer.msg('启动成功', {icon: 1,time:2000},function(){
-                                            location.reload();
-                                        });                          
-                                      }else{     
-                                        layer.msg(resp2.errorMessage,{icon:2});
-                                      }
-                            },
-                            fail:function(){
-                              layer.msg("调用启动失败,请重试!",{icon:2},function(){
-                                layer.close(index2);
-                              });                
-                            }
-                          });
+                          if(data.cicd_type == 1) {
+                              $.ajax({
+                               url: "/cicd/pipeline/Start?aliyun_id="+resp.data.aliyun_id+"&organization_id="+resp.data.organization_id+"&pipeline_id="+resp.data.pipeline_id,
+                               type: "GET",
+                               dataType: "json",
+                               success: function (resp2) {
+                                          layer.close(index2);
+                                          if(resp2.success == true){
+                                            PostStatus(data.id,'RUNNING');
+                                            layer.msg('启动成功', {icon: 1,time:2000},function(){
+                                                location.reload();
+                                            });                          
+                                          }else{     
+                                            layer.msg(resp2.errorMessage,{icon:2});
+                                          }
+                                },
+                                fail:function(){
+                                  layer.msg("调用启动失败,请重试!",{icon:2},function(){
+                                    layer.close(index2);
+                                  });                
+                                }
+                              });
+                          }else if (data.cicd_type == 2) {                            
+                              $.ajax({
+                               url: "/cicd/jks/v1/Run?jksId="+resp.data.jks_id+"&jobName="+resp.data.pipeline_id,
+                               type: "GET",
+                               dataType: "json",
+                               success: function (resp2) {
+                                    layer.close(index2);
+                                    if(resp2.code == 0){
+                                      PostStatus(data.id,'RUNNING');
+                                      layer.msg('启动成功', {icon: 1,time:2000},function(){
+                                          location.reload();
+                                      });                          
+                                    }else{     
+                                      layer.msg(resp2.msg,{icon:2});
+                                    }
+                                },
+                                fail:function(){
+                                  layer.msg("调用jenkins失败,请重试!",{icon:2},function(){
+                                    layer.close(index2);
+                                  });                
+                                }
+                              });
+                          }
                       },
                       fail:function(){
                         layer.msg("获取流水线信息失败,请重试!",{icon:2},function(){

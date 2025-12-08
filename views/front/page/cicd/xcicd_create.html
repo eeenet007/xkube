@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>创建</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<blockquote class="layui-elem-quote">注意：下述演示中的颜色只是做一个区分作用，并非栅格内置。</blockquote>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+              <legend>基本信息配置</legend>
+            </fieldset>
+          <blockquote class="layui-elem-quote">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">当前集群</label>
+                    <div class="layui-input-inline">
+                        <select name="clusterId" lay-filter="cluster_Id" lay-search="" id="cluster_Id">
+                          <option value="">请选择集群</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label required">名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="deployName"  lay-verify="required" lay-reqtext="不能为空"  placeholder="不能为空" value="" class="layui-input">
+                </div>
+
+                <label class="layui-form-label">命名空间</label>
+                <div class="layui-input-inline">
+                  <select name="nameSpace" lay-filter="name_Space" lay-search="" id="name_Space">
+  		            </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">*</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">副本数量</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="replicas"  lay-verify="required" lay-reqtext="大于0" value="1" class="layui-input">
+                </div>
+
+                <label class="layui-form-label required">端口</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="containerPort"  lay-verify="required" lay-reqtext="不能为空"  placeholder="不能为空" value="80" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">镜像策略</label>
+                  <div class="layui-input-block">
+                    <!--
+                    <select name="nameSpace" lay-filter="name_Space" lay-search="" id="name_Space">
+                			<option value="Always" selected="">Always</option>
+                			<option value="IfNotPresent" selected="">IfNotPresent</option>
+                			<option value="Never" selected="">Never</option>
+    		            </select>
+                    -->
+                      <input type="radio" name="imagePullPolicy" value="Always" title="Always" checked="">
+                      <input type="radio" name="imagePullPolicy" value="IfNotPresent" title="IfNotPresent">
+                      <input type="radio" name="imagePullPolicy" value="Never" title="Never">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">镜像地址</label>
+                <div class="layui-input-inline" style="width:450px">
+                    <input type="text" name="imageUrl"  lay-verify="required" lay-reqtext="不能为空"  placeholder="不能为空" value="" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">*</span></div>
+            </div>
+  </blockquote>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+              <legend>流程信息配置</legend>
+            </fieldset>
+          <div class="layui-row">
+            <div class="layui-col-xs2">
+              <div class="layui-inline">
+                <div class="layui-input-inline" id="gitEdit">
+                  <blockquote class="layui-elem-quote" style="width:160px;height:80px">
+                      git配置    
+                  </blockquote> 
+                </div> 
+                &nbsp;&nbsp;&nbsp;&nbsp;            
+                <div class="layui-input-inline layui-btn layui-btn-xs layui-btn-disabled"><i class="layui-icon">&#xe65b;</i></div>
+              </div>
+            </div>
+            <div class="layui-col-xs2">
+              <blockquote class="layui-elem-quote" style="width:160px;">注意：下述演示中的颜色只是做一个区分作用，并非栅格内置。
+              <div class="layui-input-inline layui-btn layui-btn-xs layui-btn-disabled"><i class="layui-icon">&#xe65b;</i></div>
+              </blockquote>
+            </div>
+            <div class="layui-col-xs2">
+              <blockquote class="layui-elem-quote" style="width:160px;">注意：下述演示中的颜色只是做一个区分作用，并非栅格内置。
+              <div class="layui-input-inline layui-btn layui-btn-xs layui-btn-disabled"><i class="layui-icon">&#xe65b;</i></div>
+              </blockquote>
+            </div>
+            <div class="layui-col-xs2">
+              <blockquote class="layui-elem-quote" style="width:160px;">注意：下述演示中的颜色只是做一个区分作用，并非栅格内置。</blockquote>
+            </div>
+            <div class="layui-col-xs2">
+              <blockquote class="layui-elem-quote">注意：下述演示中的颜色只是做一个区分作用，并非栅格内置。</blockquote>
+            </div>
+            <div class="layui-col-xs2">
+              <blockquote class="layui-elem-quote">注意：下述演示中的颜色只是做一个区分作用，并非栅格内置。</blockquote>
+            </div>
+          </div>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+              <legend>流程信息配置</legend>
+            </fieldset>
+            <div class="layui-tab" lay-filter="test">
+              <ul class="layui-tab-title">
+                <li class="layui-this" lay-id="11">git配置</li>
+                <li lay-id="22">代码构建</li>
+                <li lay-id="33">镜像构建</li>
+                <li lay-id="44">人工确认</li>
+                <li lay-id="55">k8s部署</li>
+              </ul>
+              <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                  点击该Tab的任一标题，观察地址栏变化，再刷新页面。选项卡将会自动定位到上一次切换的项
+                </div>
+                <div class="layui-tab-item">内容2</div>
+                <div class="layui-tab-item">内容3</div>
+                <div class="layui-tab-item">内容4</div>
+                <div class="layui-tab-item">内容5</div>
+              </div>
+            </div>
+
+            <br>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    	$(document).ready(function(){
+    	});		
+</script>
+<script>
+
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+          $('#gitEdit').click(function(){
+              var index = layer.open({
+                  title: '编辑',
+                  type: 2,
+                  shade: 0.2,
+                  maxmin:true,
+                  shadeClose: true,
+                  area: ['50%', '92%'],
+                  content: '/page/cicd/pull_git_edit.html',
+              });
+          });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+                //data.field.appname = data.field.appname.replace(/^\s*|\s*$/g,""); //替换空格
+                //lables 处理
+                var labelsArry = [];
+                for (var i=0;i<=TplIndex;i++) {
+                  //delete data.field.lables_key[i];                  
+                  //delete data.field.labels_value[i];
+                  var kk = document.getElementById("labels_key"+i).value;
+                  var vv = document.getElementById("labels_value"+i).value; 
+                  if ( kk != "" && vv != "") {
+                    labelsArry.push(
+                      {
+                        key:kk,
+                        value:vv,
+                      }
+                    )
+                  }
+                }
+                if (labelsArry.length > 0) {
+                  data.field.lables = labelsArry;
+                }
+                //资源限制
+                if (data.field.resourceLimitCheck == "on") {
+                    //console.log(data.field.limit_cpu.length);
+                    if ( data.field.limit_cpu.length == 0 || data.field.limit_mem == "" || data.field.request_cpu == "" || data.field.request_cpu == "" ){
+                        layer.msg('若勾选资源限制,资源限制及所需资源都不能留空!', {icon: 2});
+                        return false
+                    }
+                }
+                //健康检查
+                if (data.field.healthCheck == "on") {
+                    if (data.field.readinessProbe == "on") {
+                          if (data.field.readiness_checkType == "HTTP"){
+                            if (data.field.readiness_path == "" || data.field.readiness_httpPort == ""){
+                                layer.msg('若勾选健康检测的就绪检查,路径和端口不能为空!', {icon: 2});
+                                return false
+                            }
+                          }
+                          if (data.field.readiness_checkType == "TCP"){
+                            if (data.field.readiness_tcpPort == ""){
+                                layer.msg('若勾选健康检测的tcp检测,端口不能为空!', {icon: 2});
+                                return false
+                            }
+                          }
+                          if (data.field.readiness_checkType == "CMD"){
+                            if (data.field.readiness_cmd == ""){
+                                layer.msg('若勾选健康检测的命令检查,命令不能为空!', {icon: 2});
+                                return false
+                            }
+                          }
+                    }
+
+                    if (data.field.livenessProbe == "on") {
+                          if (data.field.liveness_checkType == "HTTP"){
+                            if (data.field.liveness_path == "" || data.field.liveness_httpPort == ""){
+                                layer.msg('若勾选健康检测的就绪检查,路径和端口不能为空!', {icon: 2});
+                                return false
+                            }
+                          }
+                          if (data.field.liveness_checkType == "TCP"){
+                            if (data.field.liveness_tcpPort == ""){
+                                layer.msg('若勾选健康检测的tcp检测,端口不能为空!', {icon: 2});
+                                return false
+                            }
+                          }
+                          if (data.field.liveness_checkType == "command"){
+                            if (data.field.liveness_cmd == ""){
+                                layer.msg('若勾选健康检测的命令检查,命令不能为空!', {icon: 2});
+                                return false
+                            }
+                          }
+                    }
+                }
+                //生命周期
+                if (data.field.periodCheck == "on") {
+                    if (data.field.postStart == "" || data.field.preStop == ""){
+                        layer.msg('若勾选生命周期,两个输入框不能都为空!', {icon: 2});
+                        return false
+                    }
+                    data.field.postStart = data.field.postStart.replace(/^\s*|\s*$/g,","); //替换空格为逗号
+                    data.field.preStop = data.field.preStop.replace(/^\s*|\s*$/g,","); //替换空格为逗号
+                }
+
+                //变量 处理
+                if (data.field.variableCheck == "on") {
+                    var envArry = [];
+                    for (var i=0;i<=vTplIndex;i++) {
+                      var kk = document.getElementById("env_name"+i).value;
+                      var vv = document.getElementById("env_value"+i).value; 
+                      if ( kk != "" && vv != "") {
+                        envArry.push(
+                          {
+                            key:kk,
+                            value:vv,
+                          }
+                        )
+                      }
+                    }
+                    if (envArry.length > 0) {
+                      data.field.envs = envArry;
+                    }else{
+                        layer.msg('若勾选环境变量,输入框都不能为空!', {icon: 2});
+                        return false
+                    }
+                }
+                //service 处理
+                if (data.field.serviceCheck == "on") {
+                    if (data.field.svcName == ""){
+                        data.field.svcName == data.field.deployName;
+                        //layer.msg('若勾选service,svc名称不能为空!', {icon: 2});
+                        //return false
+                    }
+                    var svcArry = [];
+                    for (var i=0;i<=sTplIndex;i++) {
+                      var kk = document.getElementById("svc_portsName"+i).value;
+                      var vv = document.getElementById("svc_port"+i).value; 
+                      var ss = document.getElementById("svc_targetPort"+i).value; 
+                      if ( kk != "" && vv != "" && ss != "") {
+                        svcArry.push(
+                          {
+                            portName:kk,
+                            svcPort:vv,
+                            targetPort:ss,
+                          }
+                        )
+                      }
+                    }
+                    if (svcArry.length > 0) {
+                      data.field.svc_ports = svcArry;
+                    }else{
+                        layer.msg('若勾选service,svc端口这行都不能为空!', {icon: 2});
+                        return false
+                    }
+                }
+
+					      console.log(data.field);
+			          layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('稍等片刻');
+                     $.ajax({
+                       url: "/xkube/deploy/v1/Create?clusterId="+data.field.clusterId,
+                       type: "post",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('添加成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+    });
+</script>
+</html>

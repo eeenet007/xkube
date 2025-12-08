@@ -63,7 +63,7 @@ data:
     mobile_verify_code = false
     #阿里云短信验证码发送配置
     #AccessKey ID
-    AliyunAkId = "LTAI5t7ySa6dsdfwSsAcnKxFw"
+    AliyunAkId = "LTAI5t7ySa6dsdfwSsAcasdf23sd"
     #AccessKey Secret
     AliyunAkSecret = ""
     #签名名称
@@ -86,7 +86,7 @@ data:
     domain = https://xkube-demo.eeenet.net
 
     #阿里云流水线回调的apikey,用于调用更新镜像的接口
-    apiKey="dfw32dmoj324sdfsdffw342325r"
+    apiKey="dfw32dmoj324sdfsdfasdf34sdfsd3"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -107,7 +107,7 @@ spec:
     spec:
       containers:
       - name: xkube-admin
-        image: crpi-44hgz4440mgo9lnt.cn-guangzhou.personal.cr.aliyuncs.com/eeenet/xkube:3.7
+        image: crpi-44hgz4440mgo9lnt.cn-guangzhou.personal.cr.aliyuncs.com/eeenet/xkube:3.9
         ports:
           - containerPort: 80
         volumeMounts:

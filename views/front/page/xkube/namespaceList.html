@@ -229,7 +229,7 @@ if (clusterId == null) {
                 });
                 return false;
             } else if (obj.event === 'delete') {
-                layer.confirm('删除命名空间会将命名空间下的资源都删除，确定删除'+data.nameSpace+'?', {icon: 2, title:'删除提示',yes: function(index){
+                layer.confirm('警告:删除命名空间会将命名空间下的资源都删除，确定删除'+data.nameSpace+'?', {icon: 2, title:'删除提示',yes: function(index){
                      var index2 = layer.load(0, {shade: false});
                      layer.msg('此处需运行1-2s左右');
                 			 $.ajax({

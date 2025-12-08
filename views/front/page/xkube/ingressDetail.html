@@ -21,6 +21,9 @@
             </fieldset>  
 
               <button class="layui-btn" id="EditYamlBtn">yaml编辑</button>
+              <button class="layui-btn" id="YamlBackup">yaml备份</button>
+              <button class="layui-btn" id="PathRuler">路由配置</button>
+              <button class="layui-btn" id="TlsHost">TLS配置</button>
               <button class="layui-btn layui-btn-danger" id="DelBtn">删除</button>
 
               <br><br>
@@ -121,6 +124,27 @@ if ( compareVersions("1.20.1",clusterIdVersion) == 1 ) {
                     area: ['45%', '92%'],
                     content: '/page/xkube/ingressYaml.html'+location.search,
                 });
+        });
+
+        $('#YamlBackup').on("click",function(){
+              miniTab.openNewTabByIframe({
+                  href:'page/xkube/yamlBackup.html'+location.search+"&resType=ingress"+"&resName="+ingressName,
+                  title:ingressName+"备份",
+              }); 
+        });
+
+        $('#PathRuler').on("click",function(){
+              miniTab.openNewTabByIframe({
+                  href:'page/xkube/ingressPathRule.html'+location.search,
+                  title:ingressName+"路由规则",
+              }); 
+        });
+
+        $('#TlsHost').on("click",function(){
+              miniTab.openNewTabByIframe({
+                  href:'page/xkube/ingressTlsHost.html'+location.search,
+                  title:ingressName+" TLS配置",
+              }); 
         });
 
         $('#DelBtn').on("click",function(){

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>路由规则</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+</head>
+<body>
+<div class="layuimini-container">
+        <blockquote class="layui-elem-quote layui-text">
+            <a class="layui-btn" style="float:right" href="javascript:location.reload();" title="刷新">
+              <i class="layui-icon">&#xe669;</i></a>
+            按钮提示：<br>
+            1.<button class="layui-btn layui-btn-xs"><i class="layui-icon layui-icon-addition"></i></button>:在该域名下添加一行路由配置<br>
+            2.<button class="layui-btn layui-btn-danger layui-btn-xs"><i class="layui-icon layui-icon-reduce-circle"></i></button>:删除该域名所有的路由<br>
+            3.<button class="layui-btn layui-btn-warm layui-btn-xs"><i class="layui-icon layui-icon-reduce-circle"></i></button>:删除该条路由<br>
+            4.<button class="layui-btn layui-btn-normal layui-btn-xs"><i class="layui-icon layui-icon-add-circle"></i></button>:添加新的域名和路由配置<br>
+            5.点击删除只是临时删除,只有在点击确认修改以后才会正式生效<br>
+            6.端口为空或为0时，则默认为80
+        </blockquote>
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>路由规则</legend>
+            </fieldset>
+            <div class="layui-collapse" lay-filter="test">
+                <!-- 动态内容将插入这里 -->
+                <div class="ingRulePathTpl"></div>
+            </div>
+            <div class="layui-form-item" style="margin-top:5px;">
+                <div class="layui-input-inline">  
+                    <button class="layui-btn layui-btn-normal layui-btn-xs" id="newaddbtn" type="button"><i class="layui-icon layui-icon-add-circle"></i></button>
+                </div> 
+            </div> 
+            <br>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+(function() {
+    // 使用闭包避免全局变量污染
+    var state = {
+        iTplIndex: 0
+    };
+
+    // 标签删除（删除整个域名及路由）
+    function deliTpl(id) {
+        layer.confirm('确定删除该域名及路由?', {
+            icon: 3, 
+            title: '提示'
+        }, function(index) {
+            $("#itpl-" + id).remove();
+            state.iTplIndex--;           
+            layer.close(index);
+        });
+    }
+
+    // 删除单条路由路径
+    function delpTpl(pid, sid) {      
+        layer.confirm('确定删除该条路由?', {
+            icon: 3, 
+            title: '提示'
+        }, function(index) {
+            $("#ptpl-" + pid + "_" + sid).remove();
+            layer.close(index);
+        });
+    }
+
+    // 添加路由路径
+    function addpTpl(pid, sid) {
+        var addpathTpl = 
+            '<div class="layui-form-item" id="ptpl-' + pid + '_' + sid + '">' +
+                '<label class="layui-form-label">路径</label>' +  
+                '<div class="layui-input-inline" style="width:175px">' +  
+                    '<input type="text" name="path_' + pid + '_' + sid + '" placeholder="路径" value="/" class="layui-input">' +
+                '</div>' +
+                '<div class="layui-input-inline" style="width:175px">' +  
+                    '<select name="pathType_' + pid + '_' + sid + '">' +  
+                        '<option value="Prefix" selected="">Prefix</option>' +  
+                        '<option value="Exact">Exact</option>' +  
+                        '<option value="ImplementationSpecific">ImplementationSpecific</option>' +  
+                    '</select>' +  
+                '</div>' +
+                '<div class="layui-input-inline" style="width:200px">' +  
+                    '<input type="text" name="serviceName_' + pid + '_' + sid + '" placeholder="服务" value="" class="layui-input">' +
+                '</div>' +
+                '<div class="layui-input-inline" style="width:80px">' +  
+                    '<input type="text" name="servicePort_' + pid + '_' + sid + '" placeholder="端口" value="" class="layui-input">' +                        
+                '</div>' +    
+                '<div class="layui-input-inline" style="margin-top:6px">' +  
+                    '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.xkubeHandlers.delpTpl(' + pid + ',' + sid + ');">' +
+                '</div>' +             
+            '</div>';
+        
+        $(".RuleTpl_" + pid).append(addpathTpl); 
+        console.log("addpTpl: " + pid + " " + sid);
+        layui.use(['form'], function () {
+            var form = layui.form;
+            form.render(); 
+        });
+    }
+
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+
+var Apiver = "v1";
+var clusterIdVersion = getCookie(clusterId);
+if ( compareVersions("1.20.1",clusterIdVersion) == 1 ) {
+  Apiver = "v1beta1";
+}
+
+    // 初始化页面
+    function initPage() {
+        layui.use(['form', 'element'], function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                element = layui.element;
+
+            // 绑定折叠面板事件
+            element.on('collapse(test)', function(data){
+                // 空实现，移除原来的提示信息
+            });
+
+            // 获取规则数据
+            $.get('/xkube/ing/'+Apiver+'/GetRule' + location.search, function (resp) {
+                if (resp.code == 0) {
+                    $('.ingRulePathTpl').empty(); // 清空现有内容
+                    
+                    var showTpl = '';
+                    $.each(resp.data, function(i, item) {
+                        state.iTplIndex++;
+                        var itemId = state.iTplIndex;                       
+                        if (i == 0) {
+                          showTpl = 'layui-show';                          
+                        }else {
+                          showTpl = '';                          
+                        }
+                        var index = i+1; 
+                        var hostTpl =
+                            '<div class="layui-colla-item" id="itpl-' + itemId + '">' +
+                                '<h2 class="layui-colla-title">' + index + '.域名:' + item.host + '</h2>' +
+                                '<div class="layui-colla-content ' + showTpl + '">' +
+                                    '<blockquote class="layui-elem-quote">' +
+                                        '<div class="layui-form-item">' +
+                                            '<label class="layui-form-label">域名</label>' +
+                                            '<div class="layui-input-inline" style="width:458px">' +  
+                                                '<input type="text" name="host_' + itemId + '" placeholder="域名" lay-verify="required" lay-reqtext="不能为空" value="' + item.host + '" class="layui-input">' +
+                                            '</div>' +
+                                            '<div class="layui-input-inline" style="margin-top:6px">' +   
+                                                '<input class="layui-btn layui-icon layui-btn-xs" type="button" value="&#xe624;" onclick="window.xkubeHandlers.addpTpl(' + itemId + ', 0);" />' +
+                                            '</div>' + 
+                                            '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                                '<input class="layui-btn layui-icon layui-btn-xs layui-btn-danger" type="button" value="&#xe616;" onclick="window.xkubeHandlers.deliTpl(' + itemId + ');" />' +
+                                            '</div>' + 
+                                        '</div>' +  
+                                        '<div class="RuleTpl_' + itemId + '"></div>';
+                        
+                        var pathTpl = '';
+                        $.each(item.paths, function(j, item2) {
+                            var pathTypeTpl = '';
+                            var portTpl = item2.servicePort;
+                            if (item2.servicePort == 0) { 
+                                portTpl = ''
+                            }
+                            if (item2.pathType == "Exact") {
+                                pathTypeTpl =
+                                    '<option value="Prefix">Prefix</option>' +  
+                                    '<option value="Exact" selected>Exact</option>' +  
+                                    '<option value="ImplementationSpecific">ImplementationSpecific</option>';
+                            } else if (item2.pathType == "ImplementationSpecific") {
+                                pathTypeTpl =
+                                    '<option value="Prefix">Prefix</option>' +  
+                                    '<option value="Exact">Exact</option>' +  
+                                    '<option value="ImplementationSpecific" selected>ImplementationSpecific</option>';
+                            } else {
+                                pathTypeTpl =
+                                    '<option value="Prefix" selected>Prefix</option>' +  
+                                    '<option value="Exact">Exact</option>' +  
+                                    '<option value="ImplementationSpecific">ImplementationSpecific</option>';
+                            }
+                            
+                            pathTpl +=
+                                '<div class="layui-form-item" id="ptpl-' + itemId + '_' + (j+1) + '">' +
+                                    '<label class="layui-form-label">路径' + (j+1) + '</label>' +  
+                                    '<div class="layui-input-inline" style="width:175px">' +  
+                                        '<input type="text" name="path_' + itemId + '_' + (j+1) + '" placeholder="路径" value="' + item2.path + '" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline" style="width:175px">' +  
+                                        '<select name="pathType_' + itemId + '_' + (j+1) + '">' +  
+                                            pathTypeTpl +
+                                        '</select>' +  
+                                    '</div>' +
+                                    '<div class="layui-input-inline" style="width:200px">' +  
+                                        '<input type="text" name="serviceName_' + itemId + '_' + (j+1) + '" placeholder="服务" value="' + item2.serviceName + '" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline" style="width:80px">' +  
+                                        '<input type="text" name="servicePort_' + itemId + '_' + (j+1) + '" placeholder="端口" value="' + portTpl + '" class="layui-input">' +                        
+                                    '</div>' +    
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.xkubeHandlers.delpTpl(' + itemId + ',' + (j+1) + ');">' +
+                                    '</div>' +             
+                                '</div>';
+                        });
+                        
+                        var endTpl =
+                                    '</blockquote>' +
+                                '</div>' +    
+                            '</div>';
+                        
+                        $('.ingRulePathTpl').append(hostTpl + pathTpl + endTpl);  
+                    });   
+                    
+                    form.render();
+                    element.render('collapse'); // 重新渲染折叠面板
+                } else {
+                    layer.msg(resp.msg, {icon: 2});
+                }
+            });
+
+            // 添加新规则按钮点击事件
+            $('#newaddbtn').on("click", function() {
+                state.iTplIndex++;
+                var newItemId = state.iTplIndex;
+                
+                var addRuleTpl =
+                    '<div class="layui-colla-item" id="itpl-' + newItemId + '">' +
+                        '<h2 class="layui-colla-title">规则:' + newItemId + '</h2>' +
+                        '<div class="layui-colla-content layui-show">' +
+                            '<blockquote class="layui-elem-quote">' +
+                                '<div class="layui-form-item">' +
+                                    '<label class="layui-form-label">域名</label>' +
+                                    '<div class="layui-input-inline" style="width:458px">' +  
+                                        '<input type="text" name="host_' + newItemId + '" placeholder="域名" lay-verify="required" lay-reqtext="不能为空" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +   
+                                        '<input class="layui-btn layui-icon layui-btn-xs" type="button" value="&#xe624;" onclick="window.xkubeHandlers.addpTpl(' + newItemId + ', 1);" />' +
+                                    '</div>' + 
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-icon layui-btn-xs layui-btn-danger" type="button" value="&#xe616;" onclick="window.xkubeHandlers.deliTpl(' + newItemId + ');" />' +
+                                    '</div>' + 
+                                '</div>' +  
+                                '<div class="RuleTpl_' + newItemId + '"></div>' +  
+                                '<div class="layui-form-item" id="ptpl-' + newItemId + '_1">' +
+                                    '<label class="layui-form-label">路径</label>' +  
+                                    '<div class="layui-input-inline" style="width:175px">' +  
+                                        '<input type="text" name="path_' + newItemId + '_1" placeholder="路径" value="/" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline" style="width:175px">' +  
+                                        '<select name="pathType_' + newItemId + '_1">' +  
+                                            '<option value="Prefix" selected>Prefix</option>' +  
+                                            '<option value="Exact">Exact</option>' +  
+                                            '<option value="ImplementationSpecific">ImplementationSpecific</option>' +   
+                                        '</select>' +  
+                                    '</div>' +
+                                    '<div class="layui-input-inline" style="width:200px">' +  
+                                        '<input type="text" name="serviceName_' + newItemId + '_1" placeholder="服务" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline" style="width:80px">' +  
+                                        '<input type="text" name="servicePort_' + newItemId + '_1" placeholder="端口" value="" class="layui-input">' +                        
+                                    '</div>' +    
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.xkubeHandlers.delpTpl(' + newItemId + ',1);" />' +
+                                    '</div>' +             
+                                '</div>' +
+                            '</blockquote>' + 
+                        '</div>' +                    
+                    '</div>';
+                
+                $('.ingRulePathTpl').append(addRuleTpl);   
+                form.render(); 
+                element.render('collapse'); // 重新渲染折叠面板
+                return false;   
+            });
+
+            // 监听提交事件
+            form.on('submit(saveBtn)', function (data) {
+                console.log(data.field);
+                layer.confirm('确定修改?', {
+                    icon: 3, 
+                    title: '提示'
+                }, function(index) {
+                    var loadIndex = layer.load(0, {shade: false});
+                    layer.msg('稍等片刻');
+                    
+                    $.ajax({
+                        url: "/xkube/ing/"+Apiver+"/UpdateRule" + location.search,
+                        type: "post",
+                        data: JSON.stringify(data.field),
+                        dataType: "json",
+                        success: function (resp) {
+                            layer.close(loadIndex);
+                            if(resp.code == 0){
+                                layer.msg('修改成功', {icon: 1});
+                            } else {
+                                layer.msg(resp.msg, {icon: 2});
+                            }
+                        },
+                        error: function() {
+                            layer.close(loadIndex);
+                            layer.msg('请求失败，请重试', {icon: 2});
+                        }
+                    });
+                    
+                    layer.close(index);
+                });
+                
+                return false;
+            });
+        });
+    }
+
+    // 将需要在HTML中调用的函数挂载到全局对象上
+    window.xkubeHandlers = {
+        deliTpl: deliTpl,
+        delpTpl: delpTpl,
+        addpTpl: function(pid, initialSid) {
+            // 为新增路径计算一个唯一的sid
+            var maxSid = initialSid || 0;
+            $('[id^="ptpl-' + pid + '_"]').each(function() {
+                var id = $(this).attr('id');
+                var parts = id.split('_');
+                if (parts.length > 1) {
+                    var sid = parseInt(parts[1]);
+                    if (!isNaN(sid) && sid > maxSid) {
+                        maxSid = sid;
+                    }
+                }
+            });
+            
+            addpTpl(pid, maxSid + 1);
+        }
+    };
+
+    // 页面加载完成后初始化
+    $(document).ready(function() {
+        initPage();
+    });
+})();
+</script>
+</html>

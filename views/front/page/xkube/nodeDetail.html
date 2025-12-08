@@ -25,6 +25,8 @@
             </blockquote>
 
               <button class="layui-btn" id="EditYamlBtn">yaml查看</button>
+              <button class="layui-btn layui-btn-danger" id="LablesBtn">标签管理</button>
+              <button class="layui-btn layui-btn-danger" id="NodeTaint">污点管理</button>
               <button class="layui-btn layui-btn-danger" id="NodeDrain">节点排水</button>
               <button class="layui-btn layui-btn-danger" id="NodeUnschedulable">调度设置</button>
               <button class="layui-btn layui-btn-danger" id="NodeRemove">移除</button>
@@ -329,7 +331,7 @@ if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
                 });
 
           }else{
-            layer.msg('请重新刷新',{icon:2});
+            layer.msg(resp.msg,{icon:2});
           }
 		  });
 
@@ -344,6 +346,31 @@ if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
                     content: '/page/xkube/nodeYaml.html'+ location.search,
                 });
         });
+
+        $('#LablesBtn').on("click",function(){
+                layer.open({
+                    title: nodeName+'标签编辑',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['70%', '80%'],
+                    content: '/page/xkube/nodeLables.html'+ location.search,
+                });
+        });
+
+        $('#NodeTaint').on("click",function(){
+                layer.open({
+                    title: nodeName+'污点管理',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['70%', '80%'],
+                    content: '/page/xkube/nodeTaint.html'+ location.search,
+                });
+        });
+
 
         //节点排水
         $('#NodeDrain').on("click",function(){

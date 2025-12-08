@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xkube - 移动k8s多集群管理助手</title>
+    <meta name="keywords" content="k8s集群管理APP,kubernetes管理工具,dashboard,k8s管理平台,k8s管理APP,kubernetes App,KubeSphere,Rancher,Kuboard,k8s管理助手">
+    <meta name="description" content="免费的k8s管理APP，支持对k8s的多集群管理、CICD,devops，帮助运维和开发人员随时随地便捷高效的的管理k8s。">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --primary: #1890ff;
+            --secondary: #13c2c2;
+        }
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .slogan {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .swiper {
+            width: 100%;
+            height: 500px;
+            margin: 3rem 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .swiper-slide {
+            min-width: 100%;
+            position: relative;
+            display: flex;
+           justify-content: center; /* 水平居中 */
+        }
+        .swiper-slide img {
+            max-width: 100%;
+            height: 600px;
+            object-fit: cover;
+        }
+        .feature {
+            display: flex;
+            align-items: center;
+            margin: 4rem 0;
+        }
+        .feature:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        .feature-img {
+            flex: 1;
+            padding: 0 2rem;
+        }
+        .feature-img img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .feature-content {
+            flex: 1;
+            padding: 0 2rem;
+        }
+        .feature-title {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+        .download-section {
+            background-color: var(--light-color);
+            padding: 4rem 0;
+            text-align: center;
+        }
+        .qrcodes {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        .qrcode {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .qrcode img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 1rem;
+        }
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        .cta-button {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+            margin-top: 10px;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(24, 144, 255, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .feature, .feature:nth-child(even) {
+                flex-direction: column;
+            }
+            .swiper {
+                height: 300px;
+            }
+            .qrcodes {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 下载区域 -->
+    <div class="download-section">
+        <div class="container">
+            <h2>k8s多集群移动管理助手</h2>
+            <p>帮助运维或开发随时随地进行代码发布回滚、日志分析、监控查看、扩缩容、重启回退，便捷、高效、安全的管理您的多个k8s集群。</p>
+            <div class="qrcodes">
+                <div class="qrcode">
+                    <img src="/images/android_code.png" alt="Android二维码">
+                    <p>Android版</p>
+                </div>
+                <div class="qrcode">
+                    <img src="/images/ios.jpg" alt="iOS二维码">
+                    <p>暂未上架</p>
+                </div>
+                <div class="qrcode">
+                    <img src="/images/hm5.png" alt="鸿蒙二维码">
+                    <p>鸿蒙系统应用市场搜"k8s管理助手"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

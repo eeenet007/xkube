@@ -59,7 +59,7 @@
                         '<div class="layui-form-item">' +
                             '<label class="layui-form-label">容器名称</label>' +
                             '<div class="layui-input-inline" style="width:200px">' +
-                  	              '<input type="text" name="containerName[]" id="containerName'+TplIndex+'" placeholder="key" value="'+item.containerName+'" class="layui-input">' +
+                  	              '<input type="text" name="containerName[]" id="containerName'+TplIndex+'" placeholder="key" value="'+item.containerName+'" class="layui-input" disabled>' +
                             '</div>' +    
                         '</div>' +  
                         '<div class="layui-form-item">' +  
@@ -84,7 +84,7 @@
           	           //form.render('select', 'clusterId');
           	  });	        
           }else{
-            layer.msg('请重新刷新',{icon:2});
+            layer.msg(resp.msg,{icon:2});
           }
 		  });
         //监听提交

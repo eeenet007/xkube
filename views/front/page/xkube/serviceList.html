@@ -197,8 +197,12 @@ if (clusterId == null) {
 
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
-            data.field.serviceName = data.field.serviceName.replace(/^\s*|\s*$/g,"");
+            data.field.serviceName = data.field.serviceName.replace(/\s+/g,"");
             table.reload('currentTableId', {
+                page: {
+                    curr: 1,
+                    limit:25
+                },
                 method:'POST',
                 url: '/xkube/svc/v1/List?clusterId='+clusterId,
                 contentType: 'application/json',
@@ -222,9 +226,9 @@ if (clusterId == null) {
                     shadeClose: true,
                     area: ['60%', '90%'],
                     content: '/page/xkube/serviceCreate.html?v=1',
-                    //end: function(){
-                    //	window.parent.location.reload();//关闭open打开的页面时，刷新父页面
-                    //}
+                    end: function(){
+                    	window.location.reload();                      
+                    }
                 });
                 $(window).on("resize", function () {
                     layer.full(index);
@@ -238,9 +242,9 @@ if (clusterId == null) {
                     shadeClose: true,
                     area: ['60%', '90%'],
                     content: '/page/xkube/create_by_yaml.html',
-                    //end: function(){
-                    //	window.parent.location.reload();//关闭open打开的页面时，刷新父页面
-                    //}
+                    end: function(){
+                    	window.location.reload();//关闭open打开的页面时，刷新父页面
+                    }
                 });
                 $(window).on("resize", function () {
                     layer.full(index);

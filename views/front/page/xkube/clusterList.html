@@ -121,8 +121,6 @@
 
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
-                data.field.pcg_ip = data.field.pcg_ip.replace(/^\s*|\s*$/g,""); //替换空格
-                data.field.pcg_guest_name = data.field.pcg_guest_name.replace(/^\s*|\s*$/g,"");
             var result = JSON.stringify(data.field);
             //layer.alert(result, {
             //    title: '最终的搜索信息'
@@ -130,10 +128,10 @@
 
             //执行搜索重载
             table.reload('currentTableId', {
-                //page: {
-                //    curr: 1,
-                //    limit:50
-                //},
+                page: {
+                    curr: 1,
+                    limit:50
+                },
                 method:'POST',
                 url: '/xkube/cluster/v1/List',
                 contentType: 'application/json',

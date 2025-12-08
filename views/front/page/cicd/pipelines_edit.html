@@ -16,6 +16,11 @@
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
+        <blockquote class="layui-elem-quote layui-text">
+            注意:1.添加上，流水线名称必须与deployment、sts、configmap等的资源名称一致才能关联。
+            <a class="layui-btn" style="float:right" href="javascript:location.replace(location.href);" title="刷新">
+              <i class="layui-icon">&#xe669;</i></a>
+        </blockquote>
           <form class="layui-form layui-form-pane" action="" lay-filter="UpdateInfo">
           		<div class="layui-form-item" style="margin-bottom:2px;">
                       <div class="layui-inline">
@@ -25,19 +30,20 @@
                               </div>
                       </div>
           		</div> 
-              <div class="layui-form-item" pane=""  style="width:297px;">
+              <div class="layui-form-item" pane=""  style="width:620px;">
                   <label class="layui-form-label">流水线类型</label>
                   <div class="layui-input-block">
                       <input type="radio" name="cicd_type" value="1" lay-filter="cicdType" title="阿里云流水线" checked="">
-                    <!--  <input type="radio" name="cicd_type" value="2" lay-filter="cicdType" title="本地流水线" disabled> -->
+                      <input type="radio" name="cicd_type" value="2" lay-filter="cicdType" title="jenkins">
                   </div>
               </div>  
           		<div class="layui-form-item" style="margin-bottom:2px;">
                       <div class="layui-inline">
-                          <label class="layui-form-label">名称</label>
+                          <label class="layui-form-label required">名称</label>
                               <div class="layui-input-inline">
                                   <input type="text" name="cicd_name" autocomplete="off" placeholder="" class="layui-input">
                               </div>
+                              <div class="layui-form-mid layui-font-red">*</div>
                       </div>
                       <div class="layui-inline">
                         <label class="layui-form-label">应用名</label>
@@ -54,6 +60,7 @@
                               <option value="">请选择集群</option>
                             </select>
                         </div>
+                        <div class="layui-form-mid layui-font-red">*</div>
                     </div>
 
                     <div class="layui-inline">
@@ -63,7 +70,7 @@
       	              			<option value="" selected="">所有空间</option>
           		            </select>
                         </div>
-                        <div class="layui-form-mid layui-word-aux">先选集群再选命名空间</div>
+                        <div class="layui-form-mid layui-font-red">* 为空时,先选k8s集群再选命名空间</div>
                     </div>
           		</div> 
 <!-- aliyun flow config -->
@@ -76,6 +83,7 @@
                     	              			<option value="" selected="">请选择</option>
                     	            		</select>
                                   </div>
+                                  <div class="layui-form-mid layui-font-red">*</div>
                     			</div>  
                     			<div class="layui-inline">
             		  				    <label class="layui-form-label">组织ID</label>
@@ -84,18 +92,34 @@
                     	              			<option value="" selected="">请选择</option>
                     	            		</select>
                                   </div>
-                                  <div class="layui-form-mid layui-word-aux">先选帐号再选择组织</div>
+                                  <div class="layui-form-mid layui-font-red">* 先选阿里云AK再选择组织ID</div>
                     			</div>
-              		</div>	
-              		<div class="layui-form-item" style="margin-bottom:2px">   
-                          <div class="layui-inline">
-                              <label class="layui-form-label">流水线ID</label>
-                                  <div class="layui-input-inline">
-                                      <input type="text" name="pipeline_id" autocomplete="off" placeholder="" class="layui-input">
-                                  </div>
-                          </div>
               		</div>	            
               </div>
+              <div id ="jenkinsTpl">
+              		<div class="layui-form-item" style="margin-bottom:2px"> 
+                    			<div class="layui-inline">
+            		  				    <label class="layui-form-label">jenkins</label>
+                                  <div class="layui-input-inline">
+                    	            		<select name="jenkins_id" lay-filter="jenkinsId" lay-search="" id="jenkinsId">
+                    	              			<option value="" selected="">请选择</option>
+                    	            		</select>
+                                  </div>
+                                  <div class="layui-form-mid layui-font-red">*</div>
+                    			</div> 
+              		</div>
+              </div>	
+            		<div class="layui-form-item" style="margin-bottom:2px">   
+                      <label class="layui-form-label required">流水线ID</label>
+                          <div class="layui-input-inline">
+                              <input type="text" name="pipeline_id" autocomplete="off" placeholder="" class="layui-input">
+                          </div>
+                          <div class="layui-form-mid layui-font-red">*</div>  
+            		</div>
+                <div class="layui-form-mid layui-word-aux">
+                  阿里云流水线ID:https://flow.aliyun.com/pipelines/2679891/current中的2679891<br>
+                  jenkins流水线ID:job的名称
+                </div> 	
                 <div class="layui-form-item">
                       <button class="layui-btn" lay-submit="" lay-filter="updateSubmit">保存更改</button>
                 </div>
@@ -103,43 +127,23 @@
     </div>
 </div>
 </body>
-<script type="text/javascript">
-    	$(document).ready(function(){
-          GetCurrClusterId();  
-          //GetNamespace();	
-    	});		
-</script>
-
-
 <script>
 
   var cicdName = getQueryString("cicdName");
-
-	  $.get('/cicd/v1/GetAliyunIdList', function (resp) {
-  		$.each(resp.data,function(i,item){
-  			var html = '<option value="'+item.aliyun_id+'">'+item.aliyun_id+'</option>'	
-  			$("#aliyunId").append(html);
-          var orgids = JSON.parse(item.organization_id);
-          console.log(orgids);
-          $.each(orgids,function(i,item){
-          			var html = '<option value="'+item.id+'">'+item.name+'</option>'	
-          			$("#organizationId").append(html);
-          });
-  		});
-	    layui.use('form', function(){
-	           var form = layui.form;
-	           form.render();
-	           //form.render('select', 'clusterId');
-	    });		
-    });	
-
-    layui.use(['form', 'table','miniTab','element'], function () {
+    layui.use(['form', 'table'], function () {
         var $ = layui.jquery,
             form = layui.form,
-            element = layui.element,
             table = layui.table;
-            miniTab = layui.miniTab,
-            miniTab.listen();
+
+        form.on('radio(cicdType)', function (data) { 
+            if(data.value == 1){
+              $("#aliyunTpl").show();
+              $("#jenkinsTpl").hide();
+            }else {
+              $("#aliyunTpl").hide();
+              $("#jenkinsTpl").show();     
+            }    
+        });
 
         form.on('select(aliyunId)', function(data){
           console.log(data.value); //得到被选中的值
@@ -170,10 +174,7 @@
       //deatail
 			$.get('/cicd/v1/GetCicdInfo' + location.search, function (resp) {
 				  if (resp.code == 0 ) { 
-              if ( resp.data.cicd_type == 1 ) {
                 $.get('/cicd/v1/GetPipelines?cicdId='+resp.data.id, function (resp2) {
-                  //console.log(resp2.data.organization_id);
-                    //$("#organizationId").val(resp2.data.organization_id);
                     var html2 = '<option value="'+resp.data.namespace+'">'+resp.data.namespace+'</option>'
         				    $("#name_Space").append(html2);
         				  form.val('UpdateInfo', {
@@ -185,20 +186,65 @@
                   	,"namespace": resp.data.namespace
                   	,"aliyun_id": resp2.data.aliyun_id
                   	,"organization_id": resp2.data.organization_id
-                  	,"pipeline_id": resp2.data.pipeline_id
+                  	,"jks_id": resp2.data.jks_id
+                    ,"pipeline_id": resp2.data.pipeline_id
         				  });
-                  form.render();
-                });                     
-              }else if ( resp.data.cicd_type == 2 ) {        
-                  $.get('/cicd/v1/GetCicdAllConfig' + location.search, function (resp2) {            
-            				  form.val('UpdateInfo', {
-            				    "id": resp.data.id
-                        ,"cicd_name": resp.data.cicd_name
-                      	,"cicd_type": resp.data.cicd_type
-                      	,"remarks": resp2.data.remarks
-            				  });   
-                  }); 
-              }             
+
+                  if(resp.data.cicd_type == 1){
+                    $("#aliyunTpl").show();
+                    $("#jenkinsTpl").hide();
+                  }else {
+                    $("#aliyunTpl").hide();
+                    $("#jenkinsTpl").show();     
+                  } 
+
+                	$.get('/xkube/cluster/v1/List', function (resp3) {
+                  		$.each(resp3.data,function(i,item){
+                  			if (item.cluster_id == resp.data.cluster_id) {
+                  				var html = '<option value="'+item.cluster_id+'" selected="">'+item.cluster_name+'</option>'
+                  			}else{
+                  				var html = '<option value="'+item.cluster_id+'">'+item.cluster_name+'</option>'	
+                  			}
+                  			$("#cluster_Id").append(html);
+                  		});	
+                    form.render();
+                  });
+                  
+              	  $.get('/cicd/v1/GetAliyunIdList', function (resp4) {
+                		$.each(resp4.data,function(i,item){
+                      if (resp2.data.aliyun_id == item.aliyun_id) {
+                			  var html = '<option value="'+item.aliyun_id+'" selected="">'+item.aliyun_id+'</option>'	
+                			}else{
+                 			  var html = '<option value="'+item.aliyun_id+'">'+item.aliyun_id+'</option>'	                       
+                      }                      
+                      $("#aliyunId").append(html);
+                        var orgids = JSON.parse(item.organization_id);
+                        $.each(orgids,function(i,item){
+                            if (resp2.data.organization_id == item.id ) {
+                        			var html = '<option value="'+item.id+'" selected="">'+item.name+'</option>'	
+                            }else{
+                        			var html = '<option value="'+item.id+'">'+item.name+'</option>'	                              
+                            }
+                        		$("#organizationId").append(html);
+                        });
+                		});
+              	    form.render();
+                  });	 
+
+              	  $.get('/cicd/v1/GetJksList', function (resp5) {
+                		$.each(resp5.data,function(i,item){
+                      if (resp2.data.jks_id == item.jks_id ) {
+                			  var html = '<option value="'+item.jks_id+'" selected="">'+item.jks_id+'</option>'	
+                      }else{
+                			  var html = '<option value="'+item.jks_id+'">'+item.jks_id+'</option>'	                        
+                      }
+                			  $("#jenkinsId").append(html);
+                		});
+              	    form.render();	
+                  });
+                                   
+                  //form.render();
+                });                           
           }else{
               console.log(cicdName);
     				  form.val('UpdateInfo', {

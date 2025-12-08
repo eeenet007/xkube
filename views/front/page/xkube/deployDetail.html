@@ -45,11 +45,14 @@
               <button class="layui-btn" id="EditReplicas">副本伸缩</button>
               <button class="layui-btn" id="DeployRestart">重新部署</button>
               <button class="layui-btn" id="RollingUpdate">升级策略</button>
-              <button class="layui-btn" id="LablesUpdate">标签更新</button>
+             <!-- <button class="layui-btn" id="LablesUpdate">标签更新</button> -->
               <button class="layui-btn" id="ImageUpdate">镜像更新</button>
               <button class="layui-btn" id="CicdDeploy">CICD</button>
               <button class="layui-btn" id="addFav">收藏</button>
               <button class="layui-btn" id="deployCheck">服务检测</button>
+              <button class="layui-btn layui-btn-primary moreButton">更多
+                <i class="layui-icon layui-icon-down layui-font-12"></i>
+              </button>
               <br><br>
 
   <div class="layui-collapse" lay-filter="test">
@@ -350,6 +353,7 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
         var $ = layui.jquery,
             form = layui.form,
             element = layui.element,
+            dropdown = layui.dropdown,
             table = layui.table;
             miniTab = layui.miniTab,
             miniTab.listen();
@@ -448,7 +452,7 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
         //yaml编辑
         $('#EditYamlBtn').on("click",function(){
                 layer.open({
-                    title: deployName+'yaml编辑',
+                    title: deployName+'编辑yaml',
                     type: 2,
                     shade: 0.2,
                     maxmin:true,
@@ -456,6 +460,60 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                     area: ['50%', '90%'],
                     content: '/page/xkube/deployYaml.html'+ location.search,
                 });
+        });
+
+        //下拉菜单
+        dropdown.render({
+          elem: '.moreButton'
+          ,data: [{
+            title: '标签更新',
+            id: 101,
+            path:'/page/xkube/deployLables.html',
+          },{
+            title: 'host设置',
+            id: 102,
+            path: '/page/xkube/deployHost.html',
+          },{
+            title: '探针设置',
+            id: 103,
+            path: '/page/xkube/deployProbe.html',
+          },{
+            title: '资源限制',
+            id: 104,
+            path: '/page/xkube/deployResource.html',
+          },{
+            title: 'yaml备份',
+            id: 105,
+            path: '/page/xkube/yamlBackup.html',
+          },{
+            title: '环境变量',
+            id: 106,
+            path: '/page/xkube/deployEnv.html',
+          },{
+            title: '生命周期',
+            id: 107,
+            path: '/page/xkube/deployLifecycle.html',
+          }]
+          ,click: function(obj){
+              //layer.tips('点击了：'+ obj.title+'id:'+obj.id, this.elem, {tips: [1, '#5FB878']})
+              var path = '';
+            if (obj.id == 105) {
+              miniTab.openNewTabByIframe({
+                  href:'page/xkube/yamlBackup.html'+location.search+"&resType=deployment"+"&resName="+deployName,
+                  title:deployName+"备份",
+              });              
+            }else{
+              layer.open({
+                    title: deployName+obj.title,
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '86%'],
+                    content: obj.path + location.search,
+              });
+            }
+          }
         });
 
 			$.get('/xkube/deploy/v1/Replicas' + location.search, function (resp) {
@@ -628,7 +686,7 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['60%', '80%'],
+                    area: ['70%', '80%'],
                     content: '/page/cicd/index.html'+location.search+'&resType=Deployment&cicdName='+deployName,
                 });
                 $(window).on("resize", function () {
@@ -793,8 +851,8 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                 {field: 'createTime',width:170, title: '创建时间'},
                 {title: '操作', minWidth:340, toolbar: '#currentTableBar', align: "center"}
             ]],
-            limits: [25, 50, 100],
-            limit: 15,
+            limits: [50, 100, 200],
+            limit: 50,
             page: false,
             done(){
                 $(".resUsed-marks").mouseover(function() {
@@ -806,8 +864,8 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
             }
         });
 
-        let intervalId;
-        intervalId = setInterval(function(){
+        //let intervalId;
+        let intervalId = setInterval(function(){
           table.reload('currentTableId', {
             url: '/xkube/pod/v1/List' + location.search+"&resType=deploy&resName="+deployName,
             page: {
@@ -815,10 +873,14 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
             }
           });
         }, 5000);
+        setTimeout(() => { //15分后停止timer
+          clearInterval(intervalId);
+          console.log("Timer stop");
+        }, 900000);
         form.on('switch(switchTest)', function(data){
           //console.log(this.checked);          
           if (this.checked) {
-              // 定时刷新pod表格，每10秒刷新一次
+              // 定时刷新pod表格，每5秒刷新一次
               intervalId = setInterval(function(){
                 table.reload('currentTableId', {
                   url: '/xkube/pod/v1/List' + location.search+"&resType=deploy&resName="+deployName,
@@ -853,9 +915,9 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                         {field: 'podName', title: '名称'},
                         {field: 'imgUrl', title: '镜像',hide:true},
                         {field: 'podPhase', title: '状态',width:100,templet: '#podPhaseTpl'},      
-                        {field: 'restartCount',width:70,title: '重启'},                          
+                        {field: 'restartCount',width:70,title: '重启',sort: true},                          
                         {field: 'podIp',title: 'podIp',width:120,sort: true},
-                        {field: 'hostIp',width:120,title:'节点IP'},  
+                        {field: 'hostIp',width:120,title:'节点IP',sort: true},  
                         {field: 'nodeName',title:'节点名称',hide:true},   
                         {field: 'memUsage',sort: true,width:120,title:'内存[MB]'},
                         {field: 'cpuUsage',sort: true,width:120,title:'CPU[核]<i class="layui-icon layui-icon-about resUsed-marks" style="color: #1E9FFF;"></i>'},              

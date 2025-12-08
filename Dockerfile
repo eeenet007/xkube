@@ -4,7 +4,7 @@ FROM alpine:latest
 
 MAINTAINER docker_user eeenet@qq.com
 
-ENV XKUBE_VERSION 3.7
+ENV XKUBE_VERSION 3.9
 ENV TZ=Asia/Shanghai
 
 WORKDIR /app 

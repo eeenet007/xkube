@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>生命周期</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="" lay-filter="UpdateInfo">
+              <div class="layui-form-item">
+                  <div class="layui-inline">
+                      <label class="layui-form-label">Container</label>
+                      <div class="layui-input-inline"> 
+                          <select name="containerId" id="containerId" lay-filter="containerId">
+          		            </select>
+                      </div>
+                  </div>
+              </div>
+
+              <fieldset class="layui-elem-field layui-field-title">
+                <legend>启动前执行[PostStart]</legend>
+              </fieldset>
+            <blockquote class="layui-elem-quote">
+                <div class="layui-form-item" pane="">
+                    <label class="layui-form-label">执行类型</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="postStart_type" value="" lay-filter="checkType" title="无" checked="">
+                        <input type="radio" name="postStart_type" value="HTTP" lay-filter="checkType" title="URL调用">
+                        <input type="radio" name="postStart_type" value="TCP" lay-filter="checkType" title="端口检测">
+                        <input type="radio" name="postStart_type" value="CMD" lay-filter="checkType" title="命令">                                                           
+                    </div>
+                </div>
+                <div id="urlCheckTpl">       
+                    <div class="layui-form-item">
+                      <label class="layui-form-label required">协议</label>
+                        <div class="layui-input-block">
+                          <input type="radio" name="postStart_httpGetScheme" value="http" title="HTTP" checked="">
+                          <input type="radio" name="postStart_httpGetScheme" value="https" title="HTTPS"> 
+                        </div>
+                    </div>       
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">路径</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="postStart_httpGetPath" placeholder="/" value="" class="layui-input">
+                        </div>
+                        <label class="layui-form-label required">端口</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="postStart_httpGetPort" placeholder="80" value="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div id="tcpCheckTpl">              
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">端口</label>
+                        <div class="layui-input-inline" style="width:500px">
+                            <input type="text" name="postStart_tcpSocketPort" placeholder="80" value="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div id="cmdCheckTpl"> 
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">命令</label>
+                        <div class="layui-input-inline" style="width:500px">
+                            <input type="text" name="postStart_execCommand" placeholder="不能为空" value="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </blockquote>
+
+              <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>停止后执行[PreStop]</legend>
+              </fieldset>             
+            <blockquote class="layui-elem-quote">
+                <div class="layui-form-item" pane="">
+                    <label class="layui-form-label">检测类型</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="preStop_type" value="" lay-filter="checkType2" title="无" checked=""> 
+                        <input type="radio" name="preStop_type" value="HTTP" lay-filter="checkType2" title="URL调用">
+                        <input type="radio" name="preStop_type" value="TCP" lay-filter="checkType2" title="端口检测">
+                        <input type="radio" name="preStop_type" value="CMD" lay-filter="checkType2" title="命令">                                                           
+                    </div>
+                </div>
+                <div id="urlCheckTpl2">     
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">协议</label>
+                        <div class="layui-input-block">
+                          <input type="radio" name="preStop_httpGetScheme" value="http" title="HTTP" checked="">
+                          <input type="radio" name="preStop_httpGetScheme" value="https" title="HTTPS"> 
+                        </div>
+                    </div>         
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">路径</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="preStop_httpGetPath" placeholder="/" value="" class="layui-input">
+                        </div>
+                        <label class="layui-form-label required">端口</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="preStop_httpGetPort" placeholder="80" value="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div id="tcpCheckTpl2">              
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">端口</label>
+                        <div class="layui-input-inline" style="width:500px">
+                            <input type="text" name="preStop_tcpSocketPort" placeholder="80" value="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div id="cmdCheckTpl2"> 
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">命令</label>
+                        <div class="layui-input-inline" style="width:500px">
+                            <input type="text" name="preStop_execCommand" placeholder="不能为空" value="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </blockquote>   
+                  
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+</body>
+<script>
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+      var newResp = {};
+			$.ajax({
+			   url: "/xkube/deploy/v1/Lifecycle" + location.search,
+			   type: "GET",
+			   headers:{'X-Requested-With':'XMLHttpRequest'},
+			   success: function (resp) {
+					if (resp.code == 0 ) {
+            newResp = resp;
+        		$.each(resp.data,function(i,item){
+        			if (item.containerId == 0) {
+        				var html = '<option value="'+item.containerId+'" selected="">'+item.containerName+'</option>'
+        			}else{
+        				var html = '<option value="'+item.containerId+'">'+item.containerName+'</option>'	
+        			}
+        			$("#containerId").append(html);
+        		});
+  				  form.val('UpdateInfo', {
+            	"postStart_type": resp.data[0].postStart_type
+            	,"postStart_httpGetPath": resp.data[0].postStart_httpGetPath
+            	,"postStart_httpGetPort": resp.data[0].postStart_httpGetPort
+              ,"postStart_httpGetScheme": resp.data[0].postStart_httpGetScheme
+            	,"postStart_tcpSocketPort": resp.data[0].postStart_tcpSocketPort
+      				,"postStart_execCommand": resp.data[0].postStart_execCommand
+
+      				,"preStop_type": resp.data[0].preStop_type
+      				,"preStop_httpGetPath": resp.data[0].preStop_httpGetPath
+      				,"preStop_httpGetPort": resp.data[0].preStop_httpGetPort
+              ,"preStop_httpGetScheme": resp.data[0].preStop_httpGetScheme
+      				,"preStop_tcpSocketPort": resp.data[0].preStop_tcpSocketPort
+      				,"preStop_execCommand": resp.data[0].preStop_execCommand
+  				  })
+            if(resp.data[0].postStart_type == 'HTTP'){
+              $("#urlCheckTpl").show();
+              $("#tcpCheckTpl").hide();
+              $("#cmdCheckTpl").hide();
+            }else if(resp.data[0].postStart_type == 'TCP') {
+              $("#urlCheckTpl").hide();
+              $("#tcpCheckTpl").show();
+              $("#cmdCheckTpl").hide();     
+            }else if(resp.data[0].postStart_type == 'CMD') {
+              $("#urlCheckTpl").hide();
+              $("#tcpCheckTpl").hide();
+              $("#cmdCheckTpl").show();     
+            }else {
+              $("#urlCheckTpl").hide();
+              $("#tcpCheckTpl").hide();
+              $("#cmdCheckTpl").hide();     
+            } 
+    
+            if(resp.data[0].preStop_type == 'HTTP'){
+              $("#urlCheckTpl2").show();
+              $("#tcpCheckTpl2").hide();
+              $("#cmdCheckTpl2").hide();
+            }else if(resp.data[0].preStop_type == 'TCP') {
+              $("#urlCheckTpl2").hide();
+              $("#tcpCheckTpl2").show();
+              $("#cmdCheckTpl2").hide();     
+            }else if(resp.data[0].preStop_type == 'CMD') {
+              $("#urlCheckTpl2").hide();
+              $("#tcpCheckTpl2").hide();
+              $("#cmdCheckTpl2").show();     
+            }else {
+              $("#urlCheckTpl2").hide();
+              $("#tcpCheckTpl2").hide();
+              $("#cmdCheckTpl2").hide();     
+            } 
+          }else{
+            layer.msg(resp.msg,{icon:2});
+          }
+				}
+		  });	
+
+        //选择
+        form.on('select(containerId)', function(data){
+            //console.log(data.value); //得到被选中的值
+            var id = data.value
+  				  form.val('UpdateInfo', {
+            	"postStart_type": newResp.data[id].postStart_type
+            	,"postStart_httpGetPath": newResp.data[id].postStart_httpGetPath
+            	,"postStart_httpGetPort": newResp.data[id].postStart_httpGetPort
+              ,"postStart_httpGetScheme": newResp.data[id].postStart_httpGetScheme
+            	,"postStart_tcpSocketPort": newResp.data[id].postStart_tcpSocketPort
+      				,"postStart_execCommand": newResp.data[id].postStart_execCommand
+
+      				,"preStop_type": newResp.data[id].preStop_type
+      				,"preStop_httpGetPath": newResp.data[id].preStop_httpGetPath
+      				,"preStop_httpGetPort": newResp.data[id].preStop_httpGetPort
+              ,"preStop_httpGetScheme": newResp.data[id].preStop_httpGetScheme
+      				,"preStop_tcpSocketPort": newResp.data[id].preStop_tcpSocketPort
+      				,"preStop_execCommand": newResp.data[id].preStop_execCommand
+  				  })
+            if(newResp.data[id].postStart_type == 'HTTP'){
+              $("#urlCheckTpl").show();
+              $("#tcpCheckTpl").hide();
+              $("#cmdCheckTpl").hide();
+            }else if(newResp.data[id].postStart_type == 'TCP') {
+              $("#urlCheckTpl").hide();
+              $("#tcpCheckTpl").show();
+              $("#cmdCheckTpl").hide();     
+            }else if(newResp.data[id].postStart_type == 'CMD') {
+              $("#urlCheckTpl").hide();
+              $("#tcpCheckTpl").hide();
+              $("#cmdCheckTpl").show();     
+            }else {
+              $("#urlCheckTpl").hide();
+              $("#tcpCheckTpl").hide();
+              $("#cmdCheckTpl").hide();     
+            } 
+    
+            if(newResp.data[id].preStop_type == 'HTTP'){
+              $("#urlCheckTpl2").show();
+              $("#tcpCheckTpl2").hide();
+              $("#cmdCheckTpl2").hide();
+            }else if(newResp.data[id].preStop_type == 'TCP') {
+              $("#urlCheckTpl2").hide();
+              $("#tcpCheckTpl2").show();
+              $("#cmdCheckTpl2").hide();     
+            }else if(newResp.data[id].preStop_type == 'CMD') {
+              $("#urlCheckTpl2").hide();
+              $("#tcpCheckTpl2").hide();
+              $("#cmdCheckTpl2").show();     
+            }else {
+              $("#urlCheckTpl2").hide();
+              $("#tcpCheckTpl2").hide();
+              $("#cmdCheckTpl2").hide();     
+            }
+        });
+
+        //检测类型
+        form.on('radio(checkType)', function (data) { 
+            if(data.value == 'HTTP'){
+              $("#urlCheckTpl").show();
+              $("#tcpCheckTpl").hide();
+              $("#cmdCheckTpl").hide();
+            }else if(data.value == 'TCP') {
+              $("#urlCheckTpl").hide();
+              $("#tcpCheckTpl").show();
+              $("#cmdCheckTpl").hide();     
+            } else if(data.value == 'CMD') {
+              $("#urlCheckTpl").hide();
+              $("#tcpCheckTpl").hide();
+              $("#cmdCheckTpl").show();     
+            }else {
+              $("#urlCheckTpl").hide();
+              $("#tcpCheckTpl").hide();
+              $("#cmdCheckTpl").hide();     
+            }    
+        });
+        form.on('radio(checkType2)', function (data) { 
+            if(data.value == 'HTTP'){
+              $("#urlCheckTpl2").show();
+              $("#tcpCheckTpl2").hide();
+              $("#cmdCheckTpl2").hide();
+            }else if(data.value == 'TCP') {
+              $("#urlCheckTpl2").hide();
+              $("#tcpCheckTpl2").show();
+              $("#cmdCheckTpl2").hide();     
+            } else if(data.value == 'CMD') {
+              $("#urlCheckTpl2").hide();
+              $("#tcpCheckTpl2").hide();
+              $("#cmdCheckTpl2").show();     
+            } else {
+              $("#urlCheckTpl2").hide();
+              $("#tcpCheckTpl2").hide();
+              $("#cmdCheckTpl2").hide();     
+            }    
+        });
+        
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+                //data.field.appname = data.field.appname.replace(/^\s*|\s*$/g,""); //替换空格
+                  console.log(data.field);
+                  if (data.field.postStart_type == "HTTP"){
+                    if (data.field.postStart_httpGetPath == "" || data.field.postStart_httpGetPort == ""){
+                        layer.msg('路径和端口不能为空!', {icon: 2});
+                        return false
+                    }
+                  }
+                  if (data.field.postStart_type == "TCP"){
+                    if (data.field.postStart_tcpSocketPort == ""){
+                        layer.msg('端口不能为空!', {icon: 2});
+                        return false
+                    }
+                  }
+                  if (data.field.postStart_type == "CMD"){
+                    if (data.field.postStart_execCommand == ""){
+                        layer.msg('命令不能为空!', {icon: 2});
+                        return false
+                    }
+                  }
+
+                  if (data.field.preStop_type == "HTTP"){
+                    if (data.field.preStop_httpGetPath == "" || data.field.preStop_httpGetPort == ""){
+                        layer.msg('路径和端口不能为空!', {icon: 2});
+                        return false
+                    }
+                  }
+                  if (data.field.preStop_type == "TCP"){
+                    if (data.field.preStop_tcpSocketPort == ""){
+                        layer.msg('端口不能为空!', {icon: 2});
+                        return false
+                    }
+                  }
+                  if (data.field.preStop_type == "command"){
+                    if (data.field.preStop_execCommand == ""){
+                        layer.msg('命令不能为空!', {icon: 2});
+                        return false
+                    }
+                  }
+			          layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('稍等片刻');
+                     $.ajax({
+                       url: '/xkube/deploy/v1/Lifecycle'+ location.search,
+                       type: "post",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('修改成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+    });
+</script>
+</html>

@@ -167,7 +167,7 @@ dashboard.DynamicLine = function () {
 			type: 'line'
 		}]
 	});	
-	setInterval(function () {
+	let podIntervalId = setInterval(function () {
 		//var nowtimestamp = new Date().getTime();
 		//var sTime = nowtimestamp - runInterval
 		//{name: "16:12",value: 22746}
@@ -178,7 +178,11 @@ dashboard.DynamicLine = function () {
 			myDtLineChart.setOption(lineoption,true);	
 			myDtLineChart2.setOption(lineoption2,true);
 		});
-	},runInterval);		
+	},runInterval);	
+    setTimeout(() => { //15分后停止timer
+      clearInterval(podIntervalId);
+      console.log("Timer stop");
+    }, 900000);		
 }
 
 //节点资源使用曲线
@@ -280,7 +284,7 @@ dashboard.NodeDynamicLine = function () {
 			type: 'line'
 		}]
 	});	
-	setInterval(function () {
+	let nodeIntervalId = setInterval(function () {
 		//var nowtimestamp = new Date().getTime();
 		//var sTime = nowtimestamp - runInterval
 		//{name: "16:12",value: 22746}
@@ -291,6 +295,11 @@ dashboard.NodeDynamicLine = function () {
 			myDtLineChart.setOption(lineoption,true);	
 			myDtLineChart2.setOption(lineoption2,true);
 		});
-	},runInterval);		
+	},runInterval);	
+
+    setTimeout(() => { //15分后停止timer
+      clearInterval(nodeIntervalId);
+      console.log("Timer stop");
+    }, 900000);	
 }
 

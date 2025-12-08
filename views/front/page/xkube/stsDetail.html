@@ -19,6 +19,7 @@
               <button class="layui-btn" id="LablesUpdate">标签更新</button>
               <button class="layui-btn" id="ImageUpdate">镜像更新</button>
               <button class="layui-btn" id="CicdDeploy">CICD</button>
+              <button class="layui-btn" id="YamlBackup">yaml备份</button>
               <br><br>
 
   <div class="layui-collapse" lay-filter="test">
@@ -291,6 +292,13 @@
                 });
         });
 
+        $('#YamlBackup').on("click",function(){
+              miniTab.openNewTabByIframe({
+                  href:'page/xkube/yamlBackup.html'+location.search+"&resType=statefulset"+"&resName="+statefulsetName,
+                  title:statefulsetName+"备份",
+              }); 
+        });
+
   			$.get('/xkube/sts/v1/Replicas' + location.search, function (resp) {
     				if (resp.code == 0 ) { 
                 console.log(resp.number)
@@ -500,8 +508,7 @@
         });
             
         element.on('tab(layTabFilter)',function(data) {
-            console.log(data.index);
-
+            //console.log(data.index);
             if(data.index == 0 ) {
                 //pod容器组
                 table.render({

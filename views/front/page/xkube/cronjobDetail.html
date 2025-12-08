@@ -29,7 +29,8 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
 
-              <button class="layui-btn" id="EditYamlBtn">编辑yaml</button>           
+              <button class="layui-btn" id="EditYamlBtn">编辑yaml</button>  
+              <button class="layui-btn" id="YamlBackup">yaml备份</button>         
               <button class="layui-btn" id="LablesUpdate">标签更新</button>  
               <button class="layui-btn" id="RunCronjob">运行一次</button>  
               <br><br>
@@ -247,6 +248,13 @@ if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
                     area: ['50%', '90%'],
                     content: '/page/xkube/cronjobYaml.html'+ location.search,
                 });
+        });
+
+        $('#YamlBackup').on("click",function(){
+              miniTab.openNewTabByIframe({
+                  href:'page/xkube/yamlBackup.html'+location.search+"&resType=cronjob"+"&resName="+cronjobName,
+                  title:cronjobName+"备份",
+              }); 
         });
 
         //标签修改

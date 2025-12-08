@@ -77,6 +77,7 @@ if ( compareVersions("1.20.1",clusterIdVersion) == 1 ) {
         $('#SaveBtn').on("click",function(){
               var yamlBody = editor.getValue();
               yamlBody = yamlBody.replace(/%/g,"%25");
+              yamlBody = yamlBody.replace(/;/g,"%3B");
               layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){
                   $.ajax({
                    url: "/xkube/ing/"+Apiver+"/ModifyByYaml"+location.search,

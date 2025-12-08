@@ -17,25 +17,29 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
         <blockquote class="layui-elem-quote layui-text">
-            帮助中心:<a href="#" target="_blank">添加说明文档</a>
+            注意:1.添加时，名称必须与deployment、sts、configmap的资源名称一致才能关联。<br>
+                2.此处添加的流水线只是和阿里云流水线、jenkins的流水线关联起来方便在此平台执行,并不能配置流水线。<br>
+                3.添加时，集群和命名空间只是便于避免相同的流水线名称对应不同的集群或命名空间的情况。
             <a class="layui-btn" style="float:right" href="javascript:location.replace(location.href);" title="刷新">
               <i class="layui-icon">&#xe669;</i></a>
         </blockquote>
           <form class="layui-form layui-form-pane" action="" lay-filter="UpdateInfo">
-              <div class="layui-form-item" pane=""  style="width:297px;">
+              <div class="layui-form-item" pane=""  style="width:620px;">
                   <label class="layui-form-label">流水线类型</label>
                   <div class="layui-input-block">
                       <input type="radio" name="cicd_type" value="1" lay-filter="cicdType" title="阿里云流水线" checked="">
-                    <!--  <input type="radio" name="cicd_type" value="2" lay-filter="cicdType" title="本地流水线" disabled> -->
+                      <input type="radio" name="cicd_type" value="2" lay-filter="cicdType" title="jenkins">
                   </div>
               </div>  
           		<div class="layui-form-item" style="margin-bottom:2px;">
                     <div class="layui-inline">
-                        <label class="layui-form-label">名称</label>
+                        <label class="layui-form-label required">名称</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="cicd_name" autocomplete="off" placeholder="" class="layui-input">
                             </div>
+                            <div class="layui-form-mid layui-font-red">*</div>
                     </div>
+                    
                     <div class="layui-inline">
                         <label class="layui-form-label">应用名</label>
                             <div class="layui-input-inline">
@@ -45,22 +49,23 @@
           		</div>
           		<div class="layui-form-item" style="margin-bottom:2px;">
                     <div class="layui-inline">
-                        <label class="layui-form-label">当前集群</label>
+                        <label class="layui-form-label required">k8s集群</label>
                         <div class="layui-input-inline">
                             <select name="cluster_id" lay-filter="cluster_Id" lay-search="" id="cluster_Id">
                               <option value="">请选择集群</option>
                             </select>
                         </div>
+                        <div class="layui-form-mid layui-font-red">*</div>
                     </div>
-
+                    
                     <div class="layui-inline">
-                        <label class="layui-form-label">命名空间</label>
+                        <label class="layui-form-label required">命名空间</label>
                         <div class="layui-input-inline">
                           <select name="namespace" lay-filter="name_Space" lay-search="" id="name_Space">
       	              			<option value="" selected="">所有空间</option>
           		            </select>
                         </div>
-                        <div class="layui-form-mid layui-word-aux">先选集群再选命名空间</div>
+                        <div class="layui-form-mid layui-font-red">* 为空时,先选k8s集群再选命名空间</div>
                     </div>
           		</div>
   
@@ -68,12 +73,13 @@
               <div id ="aliyunTpl">     
               		<div class="layui-form-item" style="margin-bottom:2px">                                
                     			<div class="layui-inline">
-            		  				    <label class="layui-form-label">阿里云帐号</label>
+            		  				    <label class="layui-form-label">阿里云AK</label>
                                   <div class="layui-input-inline">
                     	            		<select name="aliyun_id" lay-filter="aliyunId" lay-search="" id="aliyunId">
                     	              			<option value="" selected="">请选择</option>
                     	            		</select>
                                   </div>
+                                  <div class="layui-form-mid layui-font-red">*</div>
                     			</div> 
                     			<div class="layui-inline">
             		  				    <label class="layui-form-label">组织ID</label>
@@ -82,17 +88,35 @@
                     	              			<option value="" selected="">请选择</option>
                     	            		</select>
                                   </div>
-                                  <div class="layui-form-mid layui-word-aux">先选帐号再选择组织</div>
+                                  <div class="layui-form-mid layui-font-red">* 先选阿里云AK再选择组织ID</div>
                     			</div>
-              		</div>	
-              		<div class="layui-form-item" style="margin-bottom:2px">   
-                          <label class="layui-form-label">流水线ID</label>
-                          <div class="layui-input-inline">
-                              <input type="text" name="pipeline_id" autocomplete="off" placeholder="必填" class="layui-input">
-                          </div>
-                          <div class="layui-form-mid layui-word-aux">例如:https://flow.aliyun.com/pipelines/2679891/current中的2679891</div>
-              		</div>	            
-              </div>
+              		</div>
+              </div>	
+              <div id ="jenkinsTpl">
+              		<div class="layui-form-item" style="margin-bottom:2px"> 
+                    			<div class="layui-inline">
+            		  				    <label class="layui-form-label">jenkins</label>
+                                  <div class="layui-input-inline">
+                    	            		<select name="jks_id" lay-filter="jenkinsId" lay-search="" id="jenkinsId">
+                    	              			<option value="" selected="">请选择</option>
+                    	            		</select>
+                                  </div>
+                                  <div class="layui-form-mid layui-font-red">*</div>
+                    			</div> 
+              		</div>
+              </div>	
+
+            		<div class="layui-form-item" style="margin-bottom:2px">   
+                        <label class="layui-form-label required">流水线ID</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="pipeline_id" autocomplete="off" placeholder="必填" class="layui-input">
+                        </div> 
+                        <div class="layui-form-mid layui-font-red">*</div>                                             
+            		</div> 
+                <div class="layui-form-mid layui-word-aux">
+                  阿里云流水线ID:https://flow.aliyun.com/pipelines/2679891/current中的2679891<br>
+                  jenkins流水线ID:job的名称
+                </div>                               
                 <div class="layui-form-item" id="addBtn">
                       <button class="layui-btn" lay-submit="" lay-filter="addSubmit">添加</button>
                 </div>
@@ -134,18 +158,26 @@
 	    });		
     });	
 
+    //jenkins
+	  $.get('/cicd/v1/GetJksList', function (resp) {
+  		$.each(resp.data,function(i,item){
+  			  var html = '<option value="'+item.jks_id+'">'+item.jks_id+'</option>'	
+  			  $("#jenkinsId").append(html);
+  		});
+	    layui.use('form', function(){
+	           var form = layui.form;
+	           form.render();
+	    });		
+    });
 
-    layui.use(['form', 'table','miniTab','element'], function () {
+    layui.use(['form', 'table'], function () {
         var $ = layui.jquery,
             form = layui.form,
-            element = layui.element,
             table = layui.table;
-            miniTab = layui.miniTab,
-            miniTab.listen();
 
         //选择集群
         form.on('select(cluster_Id)', function(data){
-          console.log(data.value); //得到被选中的值
+          //console.log(data.value); //得到被选中的值
       		$.get('/xkube/ns/v1/List?clusterId='+data.value, function (resp) {
               $("#name_Space").empty();
         			$.each(resp.data,function(i,item){
@@ -162,9 +194,20 @@
           ,"namespace": nameSpace
 			  });
 
+        $("#aliyunTpl").show();
+        $("#jenkinsTpl").hide();
+        form.on('radio(cicdType)', function (data) { 
+            if(data.value == 1){
+              $("#aliyunTpl").show();
+              $("#jenkinsTpl").hide();
+            }else {
+              $("#aliyunTpl").hide();
+              $("#jenkinsTpl").show();     
+            }    
+        });
 //组织ID写数据库的情况
         form.on('select(aliyunId)', function(data){
-          console.log(data.value); //得到被选中的值
+          //console.log(data.value); //得到被选中的值
         	$.get('/cicd/v1/GetAliyunIdList?aliyun_id='+data.value, function (resp) {
               var orgids = JSON.parse(resp.data[0].organization_id);
               //console.log(orgids);
@@ -195,10 +238,20 @@
         }); 
 **/
         form.on('submit(addSubmit)', function (data) {
-                data.field.cicd_name = data.field.cicd_name.replace(/^\s*|\s*$/g,""); //替换空格
-                data.field.appname = data.field.appname.replace(/^\s*|\s*$/g,"");
-                data.field.pipeline_id = data.field.pipeline_id.replace(/^\s*|\s*$/g,""); 
-                data.field.cicd_type = parseInt(data.field.cicd_type);            
+                data.field.cicd_name = data.field.cicd_name.replace(/\s+/g,""); //替换空格
+                data.field.appname = data.field.appname.replace(/\s+/g,"");
+                data.field.pipeline_id = data.field.pipeline_id.replace(/\s+/g,"");
+                data.field.cicd_type = parseInt(data.field.cicd_type);
+                
+                if (data.field.cluster_id == "") {
+                    layer.msg('集群不能为空');
+                    return false;
+                }
+                if (data.field.namespace == "") {
+                    layer.msg('命名空间不能为空');
+                    return false;                  
+                }
+                            
 					      //console.log(data.field);
 			          layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
                      var index2 = layer.load(0, {shade: false});

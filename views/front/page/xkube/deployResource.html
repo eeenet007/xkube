@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>资源限制</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="" lay-filter="UpdateInfo" style="margin-top:20px">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">Container</label>
+                    <div class="layui-input-inline"> 
+                        <select name="containerId" id="containerId" lay-filter="containerId">
+        		            </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">cpu限制</label>
+                <div class="layui-input-inline" style="width:200px">  
+                    <input type="text" name="limit_cpu" placeholder="limit_cpu,eg:2 or 500m" value="" class="layui-input">
+                </div>
+                <label class="layui-form-label">内存限制</label>
+                <div class="layui-input-inline" style="width:200px">  
+                    <input type="text" name="limit_mem" placeholder="limit_mem,eg:1Gi or 200Mi" value="" class="layui-input">
+                </div> 
+            </div> 
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">cpu请求</label>
+                <div class="layui-input-inline" style="width:200px">  
+                    <input type="text" name="request_cpu" placeholder="request_cpu,eg:1 or 100m" value="" class="layui-input">
+                </div>
+                <label class="layui-form-label">内存请求</label>
+                <div class="layui-input-inline" style="width:200px">  
+                    <input type="text" name="request_mem" placeholder="request_mem,eg:200Mi or 1Gi" value="" class="layui-input">
+                </div>             
+            </div> 
+ 
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    	$(document).ready(function(){
+          //GetCurrClusterId();  
+          //GetNamespace();	
+    	});		
+</script>
+<script>
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+      var newResp = {};
+			$.ajax({
+			   url: "/xkube/deploy/v1/Resource" + location.search,
+			   type: "GET",
+			   headers:{'X-Requested-With':'XMLHttpRequest'},
+			   success: function (resp) {
+					if (resp.code == 0 ) {
+            newResp = resp;
+        		$.each(resp.data,function(i,item){
+        			if (item.containerId == 0) {
+        				var html = '<option value="'+item.containerId+'" selected="">'+item.containerName+'</option>'
+        			}else{
+        				var html = '<option value="'+item.containerId+'">'+item.containerName+'</option>'	
+        			}
+        			$("#containerId").append(html);
+        		});
+
+  				  form.val('UpdateInfo', {
+            	"limit_cpu": resp.data[0].limit_cpu
+            	,"limit_mem": resp.data[0].limit_mem
+            	,"request_cpu": resp.data[0].request_cpu
+            	,"request_mem": resp.data[0].request_mem
+  				  })
+          }else{
+            layer.msg(resp.msg,{icon:2});
+          }
+				}
+		    });	
+
+        //选择
+        form.on('select(containerId)', function(data){
+            //console.log(data.value); //得到被选中的值
+            var id = data.value
+  				  form.val('UpdateInfo', {
+            	"limit_cpu": newResp.data[id].limit_cpu
+            	,"limit_mem": newResp.data[id].limit_mem
+            	,"request_cpu": newResp.data[id].request_cpu
+            	,"request_mem": newResp.data[id].request_mem
+  				  })
+        });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+                //data.field.appname = data.field.appname.replace(/^\s*|\s*$/g,""); //替换空格
+                console.log(data.field);
+                //资源限制
+                    //console.log(data.field.limit_cpu.length);
+                if ( data.field.limit_cpu.length == 0 || data.field.limit_mem == "" || data.field.request_cpu == "" || data.field.request_cpu == "" ){
+                    layer.msg('若勾选资源限制,资源限制及所需资源都不能留空!', {icon: 2});
+                    return false
+                }
+			          layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('稍等片刻');
+                     $.ajax({
+                       url: "/xkube/deploy/v1/Resource" + location.search,
+                       type: "post",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('修改成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+    });
+</script>
+</html>

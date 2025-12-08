@@ -259,7 +259,7 @@ if (clusterId == null) {
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
             //var result = JSON.stringify(data.field);
-            data.field.nodeIp = data.field.nodeIp.replace(/^\s*|\s*$/g,"");
+            data.field.nodeIp = data.field.nodeIp.replace(/\s+/g,"");
             //执行搜索重载
             table.reload('currentTableId', {
                 page: {

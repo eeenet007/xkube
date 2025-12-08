@@ -140,10 +140,15 @@ function GetNamespace() {
 	if (clusterId == null) {
 		clusterId = getCookie("clusterId")
 	}
+	var nameSpace = getQueryString("nameSpace");
 	if(clusterId != "") {
 		$.get('/xkube/ns/v1/List?clusterId='+clusterId, function (resp) {
 			$.each(resp.data,function(i,item){
-				var html2 = '<option value="'+item.nameSpace+'">'+item.nameSpace+'</option>'
+				if (item.nameSpace == nameSpace){
+					var html2 = '<option value="'+item.nameSpace+'" selected="">'+item.nameSpace+'</option>'
+				}else{
+					var html2 = '<option value="'+item.nameSpace+'">'+item.nameSpace+'</option>'
+				}
 				$("#name_Space").append(html2);
 			});
 		    layui.use('form', function(){

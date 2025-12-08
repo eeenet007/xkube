@@ -190,9 +190,9 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                     shadeClose: true,
                     area: ['60%', '90%'],
                     content: '/page/xkube/hpaCreate.html?v=1',
-                    //end: function(){
-                    //	window.parent.location.reload();//关闭open打开的页面时，刷新父页面
-                    //}
+                    end: function(){
+                    	window.location.reload();//关闭open打开的页面时，刷新父页面
+                    }
                 });
                 $(window).on("resize", function () {
                     layer.full(index);

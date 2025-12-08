@@ -135,12 +135,12 @@
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
             //var result = JSON.stringify(data.field);
-            data.field.appname = data.field.appname.replace(/^\s*|\s*$/g,"");
+            data.field.appname = data.field.appname.replace(/\s+/g,"");
             table.reload('currentTableId', {
-                //page: {
-                //    curr: 1,
-                //    limit:50
-                //},
+                page: {
+                    curr: 1,
+                    limit:50
+                },
                 method:'POST',
                 url: '/xkube/appname/v1/List',
                 //contentType: 'application/json',
@@ -164,6 +164,9 @@
                     shadeClose: true,
                     area: ['45%', '85%'],
                     content: '/page/xkube/appnameAdd.html',
+                    end: function(){
+                    	window.location.reload();//关闭open打开的页面时，刷新父页面
+                    }
                 });
                 $(window).on("resize", function () {
                     layer.full(index);

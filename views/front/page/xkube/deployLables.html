@@ -43,7 +43,7 @@
 <script type="text/javascript">
     	$(document).ready(function(){
           //GetCurrClusterId();  
-          GetNamespace();	
+          //GetNamespace();	
     	});		
 </script>
 
@@ -71,10 +71,10 @@
                     var addTpl =
                         '<div class="layui-form-item" id="tpl-'+TplIndex+'">' +
                             '<label class="layui-form-label">标签</label>' +
-                            '<div class="layui-input-inline" style="width:250px">' +
+                            '<div class="layui-input-inline" style="width:200px">' +
                   	              '<input type="text" name="labels_key[]" id="labels_key'+TplIndex+'" placeholder="key" value="'+item.key+'" class="layui-input">' +
                             '</div>' +    
-                            '<div class="layui-input-inline" style="width:200px">' +  
+                            '<div class="layui-input-inline" style="width:160px">' +  
                                 '<input type="text" name="labels_value[]" id="labels_value'+TplIndex+'" placeholder="value" value="'+item.value+'" class="layui-input">' +
                             '</div>' +
                             '<div class="layui-input-inline">' +  
@@ -89,7 +89,7 @@
           	           //form.render('select', 'clusterId');
           	  });	        
           }else{
-            layer.msg('请重新刷新',{icon:2});
+            layer.msg(resp.msg,{icon:2});
           }
 		  });
 
@@ -100,10 +100,10 @@
           var addTpl =
               '<div class="layui-form-item" id="tpl-'+TplIndex+'">' +
                   '<label class="layui-form-label">标签</label>' +
-                  '<div class="layui-input-inline" style="width:250px">' +
+                  '<div class="layui-input-inline" style="width:200px">' +
         	              '<input type="text" name="labels_key[]" id="labels_key'+TplIndex+'" placeholder="key" value="" class="layui-input">' +
                   '</div>' +    
-                  '<div class="layui-input-inline" style="width:200px">' +  
+                  '<div class="layui-input-inline" style="width:160px">' +  
                       '<input type="text" name="labels_value[]" id="labels_value'+TplIndex+'" placeholder="value" value="" class="layui-input">' +
                   '</div>' +
                   '<div class="layui-input-inline">' +  

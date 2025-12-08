@@ -38,6 +38,27 @@
     </div>
 </div>
 </body>
+<script type="text/html" id="statusTpl">
+  {{# if (d.fav_type == 'deployment') { }}
+     <span style="color:#218868">{{d.fav_type}}</span>
+	{{# } else if (d.fav_type == 'configmap') { }}
+    <span style="color:#1E9FFF">{{d.fav_type}}</span>
+{{# }  else if (d.fav_type == 'secret') { }}
+    <span style="color:#5FB878">{{d.fav_type}}</span>
+{{# }  else if (d.fav_type == 'ingress') { }}
+    <span style="color:#2F4056">{{d.fav_type}}</span>
+{{# }  else if (d.fav_type == 'service') { }}
+    <span style="color:#FF5722">{{d.fav_type}}</span>
+{{# }  else if (d.fav_type == 'hpa') { }}
+    <span style="color:#FFB800">{{d.fav_type}}</span>
+{{# }  else if (d.fav_type == 'cronjob') { }}
+    <span style="color:#57f1c3">{{d.fav_type}}</span>
+{{# }  else if (d.fav_type == 'statefulset') { }}
+    <span style="color:#7E5AD4">{{d.fav_type}}</span>
+{{# }  else { }}
+    <span style="color:#393D49">{{d.fav_type}}</span>
+{{# } }}
+</script>	
 <script>
     layui.use(['form', 'table','miniTab'], function () {
         var $ = layui.jquery,
@@ -59,10 +80,10 @@
             cols: [[
                 //{type: "checkbox", width: 50},
                 {field:'id',width:80,sort: true, title: 'ID'},
-      		      {field:'fav_type',sort: true, title: '类型'},
-      		      {field:'cluster_id',sort: true, title: '集群ID'},
-                {field:'name_space',sort: true, title: '命名空间'},
                 {field:'fav_name',sort: true, title: '资源名称'},
+      		      {field:'fav_type',sort: true, templet: '#statusTpl',title: '类型'},
+      		      {field:'cluster_id',sort: true, title: '集群ID'},
+                {field:'name_space',sort: true, title: '命名空间'},                
                 {field:'username',sort: true,hide:true, title: '用户'},
       		      {field:'createtime',sort: true, title: '创建时间'},
                 {title: '操作', minWidth: 250, toolbar: '#currentTableBar', align: "center"}

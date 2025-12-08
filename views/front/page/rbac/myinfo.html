@@ -20,16 +20,23 @@
     <div class="layuimini-main">
       <form class="layui-form layuimini-form" action="" lay-filter="UpdateUserInfo">
             <div class="layui-form-item">
-                <label class="layui-form-label required">管理账号</label>
+                <label class="layui-form-label required">ID</label>
                 <div class="layui-input-block">
                     <input type="text" name="Id" readonly="true" placeholder="" class="layui-input layui-disabled">
                 </div>
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label required">管理账号</label>
+                <label class="layui-form-label required">用户名</label>
                 <div class="layui-input-block">
-                    <input type="text" name="Username" lay-verify="required" lay-reqtext="管理账号不能为空" placeholder="请输入管理账号"  value="admin" class="layui-input">
+                    <input type="text" name="Username" lay-verify="required" lay-reqtext="" placeholder=""  value="" class="layui-input layui-disabled">
+                    <tip>填写自己管理账号的名称。</tip>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="Nickname" lay-verify="required" lay-reqtext="姓名" placeholder=""  value="" class="layui-input">
                     <tip>填写自己管理账号的名称。</tip>
                 </div>
             </div>
@@ -45,6 +52,18 @@
                     <input type="email" name="Email"  placeholder="请输入邮箱"  value="" class="layui-input">
                 </div>
             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">公司</label>
+                <div class="layui-input-block">
+                    <input type="text" name="Company"  placeholder=""  value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">部门</label>
+                <div class="layui-input-block">
+                    <input type="text" name="Department"  placeholder=""  value="" class="layui-input">
+                </div>
+            </div>                        
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">备注信息</label>
                 <div class="layui-input-block">
@@ -76,8 +95,10 @@
 				    "Id": resp.data.Id
 				    ,"Username": resp.data.Username
 				    ,"Nickname": resp.data.Nickname
+                    ,"Telphone": resp.data.Telphone
 				    ,"Email": resp.data.Email
-				   // ,"Password": resp.data.Password
+				    ,"Company": resp.data.Company
+                    ,"Department": resp.data.Department
 				    ,"Remark": resp.data.Remark
 				   // ,"Status": resp.data.Status
 				  })
@@ -87,9 +108,10 @@
         form.on('submit(UpdateUserSubmit)', function(datas){
 			    layer.confirm('确定更改?', {icon: 3, title:'提示',yes: function(index){
                      $.ajax({
-                       url: "/rbac/user/UpdateUser",
+                       url: "/public/UpdateMyinfo",
                        type: "post",
                        data: datas.field,
+                       headers:{'X-Requested-With':'XMLHttpRequest'},
                        dataType: "json",
                        success: function (resp) {
                                  if(resp.status){

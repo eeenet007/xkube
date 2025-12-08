@@ -100,11 +100,14 @@ if (clusterId == null) {
 			//console.log(editor.getValue());
 
         $('#SaveBtn').on("click",function(){
+              var yamlBody = editor.getValue();
+              yamlBody = yamlBody.replace(/%/g,"%25");
+              yamlBody = yamlBody.replace(/;/g,"%3B");              
               layer.confirm('确定应用到集群：'+clusterId, {icon: 3, title:'提示',yes: function(index){
                  $.ajax({
                    url: "/xkube/apply/v1/ApplyYaml?clusterId="+clusterId,
                    type: "POST",
-                   data: editor.getValue(),
+                   data: yamlBody,
                    dataType: "json",
                    success: function (resp) {
                        if(resp.code == 0){

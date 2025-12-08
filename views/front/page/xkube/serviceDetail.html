@@ -21,6 +21,7 @@
             </fieldset>  
 
               <button class="layui-btn" id="EditYamlBtn">yaml编辑</button>
+              <button class="layui-btn" id="YamlBackup">yaml备份</button>
               <button class="layui-btn layui-btn-danger" id="DelBtn">删除</button>
 
               <br><br>
@@ -239,6 +240,13 @@
                     area: ['45%', '92%'],
                     content: '/page/xkube/serviceYaml.html'+location.search,
                 });
+        });
+
+        $('#YamlBackup').on("click",function(){
+              miniTab.openNewTabByIframe({
+                  href:'page/xkube/yamlBackup.html'+location.search+"&resType=service"+"&resName="+serviceName,
+                  title:serviceName+"备份",
+              }); 
         });
 
         //detai详细

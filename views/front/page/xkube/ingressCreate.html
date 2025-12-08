@@ -21,7 +21,8 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
         <form class="layui-form layui-form-pane" action="">
-
+            <input type="hidden" name="paths" readonly="true" value="" class="layui-input" disabled>
+            <input type="hidden" name="lables" readonly="true" value="" class="layui-input" disabled>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">当前集群</label>
@@ -60,9 +61,8 @@
                         <input type="text" id="ingress_path0" name="ingress_path[]" placeholder="路径" value="/" class="layui-input">
                     </div>
                     <div class="layui-input-inline" style="width:100px">  
-                        <select name="pathType[]" id="pathType0" >
-                    			<option value="" selected="">匹配规则</option>
-                    			<option value="Prefix">Prefix</option>
+                        <select name="pathType[]" id="pathType0">
+                    			<option value="Prefix" selected="">Prefix</option>
                     			<option value="Exact">Exact</option>
                     			<option value="ImplementationSpecific">ImplementationSpecific</option>
         		            </select>
@@ -71,7 +71,7 @@
                         <input type="text" id="ingress_svcName0" name="ingress_svcName[]" placeholder="服务" lay-verify="required" lay-reqtext="不能为空" value="" class="layui-input">
                     </div>
                     <div class="layui-input-inline" style="width:80px">  
-                        <input type="text" id="ingress_svcPort0" name="ingress_svcPort[]" placeholder="端口" lay-verify="required" lay-reqtext="不能为空" value="" class="layui-input">
+                        <input type="text" id="ingress_svcPort0" name="ingress_svcPort[]" placeholder="端口" value="80" class="layui-input">
                     </div>   
                     <div class="layui-input-inline" style="width:80px">  
                         <button class="layui-btn layui-btn-normal" id="ingressaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
@@ -129,20 +129,6 @@
       TplIndex--;
       $("#tpl-"+id).remove();
     }
-    //注解删除
-    //var aTplIndex = 0;
-    //function delaTpl(id) {
-    //  aTplIndex--;
-    //  $("#atpl-"+id).remove();
-    //}
-
-    //tls删除
-    var tTplIndex = 0;
-    function deltTpl(id) {
-      $("#ttpl-"+id).remove();
-      tTplIndex--;
-    }
-
     //ingress删除
     var iTplIndex = 0;
     function deliTpl(id) {
@@ -208,8 +194,7 @@ if ( compareVersions("1.20.1",clusterIdVersion) == 1 ) {
                     '</div>' +
                     '<div class="layui-input-inline" style="width:100px">' +  
                         '<select name="pathType[]" id="pathType'+iTplIndex+'">' +  
-                    			'<option value="" selected="">匹配规则</option>' +  
-                    			'<option value="Prefix">Prefix</option>' +  
+                    			'<option value="Prefix" selected="">Prefix</option>' +  
                     			'<option value="Exact">Exact</option>' +  
                     			'<option value="ImplementationSpecific">ImplementationSpecific</option>' +  
         		            '</select>' +  
@@ -218,7 +203,7 @@ if ( compareVersions("1.20.1",clusterIdVersion) == 1 ) {
                         '<input type="text" name="ingress_svcName[]" id="ingress_svcName'+iTplIndex+'" placeholder="服务" value="" class="layui-input">' +
                     '</div>' +
                     '<div class="layui-input-inline"  style="width:80px">' +  
-                        '<input type="text" name="ingress_svcPort[]" id="ingress_svcPort'+iTplIndex+'" placeholder="端口" value="" class="layui-input">' +                        
+                        '<input type="text" name="ingress_svcPort[]" id="ingress_svcPort'+iTplIndex+'" placeholder="端口" value="80" class="layui-input">' +                        
                     '</div>' +   
                     '<div class="layui-input-inline" style="width:80px">' +  
                         '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" style="width:60px" type="button" id="newDelbtn" value="&#xe616;" onclick="deliTpl('+iTplIndex+');" />' +
@@ -234,6 +219,7 @@ if ( compareVersions("1.20.1",clusterIdVersion) == 1 ) {
                 data.field.ingressName = data.field.ingressName.replace(/^\s*|\s*$/g,""); //替换空格
                 data.field.ingressHost = data.field.ingressHost.replace(/^\s*|\s*$/g,""); //替换空格
                 //lables 处理
+                console.log(TplIndex);
                 var labelsArry = [];
                 for (var i=0;i<=TplIndex;i++) {
                   //delete data.field.lables_key[i];                  
@@ -254,13 +240,14 @@ if ( compareVersions("1.20.1",clusterIdVersion) == 1 ) {
                 }
 
                 //ingress 处理
+                console.log(iTplIndex);
                 var ingressArry = [];
                 for (var i=0;i<=iTplIndex;i++) {
                   var vv = document.getElementById("ingress_path"+i).value; 
                   var tt = document.getElementById("pathType"+i).value; 
                   var ss = document.getElementById("ingress_svcName"+i).value; 
                   var pp = document.getElementById("ingress_svcPort"+i).value; 
-                  if ( kk != "" && vv != "" && tt != "" && ss != "" && pp != "") {
+                  if ( kk != "" && vv != "" && tt != "" && ss != "") {
                     ingressArry.push(
                       {
                         path:vv,

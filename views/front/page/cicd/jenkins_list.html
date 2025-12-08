@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>jenkins帐号设置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <blockquote class="layui-elem-quote layui-text">
+            帮助中心:管理Jenkins帐号
+            <a class="layui-btn" style="float:right" href="javascript:location.replace(location.href);" title="刷新">
+              <i class="layui-icon">&#xe669;</i></a>
+        </blockquote>
+        <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>       
+    </div>
+    	<!-- 弹添加框-->
+  	<div id="AddRuleInfo" style="display:none;margin: 40px 40px 40px 40px">
+          <form class="layui-form layui-form-pane" action="">
+              <div class="layui-form-item">
+                  <input type="hidden" name="id" value="" class="layui-input">
+                  <div class="layui-inline">
+                      <label class="layui-form-label required">jks名称</label>
+                      <div class="layui-input-inline"  style="width:250px">
+                          <input type="text" name="jks_id" autocomplete="off" value=""  placeholder="" class="layui-input">
+                      </div>
+                      <div class="layui-form-mid layui-font-red">* eg:dx-jenkins,被使用后不能更改</div>   
+                  </div>
+                  <div class="layui-inline">
+                      <label class="layui-form-label required">URL</label>
+                      <div class="layui-input-inline" style="width:250px">
+                          <input type="text" name="jks_url" autocomplete="off" value=""  placeholder="" class="layui-input">
+                      </div>
+                      <div class="layui-form-mid layui-font-red">* eg:http://192.168.1.100:8080</div> 
+                  </div>
+                  <div class="layui-inline">
+                      <label class="layui-form-label required">帐号</label>
+                      <div class="layui-input-inline" style="width:250px">
+                          <input type="text" name="jks_user" autocomplete="off" value=""  placeholder="" class="layui-input">
+                      </div>
+                      <div class="layui-form-mid layui-font-red">* jenkins帐号</div> 
+                  </div>
+
+                  <div class="layui-inline">
+                      <label class="layui-form-label required">密码</label>
+                      <div class="layui-input-inline" style="width:250px">
+                          <input type="text" name="jks_passwd" autocomplete="off" value=""  placeholder="" class="layui-input">
+                      </div>  
+                      <div class="layui-form-mid layui-font-red">* jenkins密码</div>                    
+                  </div>
+
+                  <div class="layui-inline">
+                      <label class="layui-form-label">备注</label>
+                      <div class="layui-input-inline" style="width:250px">
+                          <input type="text" name="remarks" autocomplete="off" class="layui-input">
+                      </div>
+                  </div>
+              </div>
+              <div class="layui-form-item">
+                  <div class="layui-inline" style="margin-left:120px">
+                      <button type="submit" class="layui-btn"  lay-submit lay-filter="Add"><i class="layui-icon">&#xe61f;</i>确认提交</button>
+                  </div>
+              </div>
+          </form>
+    </div>
+	  <!-- 弹添加框end-->       
+
+    <!-- 更新弹框-->
+  	<div id="UpdateInfo" style="display:none;margin: 40px 40px 40px 40px">
+          <form class="layui-form layui-form-pane" action=""  lay-filter="UpdateInfo">
+              <div class="layui-form-item">
+                  <input type="hidden" name="id" value="" class="layui-input" disabled>
+                  <input type="hidden" name="createtime" value="" class="layui-input" disabled>
+                  <div class="layui-inline">
+                      <label class="layui-form-label required">jks名称</label>
+                      <div class="layui-input-inline"  style="width:250px">
+                          <input type="text" name="jks_id" autocomplete="off" value=""  placeholder="" class="layui-input" disabled>
+                      </div>
+                      <div class="layui-form-mid layui-font-red">* eg:dx-jenkins,不能更改</div>   
+                  </div>
+                  <div class="layui-inline">
+                      <label class="layui-form-label required">URL</label>
+                      <div class="layui-input-inline" style="width:250px">
+                          <input type="text" name="jks_url" autocomplete="off" value=""  placeholder="" class="layui-input">
+                      </div>
+                      <div class="layui-form-mid layui-font-red">* eg:http://192.168.1.100:8080</div> 
+                  </div>
+                  <div class="layui-inline">
+                      <label class="layui-form-label required">帐号</label>
+                      <div class="layui-input-inline" style="width:250px">
+                          <input type="text" name="jks_user" autocomplete="off" value=""  placeholder="" class="layui-input">
+                      </div>
+                      <div class="layui-form-mid layui-font-red">* jenkins帐号</div> 
+                  </div>
+
+                  <div class="layui-inline">
+                      <label class="layui-form-label required">密码</label>
+                      <div class="layui-input-inline" style="width:250px">
+                          <input type="text" name="jks_passwd" autocomplete="off" value=""  placeholder="" class="layui-input">
+                      </div>  
+                      <div class="layui-form-mid layui-font-red">* jenkins密码</div>                    
+                  </div>
+
+                  <div class="layui-inline">
+                      <label class="layui-form-label">备注</label>
+                      <div class="layui-input-inline" style="width:250px">
+                          <input type="text" name="remarks" autocomplete="off" class="layui-input">
+                      </div>
+                  </div>
+              </div>
+              <div class="layui-form-item">
+                  <div class="layui-inline" style="margin-left:120px">
+                      <button type="submit" class="layui-btn"  lay-submit lay-filter="Update"><i class="layui-icon">&#xe61f;</i>确认修改</button>
+                  </div>
+              </div>
+          </form>
+	  <!-- 更新弹框end-->  
+    </div>
+</div>
+</body>
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="Add"><i class="layui-icon">&#xe61f;</i>添加jenkins</button>
+            </div>
+        </script>
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-xs layui-btn" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script> 
+
+<script>
+
+    layui.use(['form', 'table','miniTab','element'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            element = layui.element,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/cicd/v1/JksList',
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter'],
+            cols: [[
+                {field: 'id',width:60,  title: 'ID', sort: true},
+                {field: 'jks_id',title: 'jks名称'},
+                {field: 'jks_url',title: 'URL'},
+                {field: 'jks_user', title: '用户名'},
+                {field: 'jks_passwd',title: '密码', sort: true, hide:true},
+                {field: 'remarks',title: '备注',edit:'text'},
+                {field: 'createtime', title: '创建时间'},
+                {title: '操作', width:150,toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [25, 50, 100],
+            limit: 15,
+            page: true
+        });
+
+  	    table.on('toolbar(currentTableFilter)', function(obj){
+    	    //var checkStatus = table.checkStatus(obj.config.id);
+        	switch(obj.event){
+          		case 'Add':
+    					layer.open({
+                			type:1,
+    						      skin: 'layui-layer-rim',
+                			title:"添加jenkins",
+                			area: ['45%', '55%'],
+                			content:$("#AddRuleInfo"),
+                      end: function(){
+                      	window.location.reload();//关闭open打开的页面时，刷新父页面
+                      }                       
+            	});
+              form.render();	
+          		break;									
+        	};
+  	    });
+
+        form.on('submit(Add)', function (data) {
+                data.field.jks_id = data.field.jks_id.replace(/\s+/g,""); //替换空格
+                data.field.jks_url = data.field.jks_url.replace(/\s+/g,"");
+                data.field.jks_user = data.field.jks_user.replace(/\s+/g,""); 
+                data.field.jks_passwd = data.field.jks_passwd.replace(/\s+/g,""); 
+                data.field.id = Number(data.field.id);
+			          layer.confirm('确定?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行3-5s左右');
+                     $.ajax({
+                        url: "/cicd/v1/JksAdd" + location.search,
+                        type: "POST",
+                        data: JSON.stringify(data.field),
+                        dataType: "json",
+                        success: function (resp) {
+                              layer.close(index2);
+                              if(resp.code == 0){
+                                  layer.msg('成功', {icon: 1});
+                              }else{
+                                  layer.msg(resp.msg,{icon:2});
+                              }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+        form.on('submit(Update)', function (data) {
+                data.field.jks_id = data.field.jks_id.replace(/\s+/g,""); //替换空格
+                data.field.jks_url = data.field.jks_url.replace(/\s+/g,"");
+                data.field.jks_user = data.field.jks_user.replace(/\s+/g,""); 
+                data.field.jks_passwd = data.field.jks_passwd.replace(/\s+/g,""); 
+                data.field.id = Number(data.field.id);
+			          layer.confirm('确定?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行3-5s左右');
+                     $.ajax({
+                        url: "/cicd/v1/JksAdd" + location.search,
+                        type: "POST",
+                        data: JSON.stringify(data.field),
+                        dataType: "json",
+                        success: function (resp) {
+                              layer.close(index2);
+                              if(resp.code == 0){
+                                  layer.msg('成功', {icon: 1});
+                              }else{
+                                  layer.msg(resp.msg,{icon:2});
+                              }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'delete') {
+                layer.confirm('确定删除'+data.id+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('请稍等...');
+                			 $.ajax({
+                			    url: "/cicd/v1/JksDel?id="+data.id+"&aliyunId="+data.aliyun_id,
+                			    type: "get",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 //window.location.reload();
+                							 obj.del();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
+            } else if (obj.event === 'edit'){
+    				  form.val('UpdateInfo', {
+    				    "id": data.id
+                ,"jks_id": data.jks_id
+              	,"jks_url": data.jks_url
+              	,"jks_user": data.jks_user
+              	,"jks_passwd": data.jks_passwd
+              	,"remarks": data.remarks
+              	,"createtime": data.createtime
+    				  });  
+    					layer.open({
+                			type:1,
+    						      skin: 'layui-layer-rim',
+                			title:"编辑jenkins",
+                			area: ['45%', '55%'],
+                			content:$("#UpdateInfo"),
+                      end: function(){
+                      	window.location.reload();//关闭open打开的页面时，刷新父页面
+                      }                       
+            	});
+              form.render();	
+            }
+        });
+
+    });
+
+</script>
+</html>

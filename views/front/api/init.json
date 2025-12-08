@@ -22,7 +22,7 @@
           "target": "",
           "child": [
             {
-              "title": "k8s列表",
+              "title": "全部k8s",
               "href": "page/xkube/clusterList.html?v=1",
               "icon": "fa fa-list",
               "target": "_self"
@@ -242,19 +242,45 @@
               "href": "page/xkube/appnameList.html?v=1",
               "icon": "fa fa-joomla",
               "target": "_self"
-            },  
-            {
-              "title": "CICD",
-              "href": "page/cicd/cicdList.html?v=1",
-              "icon": "fa fa-gitlab",
-              "target": "_self"
-            },  
+            },   
             {
               "title": "资源克隆",
               "href": "page/xkube/clone_resource.html?v=1",
               "icon": "fa fa-clone",
               "target": "_self"
-            }   
+            },  
+            {
+              "title": "yaml备份",
+              "href": "page/xkube/yamlBackup.html?v=1",
+              "icon": "fa fa-archive",
+              "target": "_self"
+            }    
+          ]         
+        },
+        {
+          "title": "CICD",
+          "href": "",
+          "icon": "fa fa-gitlab",
+          "target": "",
+          "child": [           
+            {
+              "title": "流水线",
+              "href": "page/cicd/cicdList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "阿里云AK",
+              "href": "page/cicd/aliyun_ak_list.html",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },  
+            {
+              "title": "Jenkins设置",
+              "href": "page/cicd/jenkins_list.html",
+              "icon": "fa fa-list",
+              "target": "_self"
+            }  
           ]         
         },
         {
