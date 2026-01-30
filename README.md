@@ -64,8 +64,20 @@ source db_xkube.sql
 ### 4.启动
 > 执行命令：./xkube 
 
+# 二、docker-compose部署
 
-# 二、目录结构说明
+```
+ git clone https://gitee.com/eeenet/xkube.git 
+ cd xkube/docker-compose
+ #启动命令
+ docker-compose up -d  或者 docker compose up -d
+ #停止
+ docker-compose down 或 docker compose down
+```
+
+
+
+# 三、目录结构说明
 > 介绍各目录功能及作用
 
 |目录|功能|
