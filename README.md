@@ -6,7 +6,7 @@
 ### QQ交流群：664180281
 > 关注公众号了解xkube最新动态
 
-<img src="https://gitee.com/eeenet/xkube/raw/master/images/gongzhonghao.jpg" width="100" height="100" alt="关注公众号" title="公众号">
+<img src="https://www.eeenet.net/static/upload/2026/01/16/gongzhonghao.jpg" width="100" height="100" alt="关注公众号" title="公众号">
 
 
 # 一、快速上手
