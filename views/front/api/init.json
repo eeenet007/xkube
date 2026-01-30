@@ -10,7 +10,7 @@
   },
   "menuInfo": [
     {
-      "title": "K8S管理",
+      "title": "k8s管理",
       "icon": "fa fa-slideshare",
       "href": "",
       "target": "_self",
@@ -18,6 +18,7 @@
         {
           "title": "K8S管理",
           "href": "",
+          "menuChildOpen": "true",
           "icon": "fa fa-home",
           "target": "",
           "child": [
@@ -48,7 +49,7 @@
           "target": "",
           "child": [
             {
-              "title": "节点池[nodePool]",
+              "title": "节点池",
               "href": "page/xkube/nodepoolList.html?v=1",
               "icon": "fa fa-list",
               "target": "_self"
@@ -56,45 +57,57 @@
             {
               "title": "节点[node]",
               "href": "page/xkube/nodeList.html?v=1",
-              "icon": "fa fa-list",
+              "icon": "fa fa-server",
               "target": "_self"
             },
             {
               "title": "命名空间[ns]",
               "href": "page/xkube/namespaceList.html?v=1",
-              "icon": "fa fa-list",
+              "icon": "fa fa-columns",
               "target": "_self"
             },
             {
-              "title": "ClusterRoleBinding",
+              "title": "podTop指标",
+              "href": "page/xkube/topPodMetric.html?v=1",
+              "icon": "fa fa-bar-chart",
+              "target": "_self"
+            },
+            {
+              "title": "集群角色绑定",
               "href": "page/xkube/clusterRoleBindingList.html?v=1",
               "icon": "fa fa-list",
               "target": "_self"
             },
             {
-              "title": "ClusterRoles",
+              "title": "集群角色",
               "href": "page/xkube/clusterRolesList.html?v=1",
               "icon": "fa fa-list",
               "target": "_self"
             },
             {
-              "title": "RoleBinding",
+              "title": "角色绑定",
               "href": "page/xkube/roleBindingList.html?v=1",
               "icon": "fa fa-list",
               "target": "_self"
             },
             {
-              "title": "Roles",
+              "title": "角色",
               "href": "page/xkube/rolesList.html?v=1",
               "icon": "fa fa-list",
               "target": "_self"
             },
             {
-              "title": "ServiceAccounts",
+              "title": "服务帐号",
               "href": "page/xkube/serviceAccountsList.html?v=1",
               "icon": "fa fa-list",
               "target": "_self"
-            }  
+            },
+            {
+              "title": "事件中心",
+              "href": "page/xkube/eventList.html?v=1",
+              "icon": "fa fa-info-circle",
+              "target": "_self"
+            } 			
           ]         
         },
         {
@@ -124,7 +137,7 @@
             {
               "title": "任务[job]",
               "href": "page/xkube/jobList.html?v=1",
-              "icon": "fa fa-list-alt",
+              "icon": "fa fa-tasks",
               "target": "_self"
             },          
             {
@@ -152,7 +165,7 @@
               "target": "_self"
             },
             {
-              "title": "applyYaml",
+              "title": "应用配置[apply]",
               "href": "page/xkube/apply_yaml.html?v=1",
               "icon": "fa fa-plus-square-o",
               "target": "_self"
@@ -176,9 +189,53 @@
               "href": "page/xkube/ingressList.html?v=1",
               "icon": "fa fa-object-group",
               "target": "_self"
-            }           
+            }                      
           ]         
         },
+        {
+          "title": "网关管理",
+          "href": "",
+          "icon": "fa fa-skyatlas",
+          "target": "",
+          "child": [
+          {
+            "title": "控制器[gc]",
+            "href": "page/xkube/gatewayclassList.html",
+            "icon": "fa fa-list-alt",
+            "target": "_self"
+          },            
+          {
+            "title": "网关[gtw]",
+            "href": "page/xkube/gatewayList.html",
+            "icon": "fa fa-list-alt",
+            "target": "_self"
+          },            
+          {
+            "title": "http路由",
+            "href": "page/xkube/httprouteList.html",
+            "icon": "fa fa-list-alt",
+            "target": "_self"
+          },            
+          {
+            "title": "grpc路由",
+            "href": "page/xkube/grpcrouteList.html",
+            "icon": "fa fa-list-alt",
+            "target": "_self"
+          },            
+          {
+            "title": "tcp路由",
+            "href": "page/xkube/tcprouteList.html",
+            "icon": "fa fa-list-alt",
+            "target": "_self"
+          },
+          {
+            "title": "udp路由",
+            "href": "page/xkube/udprouteList.html",
+            "icon": "fa fa-list-alt",
+            "target": "_self"
+          }                    
+          ]
+        },         
         {
           "title": "配置管理",
           "href": "",
@@ -192,7 +249,7 @@
               "target": "_self"
             },          
             {
-              "title": "保密字典[secret]",
+              "title": "加密字典[secret]",
               "href": "page/xkube/secretList.html?v=1",
               "icon": "fa fa-expeditedssl",
               "target": "_self"
@@ -218,25 +275,27 @@
               "target": "_self"
             },          
             {
-              "title": "存储类[storageclass]",
+              "title": "存储类",
               "href": "page/xkube/storageclassList.html?v=1",
               "icon": "fa fa-indent",
               "target": "_self"
             }           
           ]         
-        },
+        }                                                                    
+      ]
+    },
+    {
+      "title": "运维管理",
+      "icon": "fa fa-slideshare",
+      "href": "",
+      "target": "_self",
+      "child": [
         {
           "title": "运维管理",
           "href": "",
           "icon": "fa fa-linux",
           "target": "",
-          "child": [
-            {
-              "title": "事件中心",
-              "href": "page/xkube/eventList.html?v=1",
-              "icon": "fa fa-info-circle",
-              "target": "_self"
-            },          
+          "child": [         
             {
               "title": "应用集",
               "href": "page/xkube/appnameList.html?v=1",
@@ -250,7 +309,7 @@
               "target": "_self"
             },  
             {
-              "title": "yaml备份",
+              "title": "k8s备份管理",
               "href": "page/xkube/yamlBackup.html?v=1",
               "icon": "fa fa-archive",
               "target": "_self"
@@ -258,13 +317,13 @@
           ]         
         },
         {
-          "title": "CICD",
+          "title": "构建发布",
           "href": "",
           "icon": "fa fa-gitlab",
           "target": "",
           "child": [           
             {
-              "title": "流水线",
+              "title": "代码发布",
               "href": "page/cicd/cicdList.html?v=1",
               "icon": "fa fa-list",
               "target": "_self"
@@ -346,14 +405,14 @@
               "target": "_self"
             },          
             {
-              "title": "文章列表",
+              "title": "文档列表",
               "href": "page/wiki/list.html?v=1",
               "icon": "fa fa-list",
               "target": "_self"
             }    
           ]         
-        }                                                             
+        }
       ]
-    }
+    }     
   ]
 }

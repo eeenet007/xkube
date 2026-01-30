@@ -6,11 +6,11 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
-    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
     <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
 
     <style>
@@ -228,7 +228,7 @@ if (clusterId == null) {
 	clusterId = getCookie("clusterId")
 }
 
-    layui.use(['layer','table', 'miniTab'], function () {
+    layui.use(['layer','table','i18n', 'miniTab'], function () {
         var $ = layui.jquery,
             layer = layui.layer,
             table = layui.table,
@@ -238,6 +238,10 @@ if (clusterId == null) {
 
         miniTab.listen();
         $('#myclusterid').html(clusterId);
+
+        //i18n.set({
+        //  messages: xkLang
+        //});
 
         if ( clusterId == "" || clusterId == null ) {
         		layer.msg('先设置常用集群',{icon:0,time:2000},function(){
@@ -285,14 +289,14 @@ if (clusterId == null) {
             //totalRow: true,
             cols: [[
                 //{type: 'checkbox', width:80, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'},
-                {field: 'clusterId', title: '集群id', sort: true},
-                {field: 'node', title: '节点数', sort: true, totalRow: true},
-                {field: 'deploy',  title: 'deploy数', sort: true, totalRow: true},
-                {field: 'pod',  title: 'pod数', sort: true, totalRow: true},
-                {field: 'service',  title: 'service数', sort: true, totalRow: true},
-                {field: 'cronjob',  title: 'cronjob数', sort: true, totalRow: true},
-                {field: 'configmap',  title: 'configmap数', sort: true, totalRow: true},
-                {field: 'secret',  title: 'secret数', sort: true, totalRow: true}
+                {field: 'clusterId', title: 'clusterId', sort: true},
+                {field: 'node', title: 'node', sort: true, totalRow: true},
+                {field: 'deploy',  title: 'deploy', sort: true, totalRow: true},
+                {field: 'pod',  title: 'pod', sort: true, totalRow: true},
+                {field: 'service',  title: 'service', sort: true, totalRow: true},
+                {field: 'cronjob',  title: 'cronjob', sort: true, totalRow: true},
+                {field: 'configmap',  title: 'configmap', sort: true, totalRow: true},
+                {field: 'secret',  title: 'secret', sort: true, totalRow: true}
             ]],
             limit: 25,
             done: function (res, curr, count) {

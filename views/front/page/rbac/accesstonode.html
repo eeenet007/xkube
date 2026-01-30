@@ -11,8 +11,8 @@
 	
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/static/xadmin/css/font.css">
-	<link rel="stylesheet" href="/static/xadmin/css/xadmin.css">
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	  <link rel="stylesheet" href="/static/xadmin/css/xadmin.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script src="/static/xadmin/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="/static/xadmin/js/xadmin.js"></script>
 	
@@ -68,16 +68,16 @@
             treePidName: 'Pid',
             elem: '#auth-table',
             url: '/rbac/role/AccessToNode?Id=1',
-			headers: {'X-Requested-With':'XMLHttpRequest'},
+			      headers: {'X-Requested-With':'XMLHttpRequest'},
             page: false,
             cols: [[
-			    {type: 'checkbox'},
+			          {type: 'checkbox'},
                 {field: 'Id', width: 60,title: 'ID'},
                 {field: 'Title', minWidth: 200, title: '显示名'},
                 {field: 'Name', title: '应用名'},
-				{field: 'Status', title: '状态'},
+				        {field: 'Status', title: '状态'},
                 {field: 'Group__Id', title: '分组'},
-				{field: 'Remark', title: '描述'},
+				        {field: 'Remark', title: '描述'},
                 {
                     field: 'isMenu', width: 80, align: 'center', templet: function (d) {
                         if (d.isMenu == 1) {
@@ -132,7 +132,7 @@
     <script>
       layui.use(['form','table','laydate'], function(){
         var laydate = layui.laydate;
-		var table = layui.table;
+		    var table = layui.table;
         var form=layui.form;
         
         //执行一个laydate实例

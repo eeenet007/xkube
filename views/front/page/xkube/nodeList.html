@@ -6,10 +6,9 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
     <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
 
@@ -41,6 +40,14 @@
   width: 0;
 }
  
+.progress-bar-red {
+  height: 20px;
+  background-color: #ff5722;
+  border-radius: 4px;
+  transition: width 0.5s ease-in-out;
+  position: relative;
+  width: 0;
+}
 .progress-bar-text {
   position: absolute;
   color: white;
@@ -104,13 +111,6 @@
     </div>
 </div>
 </body>
-<script type="text/javascript">
-    	$(document).ready(function(){
-          GetCurrClusterId();  
-          //GetNamespace();	
-    	});		
-</script>
-
 
 <script type="text/html" id="nodeInfoTpl">
     {{# layui.each(d.nodeInfo.split(','), function(index, item){ }}
@@ -154,9 +154,15 @@
   {{#    width = d.cpuUsage  }}
   {{# } }}     
   <div class="progress-bar-container">
-    <div class="progress-bar" style="width:{{ width }}%;">
-      <div class="progress-bar-text">{{ d.cpuUsage }}%</div>
-    </div>
+    {{# if( parseInt(d.cpuUsage) > 85 ) { }}
+      <div class="progress-bar-red" style="width:{{ width }}%;">
+        <div class="progress-bar-text">{{ d.cpuUsage }}%</div>
+      </div>
+    {{# }else{ }}
+      <div class="progress-bar" style="width:{{ width }}%;">
+        <div class="progress-bar-text">{{ d.cpuUsage }}%</div>
+      </div>
+    {{# } }} 
   </div>      
 </script>	
 
@@ -168,16 +174,20 @@
   {{#    width = d.memUsage  }}
   {{# } }}     
   <div class="progress-bar-container">
-    <div class="progress-bar" style="width:{{ width }}%;">
-      <div class="progress-bar-text">{{ d.memUsage }}%</div>
-    </div>
+    {{# if( parseInt(d.memUsage) > 90 ) { }}
+      <div class="progress-bar-red" style="width:{{ width }}%;">
+        <div class="progress-bar-text">{{ d.memUsage }}%</div>
+      </div>
+    {{# }else{ }}
+      <div class="progress-bar" style="width:{{ width }}%;">
+        <div class="progress-bar-text">{{ d.memUsage }}%</div>
+      </div>
+    {{# } }} 
   </div>      
 </script>	
 
 <script>
 
-//设置默认集群
-SetDefaultCluster();
 var clusterId = getQueryString("clusterId");
 if (clusterId == null) {
 	clusterId = getCookie("clusterId")
@@ -189,6 +199,10 @@ if (clusterId == null) {
             table = layui.table;
             miniTab = layui.miniTab,
             miniTab.listen();
+
+      	$(document).ready(function(){
+            GetCurrClusterId();  
+      	});	
 
         //选择集群
         form.on('select(cluster_Id)', function(data){

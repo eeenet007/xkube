@@ -2,22 +2,21 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>deploy列表</title>
+    <title>deployment</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
     <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
 
 <style type="text/css">
   .layui-table-cell {
     height: auto;
-    max-height: 200px;
-    line-height: 15px !important;
+    max-height: 230px;
+    line-height: 20px !important;
     text-overflow: inherit;
     /* overflow: hidden; */
     overflow: ellipsis;
@@ -92,7 +91,7 @@
   {{#      clusterId = getCookie("clusterId") }}
   {{#  } }}
     <a href="javascript:;" layuimini-content-href="page/xkube/deployDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&deployName={{d.deployName}}" data-title="{{ d.deployName }}详情" class="layui-btn layui-btn-sm">详情</a>
-    <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="viewYaml">编辑</a>
+    <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="viewYaml">yaml</a>
     <a class="layui-btn layui-btn-sm layui-btn-warm" lay-event="restart">重启</a>
     <br>
     <div>&nbsp;</div>
@@ -100,14 +99,6 @@
     <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="addFav">收藏</a>
     <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
 </script>
-
-<script type="text/javascript">
-    	$(document).ready(function(){
-          GetCurrClusterId();  
-          GetNamespace();	
-    	});		
-</script>
-
 <script type="text/html" id="TagTpl">
     {{# if (d.labels != "") { }}
             {{# layui.each(d.labels.split(','), function(index, item){ }}
@@ -121,9 +112,28 @@
             <span></span>
     {{# } }}
 </script>	
+<script type="text/html" id="TagTpl2">
+    {{# if (d.labels != "") { }}
+            {{# layui.each(d.labels.split(','), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span style="line-height:30px;padding:4px; border: 1px solid #e2e2e2; color:#2F4056;border-radius:3px;">{{ item }}</span>
+                {{# }else{ }}
+                        <br><span style="line-height:30px;padding:4px; border: 1px solid #e2e2e2; color:#2F4056;border-radius:3px;">{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+<script type="text/html" id="podNumberTpl">
+  {{# if ( d.replicas == d.availableReplicas ) { }}
+     <span class="layui-btn layui-btn-primary layui-border-green layui-btn-sm" >{{ d.podNumber}}</span>
+	{{# } else { }}
+    <span class="layui-btn layui-btn-primary layui-border-red layui-btn-sm" >{{ d.podNumber}}</span>
+{{# } }}
+</script>
 <script>
-//设置默认集群
-SetDefaultCluster();
+
 var clusterId = getQueryString("clusterId");
 if (clusterId == null) {
 	clusterId = getCookie("clusterId")
@@ -136,6 +146,11 @@ if (clusterId == null) {
             miniTab.listen();
 
             form.render();
+
+        $(document).ready(function(){
+              GetCurrClusterId();  
+              GetNamespace();	
+        });	
 
         //选择集群
         form.on('select(cluster_Id)', function(data){
@@ -192,12 +207,12 @@ if (clusterId == null) {
                 //{type: "checkbox"},
                 {field: 'deployName',title: '名称'},
                 {field: 'nameSpace',title: '命名空间', sort: true},
-                {field: 'podNumber',title: '容器', sort: true},
-                {field: 'imageUrl', title: '镜像', sort: true},
-                {field: 'labes',title: '标签', sort: true,templet: '#TagTpl'},
+                {field: 'podNumber',width: 100,title: '容器', sort: true,templet: '#podNumberTpl'},
+                {field: 'imageUrl',minWidth: 240,title: '镜像', sort: true},
+                {field: 'labes',minWidth: 360,title: '标签',sort: true,templet: '#TagTpl2'},
                 {field: 'createTime',title: '创建时间'},
                 {field: 'updateTime',title: '更新时间', hide:true},
-                {title: '操作', minWidth: 320, toolbar: '#currentTableBar', align: "center"}
+                {title: '操作', minWidth: 220, toolbar: '#currentTableBar', align: "center"}
             ]],
             //size:'lg',
             limits: [25, 50, 100],
@@ -244,7 +259,7 @@ if (clusterId == null) {
                     area: ['60%', '90%'],
                     content: '/page/xkube/deployCreate.html',
                     end: function(){
-                    	window.parent.reload();
+                    	window.location.reload();
                     }
                 });
                 $(window).on("resize", function () {
@@ -258,10 +273,10 @@ if (clusterId == null) {
                     maxmin:true,
                     shadeClose: true,
                     area: ['60%', '95%'],
-                    content: '/page/xkube/create_by_yaml.html'
-                    //end: function(){
-                    //	window.parent.location.reload();//关闭open打开的页面时，刷新父页面
-                    //}
+                    content: '/page/xkube/create_by_yaml.html',
+                    end: function(){
+                    	window.location.reload();//关闭open打开的页面时，刷新父页面
+                    }
                 });
                 $(window).on("resize", function () {
                     layer.full(index);
@@ -273,12 +288,12 @@ if (clusterId == null) {
             var data = obj.data;
             if (obj.event === 'viewYaml') {
                 var index = layer.open({
-                    title: 'yaml',
+                    title: data.deployName+' 编辑yaml',
                     type: 2,
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['45%', '92%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/deployYaml.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&deployName='+data.deployName,
                 });
                 $(window).on("resize", function () {
@@ -356,7 +371,6 @@ if (clusterId == null) {
               		   });		  	                 
             }
         });
-
 
     });
 </script>

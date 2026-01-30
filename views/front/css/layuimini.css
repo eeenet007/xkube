@@ -355,6 +355,7 @@
 
 .layuimini-menu-left .layui-nav .layui-nav-more {
     right: 15px;
+    top: 20px;
 }
 
 .layuimini-menu-left .layui-nav .layui-nav-item a:hover {
@@ -664,6 +665,11 @@
 .popup-tips.layui-layer-tips .layui-layer-content{
     padding: 0;
 }
+
+.popup-tips.layui-layer-tips .layui-layer-content >ul li a i.layui-icon.layui-icon-down.layui-nav-more {
+   top:20px;
+}
+
 .popup-tips .layui-nav-tree{
     width: 150px;
     border-radius: 10px;

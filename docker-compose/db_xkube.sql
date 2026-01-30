@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80043
 File Encoding         : 65001
 
-Date: 2025-12-07 18:18:04
+Date: 2026-01-28 12:18:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,8 +22,8 @@ SET NAMES utf8mb4;
 DROP TABLE IF EXISTS `group`;
 CREATE TABLE `group` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL DEFAULT '',
-  `title` varchar(100) NOT NULL DEFAULT '',
+  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
+  `title` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
   `status` int NOT NULL DEFAULT '2',
   `sort` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
@@ -55,7 +55,7 @@ CREATE TABLE `node` (
   `status` int NOT NULL DEFAULT '2',
   `group_id` bigint NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=314 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=380 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Records of node
@@ -367,6 +367,71 @@ INSERT INTO `node` VALUES ('310', '读取标签', 'v1/GetLabels', '3', '49', '',
 INSERT INTO `node` VALUES ('311', '更新标签', 'v1/UpdateLabels', '3', '49', '', '0', '', '2', '3');
 INSERT INTO `node` VALUES ('312', '读取污点', 'v1/GetTaint', '3', '49', '', '0', '', '2', '3');
 INSERT INTO `node` VALUES ('313', '更新污点', 'v1/UpdateTaint', '3', '49', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('314', '网关类', 'gatewayclass', '2', '34', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('315', '网关', 'gateway', '2', '34', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('316', 'http路由', 'httproute', '2', '34', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('317', 'grpc路由', 'grpcroute', '2', '34', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('318', 'tcp路由', 'tcproute', '2', '34', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('319', 'udp路由', 'udproute', '2', '34', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('320', '列表', 'v1/List', '3', '314', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('321', '详情', 'v1/Detail', '3', '314', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('322', 'yaml', 'v1/Yaml', '3', '314', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('323', '列表', 'v1/List', '3', '315', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('324', '详情', 'v1/Detail', '3', '315', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('325', 'yaml查看', 'v1/Yaml', '3', '315', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('326', '删除', 'v1/Delete', '3', '315', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('327', '创建', 'v1/Create', '3', '315', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('328', '更新yaml', 'v1/UpdateByYaml', '3', '315', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('329', '列表', 'v1/List', '3', '316', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('330', '详情', 'v1/Detail', '3', '316', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('331', 'yaml查看', 'v1/Yaml', '3', '316', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('332', '删除', 'v1/Delete', '3', '316', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('333', '创建', 'v1/Create', '3', '316', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('334', '更新yaml', 'v1/UpdateByYaml', '3', '316', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('335', '列表', 'v1/List', '3', '317', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('336', '详情', 'v1/Detail', '3', '317', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('337', 'yaml查看', 'v1/Yaml', '3', '317', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('338', '删除', 'v1/Delete', '3', '317', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('339', '创建', 'v1/Create', '3', '317', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('340', '更新yaml', 'v1/UpdateByYaml', '3', '317', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('341', '列表', 'v1/List', '3', '318', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('342', '详情', 'v1/Detail', '3', '318', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('343', 'yaml查看', 'v1/Yaml', '3', '318', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('344', '删除', 'v1/Delete', '3', '318', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('345', '创建', 'v1/Create', '3', '318', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('346', 'yaml更新', 'v1/UpdateByYaml', '3', '318', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('347', '列表', 'v1/List', '3', '319', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('348', '详情', 'v1/Detail', '3', '319', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('349', 'yaml更新', 'v1/Yaml', '3', '319', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('350', '删除', 'v1/Delete', '3', '319', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('351', '创建', 'v1/Create', '3', '319', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('352', '更新yaml', 'v1/UpdateByYaml', '3', '319', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('353', 'pod容忍', 'v1/GetTolerations', '3', '35', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('354', '容忍更新', 'v1/UpdateTolerations', '3', '35', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('355', '节点亲和', 'v1/GetNodeAffinity', '3', '35', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('356', '更新节点亲和', 'v1/UpdateNodeAffinity', '3', '35', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('357', 'pod亲和', 'v1/GetPodAffinity', '3', '35', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('358', 'pod亲和更新', 'v1/UpdatePodAffinity', '3', '35', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('359', 'host更新', 'v1/UpdateHost', '3', '35', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('360', '资源限制更新', 'v1/UpdateResource', '3', '35', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('361', '探针更新', 'v1/UpdateProbe', '3', '35', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('362', '变量更新', 'v1/UpdateEnv', '3', '35', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('363', '生存周期更新', 'v1/UpdateLifecycle', '3', '35', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('364', '节点资源分配', 'v1/GetAllocated', '3', '49', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('366', 'yaml更新', 'v1/ModifyByYaml', '3', '43', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('367', 'yaml更新', 'v1/ModifyByYaml', '3', '41', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('368', '读取host', 'v1/GetHost', '3', '39', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('369', '更新host', 'v1/UpdateHost', '3', '39', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('370', '读取变量', 'v1/GetEnv', '3', '39', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('371', '更新变量', 'v1/UpdateEnv', '3', '39', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('372', '读取探针', 'v1/GetProbe', '3', '39', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('373', '更新探针', 'v1/UpdateProbe', '3', '39', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('374', '读取资源限制', 'v1/GetResource', '3', '39', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('375', '更新资源限制', 'v1/UpdateResource', '3', '39', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('376', '读取生存周期', 'v1/GetLifecycle', '3', '39', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('377', '更新生存周期', 'v1/UpdateLifecycle', '3', '39', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('378', '读取节点亲和', 'v1/GetNodeAffinity', '3', '39', '', '0', '', '2', '3');
+INSERT INTO `node` VALUES ('379', '更新节点亲和', 'v1/UpdateNodeAffinity', '3', '39', '', '0', '', '2', '3');
 
 -- ----------------------------
 -- Table structure for node_roles
@@ -377,7 +442,7 @@ CREATE TABLE `node_roles` (
   `node_id` bigint NOT NULL,
   `role_id` bigint NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1082 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1292 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Records of node_roles
@@ -1292,6 +1357,216 @@ INSERT INTO `node_roles` VALUES ('1078', '309', '7');
 INSERT INTO `node_roles` VALUES ('1079', '311', '7');
 INSERT INTO `node_roles` VALUES ('1080', '313', '7');
 INSERT INTO `node_roles` VALUES ('1081', '49', '7');
+INSERT INTO `node_roles` VALUES ('1082', '316', '9');
+INSERT INTO `node_roles` VALUES ('1083', '332', '9');
+INSERT INTO `node_roles` VALUES ('1084', '317', '9');
+INSERT INTO `node_roles` VALUES ('1085', '338', '9');
+INSERT INTO `node_roles` VALUES ('1086', '318', '9');
+INSERT INTO `node_roles` VALUES ('1087', '344', '9');
+INSERT INTO `node_roles` VALUES ('1088', '319', '9');
+INSERT INTO `node_roles` VALUES ('1089', '350', '9');
+INSERT INTO `node_roles` VALUES ('1090', '315', '8');
+INSERT INTO `node_roles` VALUES ('1091', '327', '8');
+INSERT INTO `node_roles` VALUES ('1092', '316', '8');
+INSERT INTO `node_roles` VALUES ('1093', '333', '8');
+INSERT INTO `node_roles` VALUES ('1094', '317', '8');
+INSERT INTO `node_roles` VALUES ('1095', '339', '8');
+INSERT INTO `node_roles` VALUES ('1096', '318', '8');
+INSERT INTO `node_roles` VALUES ('1097', '345', '8');
+INSERT INTO `node_roles` VALUES ('1098', '319', '8');
+INSERT INTO `node_roles` VALUES ('1099', '351', '8');
+INSERT INTO `node_roles` VALUES ('1100', '354', '7');
+INSERT INTO `node_roles` VALUES ('1101', '356', '7');
+INSERT INTO `node_roles` VALUES ('1102', '358', '7');
+INSERT INTO `node_roles` VALUES ('1103', '359', '7');
+INSERT INTO `node_roles` VALUES ('1104', '360', '7');
+INSERT INTO `node_roles` VALUES ('1105', '361', '7');
+INSERT INTO `node_roles` VALUES ('1106', '362', '7');
+INSERT INTO `node_roles` VALUES ('1107', '363', '7');
+INSERT INTO `node_roles` VALUES ('1108', '369', '7');
+INSERT INTO `node_roles` VALUES ('1109', '371', '7');
+INSERT INTO `node_roles` VALUES ('1110', '373', '7');
+INSERT INTO `node_roles` VALUES ('1111', '375', '7');
+INSERT INTO `node_roles` VALUES ('1112', '377', '7');
+INSERT INTO `node_roles` VALUES ('1113', '379', '7');
+INSERT INTO `node_roles` VALUES ('1114', '367', '7');
+INSERT INTO `node_roles` VALUES ('1115', '366', '7');
+INSERT INTO `node_roles` VALUES ('1116', '315', '7');
+INSERT INTO `node_roles` VALUES ('1117', '328', '7');
+INSERT INTO `node_roles` VALUES ('1118', '316', '7');
+INSERT INTO `node_roles` VALUES ('1119', '334', '7');
+INSERT INTO `node_roles` VALUES ('1120', '317', '7');
+INSERT INTO `node_roles` VALUES ('1121', '340', '7');
+INSERT INTO `node_roles` VALUES ('1122', '318', '7');
+INSERT INTO `node_roles` VALUES ('1123', '346', '7');
+INSERT INTO `node_roles` VALUES ('1124', '319', '7');
+INSERT INTO `node_roles` VALUES ('1125', '352', '7');
+INSERT INTO `node_roles` VALUES ('1126', '43', '7');
+INSERT INTO `node_roles` VALUES ('1127', '353', '6');
+INSERT INTO `node_roles` VALUES ('1128', '355', '6');
+INSERT INTO `node_roles` VALUES ('1129', '357', '6');
+INSERT INTO `node_roles` VALUES ('1130', '368', '6');
+INSERT INTO `node_roles` VALUES ('1131', '370', '6');
+INSERT INTO `node_roles` VALUES ('1132', '372', '6');
+INSERT INTO `node_roles` VALUES ('1133', '374', '6');
+INSERT INTO `node_roles` VALUES ('1134', '376', '6');
+INSERT INTO `node_roles` VALUES ('1135', '378', '6');
+INSERT INTO `node_roles` VALUES ('1136', '364', '6');
+INSERT INTO `node_roles` VALUES ('1137', '314', '6');
+INSERT INTO `node_roles` VALUES ('1138', '320', '6');
+INSERT INTO `node_roles` VALUES ('1139', '321', '6');
+INSERT INTO `node_roles` VALUES ('1140', '322', '6');
+INSERT INTO `node_roles` VALUES ('1141', '315', '6');
+INSERT INTO `node_roles` VALUES ('1142', '323', '6');
+INSERT INTO `node_roles` VALUES ('1143', '324', '6');
+INSERT INTO `node_roles` VALUES ('1144', '325', '6');
+INSERT INTO `node_roles` VALUES ('1145', '316', '6');
+INSERT INTO `node_roles` VALUES ('1146', '329', '6');
+INSERT INTO `node_roles` VALUES ('1147', '330', '6');
+INSERT INTO `node_roles` VALUES ('1148', '331', '6');
+INSERT INTO `node_roles` VALUES ('1149', '317', '6');
+INSERT INTO `node_roles` VALUES ('1150', '335', '6');
+INSERT INTO `node_roles` VALUES ('1151', '336', '6');
+INSERT INTO `node_roles` VALUES ('1152', '337', '6');
+INSERT INTO `node_roles` VALUES ('1153', '318', '6');
+INSERT INTO `node_roles` VALUES ('1154', '341', '6');
+INSERT INTO `node_roles` VALUES ('1155', '342', '6');
+INSERT INTO `node_roles` VALUES ('1156', '343', '6');
+INSERT INTO `node_roles` VALUES ('1157', '319', '6');
+INSERT INTO `node_roles` VALUES ('1158', '347', '6');
+INSERT INTO `node_roles` VALUES ('1159', '348', '6');
+INSERT INTO `node_roles` VALUES ('1160', '349', '6');
+INSERT INTO `node_roles` VALUES ('1161', '353', '5');
+INSERT INTO `node_roles` VALUES ('1162', '354', '5');
+INSERT INTO `node_roles` VALUES ('1163', '355', '5');
+INSERT INTO `node_roles` VALUES ('1164', '356', '5');
+INSERT INTO `node_roles` VALUES ('1165', '357', '5');
+INSERT INTO `node_roles` VALUES ('1166', '358', '5');
+INSERT INTO `node_roles` VALUES ('1167', '359', '5');
+INSERT INTO `node_roles` VALUES ('1168', '360', '5');
+INSERT INTO `node_roles` VALUES ('1169', '361', '5');
+INSERT INTO `node_roles` VALUES ('1170', '362', '5');
+INSERT INTO `node_roles` VALUES ('1171', '363', '5');
+INSERT INTO `node_roles` VALUES ('1172', '368', '5');
+INSERT INTO `node_roles` VALUES ('1173', '369', '5');
+INSERT INTO `node_roles` VALUES ('1174', '370', '5');
+INSERT INTO `node_roles` VALUES ('1175', '371', '5');
+INSERT INTO `node_roles` VALUES ('1176', '372', '5');
+INSERT INTO `node_roles` VALUES ('1177', '373', '5');
+INSERT INTO `node_roles` VALUES ('1178', '374', '5');
+INSERT INTO `node_roles` VALUES ('1179', '375', '5');
+INSERT INTO `node_roles` VALUES ('1180', '376', '5');
+INSERT INTO `node_roles` VALUES ('1181', '377', '5');
+INSERT INTO `node_roles` VALUES ('1182', '378', '5');
+INSERT INTO `node_roles` VALUES ('1183', '379', '5');
+INSERT INTO `node_roles` VALUES ('1184', '367', '5');
+INSERT INTO `node_roles` VALUES ('1185', '366', '5');
+INSERT INTO `node_roles` VALUES ('1186', '364', '5');
+INSERT INTO `node_roles` VALUES ('1187', '314', '5');
+INSERT INTO `node_roles` VALUES ('1188', '320', '5');
+INSERT INTO `node_roles` VALUES ('1189', '321', '5');
+INSERT INTO `node_roles` VALUES ('1190', '322', '5');
+INSERT INTO `node_roles` VALUES ('1191', '315', '5');
+INSERT INTO `node_roles` VALUES ('1192', '323', '5');
+INSERT INTO `node_roles` VALUES ('1193', '324', '5');
+INSERT INTO `node_roles` VALUES ('1194', '325', '5');
+INSERT INTO `node_roles` VALUES ('1195', '326', '5');
+INSERT INTO `node_roles` VALUES ('1196', '327', '5');
+INSERT INTO `node_roles` VALUES ('1197', '328', '5');
+INSERT INTO `node_roles` VALUES ('1198', '316', '5');
+INSERT INTO `node_roles` VALUES ('1199', '329', '5');
+INSERT INTO `node_roles` VALUES ('1200', '330', '5');
+INSERT INTO `node_roles` VALUES ('1201', '331', '5');
+INSERT INTO `node_roles` VALUES ('1202', '332', '5');
+INSERT INTO `node_roles` VALUES ('1203', '333', '5');
+INSERT INTO `node_roles` VALUES ('1204', '334', '5');
+INSERT INTO `node_roles` VALUES ('1205', '317', '5');
+INSERT INTO `node_roles` VALUES ('1206', '335', '5');
+INSERT INTO `node_roles` VALUES ('1207', '336', '5');
+INSERT INTO `node_roles` VALUES ('1208', '337', '5');
+INSERT INTO `node_roles` VALUES ('1209', '338', '5');
+INSERT INTO `node_roles` VALUES ('1210', '339', '5');
+INSERT INTO `node_roles` VALUES ('1211', '340', '5');
+INSERT INTO `node_roles` VALUES ('1212', '318', '5');
+INSERT INTO `node_roles` VALUES ('1213', '341', '5');
+INSERT INTO `node_roles` VALUES ('1214', '342', '5');
+INSERT INTO `node_roles` VALUES ('1215', '343', '5');
+INSERT INTO `node_roles` VALUES ('1216', '344', '5');
+INSERT INTO `node_roles` VALUES ('1217', '345', '5');
+INSERT INTO `node_roles` VALUES ('1218', '346', '5');
+INSERT INTO `node_roles` VALUES ('1219', '319', '5');
+INSERT INTO `node_roles` VALUES ('1220', '347', '5');
+INSERT INTO `node_roles` VALUES ('1221', '348', '5');
+INSERT INTO `node_roles` VALUES ('1222', '349', '5');
+INSERT INTO `node_roles` VALUES ('1223', '350', '5');
+INSERT INTO `node_roles` VALUES ('1224', '351', '5');
+INSERT INTO `node_roles` VALUES ('1225', '352', '5');
+INSERT INTO `node_roles` VALUES ('1226', '353', '4');
+INSERT INTO `node_roles` VALUES ('1227', '354', '4');
+INSERT INTO `node_roles` VALUES ('1228', '355', '4');
+INSERT INTO `node_roles` VALUES ('1229', '356', '4');
+INSERT INTO `node_roles` VALUES ('1230', '357', '4');
+INSERT INTO `node_roles` VALUES ('1231', '358', '4');
+INSERT INTO `node_roles` VALUES ('1232', '359', '4');
+INSERT INTO `node_roles` VALUES ('1233', '360', '4');
+INSERT INTO `node_roles` VALUES ('1234', '361', '4');
+INSERT INTO `node_roles` VALUES ('1235', '362', '4');
+INSERT INTO `node_roles` VALUES ('1236', '363', '4');
+INSERT INTO `node_roles` VALUES ('1237', '368', '4');
+INSERT INTO `node_roles` VALUES ('1238', '369', '4');
+INSERT INTO `node_roles` VALUES ('1239', '370', '4');
+INSERT INTO `node_roles` VALUES ('1240', '371', '4');
+INSERT INTO `node_roles` VALUES ('1241', '372', '4');
+INSERT INTO `node_roles` VALUES ('1242', '373', '4');
+INSERT INTO `node_roles` VALUES ('1243', '374', '4');
+INSERT INTO `node_roles` VALUES ('1244', '375', '4');
+INSERT INTO `node_roles` VALUES ('1245', '376', '4');
+INSERT INTO `node_roles` VALUES ('1246', '377', '4');
+INSERT INTO `node_roles` VALUES ('1247', '378', '4');
+INSERT INTO `node_roles` VALUES ('1248', '379', '4');
+INSERT INTO `node_roles` VALUES ('1249', '367', '4');
+INSERT INTO `node_roles` VALUES ('1250', '366', '4');
+INSERT INTO `node_roles` VALUES ('1251', '364', '4');
+INSERT INTO `node_roles` VALUES ('1252', '314', '4');
+INSERT INTO `node_roles` VALUES ('1253', '320', '4');
+INSERT INTO `node_roles` VALUES ('1254', '321', '4');
+INSERT INTO `node_roles` VALUES ('1255', '322', '4');
+INSERT INTO `node_roles` VALUES ('1256', '315', '4');
+INSERT INTO `node_roles` VALUES ('1257', '323', '4');
+INSERT INTO `node_roles` VALUES ('1258', '324', '4');
+INSERT INTO `node_roles` VALUES ('1259', '325', '4');
+INSERT INTO `node_roles` VALUES ('1260', '326', '4');
+INSERT INTO `node_roles` VALUES ('1261', '327', '4');
+INSERT INTO `node_roles` VALUES ('1262', '328', '4');
+INSERT INTO `node_roles` VALUES ('1263', '316', '4');
+INSERT INTO `node_roles` VALUES ('1264', '329', '4');
+INSERT INTO `node_roles` VALUES ('1265', '330', '4');
+INSERT INTO `node_roles` VALUES ('1266', '331', '4');
+INSERT INTO `node_roles` VALUES ('1267', '332', '4');
+INSERT INTO `node_roles` VALUES ('1268', '333', '4');
+INSERT INTO `node_roles` VALUES ('1269', '334', '4');
+INSERT INTO `node_roles` VALUES ('1270', '317', '4');
+INSERT INTO `node_roles` VALUES ('1271', '335', '4');
+INSERT INTO `node_roles` VALUES ('1272', '336', '4');
+INSERT INTO `node_roles` VALUES ('1273', '337', '4');
+INSERT INTO `node_roles` VALUES ('1274', '338', '4');
+INSERT INTO `node_roles` VALUES ('1275', '339', '4');
+INSERT INTO `node_roles` VALUES ('1276', '340', '4');
+INSERT INTO `node_roles` VALUES ('1277', '318', '4');
+INSERT INTO `node_roles` VALUES ('1278', '341', '4');
+INSERT INTO `node_roles` VALUES ('1279', '342', '4');
+INSERT INTO `node_roles` VALUES ('1280', '343', '4');
+INSERT INTO `node_roles` VALUES ('1281', '344', '4');
+INSERT INTO `node_roles` VALUES ('1282', '345', '4');
+INSERT INTO `node_roles` VALUES ('1283', '346', '4');
+INSERT INTO `node_roles` VALUES ('1284', '319', '4');
+INSERT INTO `node_roles` VALUES ('1285', '347', '4');
+INSERT INTO `node_roles` VALUES ('1286', '348', '4');
+INSERT INTO `node_roles` VALUES ('1287', '349', '4');
+INSERT INTO `node_roles` VALUES ('1288', '350', '4');
+INSERT INTO `node_roles` VALUES ('1289', '351', '4');
+INSERT INTO `node_roles` VALUES ('1290', '352', '4');
+INSERT INTO `node_roles` VALUES ('1291', '242', '6');
 
 -- ----------------------------
 -- Table structure for role
@@ -1310,8 +1585,8 @@ CREATE TABLE `role` (
 -- Records of role
 -- ----------------------------
 INSERT INTO `role` VALUES ('1', 'Admin role', '超级管理员', '超级管理员不受权限控制', '2');
-INSERT INTO `role` VALUES ('4', '', '普通管理员', '具备全部权限', '2');
-INSERT INTO `role` VALUES ('5', '', '普通用户', '具备普通的增改重启等权限', '2');
+INSERT INTO `role` VALUES ('4', '', '高级管理员', '具备全部权限', '2');
+INSERT INTO `role` VALUES ('5', '', '普通管理员', '具备除权限管理之外的其他全部权限', '2');
 INSERT INTO `role` VALUES ('6', '', '只读角色', '只能读取资源信息', '2');
 INSERT INTO `role` VALUES ('7', '', '修改角色', '修改资源信息', '2');
 INSERT INTO `role` VALUES ('8', '', '添加角色', '新增资源信息', '2');
@@ -1501,14 +1776,34 @@ CREATE TABLE `xkb_cicd_ak` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for xkb_cicd_jks
+-- ----------------------------
+DROP TABLE IF EXISTS `xkb_cicd_jks`;
+CREATE TABLE `xkb_cicd_jks` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `jks_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `jks_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `jks_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `jks_passwd` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '',
+  `createtime` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of xkb_cicd_jks
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for xkb_cicd_pipelines
 -- ----------------------------
 DROP TABLE IF EXISTS `xkb_cicd_pipelines`;
 CREATE TABLE `xkb_cicd_pipelines` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `cicd_id` int NOT NULL DEFAULT '0',
-  `aliyun_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `organization_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `aliyun_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '',
+  `organization_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `jks_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '',
   `pipeline_id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

@@ -5,12 +5,12 @@
     <title>pod终端</title>
     <meta name="renderer" content="webkit">
     <!--
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     -->
     <link rel="stylesheet" href="/css/xterm.css" />
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     <script src="/js/xterm.js"></script>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
@@ -42,7 +42,7 @@
         }
     </style>
 </head>
-<body style="border-width: 0px;margin:0px;height:100%;">
+<body style="border-width: 0px;margin:0px;">
 <div class="layuimini-container">
     <div class="layuimini-main">
                 <form class="layui-form layui-form-pane" action="">
@@ -59,6 +59,10 @@
                         <div class="layui-inline" id="close_container">
                           <a class="layui-btn layui-btn-danger" style="float:right" href="javascript:location.replace(location.href);" title="刷新">断开连接</a>
                         </div>
+
+                        <div class="layui-inline" style="position: absolute;right:50px">
+                            <button class="layui-btn layui-btn-primary layui-border-blue" id="openNewTab">独立窗口打开</button>
+                        </div>
                     </div>
                 </form> 
     </div>
@@ -72,7 +76,7 @@
                 <div id="terminal-container"></div>
             </div>
 -->
-<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
 <script>
 function getQueryString(name) {
   let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -90,8 +94,8 @@ function getQueryString(name) {
      console.log(document.body.clientWidth)
       console.log(document.documentElement.clientHeight)
      cols=parseInt(document.body.clientWidth /9)
-     rows=parseInt(document.documentElement.clientHeight / 20)
-     console.log(rows,cols)
+     rows=parseInt(document.documentElement.clientHeight / 25)
+     //console.log(rows,cols)
      // 定义term对象
      var term = new Terminal({
          "backgroundColor":'#fff',
@@ -111,7 +115,7 @@ function getQueryString(name) {
         // 获取容器id
         containers_id=$("input[name=containers_id]").val()
         // 打印容器id
-        console.log(h,p,containers_id)
+        //console.log(h,p,containers_id)
         if( h == "" || p == "" || containers_id == ""){
             alert("不能为空!")
             return false
@@ -121,7 +125,7 @@ function getQueryString(name) {
         // 生成参数
         //localurl=window.location.href.split('/')[2]
         url = '/public/pod/terminal/ws' + location.search + '&context=&container='+container_name+'&rows='+rows+'&cols='+cols
-        console.log(url)
+        //console.log(url)
         // 生成socket对象
         socket = new SockJS(url);
         $("#terminal-container").html("")
@@ -150,7 +154,7 @@ function getQueryString(name) {
 
     function resize(socket) {
         cols=parseInt(document.body.clientWidth /9)
-        rows=parseInt(document.documentElement.clientHeight / 20)
+        rows=parseInt(document.documentElement.clientHeight / 25)
         term.resize(cols,rows)
         socket.send('{"cols":'+cols+',"rows":'+rows+'}')
     }
@@ -158,11 +162,16 @@ function getQueryString(name) {
     $("#connect_container").show()
     $("#close_container").hide()
 
+
     layui.use(['form', 'table'], function () {
         var $ = layui.jquery;
         var form = layui.form;
         var htmls = getQueryString("deploy");
         $('#appNameTitle').html(htmls);
+
+        $('#openNewTab').on("click",function(){
+            window.open('/page/xkube/podTerminal.html'+location.search, '_blank');           
+        });
 
 			  $.get('/xkube/pod/v1/ContainerList' + location.search, function (resp) {
   				$.each(resp.data,function(i,item){
@@ -178,7 +187,7 @@ function getQueryString(name) {
 
         form.on('submit(connect_container)', function(datas){	
     		    //console.log(JSON.stringify(datas.field)); 
-            console.log(datas.field.container);
+            //console.log(datas.field.container);
             ws_connect(datas.field.container); 
             $("#connect_container").hide()   
             $("#close_container").show()                 	   

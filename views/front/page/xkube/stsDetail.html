@@ -6,8 +6,9 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
 </head>
 <body>
 <div class="layuimini-container">
@@ -20,6 +21,9 @@
               <button class="layui-btn" id="ImageUpdate">镜像更新</button>
               <button class="layui-btn" id="CicdDeploy">CICD</button>
               <button class="layui-btn" id="YamlBackup">yaml备份</button>
+              <button class="layui-btn layui-btn-primary moreButton">更多
+                <i class="layui-icon layui-icon-down layui-font-12"></i>
+              </button>
               <br><br>
 
   <div class="layui-collapse" lay-filter="test">
@@ -132,7 +136,7 @@
     </div>
 </div>
 
-<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
 <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
 
 <script type="text/html" id="limitKeyTpl">
@@ -151,6 +155,7 @@
     <a href="javascript:;" layuimini-content-href="page/xkube/podDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&podName={{d.podName}}" data-title="{{d.podName}}详情" class="layui-btn layui-btn-sm">详情</a>
     <a class="layui-btn layui-btn-sm" lay-event="podLog">日志</a>
     <a class="layui-btn layui-btn-sm" lay-event="terminal">ssh终端</a>
+    <a class="layui-btn layui-btn-normal layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
 </script>
 
 <script type="text/html" id="serviceTableBar">
@@ -208,19 +213,11 @@
 
 <script>
 
-    function getQueryString(name) {
-      let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-      let r = window.location.search.substr(1).match(reg);
-      if (r != null) {
-          return unescape(r[2]);
-      };
-      return null;
-    };
-
-    layui.use(['form', 'table','miniTab','element'], function () {
+    layui.use(['form', 'table','miniTab','element','dropdown'], function () {
         var $ = layui.jquery,
             form = layui.form,
             element = layui.element,
+            dropdown = layui.dropdown,
             table = layui.table;
             miniTab = layui.miniTab,
             miniTab.listen();
@@ -228,6 +225,56 @@
       var statefulsetName = getQueryString("statefulsetName");
       var nameSpace = getQueryString("nameSpace");
       //$('#appNameTitle').html(statefulsetName);
+
+        //下拉菜单
+        dropdown.render({
+          elem: '.moreButton'
+          ,data: [{
+            title: 'host设置',
+            id: 101,
+            path: '/page/xkube/stsHost.html',
+          },{
+            title: '探针设置',
+            id: 102,
+            path: '/page/xkube/stsProbe.html',
+          },{
+            title: '资源限制',
+            id: 103,
+            path: '/page/xkube/stsResource.html',
+          },{
+            title: '环境变量',
+            id: 104,
+            path: '/page/xkube/stsEnv.html',
+          },{
+            title: '生命周期',
+            id: 105,
+            path: '/page/xkube/stsLifecycle.html',
+          },{
+            title: '节点亲和性',
+            id: 106,
+            path: '/page/xkube/stsNodeAffinity.html',
+          }]
+          ,click: function(obj){
+            //var path = '';
+            if (obj.id == 106) {
+              miniTab.openNewTabByIframe({
+                  href:'page/xkube/stsNodeAffinity.html' + location.search,
+                  title:statefulsetName+"节点亲和性",
+              });              
+            }else{
+              layer.open({
+                    title: statefulsetName+obj.title,
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '86%'],
+                    content: obj.path + location.search,
+              });
+            }
+          }
+        });
+
 
       //deatail
 			$.get('/xkube/sts/v1/Detail' + location.search, function (resp) {
@@ -287,7 +334,7 @@
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['50%', '90%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/stsYaml.html'+ location.search,
                 });
         });
@@ -457,7 +504,7 @@
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['50%', '80%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/podTerminal.html'+ location.search+"&podName="+data.podName,
                 });
                 $(window).on("resize", function () {
@@ -473,13 +520,38 @@
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['60%', '90%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/podLog.html'+location.search+"&podName="+data.podName,
                 });
                 $(window).on("resize", function () {
                     layer.full(index);
                 });
                 return false;              
+            }else if (obj.event === 'delete') {
+                layer.confirm('确定删除'+data.podName+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/pod/v1/Del'+location.search+"&podName="+data.podName,
+                			    type: "get",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						 if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 //window.location.reload();
+                							 obj.del();
+                						 }else{
+                							 layer.msg(resp.msg,{icon:2});
+                						 }
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            			    console.log("不操作");
+            		  } 
+        		    });                
             }
         });
   
@@ -498,13 +570,24 @@
                 {field: 'restartCount',width:100,title: '重启次数'},                          
                 {field: 'podIp',title: 'podIp',width:120,sort: true},
                 {field: 'hostIp',width:120,title:'节点IP'},  
-                {field: 'nodeName',title:'节点名称',edit:true,hide:true},               
+                {field: 'nodeName',title:'节点名称',edit:true,hide:true}, 
+                {field: 'memUsage',sort: true,width:120,title:'内存[MB]'},
+                {field: 'cpuUsage',sort: true,width:120,title:'CPU[核]<i class="layui-icon layui-icon-about resUsed-marks" style="color: #1E9FFF;"></i>'},              
+                {field: 'resUsage',hide:true,width:240,title: '资源使用'},              
                 {field: 'createTime',width:180, title: '创建时间'},
                 {title: '操作', minWidth:200, toolbar: '#currentTableBar', align: "center"}
             ]],
             limits: [25, 50, 100],
             limit: 15,
-            page: false
+            page: false,
+            done(){
+                $(".resUsed-marks").mouseover(function() {
+                  layer.tips('需k8s安装了metrics-server才支持!', this, {
+                    tips: [1, "#000"],
+                    time:3000
+                  });
+                });
+            } 
         });
             
         element.on('tab(layTabFilter)',function(data) {
@@ -524,13 +607,24 @@
                         {field: 'restartCount',width:100,title: '重启次数'},                          
                         {field: 'podIp',title: 'podIp',width:120,sort: true},
                         {field: 'hostIp',width:120,title:'节点IP'},  
-                        {field: 'nodeName',title:'节点名称',edit:true,hide:true},               
+                        {field: 'nodeName',title:'节点名称',edit:true,hide:true},  
+                        {field: 'memUsage',sort: true,width:120,title:'内存[MB]'},
+                        {field: 'cpuUsage',sort: true,width:120,title:'CPU[核]<i class="layui-icon layui-icon-about resUsed-marks" style="color: #1E9FFF;"></i>'},              
+                        {field: 'resUsage',hide:true,width:240,title: '资源使用'},             
                         {field: 'createTime',width:180, title: '创建时间'},
                         {title: '操作', minWidth:200, toolbar: '#currentTableBar', align: "center"}
                     ]],
                     limits: [25, 50, 100],
                     limit: 15,
-                    page: false
+                    page: false,
+                    done(){
+                        $(".resUsed-marks").mouseover(function() {
+                          layer.tips('需k8s安装了metrics-server才支持!', this, {
+                            tips: [1, "#000"],
+                            time:3000
+                          });
+                        });
+                    }                     
                 });              
             }
 

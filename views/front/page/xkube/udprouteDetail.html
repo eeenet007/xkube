@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>udproute详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
+                <legend>基本信息</legend>
+            </fieldset>  
+
+              <button class="layui-btn" id="EditYamlBtn">yaml编辑</button>
+              <button class="layui-btn" id="YamlBackup">yaml备份</button>
+              <button class="layui-btn layui-btn-danger" id="DelBtn">删除</button>
+
+              <br><br>
+
+              <blockquote class="layui-elem-quote layui-quote-nm">
+                  <table class="layui-table" lay-even="" lay-size="lm">
+                    <colgroup>
+                      <col width="150">
+                      <col width="400">
+                      <col width="150">
+                      <col>
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td>名称:</td>
+                        <td><div id="appNameTitle"></div></td>
+                        <td>创建时间:</td>
+                        <td><div id="createTime"></div></td>
+                      </tr>
+                      <tr>
+                        <td>命名空间:</td>
+                        <td><div id="namespace"></div></td>
+                        <td>父引用:</td>
+                        <td><div id="parentRefs"></div></td>
+                      </tr>
+                    </tbody>
+                  </table> 
+              </blockquote> 
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>规则</legend>
+            </fieldset>
+
+              <div class="layui-tab">
+                <ul class="layui-tab-title">
+                  <li class="layui-this">规则</li>
+                </ul>
+                <div class="layui-tab-content">
+                  <div class="layui-tab-item layui-show">
+                    <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
+                  </div>
+                </div>
+              </div>
+    </div>
+</div>
+</body>
+
+<script>
+
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+
+    layui.use(['form', 'table','miniTab'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+        //选择集群
+        form.on('select(cluster_Id)', function(data){
+          setCookie('clusterId',data.value,30);
+          window.location.reload();
+        });
+
+        var udprouteName = getQueryString("udprouteName");
+        $('#appNameTitle').html(udprouteName);
+
+        $('#EditYamlBtn').on("click",function(){
+                layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['75%', '90%'],
+                    content: '/page/xkube/udprouteYaml.html'+location.search,
+                });
+        });
+
+        $('#YamlBackup').on("click",function(){
+              miniTab.openNewTabByIframe({
+                  href:'page/xkube/yamlBackup.html'+location.search+"&resType=udproute"+"&resName="+udprouteName,
+                  title:udprouteName+"备份",
+              }); 
+        });
+
+        $('#DelBtn').on("click",function(){
+            layer.confirm('确定删除'+udprouteName+'?', {icon: 3, title:'提示',yes: function(index){
+        			  $.ajax({
+        			   url: "/xkube/udproute/v1/Delete"+location.search,
+        			   type: "GET",
+        			   success: function (resp) {
+        					  if (resp.code == 0 ) {
+                      layer.msg('删除成功', {icon: 1});
+                    }else{
+                      layer.msg(resp.msg,{icon:2});
+                    }
+        				  }
+        		    });
+              },
+              cancel: function(index, layero){ 
+                    layer.close(index);
+              } 
+            });
+        });        
+
+        //detail详细
+        $.get('/xkube/udproute/v1/Detail' + location.search, function (resp) {
+  				  if (resp.code == 0 && resp.data.udprouteName != '' ) {
+                var data = resp.data;
+                
+                //基本信息
+                $('#appNameTitle').html(data.udprouteName);
+                $('#namespace').html(data.nameSpace);
+                $('#parentRefs').html(data.parentRefs);
+                $('#createTime').html(data.createTime);
+
+                //规则表格
+                var rulesData = [];
+                if (data.rules && data.rules.length > 0) {
+                    // 解析规则字符串
+                    var rulesArray = data.rules.split(';');
+                    for (var i = 0; i < rulesArray.length; i++) {
+                        var ruleParts = rulesArray[i].split(',');
+                        if (ruleParts.length >= 3) {
+                            rulesData.push({
+                                kind:ruleParts[0],
+                                name:ruleParts[1],
+                                port: ruleParts[2],
+                                weight:ruleParts[3]
+                            });
+                        }
+                    }
+                }
+
+                table.render({
+                    elem: '#currentTableId',
+                    cols: [[
+                        {field: 'kind', title: '类型'},
+                        {field: 'name', title: '名称'},
+                        {field: 'port', title: '端口'},
+                        {field: 'weight', title: '权重'}
+                    ]],
+                    data: rulesData,
+                    even: true,
+                    limits: [30, 60, 100],
+                    limit: 30,
+                    page: true
+                });
+
+          }else{
+            layer.msg('请重新刷新',{icon:2});
+          }
+		    });
+
+    });
+</script>
+</html>

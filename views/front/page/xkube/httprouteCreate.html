@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>创建</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+        <blockquote class="layui-elem-quote layui-text">
+            <a class="layui-btn" style="float:right" href="javascript:location.reload();" title="刷新">
+              <i class="layui-icon">&#xe669;</i></a>
+            提示：
+        </blockquote>
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="">
+            <input type="hidden" name="labels" readonly="true" value="" class="layui-input" disabled>
+            <input type="hidden" name="rules" readonly="true" value="" class="layui-input" disabled>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">当前集群</label>
+                    <div class="layui-input-inline">
+                        <select name="clusterId" lay-filter="cluster_Id" lay-search="" id="cluster_Id">
+                          <option value="">请选择集群</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label required">路由名称</label>
+                <div class="layui-input-inline" style="width:500px">  
+                    <input type="text" name="httprouteName" placeholder="httproute名称" lay-verify="required" lay-reqtext="不能为空" value="" class="layui-input">
+                </div> 
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">*</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">域名</label>
+                <div class="layui-input-inline" style="width:500px">  
+                    <input type="text" name="hostNames" placeholder="多个域名逗号隔开" lay-verify="required" lay-reqtext="不能为空" value="" class="layui-input">
+                </div> 
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">*</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">命名空间</label>
+                <div class="layui-input-inline">
+                  <select name="nameSpace" lay-filter="name_Space" lay-search="" id="name_Space">
+                      <option value="" selected>选择命名空间</option>
+                  </select>
+                </div>
+                <label class="layui-form-label required">网关</label>
+                <div class="layui-input-inline">
+                  <select name="gatewayName" lay-filter="gatewayName" lay-search="" id="gatewayName">
+                    <option value="" selected>选择网关</option>
+                  </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux"><span style="color:red">*</span></div>
+            </div>
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>路由规则</legend>
+            </fieldset>
+            <div style="margin-left:10px">
+                    <div class="layui-input-inline" style="width:120px">  
+                        <div class="layui-form-mid layui-word-aux">匹配类型</div>
+                    </div> 
+                    <div class="layui-input-inline" style="width:125px">  
+                        <div class="layui-form-mid layui-word-aux">路径</div>
+                    </div> 
+                    <div class="layui-input-inline" style="width:165px">  
+                        <div class="layui-form-mid layui-word-aux">请求头匹配</div>
+                    </div> 
+                    <div class="layui-input-inline" style="width:165px">  
+                        <div class="layui-form-mid layui-word-aux">服务端口</div>
+                    </div> 
+                    <div class="layui-input-inline" style="width:60px">  
+                        <div class="layui-form-mid layui-word-aux">权重</div>
+                    </div>    
+            </div>         
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="width:120px">  
+                    <select name="pathType[]" id="pathType0">
+                			<option value="PathPrefix">PathPrefix</option>
+                			<option value="Exact">Exact</option>
+    		            </select>
+                </div>
+                <div class="layui-input-inline" style="width:120px">  
+                    <input type="text" id="pathValue0" name="pathValue[]" placeholder="路径" value="/" class="layui-input">
+                </div>
+                <div class="layui-input-inline" style="width:160px">  
+                    <input type="text" id="pathHeader0" name="pathHeader[]" placeholder="key:value" value="" class="layui-input">
+                </div>
+                <div class="layui-input-inline" style="width:160px">  
+                    <input type="text" id="svcPort0" name="svcPort[]" placeholder="my-service:80" value="" class="layui-input">
+                </div>
+                <div class="layui-input-inline" style="width:60px">  
+                    <input type="text" id="weight0" name="weight[]" placeholder="weight,eg:10" value="10" class="layui-input">
+                </div>
+                <div class="layui-input-inline" style="margin-top:6px">  
+                    <button class="layui-btn layui-btn-normal layui-btn-xs" id="matchAddBtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                </div>          
+            </div> 
+            <div class="matchesTpl"></div> 
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>标签与注解</legend>
+            </fieldset>
+            <div class="labelsTpl">
+              <div class="layui-form-item">
+                  <label class="layui-form-label">标签</label>
+                  <div class="layui-input-inline">  
+                      <input type="text" id="labels_key0" name="labels_key[]" placeholder="key" value="" class="layui-input">
+                  </div>
+                  <div class="layui-input-inline">  
+                      <input type="text" id="labels_value0" name="labels_value[]" placeholder="value" value="" class="layui-input">
+                  </div>
+                  <div class="layui-input-inline" style="margin-top:6px">  
+                      <button class="layui-btn layui-btn-normal layui-btn-xs" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                  </div>                
+              </div> 
+            </div>
+
+  <br>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    	$(document).ready(function(){
+          GetCurrClusterId();  
+          GetNamespace();	
+    	});		
+</script>
+<script>
+    //标签删除
+    var TplIndex = 0;
+    function delTpl(id) {
+      TplIndex--;
+      $("#tpl-"+id).remove();
+    }
+    //匹配规则删除
+    var matchIndex = 0;
+    function delMatchTpl(id) {
+      matchIndex--;
+      $("#match-tpl-"+id).remove();
+    }
+
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+
+	if(clusterId != "") {
+		$.get('/xkube/gateway/v1/List?clusterId='+clusterId, function (resp) {
+			$.each(resp.data,function(i,item){
+					var html = '<option value="'+item.gatewayName+'">'+item.gatewayName+'</option>'
+				$("#gatewayName").append(html);
+			});
+		    layui.use('form', function(){
+		        var form = layui.form;
+					  form.render('');
+		    });					
+	    });				
+	}
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        //labels add
+        $('#newaddbtn').on("click",function(){
+          TplIndex++;
+          var addTpl =
+              '<div class="layui-form-item" id="tpl-'+TplIndex+'">' +
+                  '<label class="layui-form-label">标签</label>' +
+                  '<div class="layui-input-inline">' +
+        	              '<input type="text" name="labels_key[]" id="labels_key'+TplIndex+'" placeholder="key" value="" class="layui-input">' +
+                  '</div>' +    
+                  '<div class="layui-input-inline">' +  
+                      '<input type="text" name="labels_value[]" id="labels_value'+TplIndex+'" placeholder="value" value="" class="layui-input">' +
+                  '</div>' +
+                  '<div class="layui-input-inline" style="margin-top:6px">' +  
+                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon layui-btn-xs" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
+                  '</div>' +                
+              '</div>'
+            $('.labelsTpl').append(addTpl);   
+          form.render(); 
+          return false;   
+        });
+
+        //匹配规则增加
+        $('#matchAddBtn').on("click",function(){
+          matchIndex++;
+          var pathTypeId = "pathType" + matchIndex;
+          var pathValueId = "pathValue" + matchIndex;
+          var pathHeaderId = "pathHeader" + matchIndex;
+          var svcPortrId = "svcPort" + matchIndex;
+          var weightId = "weight" + matchIndex;
+          var addTpl =
+                '<div class="layui-form-item" id="match-tpl-'+matchIndex+'">' +
+                    '<div class="layui-input-inline" style="width:120px">' +  
+                        '<select name="pathType[]" id="' + pathTypeId + '">' +  
+                    			'<option value="PathPrefix">PathPrefix</option>' +  
+                    			'<option value="Exact">Exact</option>' +    
+        		            '</select>' +  
+                    '</div>' +
+                    '<div class="layui-input-inline" style="width:120px">' +  
+                        '<input type="text" name="pathValue[]" id="' + pathValueId + '" placeholder="路径值" value="/" class="layui-input">' +
+                    '</div>' +   
+                    '<div class="layui-input-inline" style="width:160px">' +  
+                        '<input type="text" name="pathHeader[]" id="' + pathHeaderId + '" placeholder="key:value" value="" class="layui-input">' +
+                    '</div>' + 
+                    '<div class="layui-input-inline" style="width:160px">' +  
+                        '<input type="text" name="svcPort[]" id="' + svcPortrId + '" placeholder="my-service:80" value="" class="layui-input">' +
+                    '</div>' +
+                    '<div class="layui-input-inline" style="width:60px">' +  
+                        '<input type="text" name="weight[]" id="' + weightId + '" placeholder="weight,eg:10" value="10" class="layui-input">' +
+                    '</div>' +  
+                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                        '<input class="layui-btn layui-btn-normal layui-bg-orange layui-btn-xs layui-icon" type="button" id="newDelbtn" value="&#xe616;" onclick="delMatchTpl('+matchIndex+');" />' +
+                    '</div>' +              
+                '</div>' 
+            $('.matchesTpl').append(addTpl);   
+          form.render(); 
+          return false;   
+        });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+                data.field.httprouteName = data.field.httprouteName.replace(/^\s*|\s*$/g,""); //替换空格
+                
+                //labels 处理
+                var labelsArry = [];
+                for (var i=0;i<=TplIndex;i++) {
+                  var kk = document.getElementById("labels_key"+i).value;
+                  var vv = document.getElementById("labels_value"+i).value; 
+                  if ( kk != "" && vv != "") {
+                    labelsArry.push(
+                      {
+                        key:kk,
+                        value:vv,
+                      }
+                    )
+                  }
+                }
+                if (labelsArry.length > 0) {
+                  data.field.labels = labelsArry;
+                }
+
+                //匹配规则处理
+                var matchesArry = [];
+                for (var i=0;i<=matchIndex;i++) {
+                  var pathType = document.getElementById("pathType"+i).value; 
+                  var pathValue = document.getElementById("pathValue"+i).value; 
+                  var pathHeader = document.getElementById("pathHeader"+i).value; 
+                  var svcPort = document.getElementById("svcPort"+i).value; 
+                  var weight = document.getElementById("weight"+i).value; 
+                  if (pathType != "" && pathValue != "") {
+                    matchesArry.push(
+                      {
+                         pathType: pathType,
+                         pathValue: pathValue,
+                         header:pathHeader,
+                         svcPort:svcPort,
+                         weight:weight
+                      }
+                    )
+                  }
+                }
+                if (matchesArry.length > 0) {
+                  data.field.rules = matchesArry;
+                }
+                    
+			          layer.confirm('确定添加?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('稍等片刻');
+                     $.ajax({
+                       url: "/xkube/httproute/v1/Create?clusterId="+clusterId,
+                       type: "post",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('添加成功', {icon: 1});
+								                //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+    });
+</script>
+</html>

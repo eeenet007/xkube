@@ -1,3 +1,38 @@
+# 4.0 更新日志：20260130
+1.完全开放后端golang源代码
+2.新增支持GateWay API功能
+3.新增gatewayclass 列表、yaml编辑功能
+4.新增gateway	创建、列表、yaml编辑、删除等功能
+5.新增httproute 创建、列表、yaml编辑、删除等功能
+6.新增grpcroute 创建、列表、yaml编辑、删除等功能
+7.新增tcproute 创建、列表、yaml编辑、删除等功能
+8.新增udproute 创建、列表、yaml编辑、删除等功能
+9.新增deployment 界面配置容忍度
+10.新增deployment界面配置节点亲和性,支持指定节点nodeName、nodeSelector节点标签 和 nodeAffinity节点亲和
+11.新增新增deployment界面配置pod亲和[podAffinity] 和 pod反亲和[podAntiAffinit]
+12.新增pod内存和cpu指标的top值
+13.新增节点资源分配统计，requet和limit的百分比
+14.新增sts和ds详情中pod的内存、cpu查看及pod删除功能
+15.新增sts的hosts设置、环境变量、生命周期、资源限制、探针功能、节点亲和
+16.新增pod修改yaml修改接口
+17.新增job的yaml修改接口
+18.新增deployment的更改加入后台审计日志。
+19.新增podTermal终端页独立标签打开功能
+20.修复cronjob beta1版本在列表中不显示命令参数的问题
+21.修复某些情况下创建pod时进程异常退出的问题
+22.修复sts yaml 修改失败的问题
+23.修复角色、角色绑定rules和subjects显示异常的问题
+24.修复节点删除功能失效的问题
+25.优化后台菜单布局，将kubernetes和运维管理分开
+26.优化deployment的host设置、资源限制、探针、变量、生命周期接口,将读取和更新分开
+27.优化ModifyByYaml 接口的错误提示
+28.优化查看yaml的弹窗宽高
+29.升级go版本，go1.23.12 到1.25.4来支持sigs.k8s.io/gateway-api
+30.升级layui-v2.6.3 到layui-v2.13.3
+31.升级jquery-1.11.3到jquery-3.7.1
+32.关闭备份时的sql调试语句输出
+
+
 # 3.9 更新日志：20251201
 1.增加deployment变量界面修改功能
 2.增加deployment生命周期界面修改功能

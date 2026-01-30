@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>httproute列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+
+<style type="text/css">
+  .layui-table-cell {
+    height: auto;
+    line-height: 22px !important;
+    text-overflow: inherit;
+    overflow: visible;
+    white-space: normal;
+  }
+  .layui-table-cell .layui-table-tool-panel li {
+    word-break: break-word;
+  }
+</style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">httproute</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="httprouteName" autocomplete="off" lay-verify="required" lay-reqtext="不能为空" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">命名空间</label>
+                            <div class="layui-input-inline">
+                              <select name="nameSpace" lay-filter="name_Space" lay-search="" id="name_Space">
+          	              			<option value="" selected="">所有空间</option>
+              		            </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                        </div>
+
+                        <div class="layui-inline" style="position: absolute;right:50px">
+                            <label class="layui-form-label">当前集群</label>
+                            <div class="layui-input-inline">
+                                <select name="clusterId" lay-filter="cluster_Id" lay-search="" id="cluster_Id">
+                                  <option value="">请选择集群</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="create"><i class="layui-icon">&#xe61f;</i>创建HTTPRoute</button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="yamlCreate"><i class="layui-icon">&#xe61f;</i>yaml创建HTTPRoute</button>
+            </div>
+        </script>
+
+        <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+          {{#  var clusterId = getQueryString("clusterId"); }}
+          {{#  if (clusterId == null) { }}
+	        {{#      clusterId = getCookie("clusterId") }}
+          {{#  } }}
+            <a href="javascript:;" layuimini-content-href="page/xkube/httprouteDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&httprouteName={{d.httprouteName}}" data-title="{{ d.httprouteName }}详情" class="layui-btn layui-btn-sm">详情</a>
+            <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="addFav">收藏</a>
+            <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="viewYaml">yaml编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
+        </script>
+    </div>
+</div>
+
+</body>
+<script type="text/html" id="TagTpl">
+    {{# if (d.hostnames != "") { }}
+            {{# layui.each(d.hostnames.split(','), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span>{{ item }}</span>
+                {{# }else{ }}
+                        <br><span>{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+<script type="text/html" id="rulesTpl">
+    {{# if (d.rules != "") { }}
+            {{# layui.each(d.rules.split('|'), function(index, item){ }}
+                {{# if(index == 0) { }}
+                        <span>{{ item }}</span>
+                {{# }else{ }}
+                        <br><span>{{ item }}</span>
+                {{# } }}  
+            {{# });  }}
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+
+<script>
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+
+    layui.use(['form', 'table','miniTab'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+      	$(document).ready(function(){
+            GetCurrClusterId();  
+            GetNamespace();	
+      	});	
+
+        //选择集群
+        form.on('select(cluster_Id)', function(data){
+           setCookie('clusterId',data.value,30);
+           window.location.reload();
+        });
+
+        form.on('select(name_Space)', function(data){
+            table.reload('currentTableId', {
+                method:'GET',
+                url: '/xkube/httproute/v1/List?clusterId='+clusterId+'&nameSpace='+data.value,
+                contentType: 'application/json',
+                done: function(res, curr, count){
+                }
+            }, 'data');
+        });
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/xkube/httproute/v1/List?clusterId='+clusterId,
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            parseData: function(res) { //实现加载全部数据后再分页
+              if(res.code != 0){
+                return {
+               	  "code": res.code,
+              	  "msg": res.msg,                 
+                }
+              }
+            	if(this.page.curr) {
+            		result=res.data.slice(this.limit*(this.page.curr-1),this.limit*this.page.curr);
+            	}else{
+            	  result=res.data.slice(0,this.limit);
+              }
+              return {
+              	"code": res.code,
+              	"msg":'',
+              	"count":res.count,
+              	"data":result
+              };
+            },
+            cols: [[
+                {field: 'httprouteName', title: '名称',width: 160, sort: true},
+                {field: 'nameSpace', title: '命名空间',width: 120, sort: true},
+                {field: 'parentRefs', title: '引用网关',width: 160, sort: true},
+                {field: 'hostnames', width: 200, title: '域名', sort: true, templet: '#TagTpl'},
+                {field: 'rules', title: '规则', sort: true, templet: '#rulesTpl'},
+                {field: 'createTime', width: 160, title: '创建时间'},
+                {title: '操作', width:300, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [25, 50, 100],
+            limit: 25,
+            page: true
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            data.field.httprouteName = data.field.httprouteName.replace(/\s+/g,"");
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1,
+                    limit:25
+                },
+                method:'POST',
+                url: '/xkube/httproute/v1/List?clusterId='+clusterId,
+                contentType: 'application/json',
+                where: data.field,
+                done: function(res, curr, count){
+                }
+            }, 'data');
+            return false;
+        }); 
+
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'create') {  // 监听添加操作
+                var index = layer.open({
+                    title: '创建',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '92%'],
+                    content: '/page/xkube/httprouteCreate.html',
+                    end: function(){
+                    	window.location.reload();//关闭open打开的页面时，刷新父页面
+                    }
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            } else if (obj.event === 'yamlCreate') {  // 监听删除操作
+                var index = layer.open({
+                    title: '创建',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['60%', '90%'],
+                    content: '/page/xkube/create_by_yaml.html',
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            } 
+        });
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'viewYaml') {
+                var index = layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['75%', '90%'],
+                    content: '/page/xkube/httprouteYaml.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&httprouteName='+data.httprouteName,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('确定删除'+data.httprouteName+'?', {icon: 3, title:'删除提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行1-2s左右');
+                			 $.ajax({
+                			    url: '/xkube/httproute/v1/Delete?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&httprouteName='+data.httprouteName,
+                			    type: "get",
+                			    success: function (resp) {
+                            layer.close(index2);
+                						if(resp.code == 0){
+                							 layer.msg('删除成功', {icon: 1});
+                							 window.location.reload();
+                						}else{
+                							 layer.msg(resp.msg,{icon:2});
+                						}
+                				  }
+                		   });		  	  
+                },
+            		  cancel: function(index, layero){ 
+            			    layer.close(index);
+                      layer.close(index2);
+            		  } 
+        		    });                
+            } else if (obj.event === 'addFav') {
+                    var myFav = {
+                          fav_type: "httproute",
+                          cluster_id: clusterId,
+                          name_space: data.nameSpace,
+                          fav_name: data.httprouteName
+                      };
+              			 $.ajax({
+              			    url: '/fav/v1/Add',
+              			    type: "POST",
+                        dataType: "json",
+                        data: JSON.stringify(myFav),
+                        contentType: 'application/json',
+              			    success: function (resp) {
+              						 if(resp.code == 0){
+              							 layer.msg('收藏成功', {icon: 1});
+              						 }else{
+              							 layer.msg(resp.msg,{icon:2});
+              						 }
+              				  }
+              		   });		  	                 
+            }
+        });
+
+    });
+</script>
+</html>

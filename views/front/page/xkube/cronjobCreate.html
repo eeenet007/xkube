@@ -6,10 +6,10 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
     <style>
         body {
@@ -19,10 +19,12 @@
 </head>
 <body>
 <div class="layuimini-container">
-    <div class="layuimini-main">
         <blockquote class="layui-elem-quote layui-text">
-            帮助中心:<a href="#" target="_blank">添加说明文档</a>
+            <a class="layui-btn" style="float:right" href="javascript:location.reload();" title="刷新">
+              <i class="layui-icon">&#xe669;</i></a>
+            提示：
         </blockquote>
+    <div class="layuimini-main">
         <form class="layui-form layui-form-pane" action="">
 
             <div class="layui-form-item">
@@ -91,8 +93,8 @@
                   <div class="layui-input-inline">  
                       <input type="text" id="labels_value0" name="labels_value[]" placeholder="value" value="" class="layui-input">
                   </div>
-                  <div class="layui-input-inline">  
-                      <button class="layui-btn layui-btn-normal" style="width:100px" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                  <div class="layui-input-inline" style="margin-top:6px">  
+                      <button class="layui-btn layui-btn-normal layui-btn-xs" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
                   </div>                
               </div> 
             </div>
@@ -113,10 +115,10 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">资源限制</label>
                 <div class="layui-input-inline" style="width:100px">  
-                    <input type="text" name="limit_cpu" placeholder="CPU[1|200m]" value="1" class="layui-input">
+                    <input type="text" name="limit_cpu" placeholder="CPU" value="1" class="layui-input">
                 </div>
                 <div class="layui-input-inline" style="width:100px">  
-                    <input type="text" name="limit_mem" placeholder="内存[MiB|GiB]" value="1Gi" class="layui-input">
+                    <input type="text" name="limit_mem" placeholder="内存" value="1Gi" class="layui-input">
                 </div> 
                 <div class="layui-form-mid layui-word-aux"><span style="color:red">注:limits,eg:cpu:1/200m,mem:2Gi/200Mi</span></div>              
             </div> 
@@ -124,10 +126,10 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">资源申请</label>
                 <div class="layui-input-inline" style="width:100px">  
-                    <input type="text" name="request_cpu" placeholder="CPU[1|200m]" value="500m" class="layui-input">
+                    <input type="text" name="request_cpu" placeholder="CPU" value="500m" class="layui-input">
                 </div>
                 <div class="layui-input-inline" style="width:100px">  
-                    <input type="text" name="request_mem" placeholder="内存[MiB|GiB]" value="500Mi" class="layui-input">
+                    <input type="text" name="request_mem" placeholder="内存" value="500Mi" class="layui-input">
                 </div>   
                 <div class="layui-form-mid layui-word-aux"><span style="color:red">注:requests,eg:cpu:1/200m,mem:2Gi/200Mi</span></div>            
             </div> 
@@ -262,39 +264,50 @@ if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
         });
 
 //附加配置处
-        $("#cronTimeTpl").show();
-        $("#resourceLimitTpl").hide();
-        $("#periodTpl").hide();
-        $("#taskSetTpl").hide();        
+        //$("#cronTimeTpl").show();
+        //$("#resourceLimitTpl").hide();
+        //$("#periodTpl").hide();
+        //$("#taskSetTpl").hide();     
+        $("#resourceLimitTpl").toggleClass('layui-hide');
+        $("#periodTpl").toggleClass('layui-hide');
+        $("#taskSetTpl").toggleClass('layui-hide');   
         form.on('checkbox(resourceLimitCheck)', function (data) { 
               if (data.elem.checked) {
-                $("#resourceLimitTpl").show();
+                //$("#resourceLimitTpl").show();
+                $('#resourceLimitTpl').removeClass('layui-hide').addClass('layui-show');
               }else{
-                $("#resourceLimitTpl").hide();
+                //$("#resourceLimitTpl").hide();
+                $('#resourceLimitTpl').removeClass('layui-show').addClass('layui-hide');
               }
         });
         form.on('checkbox(periodCheck)', function (data) { 
               //console.log(data.elem.checked);
               if (data.elem.checked) {
-                $("#periodTpl").show();
+                //$("#periodTpl").show();
+                $('#periodTpl').removeClass('layui-hide').addClass('layui-show');
               }else{
-                $("#periodTpl").hide();
+                //$("#periodTpl").hide();
+                $('#periodTpl').removeClass('layui-show').addClass('layui-hide');
               }
         });
-        form.on('checkbox(cronTimeSetCheck)', function (data) { 
-              //console.log(data.elem.checked);
-              if (data.elem.checked) {
-                $("#cronTimeTpl").show();
-              }else{
-                $("#cronTimeTpl").hide();
-              }
-        });
+
+        //form.on('checkbox(cronTimeSetCheck)', function (data) { 
+        //      //console.log(data.elem.checked);
+        //      if (data.elem.checked) {
+        //        $("#cronTimeTpl").show();
+        //      }else{
+        //        $("#cronTimeTpl").hide();
+        //      }
+        //});
+
         form.on('checkbox(taskSetCheck)', function (data) { 
               //console.log(data.elem.checked);
               if (data.elem.checked) {
-                $("#taskSetTpl").show();
+                //$("#taskSetTpl").show();
+                $('#taskSetTpl').removeClass('layui-hide').addClass('layui-show');
               }else{
-                $("#taskSetTpl").hide();
+                //$("#taskSetTpl").hide();
+                $('#taskSetTpl').removeClass('layui-show').addClass('layui-hide');
               }
         });
 
@@ -310,8 +323,8 @@ if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
                   '<div class="layui-input-inline">' +  
                       '<input type="text" name="labels_value[]" id="labels_value'+TplIndex+'" placeholder="value" value="" class="layui-input">' +
                   '</div>' +
-                  '<div class="layui-input-inline">' +  
-                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" style="width:100px" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
+                  '<div class="layui-input-inline" style="margin-top:6px">' +  
+                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon layui-btn-xs" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
                   '</div>' +                
               '</div>'
             $('.labelsTpl').append(addTpl);   

@@ -6,10 +6,10 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
     <style>
         body {
@@ -19,6 +19,11 @@
 </head>
 <body>
 <div class="layuimini-container">
+        <blockquote class="layui-elem-quote layui-text">
+            <a class="layui-btn" style="float:right" href="javascript:location.reload();" title="刷新">
+              <i class="layui-icon">&#xe669;</i></a>
+            提示：
+        </blockquote>
     <div class="layuimini-main">
         <form class="layui-form layui-form-pane" action="">
 
@@ -92,8 +97,8 @@
                   <div class="layui-input-inline" style="width:150px">  
                       <input type="text" id="labels_value0" name="labels_value[]" placeholder="value" value="" class="layui-input">
                   </div>
-                  <div class="layui-input-inline">  
-                      <button class="layui-btn layui-btn-normal" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                  <div class="layui-input-inline" style="margin-top:6px">  
+                      <button class="layui-btn layui-btn-normal layui-btn-xs" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
                   </div>                
               </div> 
             </div>
@@ -164,8 +169,8 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                   '<div class="layui-input-inline" style="width:150px">' +  
                       '<input type="text" name="labels_value[]" id="labels_value'+TplIndex+'" placeholder="value" value="" class="layui-input">' +
                   '</div>' +
-                  '<div class="layui-input-inline">' +  
-                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" style="width:60px" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
+                  '<div class="layui-input-inline" style="margin-top:6px">' +  
+                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon layui-btn-xs" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
                   '</div>' +                
               '</div>'
             $('.labelsTpl').append(addTpl);   

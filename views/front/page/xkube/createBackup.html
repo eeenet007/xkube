@@ -6,10 +6,10 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
     <style type="text/css">
         .layui-table-cell {
@@ -39,15 +39,19 @@
                   <label class="layui-form-label layui-font-red">资源类型</label>
                   <div class="layui-input-inline" style="width:150px">
                     <select name="resType" lay-filter="resType" lay-verify="required" lay-search="" id="resType">
-                			<option value="" selected="">选择克隆类型</option>
-                			<option value="deployment">deployment</option>
-                			<option value="service">service</option>
-                			<option value="configmap">configmap</option>
+                			<option value="" selected="">选择资源类型</option>
+                			<option value="deploy">deploy</option>
+                			<option value="svc">svc</option>
+                			<option value="cm">configmap</option>
                 			<option value="secret">secret</option>
                 			<option value="cronjob">cronjob</option>
-                			<option value="statefulset">statefulset</option>
-                      <option value="ingress">ingress</option>
+                			<option value="sts">sts</option>
+                      <option value="ing">ingress</option>
                       <option value="hpa">hpa</option>
+                      <option value="gateway">gateway</option>
+                      <option value="httproute">httproute</option>
+                      <option value="grpcroute">grpcroute</option>
+                      <option value="tcproute">tcproute</option>
     		            </select>
                   </div>
                   <div class="layui-form-mid layui-word-aux layui-font-red">先选择需要备份的资源类型</div>

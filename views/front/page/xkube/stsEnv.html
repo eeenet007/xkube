@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>变量</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="" lay-filter="UpdateInfo">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">Container</label>
+                    <div class="layui-input-inline"> 
+                        <select name="containerId" id="containerId" lay-filter="containerId">
+        		            </select>
+                    </div>
+                </div>
+            </div>
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>变量</legend>
+            </fieldset>
+            <div class="envTpl"></div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="margin-top:6px">  
+                    <button class="layui-btn layui-btn-normal layui-btn-xs" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                </div> 
+            </div> 
+            <br>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+
+    //标签删除
+    var TplIndex = 0;
+    function delTpl(id) {
+      //var TplIndex = id;
+      TplIndex--;
+      console.log(TplIndex);
+      $("#tpl-"+id).remove();
+    }
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+      var newResp = {};
+			$.get('/xkube/sts/v1/GetEnv' + location.search, function (resp) {
+  				if (resp.code == 0 ) {
+              newResp = resp;
+          		$.each(resp.data,function(i,item){
+          			if (item.containerId == 0) {
+          				var html = '<option value="'+item.containerId+'" selected="">'+item.containerName+'</option>'
+          			}else{
+          				var html = '<option value="'+item.containerId+'">'+item.containerName+'</option>'	
+          			}
+          			$("#containerId").append(html);
+          		});
+          		$.each(resp.data[0].envs,function(i,item){
+                    TplIndex++;
+                    //console.log(TplIndex);
+                    var addTpl =
+                        '<div class="layui-form-item" id="tpl-'+TplIndex+'">' +
+                            '<label class="layui-form-label">标签</label>' +
+                            '<div class="layui-input-inline" style="width:200px">' +
+                  	              '<input type="text" name="env_key[]" id="env_key'+TplIndex+'" placeholder="key" value="'+item.key+'" class="layui-input">' +
+                            '</div>' +    
+                            '<div class="layui-input-inline" style="width:160px">' +  
+                                '<input type="text" name="env_value[]" id="env_value'+TplIndex+'" placeholder="value" value="'+item.value+'" class="layui-input">' +
+                            '</div>' +
+                            '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                '<input class="layui-btn layui-btn-normal layui-bg-orange layui-btn-xs layui-icon" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
+                            '</div>' +                
+                        '</div>'
+                      $('.envTpl').append(addTpl);  
+          		});    
+          	 form.render();   
+          }else{
+            layer.msg(resp.msg,{icon:2});
+          }
+		  });
+
+        form.on('select(containerId)', function(data){
+              var id = data.value
+              $('.envTpl').empty();
+          		$.each(newResp.data[id].envs,function(i,item){
+                    TplIndex++;
+                    var addTpl =
+                        '<div class="layui-form-item" id="tpl-'+TplIndex+'">' +
+                            '<label class="layui-form-label">标签</label>' +
+                            '<div class="layui-input-inline" style="width:200px">' +
+                  	              '<input type="text" name="env_key[]" id="env_key'+TplIndex+'" placeholder="key" value="'+item.key+'" class="layui-input">' +
+                            '</div>' +    
+                            '<div class="layui-input-inline" style="width:160px">' +  
+                                '<input type="text" name="env_value[]" id="env_value'+TplIndex+'" placeholder="value" value="'+item.value+'" class="layui-input">' +
+                            '</div>' +
+                            '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                '<input class="layui-btn layui-btn-normal layui-bg-orange layui-btn-xs layui-icon" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
+                            '</div>' +                
+                        '</div>'
+                      $('.envTpl').append(addTpl);  
+          		});    
+          	  form.render();
+        });
+
+        //labes add
+        $('#newaddbtn').on("click",function(){
+          TplIndex++;
+          console.log(TplIndex);
+          var addTpl =
+              '<div class="layui-form-item" id="tpl-'+TplIndex+'">' +
+                  '<label class="layui-form-label">变量</label>' +
+                  '<div class="layui-input-inline" style="width:200px">' +
+        	              '<input type="text" name="env_key[]" id="env_key'+TplIndex+'" placeholder="key" value="" class="layui-input">' +
+                  '</div>' +    
+                  '<div class="layui-input-inline" style="width:160px">' +  
+                      '<input type="text" name="env_value[]" id="env_value'+TplIndex+'" placeholder="value" value="" class="layui-input">' +
+                  '</div>' +
+                  '<div class="layui-input-inline" style="margin-top:6px">' +  
+                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-btn-xs layui-icon" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
+                  '</div>' +                
+              '</div>'
+            $('.envTpl').append(addTpl);   
+          form.render(); 
+          return false;   
+        });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+                //console.log(data.field);
+			          layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('稍等片刻');
+                     $.ajax({
+                       url: "/xkube/sts/v1/UpdateEnv" + location.search,
+                       type: "post",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('修改成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
+        });
+
+    });
+</script>
+</html>

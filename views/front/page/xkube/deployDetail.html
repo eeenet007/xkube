@@ -6,7 +6,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
 
@@ -151,7 +151,7 @@
             </div>
             
    	<!-- 升级策略隆框-->
-  	<div class="layui-row" id="strategyPolicyInfo" style="display:none;">
+  	<div class="layui-row" id="strategyPolicyInfo" style="display:none;margin:12px">
     	<div class="layui-col-md11">
       		<form class="layui-form layui-form-pane" action="" lay-filter="strategyPolicyInfo">
             <div class="layui-form-item" pane="">
@@ -213,7 +213,7 @@
     </div>
 </div>
 
-<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
 <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
 
 <script type="text/html" id="limitKeyTpl">
@@ -326,15 +326,6 @@
 </script>
 
 <script>
-
-    function getQueryString(name) {
-      let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-      let r = window.location.search.substr(1).match(reg);
-      if (r != null) {
-          return unescape(r[2]);
-      };
-      return null;
-    };
 
 var clusterId = getQueryString("clusterId");
 if (clusterId == null) {
@@ -457,7 +448,7 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['50%', '90%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/deployYaml.html'+ location.search,
                 });
         });
@@ -490,9 +481,21 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
             id: 106,
             path: '/page/xkube/deployEnv.html',
           },{
-            title: '生命周期',
+            title: '调度容忍',
             id: 107,
+            path: '/page/xkube/deployTolerations.html',
+          },{
+            title: '生命周期',
+            id: 108,
             path: '/page/xkube/deployLifecycle.html',
+          },{
+            title: '节点亲和性',
+            id: 109,
+            path: '/page/xkube/deployNodeAffinity.html',
+          },{
+            title: 'pod亲和性',
+            id: 110,
+            path: '/page/xkube/deployPodAffinity.html',
           }]
           ,click: function(obj){
               //layer.tips('点击了：'+ obj.title+'id:'+obj.id, this.elem, {tips: [1, '#5FB878']})
@@ -501,6 +504,16 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
               miniTab.openNewTabByIframe({
                   href:'page/xkube/yamlBackup.html'+location.search+"&resType=deployment"+"&resName="+deployName,
                   title:deployName+"备份",
+              });              
+            } else if (obj.id == 109) {
+              miniTab.openNewTabByIframe({
+                  href:'page/xkube/deployNodeAffinity.html' + location.search,
+                  title:deployName+"节点亲和性",
+              });              
+            }else if (obj.id == 110) {
+              miniTab.openNewTabByIframe({
+                  href:'page/xkube/deployPodAffinity.html' + location.search,
+                  title:deployName+"pod亲和性",
               });              
             }else{
               layer.open({
@@ -591,7 +604,7 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                     //shade: 0.2,
                     //maxmin:true,
                     shadeClose: true,
-                    area: ['40%', '40%'],
+                    area: ['45%', '45%'],
                     content: $("#strategyPolicyInfo"),
                 });
                 form.render();
@@ -843,13 +856,13 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                 {field: 'podPhase', title: '状态',width:100,templet: '#podPhaseTpl'},      
                 {field: 'restartCount',width:80,title: '重启',sort: true},                          
                 {field: 'podIp',title: 'podIp',width:120,sort: true},
-                {field: 'hostIp',width:120,title:'节点IP',sort: true},  
+                {field: 'hostIp',width:150,title:'节点IP',sort: true},  
                 {field: 'nodeName',title:'节点名称',hide:true}, 
                 {field: 'memUsage',sort: true,width:120,title:'内存[MB]'},
                 {field: 'cpuUsage',sort: true,width:120,title:'CPU[核]<i class="layui-icon layui-icon-about resUsed-marks" style="color: #1E9FFF;"></i>'},              
                 {field: 'resUsage',hide:true,width:240,title: '资源使用'},
                 {field: 'createTime',width:170, title: '创建时间'},
-                {title: '操作', minWidth:340, toolbar: '#currentTableBar', align: "center"}
+                {title: '操作', minWidth:400, toolbar: '#currentTableBar', align: "center"}
             ]],
             limits: [50, 100, 200],
             limit: 50,
@@ -915,15 +928,15 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                         {field: 'podName', title: '名称'},
                         {field: 'imgUrl', title: '镜像',hide:true},
                         {field: 'podPhase', title: '状态',width:100,templet: '#podPhaseTpl'},      
-                        {field: 'restartCount',width:70,title: '重启',sort: true},                          
+                        {field: 'restartCount',width:80,title: '重启',sort: true},                          
                         {field: 'podIp',title: 'podIp',width:120,sort: true},
-                        {field: 'hostIp',width:120,title:'节点IP',sort: true},  
+                        {field: 'hostIp',width:150,title:'节点IP',sort: true},  
                         {field: 'nodeName',title:'节点名称',hide:true},   
                         {field: 'memUsage',sort: true,width:120,title:'内存[MB]'},
                         {field: 'cpuUsage',sort: true,width:120,title:'CPU[核]<i class="layui-icon layui-icon-about resUsed-marks" style="color: #1E9FFF;"></i>'},              
                         {field: 'resUsage',hide:true,width:240,title: '资源使用'},         
                         {field: 'createTime',width:170, title: '创建时间'},
-                        {title: '操作', minWidth:320, toolbar: '#currentTableBar', align: "center"}
+                        {title: '操作', minWidth:400, toolbar: '#currentTableBar', align: "center"}
                     ]],
                     limits: [25, 50, 100],
                     limit: 15,
@@ -1036,7 +1049,7 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['50%', '92%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/replicasetYaml.html'+location.search+'&replicasetName='+data.replicasetName,
                 });
                 $(window).on("resize", function () {
@@ -1080,7 +1093,7 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['50%', '92%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/hpaYaml.html'+location.search+'&hpaName='+data.hpaName,
                 });
                 $(window).on("resize", function () {
@@ -1100,7 +1113,10 @@ if ( compareVersions("1.25.0",clusterIdVersion) == 1 ) {
                     maxmin:true,
                     shadeClose: true,
                     area: ['60%', '80%'],
-                    content: '/page/xkube/hpaCreate.html'
+                    content: '/page/xkube/hpaCreate.html',
+                    end: function(){
+                    	window.location.reload();//关闭open打开的页面时，刷新父页面
+                    }
                 });
                 $(window).on("resize", function () {
                     layer.full(index);

@@ -6,13 +6,13 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
+    <script src="/js/jquery.min.js" charset="utf-8"></script>
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
-    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
     <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
     <script src="/js/echarts.min.js" charset="utf-8"></script>
-    <script src="/js/jquery.min.js"></script>
     <script src="/js/chartline.js" charset="utf-8"></script>
 
 </head>
@@ -24,7 +24,7 @@
                 节点详情页：
             </blockquote>
 
-              <button class="layui-btn" id="EditYamlBtn">yaml查看</button>
+              <button class="layui-btn" id="EditYamlBtn">yaml</button>
               <button class="layui-btn layui-btn-danger" id="LablesBtn">标签管理</button>
               <button class="layui-btn layui-btn-danger" id="NodeTaint">污点管理</button>
               <button class="layui-btn layui-btn-danger" id="NodeDrain">节点排水</button>
@@ -104,11 +104,12 @@
         </div>
       </div>
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                <legend>已分配资源</legend>
+                <legend>资源分配</legend>
             </fieldset>
-
+            <table class="layui-table" id="resourceTableId" lay-filter="resourceTableFilter"></table>
+            
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                <legend>监控</legend>
+                <legend>资源使用</legend>
             </fieldset>
             <div class="layui-row">
               <div class="layui-col-xs6">
@@ -151,26 +152,18 @@
 	<!-- 弹出框 start-->   
   	<div class="layui-row" id="NodeRemoveTpl" style="display:none;">
     	<div class="layui-col-md11">
-      		<form class="layui-form layui-form-pane" action="" lay-filter="DeleteNodeInfo" >
-        		<div class="layui-form-item" style="margin-left:20px">
-                <div class="layui-form-mid layui-word-aux"><span style="color:red">确定移除该节点？</span></div> 
-        		</div>	
-        		<div class="layui-form-item" style="margin-top:10px;margin-left:10px">
-              <div class="layui-input-inline">
-                <input type="checkbox" name="isDrain" lay-skin="primary" title="是否排空节点" checked="">
-              </div>
-        		</div>	
+      		<form class="layui-form layui-form-pane" action="" lay-filter="NodeRemoveInfo" >
         		<div class="layui-form-item" style="margin-left:10px">
                 <div class="layui-form-mid layui-word-aux"><span style="color:red">注意：<br>
-1.此操作可能会对业务产生影响，建议在业务低峰期进行。<br>
-2.如果节点上存在 Pod，请选择“自动排空节点”，并确保集群资源充足，Pod 将自动迁移到其他节点。<br>
-3.移除异常状态的节点请不要勾选“自动排空节点”，否则可能导致移除失败。<br>
+1.此操作是将节点从集群移除,可能会对业务产生影响，建议在业务低峰期进行。<br>
+2.如果节点正常且存在 Pod，请先执行“节点排水”，并确保集群资源充足，Pod 将自动迁移到其他节点。<br>
+3.如果节点状态异常，可直接移除。<br>
 </span></div> 
         		</div>	
             <br>			
         		<div class="layui-form-item">
                 <div class="layui-input-block">
-          			  <button class="layui-btn" lay-submit="" lay-filter="PodNumberSubmit">确定</button>
+          			  <button class="layui-btn" lay-submit="" lay-filter="NodeRemoveSubmit">确定</button>
                 </div>
         		</div>
       		</form>
@@ -181,11 +174,6 @@
     </div>
 </div>
 </body>
-<script type="text/javascript">
-    	$(document).ready(function(){
-          dashboard.NodeDynamicLine();  
-    	});		
-</script>
 <script type="text/html" id="limitKeyTpl">
   <div style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{d.limit_key}}</div>
 </script>
@@ -209,15 +197,21 @@
 	{{# } else { }}
     <span style="color:#FF5722">{{ d.podPhase}}</span>
 {{# } }}
-</script>        
+</script>   
+
+<script type="text/html" id="nodeStatusTpl">
+  {{# if ( d.status == 'False' ) { }}
+     <span style="color:#218868">{{ d.status}}</span>
+	{{# } else { }}
+    <span style="color:#FF5722">{{ d.status}}</span>
+{{# } }}
+</script>      
 
 <script type="text/html" id="toolbarDemo">
 </script>
         
 <script>
 
-//设置默认集群
-SetDefaultCluster();
 var clusterId = getQueryString("clusterId");
 if (clusterId == null) {
 	clusterId = getCookie("clusterId")
@@ -226,6 +220,8 @@ if (clusterId == null) {
 //小于1.22版本,排水接口用betav1版本
 var beta = 0;
 var clusterIdVersion = getCookie(clusterId);
+//console.log(clusterIdVersion);
+//console.log(compareVersions("1.22.0",clusterIdVersion));
 if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
   beta = 1;
 }
@@ -237,8 +233,12 @@ if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
             miniTab = layui.miniTab,
             miniTab.listen();
 
-    var nodeName = getQueryString("nodeName");
-    $('#nodeName').html(nodeName);
+      var nodeName = getQueryString("nodeName");
+      $('#nodeName').html(nodeName);
+
+    	$(document).ready(function(){
+          dashboard.NodeDynamicLine();  
+    	});	
 
       //deatail
 			$.get('/xkube/node/v1/Detail' + location.search, function (resp) {
@@ -320,7 +320,7 @@ if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
                     elem: '#conditionsTableId',
                     cols: [[
                         {field: 'ctype',width:200, title: '类型'},
-                        {field: 'status', width:150,title: '状态'},
+                        {field: 'status', width:150,title: '状态',templet: '#nodeStatusTpl'},
                         {field: 'lastTransitionTime',width:200, title: '最近更改'},      
                         {field: 'lastHertbeatTime',width:200, title: '最近心跳'}, 
                         {field: 'reason',title: '内容'},                          
@@ -334,6 +334,20 @@ if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
             layer.msg(resp.msg,{icon:2});
           }
 		  });
+      
+        table.render({
+            elem: '#resourceTableId',
+            url: '/xkube/node/v1/GetAllocated'+location.search,
+            cols: [[
+                        {field: 'resource', title: '资源'},
+                        {field: 'requests', title: '请求'},
+                        {field: 'limits',title: '限制'},      
+                        {field: 'requestPercent',title: '请求百分比'},                          
+                        {field: 'limitPercent',title: '限制百分比'}
+            ]],
+            //size:'lg',
+            page: false
+        });
 
         $('#EditYamlBtn').on("click",function(){
                 layer.open({
@@ -342,7 +356,7 @@ if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['50%', '90%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/nodeYaml.html'+ location.search,
                 });
         });
@@ -440,7 +454,6 @@ if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
 		      }); 
         });
 
-
         //节点移除
         $('#NodeRemove').on("click",function(){
                 layer.open({
@@ -453,6 +466,37 @@ if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
                     area: ['450px', '400px'],
                     content: $("#NodeRemoveTpl").html(),
                 });
+                form.render();
+        });
+
+        form.on('submit(NodeRemoveSubmit)', function (data) {              
+					      console.log(data.field);
+			          layer.confirm('确定移除该节点?'+nodeName, {icon: 3, title:'提示',yes: function(index){
+                     var index2 = layer.load(0, {shade: false});
+                     layer.msg('此处需运行3-5s左右');
+                     $.ajax({
+                       url: "/xkube/node/v1/Del" + location.search,
+                       type: "POST",
+                       data: JSON.stringify(data.field),
+                       dataType: "json",
+                       success: function (resp) {
+                                layer.close(index2);
+                                 if(resp.code == 0){
+                                    layer.msg('移除成功', {icon: 1});
+									                  //window.location.reload();
+                                 }else{
+                                    layer.msg(resp.msg,{icon:2});
+                                 }
+                        }
+                      });		  	  
+                  },
+                  cancel: function(index, layero){ 
+                    layer.close(index);
+                    layer.close(index2);
+		                console.log("不操作");
+                  } 
+                });
+              return false;
         });
 
        table.on('tool(currentTableFilter)', function (obj) {
@@ -464,7 +508,7 @@ if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['50%', '80%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/podTerminal.html?clusterId='+clusterId+"&nameSpace="+data.nameSpace +"&podName="+data.podName,
                 });
                 $(window).on("resize", function () {
@@ -478,7 +522,7 @@ if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['60%', '90%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/podLog.html?clusterId='+clusterId+"&nameSpace="+data.nameSpace +"&podName="+data.podName,
                 });
                 $(window).on("resize", function () {

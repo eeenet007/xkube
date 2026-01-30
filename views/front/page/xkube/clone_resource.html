@@ -6,10 +6,9 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
     <style type="text/css">
         .layui-table-cell {
@@ -133,26 +132,8 @@
     <span style="color:#FF5722">失败</span>
 {{# } }}
 </script>
-<script type="text/javascript">
-    	$(document).ready(function(){
-          GetCurrClusterId();  
-          GetNamespace();	
-    	});		
-</script>
 
 <script>
-
-
-	$.get('/xkube/cluster/v1/List', function (resp) {
-		$.each(resp.data,function(i,item){
-			var html = '<option value="'+item.cluster_id+'">'+item.cluster_name+'</option>'	
-			$("#target_clusterId").append(html);
-		});
-	   layui.use('form', function(){
-	           var form = layui.form;
-	           form.render();
-	   });		
-  });
 var clusterId = getQueryString("clusterId");
 if (clusterId == null) {
 	clusterId = getCookie("clusterId")
@@ -179,6 +160,19 @@ if ( compareVersions("1.22.0",clusterIdVersion) == 1 ) {
 				  })     
       }
       //$('#appNameTitle').html(cronjobName);
+
+      	$(document).ready(function(){
+            GetCurrClusterId();  
+            GetNamespace();	
+      	});	
+
+      	$.get('/xkube/cluster/v1/List', function (resp) {
+      		$.each(resp.data,function(i,item){
+      			var html = '<option value="'+item.cluster_id+'">'+item.cluster_name+'</option>'	
+      			$("#target_clusterId").append(html);
+      		});
+      	  form.render();		
+        });
 
         //选择集群
         form.on('select(target_clusterId)', function(data){

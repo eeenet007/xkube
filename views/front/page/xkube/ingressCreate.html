@@ -6,10 +6,10 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
     <style>
         body {
@@ -19,10 +19,15 @@
 </head>
 <body>
 <div class="layuimini-container">
+        <blockquote class="layui-elem-quote layui-text">
+            <a class="layui-btn" style="float:right" href="javascript:location.reload();" title="刷新">
+              <i class="layui-icon">&#xe669;</i></a>
+            提示：
+        </blockquote>
     <div class="layuimini-main">
         <form class="layui-form layui-form-pane" action="">
             <input type="hidden" name="paths" readonly="true" value="" class="layui-input" disabled>
-            <input type="hidden" name="lables" readonly="true" value="" class="layui-input" disabled>
+            <input type="hidden" name="labels" readonly="true" value="" class="layui-input" disabled>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">当前集群</label>
@@ -73,8 +78,8 @@
                     <div class="layui-input-inline" style="width:80px">  
                         <input type="text" id="ingress_svcPort0" name="ingress_svcPort[]" placeholder="端口" value="80" class="layui-input">
                     </div>   
-                    <div class="layui-input-inline" style="width:80px">  
-                        <button class="layui-btn layui-btn-normal" id="ingressaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                    <div class="layui-input-inline" style="margin-top:6px">  
+                        <button class="layui-btn layui-btn-normal layui-btn-xs" id="ingressaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
                     </div>          
                 </div> 
             </div> 
@@ -100,8 +105,8 @@
                   <div class="layui-input-inline" style="width:150px">  
                       <input type="text" id="labels_value0" name="labels_value[]" placeholder="value" value="" class="layui-input">
                   </div>
-                  <div class="layui-input-inline" style="width:80px">  
-                      <button class="layui-btn layui-btn-normal" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                  <div class="layui-input-inline" style="margin-top:6px">  
+                      <button class="layui-btn layui-btn-normal layui-btn-xs" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
                   </div>                
               </div> 
             </div>
@@ -136,7 +141,7 @@
       $("#itpl-"+id).remove();
     }
 
-SetDefaultCluster();
+//SetDefaultCluster();
 var clusterId = getQueryString("clusterId");
 if (clusterId == null) {
 	clusterId = getCookie("clusterId")
@@ -174,8 +179,8 @@ if ( compareVersions("1.20.1",clusterIdVersion) == 1 ) {
                   '<div class="layui-input-inline" style="width:150px">' +  
                       '<input type="text" name="labels_value[]" id="labels_value'+TplIndex+'" placeholder="value" value="" class="layui-input">' +
                   '</div>' +
-                  '<div class="layui-input-inline" style="width:80px">' +  
-                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" style="width:60px" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
+                  '<div class="layui-input-inline" style="margin-top:6px">' +  
+                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon layui-btn-xs" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
                   '</div>' +                
               '</div>'
             $('.labelsTpl').append(addTpl);   
@@ -205,8 +210,8 @@ if ( compareVersions("1.20.1",clusterIdVersion) == 1 ) {
                     '<div class="layui-input-inline"  style="width:80px">' +  
                         '<input type="text" name="ingress_svcPort[]" id="ingress_svcPort'+iTplIndex+'" placeholder="端口" value="80" class="layui-input">' +                        
                     '</div>' +   
-                    '<div class="layui-input-inline" style="width:80px">' +  
-                        '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" style="width:60px" type="button" id="newDelbtn" value="&#xe616;" onclick="deliTpl('+iTplIndex+');" />' +
+                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                        '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon layui-btn-xs" type="button" id="newDelbtn" value="&#xe616;" onclick="deliTpl('+iTplIndex+');" />' +
                     '</div>' +              
                 '</div>' 
             $('.ingressTpl').append(addTpl);   
@@ -236,7 +241,7 @@ if ( compareVersions("1.20.1",clusterIdVersion) == 1 ) {
                   }
                 }
                 if (labelsArry.length > 0) {
-                  data.field.lables = labelsArry;
+                  data.field.labels = labelsArry;
                 }
 
                 //ingress 处理

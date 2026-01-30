@@ -6,10 +6,10 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
 </head>
 <body>
 <div class="layuimini-container">
@@ -145,45 +145,6 @@
 </script>
 
 <script>
-	//加载编辑时的角色复选框
-    $.ajax({
-        url: "/rbac/role/List",
-        type: "GET",
-		    headers: {'X-Requested-With':'XMLHttpRequest'},
-        dataType: "json",
-        success: function(resp) {
-			  var jsondatas = eval(resp.data);
-    		$.ajax({
-        		url: "/rbac/role/GetridByuid" + location.search,
-        		type: "GET",
-				    headers: {'X-Requested-With':'XMLHttpRequest'},
-        		dataType: "json",
-        		success: function(resp2) {
-      					var jsondatas2 = eval(resp2);
-      					var html = '';
-      					var rolearry = new Array();
-      					$.each(resp2, function (j, item) {
-      						rolearry.push(jsondatas2[j].Role);
-      					});	
-      					
-      					$.each(resp.data, function (i, item) {
-      						//console.log(rolearry.indexOf(jsondatas[i].Id));
-      						if (rolearry.indexOf(jsondatas[i].Id) >= 0) {
-      							html += '<input type="checkbox" name="Roleid" value="' + jsondatas[i].Id + '" title="' + jsondatas[i].Name+'" checked="true">';
-      						}else{
-      							html += '<input type="checkbox" name="Roleid" value="' + jsondatas[i].Id + '" title="' + jsondatas[i].Name+'">';
-      						}	
-      					});	
-      					$("#RoleCheckBox").append(html);
-      					
-      					layui.use('form', function(){
-                   			var form = layui.form;
-                  			form.render();
-          			});						
-        		}
-    		});				
-        }
-    });	
 
     layui.use(['form', 'table'], function () {
         var $ = layui.jquery,
@@ -211,6 +172,47 @@
     				  })
   				  }
 		    });	
+
+  	  //加载编辑时的角色复选框
+      $.ajax({
+          url: "/rbac/role/List",
+          type: "GET",
+  		    headers: {'X-Requested-With':'XMLHttpRequest'},
+          dataType: "json",
+          success: function(resp) {
+  			  var jsondatas = eval(resp.data);
+      		$.ajax({
+          		url: "/rbac/role/GetridByuid" + location.search,
+          		type: "GET",
+  				    headers: {'X-Requested-With':'XMLHttpRequest'},
+          		dataType: "json",
+          		success: function(resp2) {
+        					var jsondatas2 = eval(resp2);
+        					var html = '';
+        					var rolearry = new Array();
+        					$.each(resp2, function (j, item) {
+        						rolearry.push(jsondatas2[j].Role);
+        					});	
+        					
+        					$.each(resp.data, function (i, item) {
+        						//console.log(rolearry.indexOf(jsondatas[i].Id));
+        						if (rolearry.indexOf(jsondatas[i].Id) >= 0) {
+        							html += '<input type="checkbox" name="Roleid" value="' + jsondatas[i].Id + '" title="' + jsondatas[i].Name+'" checked="true">';
+        						}else{
+        							html += '<input type="checkbox" name="Roleid" value="' + jsondatas[i].Id + '" title="' + jsondatas[i].Name+'">';
+        						}	
+        					});	
+        					$("#RoleCheckBox").append(html);
+        					
+        					layui.use('form', function(){
+                     			var form = layui.form;
+                    			form.render();
+            			});						
+          		}
+      		});				
+          }
+      });	
+
 
           //自定义验证规则
 		  form.verify({

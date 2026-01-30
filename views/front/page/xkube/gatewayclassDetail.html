@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>gatewayclass详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+                  <button class="layui-btn" id="EditYamlBtn">yaml编辑</button>
+                  <!-- <button class="layui-btn layui-btn-danger" id="DelBtn">删除</button> -->
+                  <br><br>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
+                <legend>元数据</legend>
+            </fieldset>  
+              <blockquote class="layui-elem-quote layui-quote-nm">
+                  <table class="layui-table" lay-even="" lay-size="lm">
+                    <colgroup>
+                      <col width="150">
+                      <col width="400">
+                      <col width="150">
+                      <col>
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td>名称:</td>
+                        <td><div id="gatewayClassName"></div></td>
+                        <td>创建时间:</td>
+                        <td><div id="createTime"></div></td>
+                      </tr>
+                      <tr>
+                        <td>控制器名称:</td>
+                        <td><div id="controllerName"></div></td>
+                        <td>接受状态:</td>
+                        <td><div id="accepted"></div></td>
+                      </tr>
+                      <tr>
+                        <td>描述:</td>
+                        <td colspan="3"><div id="description"></div></td>
+                      </tr>
+                    </tbody>
+                  </table> 
+              </blockquote> 
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>状态信息</legend>
+            </fieldset>
+            
+            <div id="conditionsContainer">
+            </div>
+    </div>
+</div>
+</body>
+<script>
+    layui.use(['form', 'table','miniTab'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+        var gatewayClassName = getQueryString("gatewayClassName");
+
+        $('#EditYamlBtn').on("click",function(){
+                layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['75%', '90%'],
+                    content: '/page/xkube/gatewayclassYaml.html'+location.search,
+                });
+        });
+
+        //detail详细
+        $.get('/xkube/gatewayclass/v1/Detail' + location.search, function (resp) {
+  				  if (resp.code == 0 && resp.data.gatewayClassName != '' ) {
+                var data = resp.data;
+                
+                //基本信息
+                $('#gatewayClassName').html(data.gatewayClassName);
+                $('#controllerName').html(data.controllerName);
+                $('#accepted').html(data.accepted);
+                $('#description').html(data.description);
+                $('#createTime').html(data.createTime);
+                $('#age').html(data.age);
+
+                // 条件信息
+                var conditionsHtml = '<table class="layui-table" lay-even="" lay-size="lm">' +
+                    '<thead>' +
+                    '<tr>' +
+                    '<th>类型</th>' +
+                    '<th>状态</th>' +
+                    '<th>原因</th>' +
+                    '<th>消息</th>' +
+                    '<th>最后转换时间</th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody>';
+                    
+                if (data.conditions && data.conditions.length > 0) {
+                    for (var i = 0; i < data.conditions.length; i++) {
+                        var condition = data.conditions[i];
+                        conditionsHtml += '<tr>' +
+                            '<td>' + condition.type + '</td>' +
+                            '<td>' + condition.status + '</td>' +
+                            '<td>' + (condition.reason || '') + '</td>' +
+                            '<td>' + (condition.message || '') + '</td>' +
+                            '<td>' + (condition.lastTransitionTime || '') + '</td>' +
+                            '</tr>';
+                    }
+                } else {
+                    conditionsHtml += '<tr><td colspan="5">暂无条件信息</td></tr>';
+                }
+                
+                conditionsHtml += '</tbody></table>';
+                $('#conditionsContainer').html(conditionsHtml);
+                
+                // 渲染表格
+                layui.table.init();
+            }else{
+              layer.msg('请重新刷新',{icon:2});
+            }
+		    });
+    });
+</script>
+</html>

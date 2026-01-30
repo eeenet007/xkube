@@ -6,10 +6,10 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
     <style>
         body {
@@ -19,6 +19,11 @@
 </head>
 <body>
 <div class="layuimini-container">
+        <blockquote class="layui-elem-quote layui-text">
+            <a class="layui-btn" style="float:right" href="javascript:location.reload();" title="刷新">
+              <i class="layui-icon">&#xe669;</i></a>
+            提示：
+        </blockquote>
     <div class="layuimini-main">
         <form class="layui-form layui-form-pane" action="">
 
@@ -89,8 +94,8 @@
                   <div class="layui-input-inline">  
                       <input type="text" id="labels_value0" name="labels_value[]" placeholder="value" value="" class="layui-input">
                   </div>
-                  <div class="layui-input-inline" style="width:80px">  
-                      <button class="layui-btn layui-btn-normal" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                  <div class="layui-input-inline" style="margin-top:6px">  
+                      <button class="layui-btn layui-btn-normal layui-btn-xs" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
                   </div>                
               </div> 
             </div>
@@ -320,13 +325,13 @@
               <div class="layui-form-item">
                   <label class="layui-form-label">环境变量</label>
                   <div class="layui-input-inline" style="width:150px">  
-                      <input type="text" id="env_name0" name="env_name[]" placeholder="name" value="" class="layui-input">
+                      <input type="text" id="env_name0" name="env_name[]" placeholder="key" value="" class="layui-input">
                   </div>
                   <div class="layui-input-inline" style="width:150px">  
                       <input type="text" id="env_value0" name="env_value[]" placeholder="value" value="" class="layui-input">
                   </div>
-                  <div class="layui-input-inline" style="width:80px">  
-                      <button class="layui-btn layui-btn-normal" id="variableddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                  <div class="layui-input-inline" style="margin-top:6px">  
+                      <button class="layui-btn layui-btn-normal layui-btn-xs" id="variableddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
                   </div>                
               </div> 
             </div>
@@ -345,17 +350,17 @@
             <div class="serviceTpl">
               <div class="layui-form-item">
                   <label class="layui-form-label">svc端口</label>
-                  <div class="layui-input-inline" style="width:100px">  
-                      <input type="text" id="svc_portsName0" name="svc_portsName[]" placeholder="名称" value="http" class="layui-input">
+                  <div class="layui-input-inline" style="width:150px">  
+                      <input type="text" id="svc_portsName0" name="svc_portsName[]" placeholder="名称" value="" class="layui-input">
                   </div>
-                  <div class="layui-input-inline" style="width:100px">  
-                      <input type="text" id="svc_port0" name="svc_port[]" placeholder="服务端口" value="80" class="layui-input">
+                  <div class="layui-input-inline" style="width:150px">  
+                      <input type="text" id="svc_port0" name="svc_port[]" placeholder="服务端口" value="" class="layui-input">
                   </div>
-                  <div class="layui-input-inline" style="width:100px">  
-                      <input type="text" id="svc_targetPort0" name="svc_targetPort[]" placeholder="容器端口" value="80" class="layui-input">
+                  <div class="layui-input-inline" style="width:150px">  
+                      <input type="text" id="svc_targetPort0" name="svc_targetPort[]" placeholder="容器端口" value="" class="layui-input">
                   </div>
-                  <div class="layui-input-inline" style="width:80px">  
-                      <button class="layui-btn layui-btn-normal" id="svcaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                  <div class="layui-input-inline" style="margin-top:6px">  
+                      <button class="layui-btn layui-btn-normal layui-btn-xs" id="svcaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
                   </div>                
               </div> 
             </div>
@@ -380,12 +385,6 @@
     	});		
 </script>
 <script>
-
-//SetDefaultCluster();
-//var clusterId = getQueryString("clusterId");
-//if (clusterId == null) {
-//	clusterId = getCookie("clusterId")
-//}
 
     //标签删除
     var TplIndex = 0;
@@ -430,60 +429,69 @@
         });
 
 //附加配置处
-        $("#healthCheckTpl").hide();
-        $("#resourceLimitTpl").hide();
-        $("#periodTpl").hide();
-        $("#variableTpl").hide();
-        $("#serviceTpl").hide();
-        $("#ingressTpl").hide();        
+        //$("#healthCheckTpl").hide();
+        //$("#resourceLimitTpl").hide();
+        //$("#periodTpl").hide();
+        //$("#variableTpl").hide();
+        //$("#serviceTpl").hide();
+
+        $("#healthCheckTpl").toggleClass('layui-hide');
+        $("#resourceLimitTpl").toggleClass('layui-hide');
+        $("#periodTpl").toggleClass('layui-hide');
+        $("#variableTpl").toggleClass('layui-hide');
+        $("#serviceTpl").toggleClass('layui-hide');
+       
         form.on('checkbox(resourceLimitCheck)', function (data) { 
               //console.log(data.elem.checked);
               if (data.elem.checked) {
-                $("#resourceLimitTpl").show();
+                //$("#resourceLimitTpl").show();
+                $('#resourceLimitTpl').removeClass('layui-hide').addClass('layui-show');
               }else{
-                $("#resourceLimitTpl").hide();
+                //$("#resourceLimitTpl").hide();
+                $('#resourceLimitTpl').removeClass('layui-show').addClass('layui-hide');
               }
         });
         form.on('checkbox(healthCheck)', function (data) { 
               //console.log(data.elem.checked);
               if (data.elem.checked) {
-                $("#healthCheckTpl").show();
+                //$("#healthCheckTpl").show();
+                $('#healthCheckTpl').removeClass('layui-hide').addClass('layui-show');
               }else{
-                $("#healthCheckTpl").hide();
+                //$("#healthCheckTpl").hide();
+                $('#healthCheckTpl').removeClass('layui-show').addClass('layui-hide');
               }
         });
         form.on('checkbox(periodCheck)', function (data) { 
               //console.log(data.elem.checked);
               if (data.elem.checked) {
-                $("#periodTpl").show();
+                //$("#periodTpl").show();
+                $('#periodTpl').removeClass('layui-hide').addClass('layui-show');
               }else{
-                $("#periodTpl").hide();
+                //$("#periodTpl").hide();
+                $('#periodTpl').removeClass('layui-show').addClass('layui-hide');
               }
         });
         form.on('checkbox(variableCheck)', function (data) { 
               //console.log(data.elem.checked);
               if (data.elem.checked) {
-                $("#variableTpl").show();
+                //$("#variableTpl").show();
+                $('#variableTpl').removeClass('layui-hide').addClass('layui-show');
               }else{
-                $("#variableTpl").hide();
+                //$("#variableTpl").hide();
+                $('#variableTpl').removeClass('layui-show').addClass('layui-hide');
               }
         });
         form.on('checkbox(serviceCheck)', function (data) { 
               //console.log(data.elem.checked);
               if (data.elem.checked) {
-                $("#serviceTpl").show();
+                //$("#serviceTpl").show();
+                $('#serviceTpl').removeClass('layui-hide').addClass('layui-show');
               }else{
-                $("#serviceTpl").hide();
+                //$("#serviceTpl").hide();
+                $('#serviceTpl').removeClass('layui-show').addClass('layui-hide');
               }
         });
-        form.on('checkbox(ingressCheck)', function (data) { 
-              //console.log(data.elem.checked);
-              if (data.elem.checked) {
-                $("#ingressTpl").show();
-              }else{
-                $("#ingressTpl").hide();
-              }
-        });
+
 
 //健康检测处
         $("#readinessCheckTpl").hide();
@@ -555,8 +563,8 @@
                   '<div class="layui-input-inline">' +  
                       '<input type="text" name="labels_value[]" id="labels_value'+TplIndex+'" placeholder="value" value="" class="layui-input">' +
                   '</div>' +
-                  '<div class="layui-input-inline" style="width:80px">' +  
-                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
+                  '<div class="layui-input-inline" style="margin-top:6px">' +  
+                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon layui-btn-xs" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
                   '</div>' +                
               '</div>'
             $('.labelsTpl').append(addTpl);   
@@ -576,8 +584,8 @@
                   '<div class="layui-input-inline" style="width:150px">' +  
                       '<input type="text" name="env_value[]" id="env_value'+vTplIndex+'" placeholder="value" value="" class="layui-input">' +
                   '</div>' +
-                  '<div class="layui-input-inline" style="width:80px">' +  
-                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" type="button" value="&#xe616;" onclick="delvTpl('+vTplIndex+');" />' +
+                  '<div class="layui-input-inline" style="margin-top:6px">' +  
+                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon layui-btn-xs" type="button" value="&#xe616;" onclick="delvTpl('+vTplIndex+');" />' +
                   '</div>' +                
               '</div>'
             $('.variableTpl').append(addTpl);   
@@ -591,17 +599,17 @@
           var addTpl =
               '<div class="layui-form-item" id="stpl-'+sTplIndex+'">' +
                   '<label class="layui-form-label">svc端口</label>' +
-                  '<div class="layui-input-inline" style="width:100px">' +
+                  '<div class="layui-input-inline" style="width:150px">' +
         	              '<input type="text" name="svc_portsName[]" id="svc_portsName'+sTplIndex+'" placeholder="名称" value="" class="layui-input">' +
                   '</div>' +    
-                  '<div class="layui-input-inline" style="width:100px">' +  
-                      '<input type="text" name="svc_port[]" id="svc_port'+sTplIndex+'" placeholder="服务端口" value="80" class="layui-input">' +
+                  '<div class="layui-input-inline" style="width:150px">' +  
+                      '<input type="text" name="svc_port[]" id="svc_port'+sTplIndex+'" placeholder="服务端口" value="" class="layui-input">' +
                   '</div>' +
-                  '<div class="layui-input-inline" style="width:100px">' +  
-                      '<input type="text" name="svc_targetPort[]" id="svc_targetPort'+sTplIndex+'" placeholder="容器端口" value="80" class="layui-input">' +
+                  '<div class="layui-input-inline" style="width:150px">' +  
+                      '<input type="text" name="svc_targetPort[]" id="svc_targetPort'+sTplIndex+'" placeholder="容器端口" value="" class="layui-input">' +
                   '</div>' +
-                  '<div class="layui-input-inline" style="width:80px">' +  
-                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" type="button" value="&#xe616;" onclick="delsTpl('+sTplIndex+');" />' +
+                  '<div class="layui-input-inline" style="margin-top:6px">' +  
+                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon layui-btn-xs" type="button" value="&#xe616;" onclick="delsTpl('+sTplIndex+');" />' +
                   '</div>' +                
               '</div>'
             $('.serviceTpl').append(addTpl);   

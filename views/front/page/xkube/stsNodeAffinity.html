@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>节点亲和性设置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+        <blockquote class="layui-elem-quote layui-text">
+            <a class="layui-btn" style="float:right" href="javascript:location.reload();" title="刷新">
+              <i class="layui-icon">&#xe669;</i></a>
+            操作提示：<br>
+            1.节点的亲和性有如下4种方式,可以使用其中一种或多种方式<br>
+            2.几种类型优先级：nodeName > nodeSelector > nodeAffinity<br>
+            3.当operator为Exists/DoesNotExist时,标签值必须为空
+        </blockquote>
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>1.节点选择[nodeName]</legend>
+            </fieldset>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label required">节点名称</label>
+                <div class="layui-input-inline" style="width:390px">
+                    <!-- nodeName和jquery的关键字冲突加个s-->
+                    <input type="text" name="nodeNames" id="nodeNames" placeholder="nodeName" value="" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">注:填写完整的node的节点名称,在集群信息-节点可查看节点名称</div>
+            </div>
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>2.节点标签选择[nodeSelector]</legend>
+            </fieldset>
+
+            <div class="labelsTpl"></div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="margin-top:6px">  
+                    <button class="layui-btn layui-btn-normal layui-btn-xs" id="addLablesbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                </div> 
+            </div> 
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>3.1节点亲和性[nodeAffinity]-必须满足[requiredDuringSchedulingIgnoredDuringExecution]</legend>
+            </fieldset>
+            <div class="layui-collapse" lay-filter="test">
+                <!-- 动态内容将插入这里 -->
+                <div class="ingRulePathTpl"></div>
+            </div>
+            <div class="layui-form-item" style="margin-top:5px;">
+                <div class="layui-input-inline">  
+                    <button class="layui-btn layui-btn-normal layui-btn-xs" id="newaddbtn" type="button"><i class="layui-icon layui-icon-add-circle"></i></button>
+                </div> 
+            </div> 
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>3.2节点亲和性[nodeAffinity]-尽量满足[preferredDuringSchedulingIgnoredDuringExecution]</legend>
+            </fieldset>
+            <div class="preferredTpl"></div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="margin-top:6px">  
+                    <button class="layui-btn layui-btn-normal layui-btn-xs" id="addPreferredBtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                </div> 
+            </div> 
+            <br>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+
+    //标签删除
+    var labelsIndex = 0;
+    function delLabelsTpl(id) {
+      labelsIndex--;
+      console.log(labelsIndex);
+      $("#labelsTpl-"+id).remove();
+    }
+
+(function() {
+    // 使用闭包避免全局变量污染
+    var state = {
+        iTplIndex: 0,
+        preTplIndex: 0
+    };
+
+    // 删除-必须满足[requiredDuringSchedulingIgnoredDuringExecution]
+    function deliTpl(id) {
+        layer.confirm('确定删除该规则?', {
+            icon: 3, 
+            title: '提示'
+        }, function(index) {
+            $("#itpl-" + id).remove();
+            state.iTplIndex--;           
+            layer.close(index);
+        });
+    }
+
+    // 删除单条--必须满足[requiredDuringSchedulingIgnoredDuringExecution]
+    function delpTpl(pid, sid) {      
+      $("#ptpl-" + pid + "_" + sid).remove();
+    }
+
+    // 添加路--必须满足[requiredDuringSchedulingIgnoredDuringExecution]
+    function addpTpl(pid, sid) {
+        var addpathTpl = 
+            '<div class="layui-form-item" id="ptpl-' + pid + '_' + sid + '">' +
+                '<label class="layui-form-label">规则</label>' +  
+                '<div class="layui-input-inline">' +  
+                    '<input type="text" name="rKey_' + pid + '_' + sid + '" placeholder="标签名" value="" class="layui-input">' +
+                '</div>' +
+                '<div class="layui-input-inline">' +  
+                    '<select name="rOperator_' + pid + '_' + sid + '">' +  
+                        '<option value="" selected>操作符</option>' + 
+                        '<option value="In">In</option>' +  
+                        '<option value="NotIn">NotIn</option>' +  
+                        '<option value="Exists">Exists</option>' +  
+                        '<option value="DoesNotExist">DoesNotExist</option>' + 
+                        '<option value="Gt">Gt</option>' +  
+                        '<option value="Lt">Lt</option>' +  
+                    '</select>' +  
+                '</div>' +
+                '<div class="layui-input-inline">' +  
+                    '<input type="text" name="rValues_' + pid + '_' + sid + '" placeholder="标签值" value="" class="layui-input">' +
+                '</div>' +   
+                '<div class="layui-input-inline" style="margin-top:6px">' +  
+                    '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.xkubeHandlers.delpTpl(' + pid + ',' + sid + ');">' +
+                '</div>' +             
+            '</div>';
+        
+        $(".RuleTpl_" + pid).append(addpathTpl); 
+        console.log("addpTpl: " + pid + " " + sid);
+        layui.use(['form'], function () {
+            var form = layui.form;
+            form.render(); 
+        });
+    }
+
+
+    // 删除-尽量满足[preferredDuringSchedulingIgnoredDuringExecution]
+    function delPreiTpl(id) {
+        layer.confirm('确定删除该规则?', {
+            icon: 3, 
+            title: '提示'
+        }, function(index) {
+            $("#preitpl-" + id).remove();
+            state.preTplIndex--;           
+            layer.close(index);
+        });
+    }
+
+    // 删除单条-尽量满足[preferredDuringSchedulingIgnoredDuringExecution]
+    function delPrepTpl(pid, sid) {      
+      $("#preptpl-" + pid + "_" + sid).remove();
+    }
+
+
+    // 添加路由-尽量满足[preferredDuringSchedulingIgnoredDuringExecution]
+    function addPrepTpl(pid, sid) {
+        var addpathTpl = 
+            '<div class="layui-form-item" id="preptpl-' + pid + '_' + sid + '">' +
+                '<label class="layui-form-label">规则</label>' +  
+                '<div class="layui-input-inline">' +  
+                    '<input type="text" name="pKey_' + pid + '_' + sid + '" placeholder="标签名" value="" class="layui-input">' +
+                '</div>' +
+                '<div class="layui-input-inline">' +  
+                    '<select name="pOperator_' + pid + '_' + sid + '">' +  
+                        '<option value="" selected>操作符</option>' + 
+                        '<option value="In">In</option>' +  
+                        '<option value="NotIn">NotIn</option>' +  
+                        '<option value="Exists">Exists</option>' +  
+                        '<option value="DoesNotExist">DoesNotExist</option>' + 
+                        '<option value="Gt">Gt</option>' +  
+                        '<option value="Lt">Lt</option>' +  
+                    '</select>' +  
+                '</div>' +
+                '<div class="layui-input-inline">' +  
+                    '<input type="text" name="pValues_' + pid + '_' + sid + '" placeholder="标签值" value="" class="layui-input">' +
+                '</div>' +   
+                '<div class="layui-input-inline" style="margin-top:6px">' +  
+                    '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.preferredHandlers.delPrepTpl(' + pid + ',' + sid + ');">' +
+                '</div>' +             
+            '</div>';
+        
+        $(".PreRuleTpl_" + pid).append(addpathTpl); 
+        console.log("addPrepTpl: " + pid + " " + sid);
+        layui.use(['form'], function () {
+            var form = layui.form;
+            form.render(); 
+        });
+    }
+
+
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+
+    // 初始化页面
+    function initPage() {
+        layui.use(['form', 'element'], function () {
+            var $ = layui.jquery,
+                form = layui.form;
+
+            // 获取规则数据
+            $.get('/xkube/sts/v1/GetNodeAffinity' + location.search, function (resp) {
+                if (resp.code == 0) {
+                    $('.ingRulePathTpl').empty(); // 清空现有内容
+                    $('.preferredTpl').empty();
+                    $('.labelsTpl').empty();
+
+                    var inputElement = document.getElementById('nodeNames');
+                    inputElement.value = resp.data.nodeNames;
+
+                    //nodeSelector
+                		$.each(resp.data.nodeSelector,function(i,item){
+                          labelsIndex++;
+                          console.log(labelsIndex);
+                          var addTpl =
+                              '<div class="layui-form-item" id="labelsTpl-'+labelsIndex+'">' +
+                                  '<label class="layui-form-label">标签</label>' +
+                                  '<div class="layui-input-inline">' +
+                        	              '<input type="text" name="labels_key[]" id="labels_key'+labelsIndex+'" placeholder="key" value="'+item.key+'" class="layui-input">' +
+                                  '</div>' +    
+                                  '<div class="layui-input-inline">' +  
+                                      '<input type="text" name="labels_value[]" id="labels_value'+labelsIndex+'" placeholder="value" value="'+item.value+'" class="layui-input">' +
+                                  '</div>' +
+                                  '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                      '<input class="layui-btn layui-btn-normal layui-btn-xs layui-bg-orange layui-icon" type="button" id="delLabelsbtn" value="&#xe616;" onclick="delLabelsTpl('+labelsIndex+');" />' +
+                                  '</div>' +                
+                              '</div>'
+                            $('.labelsTpl').append(addTpl);  
+                		});  
+                    
+                    //requiredDuringSchedulingIgnoredDuringExecution
+                    $.each(resp.data.requiredAffinity, function(i, item) {
+                        state.iTplIndex++;
+                        var itemId = state.iTplIndex;                       
+                        var index = i+1; 
+                        var headTpl =
+                            '<div id="itpl-' + itemId + '">' +
+                                    '<blockquote class="layui-elem-quote">' +
+                                        '<div class="layui-form-item">' +
+                                            '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                                '<input class="layui-btn layui-icon layui-btn-xs layui-btn-danger" type="button" value="&#xe616;" onclick="window.xkubeHandlers.deliTpl(' + itemId + ');" />' +
+                                            '</div>' + 
+                                        '</div>' + 
+                                        '<div class="RuleTpl_' + itemId + '"></div>';
+                        
+                        var ruleTpl = '';
+                        $.each(item.expressions, function(j, item2) {
+                            ruleTpl +=
+                                '<div class="layui-form-item" id="ptpl-' + itemId + '_' + (j+1) + '">' +
+                                    '<label class="layui-form-label">规则</label>' +  
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="rKey_' + itemId + '_' + (j+1) + '" placeholder="标签名" value="' + item2.key + '" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<select name="rOperator_' + itemId + '_' + (j+1) + '">' +  
+                                            '<option value="">操作符</option>' +
+                                            '<option value="In" '+(item2.operator === 'In' ? 'selected' : '')+'>In</option>' +
+                                            '<option value="NotIn" '+(item2.operator === 'NotIn' ? 'selected' : '')+'>NotIn</option>' +
+                                            '<option value="Exists" '+(item2.operator === 'Exists' ? 'selected' : '')+'>Exists</option>' +
+                                            '<option value="DoesNotExist" '+(item2.operator === 'DoesNotExist' ? 'selected' : '')+'>DoesNotExist</option>' +
+                                            '<option value="Gt" '+(item2.operator === 'Gt' ? 'selected' : '')+'>Gt</option>' +
+                                            '<option value="Lt" '+(item2.operator === 'Lt' ? 'selected' : '')+'>Lt</option>' +
+                                        '</select>' +  
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="rValues_' + itemId + '_' + (j+1) + '" placeholder="标签值" value="' + item2.value + '" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.xkubeHandlers.delpTpl(' + itemId + ',' + (j+1) + ');">' +
+                                    '</div>' +             
+                                '</div>';
+                        });
+                        
+                        var endTpl =
+                                    '<div class="layui-form-item">' +
+                                        '<div class="layui-input-inline" style="margin-top:6px">' +   
+                                            '<input class="layui-btn layui-icon layui-btn-xs" type="button" value="&#xe624;" onclick="window.xkubeHandlers.addpTpl(' + itemId + ', 1);" />' +
+                                        '</div>' + 
+                                    '</div>' +  
+                                  '</blockquote>' +  
+                            '</div>';
+                        //console.log(headTpl + ruleTpl + endTpl);
+                        $('.ingRulePathTpl').append(headTpl + ruleTpl + endTpl);  
+                    });   
+
+                    //preferredDuringSchedulingIgnoredDuringExecution
+                    $.each(resp.data.preferredAffinity, function(i, item) {
+                        state.preTplIndex++;
+                        var itemId = state.preTplIndex;                       
+                        var headTpl =
+                            '<div id="preitpl-' + itemId + '">' +
+                                    '<blockquote class="layui-elem-quote">' +
+                                        '<div class="layui-form-item">' +
+                                            '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                                '<input class="layui-btn layui-icon layui-btn-xs layui-btn-danger" type="button" value="&#xe616;" onclick="window.preferredHandlers.delPreiTpl(' + itemId + ');" />' +
+                                            '</div>' + 
+                                        '</div>' + 
+                                        '<div class="layui-form-item">' +
+                                            '<label class="layui-form-label">权重</label>' + 
+                                            '<div class="layui-input-inline">' +  
+                                                '<input type="text" name="weight_' + itemId + '" placeholder="权重" value="' + item.weight + '" class="layui-input">' +
+                                            '</div>' +
+                                        '</div>' +  
+                                        '<div class="PreRuleTpl_' + itemId + '"></div>';
+                        
+                        var ruleTpl = '';
+                        $.each(item.expressions, function(j, item2) {
+                            ruleTpl +=
+                                '<div class="layui-form-item" id="preptpl-' + itemId + '_' + (j+1) + '">' +
+                                    '<label class="layui-form-label">规则</label>' +  
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="pKey_' + itemId + '_' + (j+1) + '" placeholder="标签名" value="' + item2.key + '" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<select name="pOperator_' + itemId + '_' + (j+1) + '">' +  
+                                            '<option value="">操作符</option>' +
+                                            '<option value="In" '+(item2.operator === 'In' ? 'selected' : '')+'>In</option>' +
+                                            '<option value="NotIn" '+(item2.operator === 'NotIn' ? 'selected' : '')+'>NotIn</option>' +
+                                            '<option value="Exists" '+(item2.operator === 'Exists' ? 'selected' : '')+'>Exists</option>' +
+                                            '<option value="DoesNotExist" '+(item2.operator === 'DoesNotExist' ? 'selected' : '')+'>DoesNotExist</option>' +
+                                            '<option value="Gt" '+(item2.operator === 'Gt' ? 'selected' : '')+'>Gt</option>' +
+                                            '<option value="Lt" '+(item2.operator === 'Lt' ? 'selected' : '')+'>Lt</option>' +
+                                        '</select>' +  
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="pValues_' + itemId + '_' + (j+1) + '" placeholder="标签值" value="' + item2.value + '" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.preferredHandlers.delPreiTpl(' + itemId + ',' + (j+1) + ');">' +
+                                    '</div>' +             
+                                '</div>';
+                        });
+                        
+                        var endTpl =
+                                    '<div class="layui-form-item">' +
+                                        '<div class="layui-input-inline" style="margin-top:6px">' +   
+                                            '<input class="layui-btn layui-icon layui-btn-xs" type="button" value="&#xe624;" onclick="window.preferredHandlers.addPrepTpl(' + itemId + ', 1);" />' +
+                                        '</div>' + 
+                                    '</div>' +  
+                                  '</blockquote>' +  
+                            '</div>';
+                        
+                        $('.preferredTpl').append(headTpl + ruleTpl + endTpl);  
+                    });   
+                    
+                    form.render();
+                } else {
+                    layer.msg('加载失败', {icon: 2});
+                }
+            });
+
+            //labes add
+            $('#addLablesbtn').on("click",function(){
+              labelsIndex++;
+              console.log(labelsIndex);
+              var addTpl =
+                  '<div class="layui-form-item" id="labelsTpl-'+labelsIndex+'">' +
+                      '<label class="layui-form-label">标签</label>' +
+                      '<div class="layui-input-inline">' +
+            	              '<input type="text" name="labels_key[]" id="labels_key'+labelsIndex+'" placeholder="key" value="" class="layui-input">' +
+                      '</div>' +    
+                      '<div class="layui-input-inline">' +  
+                          '<input type="text" name="labels_value[]" id="labels_value'+labelsIndex+'" placeholder="value" value="" class="layui-input">' +
+                      '</div>' +
+                      '<div class="layui-input-inline"  style="margin-top:6px">' +  
+                          '<input class="layui-btn layui-btn-normal layui-btn-xs layui-bg-orange layui-icon" type="button" id="delLabelsbtn" value="&#xe616;" onclick="delLabelsTpl('+labelsIndex+');" />' +
+                      '</div>' +                
+                  '</div>'
+                $('.labelsTpl').append(addTpl);   
+              //form.render(); 
+              return false;   
+            });
+
+            // requiredDuringSchedulingIgnoredDuringExecution
+            $('#newaddbtn').on("click", function() {
+                state.iTplIndex++;
+                var newItemId = state.iTplIndex;
+                
+                var addRuleTpl =
+                    '<div id="itpl-' + newItemId + '">' +
+                            '<blockquote class="layui-elem-quote">' +
+                                '<div class="layui-form-item">' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-icon layui-btn-xs layui-btn-danger" type="button" value="&#xe616;" onclick="window.xkubeHandlers.deliTpl(' + newItemId + ');" />' +
+                                    '</div>' + 
+                                '</div>' +  
+                                '<div class="RuleTpl_' + newItemId + '"></div>' +  
+                                '<div class="layui-form-item" id="ptpl-' + newItemId + '_1">' +
+                                    '<label class="layui-form-label">规则</label>' +  
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="rKey_' + newItemId + '_1" placeholder="标签名" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<select name="rOperator_' + newItemId + '_1">' +  
+                                            '<option value="" selected>操作符</option>' + 
+                                            '<option value="In">In</option>' +  
+                                            '<option value="NotIn">NotIn</option>' +  
+                                            '<option value="Exists">Exists</option>' +  
+                                            '<option value="DoesNotExist">DoesNotExist</option>' + 
+                                            '<option value="Gt">Gt</option>' +  
+                                            '<option value="Lt">Lt</option>' +    
+                                        '</select>' +  
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="rValues_' + newItemId + '_1" placeholder="标签值" value="" class="layui-input">' +
+                                    '</div>' +   
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.xkubeHandlers.delpTpl(' + newItemId + ',1);" />' +
+                                    '</div>' +             
+                                '</div>' +
+                                '<div class="layui-form-item">' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +   
+                                        '<input class="layui-btn layui-icon layui-btn-xs" type="button" value="&#xe624;" onclick="window.xkubeHandlers.addpTpl(' + newItemId + ', 1);" />' +
+                                    '</div>' + 
+                                '</div>' +  
+                            '</blockquote>' +                   
+                    '</div>';
+                
+                $('.ingRulePathTpl').append(addRuleTpl);   
+                form.render(); 
+                element.render('collapse'); // 重新渲染折叠面板
+                return false;   
+            });
+
+            // preferredDuringSchedulingIgnoredDuringExecution
+            $('#addPreferredBtn').on("click", function() {
+                state.preTplIndex++;
+                var newItemId = state.preTplIndex;
+                
+                var addRuleTpl =
+                    '<div id="preitpl-' + newItemId + '">' +
+                            '<blockquote class="layui-elem-quote">' +
+                                '<div class="layui-form-item">' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-icon layui-btn-xs layui-btn-danger" type="button" value="&#xe616;" onclick="window.preferredHandlers.delPreiTpl(' + newItemId + ');" />' +
+                                    '</div>' + 
+                                '</div>' +  
+                                '<div class="layui-form-item">' +
+                                    '<label class="layui-form-label">权重</label>' + 
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="weight_' + newItemId + '" placeholder="权重" value="" class="layui-input">' +
+                                    '</div>' +
+                                '</div>' +  
+                                '<div class="PreRuleTpl_' + newItemId + '"></div>' +  
+                                '<div class="layui-form-item" id="preptpl-' + newItemId + '_1">' +
+                                    '<label class="layui-form-label">规则</label>' +  
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="pKey_' + newItemId + '_1" placeholder="标签名" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<select name="pOperator_' + newItemId + '_1">' +  
+                                            '<option value="" selected>操作符</option>' + 
+                                            '<option value="In">In</option>' +  
+                                            '<option value="NotIn">NotIn</option>' +  
+                                            '<option value="Exists">Exists</option>' +  
+                                            '<option value="DoesNotExist">DoesNotExist</option>' + 
+                                            '<option value="Gt">Gt</option>' +  
+                                            '<option value="Lt">Lt</option>' +    
+                                        '</select>' +  
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="pValues_' + newItemId + '_1" placeholder="标签值" value="" class="layui-input">' +
+                                    '</div>' +   
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.preferredHandlers.delPrepTpl(' + newItemId + ',1);" />' +
+                                    '</div>' +             
+                                '</div>' +
+                                '<div class="layui-form-item">' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +   
+                                        '<input class="layui-btn layui-icon layui-btn-xs" type="button" value="&#xe624;" onclick="window.preferredHandlers.addPrepTpl(' + newItemId + ', 1);" />' +
+                                    '</div>' + 
+                                '</div>' +  
+                            '</blockquote>' +                   
+                    '</div>';
+                
+                $('.preferredTpl').append(addRuleTpl);   
+                form.render(); 
+                return false;   
+            });
+
+            // 监听提交事件
+            form.on('submit(saveBtn)', function (data) {
+                console.log(data.field);
+                layer.confirm('确定修改?', {
+                    icon: 3, 
+                    title: '提示'
+                }, function(index) {
+                    var loadIndex = layer.load(0, {shade: false});
+                    layer.msg('稍等片刻');
+                    
+                    $.ajax({
+                        url: "/xkube/sts/v1/UpdateNodeAffinity" + location.search,
+                        type: "post",
+                        data: JSON.stringify(data.field),
+                        dataType: "json",
+                        success: function (resp) {
+                            layer.close(loadIndex);
+                            if(resp.code == 0){
+                                layer.msg('修改成功', {icon: 1});
+                            } else {
+                                layer.msg(resp.msg, {icon: 2});
+                            }
+                        },
+                        error: function() {
+                            layer.close(loadIndex);
+                            layer.msg('请求失败，请重试', {icon: 2});
+                        }
+                    });
+                    
+                    layer.close(index);
+                });
+                
+                return false;
+            });
+        });
+    }
+
+    //节点亲和性[nodeAffinity]-必须满足[requiredDuringSchedulingIgnoredDuringExecution]
+    window.xkubeHandlers = {
+        deliTpl: deliTpl,
+        delpTpl: delpTpl,
+        addpTpl: function(pid, initialSid) {
+            // 为新增路径计算一个唯一的sid
+            var maxSid = initialSid || 0;
+            $('[id^="ptpl-' + pid + '_"]').each(function() {
+                var id = $(this).attr('id');
+                var parts = id.split('_');
+                if (parts.length > 1) {
+                    var sid = parseInt(parts[1]);
+                    if (!isNaN(sid) && sid > maxSid) {
+                        maxSid = sid;
+                    }
+                }
+            });
+            
+            addpTpl(pid, maxSid + 1);
+        }
+    };
+
+    //节点亲和性[nodeAffinity]-尽量满足[preferredDuringSchedulingIgnoredDuringExecution]
+    window.preferredHandlers = {
+        delPreiTpl: delPreiTpl,
+        delPrepTpl: delPrepTpl,
+        addPrepTpl: function(pid, initialSid) {
+            // 为新增路径计算一个唯一的sid
+            var maxSid = initialSid || 0;
+            $('[id^="preptpl-' + pid + '_"]').each(function() {
+                var id = $(this).attr('id');
+                var parts = id.split('_');
+                if (parts.length > 1) {
+                    var sid = parseInt(parts[1]);
+                    if (!isNaN(sid) && sid > maxSid) {
+                        maxSid = sid;
+                    }
+                }
+            });
+            
+            addPrepTpl(pid, maxSid + 1);
+        }
+    };
+
+    // 页面加载完成后初始化
+    $(document).ready(function() {
+        initPage();
+    });
+})();
+</script>
+</html>

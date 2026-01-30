@@ -6,7 +6,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
 </head>
 <body>
@@ -58,13 +58,13 @@
     </div>
 </div>
 <script type="text/html" id="statusTpl">
-  {{# if (d.status == 'success') { }}
+  {{# if (d.status == 'success' || d.status == '0' ) { }}
      <span style="color:#218868">成功</span>
 	{{# } else { }}
     <span style="color:#FF5722">失败</span>
 {{# } }}
 </script>	
-<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
 <script>
     layui.use(['form', 'table','laydate'], function () {
         var $ = layui.jquery,

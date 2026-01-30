@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>httproute详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <style>
+    .layui-table-cell {
+      height: auto;
+      line-height: 22px !important;
+      text-overflow: inherit;
+      overflow: ellipsis;
+      white-space: normal;
+    }
+    .layui-table-cell .layui-table-tool-panel li {
+      word-break: break-word;
+    }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
+                <legend>基本信息</legend>
+            </fieldset>  
+
+              <button class="layui-btn" id="EditYamlBtn">yaml编辑</button>
+              <button class="layui-btn" id="YamlBackup">yaml备份</button>
+              <button class="layui-btn layui-btn-danger" id="DelBtn">删除</button>
+
+              <br><br>
+
+              <blockquote class="layui-elem-quote layui-quote-nm">
+                  <table class="layui-table" lay-even="" lay-size="lm">
+                    <colgroup>
+                      <col width="150">
+                      <col width="400">
+                      <col width="150">
+                      <col>
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <td>名称:</td>
+                        <td><div id="appNameTitle"></div></td>
+                        <td>控制器名称:</td>
+                        <td><div id="controllerName"></div></td>
+                      </tr>
+                      <tr>
+                        <td>命名空间:</td>
+                        <td><div id="namespace"></div></td>
+                        <td>创建时间:</td>
+                        <td><div id="createTime"></div></td>
+                      </tr>
+                      <tr>
+                        <td>父引用:</td>
+                        <td><div id="parentRef"></div></td>
+                        <td>主机名:</td>
+                        <td><div id="hostnames"></div></td>
+                      </tr>
+                    </tbody>
+                  </table> 
+              </blockquote> 
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>其他</legend>
+            </fieldset>
+
+              <div class="layui-tab">
+                <ul class="layui-tab-title">
+                  <li class="layui-this">规则</li>
+                  <li>条件</li>
+                </ul>
+                <div class="layui-tab-content">
+                  <div class="layui-tab-item layui-show">
+                    <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
+                  </div>
+                  <div class="layui-tab-item">
+                    <table class="layui-table" id="currentTableIdConditions" lay-filter="currentTableFilterConditions"></table>
+                  </div>
+                </div>
+              </div>
+    </div>
+</div>
+</body>
+<script type="text/html" id="matchPathTpl">
+    {{# if (d.matchPath != "" && d.matchPath != undefined) { }}
+        <span>{{  d.matchPath.replace(/,/g, "<br>") }}</span>
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+<script type="text/html" id="headersTpl">
+    {{# if (d.headers != "" && d.headers != undefined) { }}
+        <span>{{  d.headers.replace(/,/g, "<br>") }}</span>
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+<script type="text/html" id="backendRefsTpl">
+    {{# if (d.backendRefs != "" && d.backendRefs != undefined) { }}
+        <span>{{  d.backendRefs.replace(/;/g, "<br>") }}</span>
+    {{# }else{  }}
+            <span></span>
+    {{# } }}
+</script>	
+<script>
+
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+
+    layui.use(['form', 'table','miniTab'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+            miniTab = layui.miniTab,
+            miniTab.listen();
+
+        var httprouteName = getQueryString("httprouteName");
+        $('#appNameTitle').html(httprouteName);
+
+        $('#EditYamlBtn').on("click",function(){
+                layer.open({
+                    title: 'yaml',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['75%', '90%'],
+                    content: '/page/xkube/httprouteYaml.html'+location.search,
+                });
+        });
+
+        $('#YamlBackup').on("click",function(){
+              miniTab.openNewTabByIframe({
+                  href:'page/xkube/yamlBackup.html'+location.search+"&resType=httproute"+"&resName="+httprouteName,
+                  title:httprouteName+"备份",
+              }); 
+        });
+
+        $('#DelBtn').on("click",function(){
+            layer.confirm('确定删除'+httprouteName+'?', {icon: 3, title:'提示',yes: function(index){
+        			  $.ajax({
+        			   url: "/xkube/httproute/v1/Delete"+location.search,
+        			   type: "GET",
+        			   success: function (resp) {
+        					  if (resp.code == 0 ) {
+                      layer.msg('删除成功', {icon: 1});
+                    }else{
+                      layer.msg(resp.msg,{icon:2});
+                    }
+        				  }
+        		    });
+              },
+              cancel: function(index, layero){ 
+                    layer.close(index);
+              } 
+            });
+        });        
+
+        //detail详细
+        $.get('/xkube/httproute/v1/Detail' + location.search, function (resp) {
+  				  if (resp.code == 0 && resp.data.httprouteName != '' ) {
+                var data = resp.data;
+                
+                //基本信息
+                $('#appNameTitle').html(data.httprouteName);
+                $('#namespace').html(data.nameSpace);
+                $('#controllerName').html(data.controllerName);
+                $('#parentRef').html(data.parentRef);
+                $('#hostnames').html(data.hostnames);
+                $('#createTime').html(data.createTime);
+
+                table.render({
+                    elem: '#currentTableId',
+                    cols: [[
+                        {field: 'matchPath', title: '路径',templet: '#matchPathTpl'},
+                        {field: 'headers', title: '匹配请求头',templet: '#headersTpl'},      
+                        {field: 'backendRefs', title: '后端',templet: '#backendRefsTpl'},
+                    ]],
+                    data: data.rules || [],
+                    even: true,
+                    limits: [30, 60, 100],
+                    limit: 30,
+                    page: true
+                });
+
+                //条件表格
+                table.render({
+                    elem: '#currentTableIdConditions',
+                    cols: [[
+                        {field: 'type', title: '类型'},
+                        {field: 'status', title: '状态'},      
+                        {field: 'reason', title: '原因'},
+                        {field: 'message', title: '消息'},
+                        {field: 'lastTransitionTime', title: '最后转换时间'},
+                    ]],
+                    data: data.conditions || [],
+                    even: true,
+                    limits: [30, 60, 100],
+                    limit: 30,
+                    page: true
+                });
+
+          }else{
+            layer.msg('请重新刷新',{icon:2});
+          }
+		    });
+
+    });
+</script>
+</html>

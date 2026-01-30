@@ -40,15 +40,17 @@ services:
       - app_network
 
   xkube_admin:
-    image: crpi-44hgz4440mgo9lnt.cn-guangzhou.personal.cr.aliyuncs.com/eeenet/xkube:3.9
+    image: crpi-44hgz4440mgo9lnt.cn-guangzhou.personal.cr.aliyuncs.com/eeenet/xkube:4.0
     container_name: xkube_admin
+    volumes:
+      - ./upload:/app/static/upload
     healthcheck:
       test: ["CMD","curl","-f","http://127.0.0.1:8080/public/check"]
       interval: 10s
       timeout: 5s
       retries: 3
     depends_on:
-      mysql:
+      mysql_server:
         condition: service_healthy
     ports:
       - "8080:8080"

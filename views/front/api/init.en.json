@@ -1,0 +1,418 @@
+{
+  "homeInfo": {
+    "title": "index",
+    "href": "page/xkube/xkube-main.html?t=1"
+  },
+  "logoInfo": {
+    "title": "XKUBE",
+    "image": "images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "Kubernetes",
+      "icon": "fa fa-slideshare",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "kubernetes",
+          "href": "",
+          "menuChildOpen": "true",
+          "icon": "fa fa-home",
+          "target": "",
+          "child": [
+            {
+              "title": "all kubernetes",
+              "href": "page/xkube/clusterList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "my kubernetes",
+              "href": "page/rbac/myClusterList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "my workLoad",
+              "href": "page/xkube/myFavorite.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            }                                                            
+          ]
+        },
+        {
+          "title": "clusterInfo",
+          "href": "",
+          "icon": "fa fa-server",
+          "target": "",
+          "child": [
+            {
+              "title": "nodePool",
+              "href": "page/xkube/nodepoolList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "node",
+              "href": "page/xkube/nodeList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "namespace",
+              "href": "page/xkube/namespaceList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "metricTop",
+              "href": "page/xkube/topPodMetric.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "clusterRoleBinding",
+              "href": "page/xkube/clusterRoleBindingList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "ClusterRoles",
+              "href": "page/xkube/clusterRolesList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "RoleBinding",
+              "href": "page/xkube/roleBindingList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "Roles",
+              "href": "page/xkube/rolesList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "ServiceAccounts",
+              "href": "page/xkube/serviceAccountsList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            }, 
+            {
+              "title": "event",
+              "href": "page/xkube/eventList.html?v=1",
+              "icon": "fa fa-info-circle",
+              "target": "_self"
+            } 			
+          ]         
+        },
+        {
+          "title": "WorkLoad",
+          "href": "",
+          "icon": "fa fa-codepen",
+          "target": "",
+          "child": [
+            {
+              "title": "deployment",
+              "href": "page/xkube/deployList.html?v=1",
+              "icon": "fa fa-codepen",
+              "target": "_self"
+            },          
+            {
+              "title": "statefulset",
+              "href": "page/xkube/stsList.html?v=1",
+              "icon": "fa fa-list-alt",
+              "target": "_self"
+            },          
+            {
+              "title": "daemonset",
+              "href": "page/xkube/dsList.html?v=1",
+              "icon": "fa fa-list-alt",
+              "target": "_self"
+            },          
+            {
+              "title": "job",
+              "href": "page/xkube/jobList.html?v=1",
+              "icon": "fa fa-list-alt",
+              "target": "_self"
+            },          
+            {
+              "title": "cronjob",
+              "href": "page/xkube/cronjobList.html?v=1",
+              "icon": "fa fa-list-alt",
+              "target": "_self"
+            },          
+            {
+              "title": "pods",
+              "href": "page/xkube/podList.html?v=1",
+              "icon": "fa fa-cubes",
+              "target": "_self"
+            },          
+            {
+              "title": "cdr",
+              "href": "page/xkube/cdrList.html?v=1",
+              "icon": "fa fa-list-alt",
+              "target": "_self"
+            },
+            {
+              "title": "hpa",
+              "href": "page/xkube/hpaList.html?v=1",
+              "icon": "fa fa-list-alt",
+              "target": "_self"
+            },
+            {
+              "title": "applyYaml",
+              "href": "page/xkube/apply_yaml.html?v=1",
+              "icon": "fa fa-plus-square-o",
+              "target": "_self"
+            }                    
+          ]         
+        },
+        {
+          "title": "network",
+          "href": "",
+          "icon": "fa fa-connectdevelop",
+          "target": "",
+          "child": [
+            {
+              "title": "service",
+              "href": "page/xkube/serviceList.html?v=1",
+              "icon": "fa fa-cube",
+              "target": "_self"
+            },          
+            {
+              "title": "nginx Ingress",
+              "href": "page/xkube/ingressList.html?v=1",
+              "icon": "fa fa-object-group",
+              "target": "_self"
+            }                      
+          ]         
+        },
+        {
+          "title": "gatewayApi",
+          "href": "",
+          "icon": "fa fa-skyatlas",
+          "target": "",
+          "child": [
+          {
+            "title": "gatewayClass",
+            "href": "page/xkube/gatewayclassList.html",
+            "icon": "fa fa-list-alt",
+            "target": "_self"
+          },            
+          {
+            "title": "gateway",
+            "href": "page/xkube/gatewayList.html",
+            "icon": "fa fa-list-alt",
+            "target": "_self"
+          },            
+          {
+            "title": "httproute",
+            "href": "page/xkube/httprouteList.html",
+            "icon": "fa fa-list-alt",
+            "target": "_self"
+          },            
+          {
+            "title": "grpcroute",
+            "href": "page/xkube/grpcrouteList.html",
+            "icon": "fa fa-list-alt",
+            "target": "_self"
+          },            
+          {
+            "title": "tcproute",
+            "href": "page/xkube/tcprouteList.html",
+            "icon": "fa fa-list-alt",
+            "target": "_self"
+          },
+          {
+            "title": "udproute",
+            "href": "page/xkube/udprouteList.html",
+            "icon": "fa fa-list-alt",
+            "target": "_self"
+          }                    
+          ]
+        },         
+        {
+          "title": "configuration",
+          "href": "",
+          "icon": "fa fa-database",
+          "target": "",
+          "child": [
+            {
+              "title": "configmap",
+              "href": "page/xkube/configmapList.html?v=1",
+              "icon": "fa fa-file-code-o",
+              "target": "_self"
+            },          
+            {
+              "title": "secret",
+              "href": "page/xkube/secretList.html?v=1",
+              "icon": "fa fa-expeditedssl",
+              "target": "_self"
+            }           
+          ]         
+        },
+        {
+          "title": "storage",
+          "href": "",
+          "icon": "fa fa-cloud",
+          "target": "",
+          "child": [
+            {
+              "title": "persistentvolumeclaims",
+              "href": "page/xkube/pvcList.html?v=1",
+              "icon": "fa fa-indent",
+              "target": "_self"
+            },          
+            {
+              "title": "persistentvolumes",
+              "href": "page/xkube/pvList.html?v=1",
+              "icon": "fa fa-indent",
+              "target": "_self"
+            },          
+            {
+              "title": "storageClass",
+              "href": "page/xkube/storageclassList.html?v=1",
+              "icon": "fa fa-indent",
+              "target": "_self"
+            }           
+          ]         
+        }                                                                    
+      ]
+    },
+    {
+      "title": "OpsManagement",
+      "icon": "fa fa-slideshare",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "OpsTool",
+          "href": "",
+          "icon": "fa fa-linux",
+          "target": "",
+          "child": [         
+            {
+              "title": "appCollection",
+              "href": "page/xkube/appnameList.html?v=1",
+              "icon": "fa fa-joomla",
+              "target": "_self"
+            },   
+            {
+              "title": "workLoadClone",
+              "href": "page/xkube/clone_resource.html?v=1",
+              "icon": "fa fa-clone",
+              "target": "_self"
+            },  
+            {
+              "title": "yamlBackup",
+              "href": "page/xkube/yamlBackup.html?v=1",
+              "icon": "fa fa-archive",
+              "target": "_self"
+            }    
+          ]         
+        },
+        {
+          "title": "CodeRelease",
+          "href": "",
+          "icon": "fa fa-gitlab",
+          "target": "",
+          "child": [           
+            {
+              "title": "pipeline",
+              "href": "page/cicd/cicdList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },
+            {
+              "title": "aliyunAK",
+              "href": "page/cicd/aliyun_ak_list.html",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },  
+            {
+              "title": "jenkinsSettings",
+              "href": "page/cicd/jenkins_list.html",
+              "icon": "fa fa-list",
+              "target": "_self"
+            }  
+          ]         
+        },
+        {
+          "title": "Permission",
+          "href": "",
+          "icon": "fa fa-user-secret",
+          "target": "",
+          "child": [
+            {
+              "title": "administrators",
+              "href": "page/rbac/adminList.html?v=1",
+              "icon": "fa fa-user",
+              "target": "_self"
+            },          
+            {
+              "title": "roles",
+              "href": "page/rbac/roleList.html?v=1",
+              "icon": "fa fa-bars",
+              "target": "_self"
+            },          
+            {
+              "title": "PathGroup",
+              "href": "page/rbac/groupList.html?v=1",
+              "icon": "fa fa-bars",
+              "target": "_self"
+            },          
+            {
+              "title": "Path",
+              "href": "page/rbac/nodeList.html?v=1",
+              "icon": "fa fa-bars",
+              "target": "_self"
+            },
+            {
+              "title": "ClusterAuthorization",
+              "href": "page/rbac/clusterToUserList.html?v=1",
+              "icon": "fa fa-bars",
+              "target": "_self"
+            },
+            {
+              "title": "LoginToUnlock",
+              "href": "page/rbac/lockList.html?v=1",
+              "icon": "fa fa-bars",
+              "target": "_self"
+            },
+            {
+              "title": "AuditLog",
+              "href": "page/rbac/auditLogList.html",
+              "icon": "fa fa-bars",
+              "target": "_self"
+            }                   
+          ]         
+        },
+		{
+          "title": "Document",
+          "href": "",
+          "icon": "fa fa-wikipedia-w",
+          "target": "",
+          "child": [
+            {
+              "title": "Column",
+              "href": "page/wiki/columnList.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            },          
+            {
+              "title": "Documents",
+              "href": "page/wiki/list.html?v=1",
+              "icon": "fa fa-list",
+              "target": "_self"
+            }    
+          ]         
+        }
+      ]
+    }     
+  ]
+}

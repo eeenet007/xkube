@@ -6,10 +6,10 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
     <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
 </head>
@@ -39,7 +39,7 @@
 </div>
 </body>
 <script type="text/html" id="statusTpl">
-  {{# if (d.fav_type == 'deployment') { }}
+  {{# if (d.fav_type == 'deploy') { }}
      <span style="color:#218868">{{d.fav_type}}</span>
 	{{# } else if (d.fav_type == 'configmap') { }}
     <span style="color:#1E9FFF">{{d.fav_type}}</span>
@@ -47,13 +47,13 @@
     <span style="color:#5FB878">{{d.fav_type}}</span>
 {{# }  else if (d.fav_type == 'ingress') { }}
     <span style="color:#2F4056">{{d.fav_type}}</span>
-{{# }  else if (d.fav_type == 'service') { }}
+{{# }  else if (d.fav_type == 'svc') { }}
     <span style="color:#FF5722">{{d.fav_type}}</span>
 {{# }  else if (d.fav_type == 'hpa') { }}
     <span style="color:#FFB800">{{d.fav_type}}</span>
 {{# }  else if (d.fav_type == 'cronjob') { }}
     <span style="color:#57f1c3">{{d.fav_type}}</span>
-{{# }  else if (d.fav_type == 'statefulset') { }}
+{{# }  else if (d.fav_type == 'sts') { }}
     <span style="color:#7E5AD4">{{d.fav_type}}</span>
 {{# }  else { }}
     <span style="color:#393D49">{{d.fav_type}}</span>
@@ -115,6 +115,14 @@
                   srcUrl = 'page/xkube/configmapDetail.html?configmapName='
                 }else if( fav_type == 'ing' ) {
                   srcUrl = 'page/xkube/ingressDetail.html?ingressName='
+                }else if( fav_type == 'httproute' ) {
+                  srcUrl = 'page/xkube/httprouteDetail.html?httprouteName='
+                }else if( fav_type == 'grpcroute' ) {
+                  srcUrl = 'page/xkube/grpcrouteDetail.html?grpcrouteName='
+                }else if( fav_type == 'tcproute' ) {
+                  srcUrl = 'page/xkube/tcprouteDetail.html?tcprouteName='
+                }else if( fav_type == 'udproute' ) {
+                  srcUrl = 'page/xkube/udprouteDetail.html?udprouteName='
                 }else if( fav_type == 'app' ) {
                   srcUrl = 'page/xkube/resourceList.html?appname='
                 }

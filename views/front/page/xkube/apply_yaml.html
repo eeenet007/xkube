@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Apply yaml</title>
     <meta name="renderer" content="webkit">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 		<link
@@ -12,7 +12,6 @@
 			data-name="vs/editor/editor.main"
 			href="/monaco-editor/min/vs/editor/editor.main.css"
 		/>
-    <script src="/js/jquery.min.js"></script>
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
 </head>
 <body>
@@ -49,13 +48,7 @@
     </div>
 </div>
 </body>
-<script type="text/javascript">
-    	$(document).ready(function(){
-          GetCurrClusterId();  
-          //GetNamespace();	
-    	});		
-</script>
-<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
 <script>
 	var require = { paths: { vs: '/monaco-editor/min/vs' } };
 </script>
@@ -64,9 +57,6 @@
 <script src="/monaco-editor/min/vs/editor/editor.main.js"></script>
 
 <script>
-
-//设置默认集群
-SetDefaultCluster();
 var clusterId = getQueryString("clusterId");
 if (clusterId == null) {
 	clusterId = getCookie("clusterId")
@@ -76,6 +66,11 @@ if (clusterId == null) {
         var $ = layui.jquery;
         var form = layui.form,
             layer = layui.layer;
+
+      	$(document).ready(function(){
+            GetCurrClusterId();  
+            //GetNamespace();	
+      	});		
 
         //选择集群
         form.on('select(cluster_Id)', function(data){

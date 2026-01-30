@@ -6,10 +6,9 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
     <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
 
@@ -86,27 +85,22 @@
             <a href="javascript:;" layuimini-content-href="page/xkube/serviceDetail.html?clusterId={{clusterId}}&nameSpace={{d.nameSpace}}&serviceName={{d.serviceName}}&svcIp={{d.svcIp}}" data-title="{{ d.serviceName }}详情" class="layui-btn layui-btn-sm">详情</a>
             <!-- <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a> -->
             <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="addFav">收藏</a>
-            <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="viewYaml">yaml编辑</a>
+            <br>
+            <div>&nbsp;</div>
+            <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="viewYaml">yaml</a>
             <a class="layui-btn layui-btn-normal layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
         </script>
     </div>
 </div>
 
 </body>
-<script type="text/javascript">
-    	$(document).ready(function(){
-          GetCurrClusterId();  
-          GetNamespace();	
-    	});		
-</script>
-
 <script type="text/html" id="TagTpl">
     {{# if (d.labels != "") { }}
             {{# layui.each(d.labels.split(','), function(index, item){ }}
                 {{# if(index == 0) { }}
-                        <span>{{ item }}</span>
+                        <span style="line-height:30px;padding:4px; border: 1px solid #e2e2e2; color:#2F4056;border-radius:3px;">{{ item }}</span>
                 {{# }else{ }}
-                        <br><span>{{ item }}</span>
+                        <br><span style="line-height:30px;padding:4px; border: 1px solid #e2e2e2; color:#2F4056;border-radius:3px;">{{ item }}</span>
                 {{# } }}  
             {{# });  }}
     {{# }else{  }}
@@ -116,6 +110,15 @@
 <script type="text/html" id="ipPortTpl">
         <span>{{ d.svcIp }}:{{ d.svcPort }}</span>
 </script>	
+<script type="text/html" id="svcTypeTpl">
+  {{# if ( d.svcType == 'ClusterIP' ) { }}
+     <span class="layui-btn layui-btn-primary layui-border-green layui-btn-sm" >{{ d.svcType}}</span>
+  {{# } else if ( d.svcType == 'LoadBalancer' ) { }}
+     <span class="layui-btn layui-btn-primary layui-border-blue layui-btn-sm" >{{ d.svcType}}</span>
+	{{# } else { }}
+    <span class="layui-btn layui-btn-primary layui-border-purple layui-btn-sm" >{{ d.svcType}}</span>
+{{# } }}
+</script>
 <script>
 //设置默认集群
 SetDefaultCluster();
@@ -129,6 +132,11 @@ if (clusterId == null) {
             table = layui.table;
             miniTab = layui.miniTab,
             miniTab.listen();
+
+      	$(document).ready(function(){
+            GetCurrClusterId();  
+            GetNamespace();	
+      	});	
 
         //选择集群
         form.on('select(cluster_Id)', function(data){
@@ -179,15 +187,15 @@ if (clusterId == null) {
                 //{type: "checkbox", width: 50},
                 {field: 'serviceName',title: '名称', sort: true},
                 {field: 'nameSpace',title: '命名空间', sort: true},
-                {field: 'svcType', title: '类型', sort: true},
+                {field: 'svcType', title: '类型', sort: true,templet: '#svcTypeTpl'},
                 {field: 'svcIp', title: 'IP', sort: true,hide:true},
                 {field: 'svcPort', title: '端口', sort: true,hide:true},
                 {field: '', width:150,title: 'ip端口', sort: true,templet: '#ipPortTpl'},
                 {field: 'lanEndpoint',title: '内部端点', sort: true},
                 {field: 'wanEndpoint', title: '外部端点', sort: true},
-                {field: 'labels', title: '标签', sort: true,templet: '#TagTpl'},
+                {field: 'labels',width:250, title: '标签', sort: true,templet: '#TagTpl'},
                 {field: 'createTime', title: '创建时间'},
-                {title: '操作', minWidth: 280, toolbar: '#currentTableBar', align: "center"}
+                {title: '操作', minWidth: 200, toolbar: '#currentTableBar', align: "center"}
             ]],
             //size:'lg',
             limits: [25, 50, 100],
@@ -275,7 +283,7 @@ if (clusterId == null) {
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['45%', '92%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/serviceYaml.html?clusterId='+clusterId+'&nameSpace='+data.nameSpace+'&serviceName='+data.serviceName,
                 });
                 $(window).on("resize", function () {
@@ -283,11 +291,6 @@ if (clusterId == null) {
                 });
                 return false;
             } else if (obj.event === 'delete') {
-                //layer.confirm('真的删除行么', function (index) {
-                //    obj.del();
-                 //   layer.close(index);
-                //});
-                //console.log(data);
                 layer.confirm('确定删除'+data.serviceName+'?', {icon: 3, title:'删除提示',yes: function(index){
                      var index2 = layer.load(0, {shade: false});
                      layer.msg('此处需运行1-2s左右');

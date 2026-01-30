@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>xkube管理平台</title>
+    <title>xkube-k8s集群管理平台</title>
     <meta name="keywords" content="k8s多集群管理平台">
     <meta name="description" content="一款永久免费且无任何功能限制的云原生kubernates多集群管理工具，提供PC端和移动端全平台支持，具备完善的集群管理、运维监控和CI/CD发布功能，让企业轻松实现跨集群的统一管理和自动化运维。">
     <meta name="renderer" content="webkit">
@@ -13,7 +13,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="images/favicon.ico">
-    <link rel="stylesheet" href="lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="css/layuimini.css?v=2.0.4.2" media="all">
     <link rel="stylesheet" href="css/themes/default.css" media="all">
     <link rel="stylesheet" href="lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
@@ -22,7 +22,6 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style id="layuimini-bg-color"></style>
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script src="js/xkube.js?v=1" charset="utf-8"></script>
     <style>
       .layui-input-icon {
@@ -36,13 +35,12 @@
 </head>
 <body class="layui-layout-body layuimini-all">
 <div class="layui-layout layui-layout-admin">
-
     <div class="layui-header header">
         <div class="layui-logo layuimini-logo"></div>
 
         <div class="layuimini-header-content">
             <a>
-                <div class="layuimini-tool"><i title="展开" class="fa fa-outdent" data-side-fold="1"></i></div>
+                <div class="layuimini-tool"><i title="展开" style="color:#1e9fff" class="fa fa-outdent" data-side-fold="1"></i></div>
             </a>
 
             <!--电脑端头部菜单-->
@@ -60,34 +58,44 @@
 
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item" lay-unselect>
-                    <div class="layui-inline" style="margin-right:100px">
-                      <div class="layui-input-inline" style="width:280px">
-                        <input type="text" name="searchKey" lay-verify="searchKey" autocomplete="on" placeholder="请输入搜索的内容" class="layui-input">
-                        <i class="layui-icon layui-icon-close layui-input-icon" id="close-icon" style="font-size: 14px; color: #c2c2c2;"></i>
-                      </div>
-                      <div class="layui-input-inline">  
-                        <button type="button" class="layui-btn layui-btn-primary layui-border-green" id="search">
-                          <i class="layui-icon layui-icon-search"></i>搜索
-                        </button>
-                      </div>
+                  <div class="layui-inline" style="margin-right:150px">
+                    <div class="layui-input-inline" style="width:280px">
+                      <input type="text" name="searchKey" lay-verify="searchKey" autocomplete="on" placeholder="请输入搜索内容" class="layui-input">
+                      <i class="layui-icon layui-icon-close layui-input-icon" id="close-icon" style="font-size: 14px; color: #c2c2c2;"></i>
                     </div>
-                </li>
-                <li class="layui-nav-item" lay-unselect style="margin-right:40px">
-                    <div class="layui-form-mid layui-word-aux"><span style="color:#009688">版本:v3.9</span></div>
-                </li>
-                <li class="layui-nav-item" lay-unselect style="margin-right:20px">
-                    <button type="button" class="layui-btn layui-btn-primary layui-border-blue" id="appDown">APP下载</button>
+                    <div class="layui-input-inline">  
+                      <button type="button" class="layui-btn layui-btn-primary layui-border-green" id="search">
+                        <i class="layui-icon layui-icon-search">搜索</i>
+                      </button>
+                    </div>
+                  </div>
                 </li>
 
+                <li class="layui-nav-item" lay-unselect style="margin-right:20px">
+                    <button type="button" class="layui-btn layui-btn-primary layui-border-blue" id="appDown">APP</button>
+                </li>
+            <!--
+                <li class="layui-nav-item">
+                  <div class="layui-form" style="width:110px">
+                    <div class="layui-inline">
+                      <select name="clusterId" id="change-locale" lay-filter="change-locale">
+                        <option value="zhCN">简体中文</option>
+                        <option value="en">English</option>
+                      </select>
+                    </dvi>
+                  </div>
+                </li>
+            -->
                 <li class="layui-nav-item" lay-unselect>
-                    <a href="javascript:;" data-refresh="刷新"><i class="fa fa-refresh"></i></a>
+                    <a href="javascript:;" data-refresh="刷新"><i class="fa fa-refresh" style="color:#1e9fff"></i></a>
                 </li>
                 <li class="layui-nav-item" lay-unselect>
-                    <a href="javascript:;" data-clear="清理" class="layuimini-clear"><i class="fa fa-trash-o"></i></a>
+                    <a href="javascript:;" data-clear="清理" class="layuimini-clear"><i class="fa fa-trash-o" style="color:#ff5722"></i></a>
                 </li>
                 <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
+                    <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt" style="color:#1e9fff"></i></a>
                 </li>
+
                 <li class="layui-nav-item layuimini-setting">
                     <a href="javascript:;"><<<.userinfo.Username>>></a>
                     <dl class="layui-nav-child">
@@ -104,12 +112,11 @@
                     </dl>
                 </li>
                 <li class="layui-nav-item layuimini-select-bgcolor" lay-unselect>
-                    <a href="javascript:;" data-bgcolor="配色方案"><i class="fa fa-ellipsis-v"></i></a>
+                    <a href="javascript:;" data-bgcolor="配色方案"><i class="fa fa-ellipsis-v" style="color:#1e9fff"></i></a>
                 </li>
             </ul>
         </div>
     </div>
-
     <!--无限极左侧菜单-->
     <div class="layui-side layui-bg-black layuimini-menu-left">
     </div>
@@ -152,30 +159,75 @@
         </div>
     </div>
     
+    <div class="layui-footer" style="text-align:right;background-color: #f2f2f2;">
+      <div class="layui-word-aux">版本:v4.0</div>
+    </div>
+    
+    <!-- AI对话浮动按钮
+    <div id="ai-chat-float" style="position: fixed; bottom: 80px; right: 60px; z-index: 9999;">
+        <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #1e9fff, #00c292); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(30, 159, 255, 0.4);">
+            <i class="layui-icon layui-icon-util" style="font-size: 24px; color: white;">&#xe608;</i>
+        </div>
+        <i>AI助手</i>
+    </div>
+   -->
+    
 </div>
-<script src="lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
-<script src="js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+
+<script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
+<script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script>
 //设置默认集群
 SetDefaultCluster();
     
-    $("#close-icon").hide();
-    document.querySelector('.layui-icon-close').addEventListener('click', function() {
-      var input = this.previousElementSibling; // 获取输入框元素
-      if (input) {
-        input.value = ''; // 清空输入框内容       
-      }
-      $("#close-icon").hide();
-    });
+    layui.use(['jquery', 'layer','form','miniAdmin','miniTab'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            form = layui.form,
+            //miniTongji = layui.miniTongji,
+            miniTab = layui.miniTab,
+            miniAdmin = layui.miniAdmin;
 
-      $("input").keyup(function(){
-            if( $(this).val().length > 0){
-                $("#close-icon").show();
-            }else{
-                $("#close-icon").hide();
-            }
+        miniTab.listen();
+
+        $("#close-icon").hide();
+        document.querySelector('.layui-icon-close').addEventListener('click', function() {
+          var input = this.previousElementSibling; // 获取输入框元素
+          if (input) {
+            input.value = ''; // 清空输入框内容       
+          }
+          $("#close-icon").hide();
         });
-       /*监听输入框聚焦事件*/
+  
+        $(".fa-trash-o").mouseover(function() {
+          layer.tips('清理缓存', this, {
+            tips: [1, "#000"],
+            time:2000
+          });
+        });
+        
+        $(".fa-refresh").mouseover(function() {
+          layer.tips('刷新页面', this, {
+            tips: [1, "#000"],
+            time:2000
+          });
+        });
+
+        //$("#ai-chat-float").mouseover(function() {
+        //  layer.tips('AI运维助手', this, {
+        //    tips: [1, "#000"],
+        //    time:2000
+        //  });
+        //});        
+  
+        $("input").keyup(function(){
+              if( $(this).val().length > 0){
+                  $("#close-icon").show();
+              }else{
+                  $("#close-icon").hide();
+              }
+          });
+        /*监听输入框聚焦事件*/
         $("input").on("focus",function () {
               if( $(this).val().length > 0){
                   $("#close-icon").show();
@@ -184,36 +236,18 @@ SetDefaultCluster();
               }
         })
         /*输入框失去焦点的blur事件
-        $("input").on("blur",function () {
-            $("#close-icon").hide();
-        });
-
-        $(".layui-icon-close").on("mousedown",function(e) {
-            e.preventDefault();
-        })
-*/
-      /*删除图标的点击事件
-      $(".delete-icon").on("click",function () {
-          $(this).prev("input").val("").focus();
-      });
-      */
-
-    layui.use(['jquery', 'layer', 'miniAdmin','miniTongji','miniTab'], function () {
-        var $ = layui.jquery,
-            layer = layui.layer,
-            //miniTongji = layui.miniTongji,
-            miniTab = layui.miniTab,
-            miniAdmin = layui.miniAdmin;
-
-        miniTab.listen();
-        //if ( clusterId == "" || clusterId == null ) {
-        //		layer.msg('先设置常用集群',{icon:0,time:2000},function(){
-        //        miniTab.openNewTabByIframe({
-        //            href:"page/xkube/clusterList.html",
-        //            title:"集群列表",
-        //        });
-        //    });
-        //}
+          $("input").on("blur",function () {
+              $("#close-icon").hide();
+          });
+  
+          $(".layui-icon-close").on("mousedown",function(e) {
+              e.preventDefault();
+          })
+  
+          $(".delete-icon").on("click",function () {
+            $(this).prev("input").val("").focus();
+          });
+        */
 
         $('#appDown').on("click",function(){
             var index = layer.open({
@@ -241,8 +275,22 @@ SetDefaultCluster();
             }
         });
 
+        // AI对话框功能
+        $('#ai-chat-float').on('click', function() {
+            var aiChatIndex = layer.open({
+                title: 'AI助手',
+                type: 2,
+                shade: 0.2,
+                maxmin: true,
+                shadeClose: true,
+                area: ['700px', '600px'],
+                content: '/page/xkube/aiChat.html',
+                zIndex: 10000
+            });
+        });
+
         var options = {
-            iniUrl: "api/init.json?v=1",    // 初始化接口
+            iniUrl: 'api/init.json',    // 初始化接口api/init.json?v=1,
             clearUrl: "/public/cache/Clear", // 缓存清理接口
             urlHashLocation: true,      // 是否打开hash定位
             bgColorDefault: false,      // 主题默认配置

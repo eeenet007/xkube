@@ -4,21 +4,18 @@
     <meta charset="utf-8">
     <title>job日志</title>
     <meta name="renderer" content="webkit">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
-    <script src="/js/jquery.min.js"></script>
 </head>
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
-      <!--
-        <fieldset class="table-search-fieldset">
-            <legend>日志查看</legend>
-        </fieldset>
-      -->
-      <pre class="layui-code"><div id="logtext"></div></pre>
+      <div style="height: 78vh;">
+        <pre class="layui-code code-log"  style="height:100%; overflow-y: auto;"><div id="logtext"></div></pre>
+      </div>
+            <fieldset class="table-search-fieldset" style="margin-top:10px;" id="log-controls">
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
@@ -44,18 +41,23 @@
                         </div>
                     </div>
                 </form>  
+            </fieldset>
     </div>
 </div>
-<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
 <script>
 
-    layui.use(['form', 'table','code'], function () {
+    layui.use(['form', 'code'], function () {
         var $ = layui.jquery;
         var form = layui.form;
 
         layui.code({
             title: 'pod日志'
-            ,skin: 'notepad' //如果要默认风格，不用设定该key。
+            ,elem: '.code-log'
+            ,encode: false
+            //,theme: 'dark'
+            ,header: true
+            ,codeStyle: 'background-color:#1f1f1f;color:#d4d4d4'
         });
 
         var jobName = getQueryString("jobName");

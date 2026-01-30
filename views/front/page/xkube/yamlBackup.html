@@ -6,7 +6,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
 </head>
 <body>
@@ -60,27 +60,27 @@
     </div>
 </div>
 <script type="text/html" id="statusTpl">
-  {{# if (d.resType == 'deployment') { }}
+  {{# if (d.resType == 'deploy') { }}
      <span style="color:#218868">{{d.resType}}</span>
-	{{# } else if (d.resType == 'configmap') { }}
+	{{# } else if (d.resType == 'cm') { }}
     <span style="color:#1E9FFF">{{d.resType}}</span>
 {{# }  else if (d.resType == 'secret') { }}
     <span style="color:#5FB878">{{d.resType}}</span>
-{{# }  else if (d.resType == 'ingress') { }}
+{{# }  else if (d.resType == 'ing') { }}
     <span style="color:#2F4056">{{d.resType}}</span>
-{{# }  else if (d.resType == 'service') { }}
+{{# }  else if (d.resType == 'svc') { }}
     <span style="color:#FF5722">{{d.resType}}</span>
 {{# }  else if (d.resType == 'hpa') { }}
     <span style="color:#FFB800">{{d.resType}}</span>
 {{# }  else if (d.resType == 'cronjob') { }}
     <span style="color:#57f1c3">{{d.resType}}</span>
-{{# }  else if (d.resType == 'statefulset') { }}
+{{# }  else if (d.resType == 'sts') { }}
     <span style="color:#7E5AD4">{{d.resType}}</span>
 {{# }  else { }}
     <span style="color:#393D49">{{d.resType}}</span>
 {{# } }}
 </script>	
-<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
 <script>
     layui.use(['form', 'table','laydate'], function () {
         var $ = layui.jquery,
@@ -114,7 +114,7 @@
                 {field: 'resName',title: '名称',sort: true},
                 {field: 'remarks', title: '备注'},
                 {field: 'createtime', width:180,title: '备份时间'},   
-                {title: '操作', minWidth: 350, toolbar: '#currentTableBar', align: "center"}           
+                {title: '操作', minWidth: 200, toolbar: '#currentTableBar', align: "center"}           
             ]],
             limits: [25, 50, 100],
             limit: 15,
@@ -165,12 +165,12 @@
             var data = obj.data;
             if (obj.event === 'viewYaml') {
                 var index = layer.open({
-                    title: 'yaml',
+                    title: '名称:'+data.resName+',备份时间:'+data.createtime,
                     type: 2,
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['50%', '90%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/yamlView.html?id='+data.id,
                 });
                 $(window).on("resize", function () {
@@ -182,13 +182,13 @@
                        var index2 = layer.load(0, {shade: false});
                        layer.msg('稍等片刻');
                        $.ajax({
-                         url: '/xkube/backup/v1/Recover?clusterId='+data.cluster_id+'&nameSpace='+data.name_space+'&resName='+data.res_name+'&resType='+data.res_type,
+                         url: '/xkube/backup/v1/Recover?id='+data.id+'&clusterId='+data.clusterId+'&nameSpace='+data.nameSpace+'&resName='+data.resName+'&resType='+data.resType,
                          type: "get",
                          dataType: "json",
                          success: function (resp) {
                                   layer.close(index2);
                                    if(resp.code == 0){
-                                      layer.msg('重启成功', {icon: 1});
+                                      layer.msg('恢复成功', {icon: 1});
                                    }else{
                                       layer.msg(resp.msg,{icon:2});
                                    }

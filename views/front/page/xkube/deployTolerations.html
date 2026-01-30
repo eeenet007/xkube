@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Tolerations Settings</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+        <blockquote class="layui-elem-quote layui-text">
+            <a class="layui-btn" style="float:right" href="javascript:location.reload();" title="刷新">
+              <i class="layui-icon">&#xe669;</i></a>
+            提示：<br>
+            1.NoSchedule:默认值，阻止新Pod调度到此节点<br>
+            2.PreferNoSchedule:尽量不调度新Pod到此节点<br>
+            3.NoExecute:不仅阻止新Pod调度，而且驱逐已经存在的Pod<br>
+            4.当设置时间时，效果必须是NoExecute
+        </blockquote>
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="" lay-filter="UpdateInfo">
+            <div style="margin-left:10px">
+                <div class="layui-input-inline" style="width:150px">  
+                    <div class="layui-form-mid layui-word-aux">标签名</div>
+                </div> 
+                <div class="layui-input-inline" style="width:130px">  
+                    <div class="layui-form-mid layui-word-aux">操作符</div>
+                </div> 
+                <div class="layui-input-inline" style="width:150px">  
+                    <div class="layui-form-mid layui-word-aux">标签值</div>
+                </div> 
+                <div class="layui-input-inline" style="width:160px">  
+                    <div class="layui-form-mid layui-word-aux">效果</div>
+                </div>
+                <div class="layui-input-inline" style="width:120px">  
+                    <div class="layui-form-mid layui-word-aux">时间(秒)</div>
+                </div>
+            </div> 
+            <div class="htmlTpl"></div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="margin-top:5px;">  
+                    <button class="layui-btn layui-btn-normal layui-btn-xs" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                </div> 
+            </div> 
+            <br>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+    //标签删除
+    var TplIndex = 0;
+    function delTpl(id) {
+      TplIndex--;
+      console.log(TplIndex);
+      $("#tpl-"+id).remove();
+    }
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        $.get('/xkube/deploy/v1/GetTolerations' + location.search, function (resp) {
+            if (resp.code == 0 ) {
+                $.each(resp.data,function(i,item){
+                    TplIndex++;
+                    var addTpl =
+                        '<div class="layui-form-item" id="tpl-'+TplIndex+'">' +
+                            '<div class="layui-input-inline" style="width:150px">' +
+                                '<input type="text" name="key[]" placeholder="Key" value="'+item.key+'" class="layui-input">' +
+                            '</div>' +
+                            '<div class="layui-input-inline" style="width:120px">' +
+                                '<select name="operator[]" lay-verify="required">' +
+                                    '<option value="Equal" '+(item.operator === 'Equal' ? 'selected' : '')+'>Equal</option>' +
+                                    '<option value="Exists" '+(item.operator === 'Exists' ? 'selected' : '')+'>Exists</option>' +
+                                '</select>' +
+                            '</div>' +
+                            '<div class="layui-input-inline" style="width:150px">' +
+                                '<input type="text" name="value[]" placeholder="Value" value="'+item.value+'" class="layui-input">' +
+                            '</div>' +
+                            '<div class="layui-input-inline" style="width:150px">' +
+                                '<select name="effect[]">' +
+                                    '<option value="">None</option>' +
+                                    '<option value="NoSchedule" '+(item.effect === 'NoSchedule' ? 'selected' : '')+'>NoSchedule</option>' +
+                                    '<option value="NoExecute" '+(item.effect === 'NoExecute' ? 'selected' : '')+'>NoExecute</option>' +
+                                    '<option value="PreferNoSchedule" '+(item.effect === 'PreferNoSchedule' ? 'selected' : '')+'>PreferNoSchedule</option>' +
+                                '</select>' +
+                            '</div>' +
+                            '<div class="layui-input-inline" style="width:120px">' +
+                                '<input type="text" name="tolerationSeconds[]" placeholder="Seconds" value="'+(item.tolerationSeconds || '')+'" class="layui-input">' +
+                            '</div>' +
+                            '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                '<input class="layui-btn layui-btn-normal layui-btn-xs layui-bg-orange layui-icon" type="button" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
+                            '</div>' +                
+                        '</div>'
+                    $('.htmlTpl').append(addTpl);  
+                });    
+                layui.use('form', function(){
+                    var form = layui.form;
+                    form.render();
+                });	        
+            }else{
+                layer.msg(resp.msg,{icon:2});
+            }
+        });
+
+        // 添加新容忍项
+        $('#newaddbtn').on("click",function(){
+            TplIndex++;
+            var addTpl =
+                '<div class="layui-form-item" id="tpl-'+TplIndex+'">' +
+                    '<div class="layui-input-inline" style="width:150px">' +
+                        '<input type="text" name="key[]" placeholder="Key" value="" class="layui-input">' +
+                    '</div>' +
+                    '<div class="layui-input-inline" style="width:120px">' +
+                        '<select name="operator[]" lay-verify="required">' +
+                            '<option value="Equal">Equal</option>' +
+                            '<option value="Exists">Exists</option>' +
+                        '</select>' +
+                    '</div>' +
+                    '<div class="layui-input-inline" style="width:150px">' +
+                        '<input type="text" name="value[]" placeholder="Value" value="" class="layui-input">' +
+                    '</div>' +
+                    '<div class="layui-input-inline" style="width:150px">' +
+                        '<select name="effect[]">' +
+                            '<option value="">None</option>' +
+                            '<option value="NoSchedule">NoSchedule</option>' +
+                            '<option value="NoExecute">NoExecute</option>' +
+                            '<option value="PreferNoSchedule">PreferNoSchedule</option>' +
+                        '</select>' +
+                    '</div>' +
+                    '<div class="layui-input-inline" style="width:120px">' +
+                        '<input type="text" name="tolerationSeconds[]" placeholder="Seconds" value="" class="layui-input">' +
+                    '</div>' +
+                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                        '<input class="layui-btn layui-btn-normal layui-btn-xs layui-bg-orange layui-icon" type="button" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
+                    '</div>' +                
+                '</div>'
+            $('.htmlTpl').append(addTpl);   
+            form.render(); 
+            return false;   
+        });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            console.log(data.field);
+            layer.confirm('确定修改?', {icon: 3, title:'提示',yes: function(index){
+                var index2 = layer.load(0, {shade: false});
+                layer.msg('稍等片刻');
+                $.ajax({
+                    url: "/xkube/deploy/v1/UpdateTolerations" + location.search,
+                    type: "post",
+                    data: JSON.stringify(data.field),
+                    dataType: "json",
+                    success: function (resp) {
+                        layer.close(index2);
+                        if(resp.code == 0){
+                            layer.msg('修改成功', {icon: 1});
+                        }else{
+                            layer.msg(resp.msg,{icon:2});
+                        }
+                    }
+                });		  	  
+            },
+            cancel: function(index, layero){ 
+                layer.close(index);
+                layer.close(index2);
+                console.log("不操作");
+            } 
+            });
+            return false;
+        });
+    });
+</script>
+</html>

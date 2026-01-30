@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Pod亲和性与反亲和性设置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
+    <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+        <blockquote class="layui-elem-quote layui-text">
+            <a class="layui-btn" style="float:right" href="javascript:location.reload();" title="刷新">
+              <i class="layui-icon">&#xe669;</i></a>
+            操作提示：<br>
+            1.Pod亲和性和反亲和性允许你约束Pod可以调度到哪些节点上，基于已经在节点上运行的Pod的标签而不是节点的标签。<br>
+            2.亲和性规则有required（必须满足）和preferred（尽量满足）两种类型。<br>
+            3.设置topologyKey指定匹配的拓扑域(如kubernetes.io/hostname)。<br>
+            4.当标签选择器中的操作符为空时，则对应的是labelSelector下的matchLabels。
+        </blockquote>
+    <div class="layuimini-main">
+        <form class="layui-form layui-form-pane" action="">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>一. Pod亲和性 [PodAffinity]</legend>
+            </fieldset>
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>1.1 必须满足 [requiredDuringSchedulingIgnoredDuringExecution]</legend>
+            </fieldset>
+            <div class="podAffinityRequiredTpl"></div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="margin-top:6px">  
+                    <button class="layui-btn layui-btn-normal layui-btn-xs" id="addPodAffinityRequiredBtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                </div> 
+            </div> 
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>1.2 尽量满足 [preferredDuringSchedulingIgnoredDuringExecution]</legend>
+            </fieldset>
+            <div class="podAffinityPreferredTpl"></div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="margin-top:6px">  
+                    <button class="layui-btn layui-btn-normal layui-btn-xs" id="addPodAffinityPreferredBtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                </div> 
+            </div> 
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>二. Pod反亲和性 [PodAntiAffinity]</legend>
+            </fieldset>
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>2.1 必须满足 [requiredDuringSchedulingIgnoredDuringExecution]</legend>
+            </fieldset>
+            <div class="podAntiAffinityRequiredTpl"></div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="margin-top:6px">  
+                    <button class="layui-btn layui-btn-normal layui-btn-xs" id="addPodAntiAffinityRequiredBtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                </div> 
+            </div> 
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>2.2 尽量满足 [preferredDuringSchedulingIgnoredDuringExecution]</legend>
+            </fieldset>
+            <div class="podAntiAffinityPreferredTpl"></div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="margin-top:6px">  
+                    <button class="layui-btn layui-btn-normal layui-btn-xs" id="addPodAntiAffinityPreferredBtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                </div> 
+            </div> 
+
+            <br>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+
+(function() {
+    // 使用闭包避免全局变量污染
+    var state = {
+        podAffinityRequiredIndex: 0,
+        podAffinityPreferredIndex: 0,
+        podAntiAffinityRequiredIndex: 0,
+        podAntiAffinityPreferredIndex: 0
+    };
+
+    // 删除Pod亲和性Required规则
+    function delPodAffinityRequired(id) {
+        layer.confirm('确定删除该Pod亲和性规则?', {
+            icon: 3, 
+            title: '提示'
+        }, function(index) {
+            $("#podAffinityRequiredTpl-" + id).remove();
+            state.podAffinityRequiredIndex--;           
+            layer.close(index);
+        });
+    }
+
+    // 删除Pod亲和性Preferred规则
+    function delPodAffinityPreferred(id) {
+        layer.confirm('确定删除该Pod亲和性规则?', {
+            icon: 3, 
+            title: '提示'
+        }, function(index) {
+            $("#podAffinityPreferredTpl-" + id).remove();
+            state.podAffinityPreferredIndex--;           
+            layer.close(index);
+        });
+    }
+
+    // 删除Pod反亲和性Required规则
+    function delPodAntiAffinityRequired(id) {
+        layer.confirm('确定删除该Pod反亲和性规则?', {
+            icon: 3, 
+            title: '提示'
+        }, function(index) {
+            $("#podAntiAffinityRequiredTpl-" + id).remove();
+            state.podAntiAffinityRequiredIndex--;           
+            layer.close(index);
+        });
+    }
+
+    // 删除Pod反亲和性Preferred规则
+    function delPodAntiAffinityPreferred(id) {
+        layer.confirm('确定删除该Pod反亲和性规则?', {
+            icon: 3, 
+            title: '提示'
+        }, function(index) {
+            $("#podAntiAffinityPreferredTpl-" + id).remove();
+            state.podAntiAffinityPreferredIndex--;           
+            layer.close(index);
+        });
+    }
+
+    // 删除单条Pod亲和性Required规则
+    function delPodAffinityRequiredLabel(pid, sid) {      
+      $("#podAffinityRequiredLabel-" + pid + "_" + sid).remove();
+    }
+
+    // 添加单条Pod亲和性Required规则
+    function addPodAffinityRequiredLabel(pid, sid) {
+        var addpathTpl = 
+            '<div class="layui-form-item" id="podAffinityRequiredLabel-' + pid + '_' + sid + '">' +
+                '<label class="layui-form-label">标签选择器</label>' +  
+                '<div class="layui-input-inline">' +  
+                    '<input type="text" name="podAffinityRequiredLabelKey_' + pid + '_' + sid + '" placeholder="标签键" value="" class="layui-input">' +
+                '</div>' +
+                '<div class="layui-input-inline">' +  
+                    '<select name="podAffinityRequiredLabelOperator_' + pid + '_' + sid + '">' +  
+                        '<option value="">操作符</option>' +
+                        '<option value="In">In</option>' +  
+                        '<option value="NotIn">NotIn</option>' +  
+                        '<option value="Exists">Exists</option>' +  
+                        '<option value="DoesNotExist">DoesNotExist</option>' +    
+                    '</select>' +  
+                '</div>' +
+                '<div class="layui-input-inline">' +  
+                    '<input type="text" name="podAffinityRequiredLabelValue_' + pid + '_' + sid + '" placeholder="标签值,多个用逗号分隔" value="" class="layui-input">' +
+                '</div>' +
+                '<div class="layui-input-inline" style="margin-top:6px">' +  
+                    '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.podAffinityHandlers.delPodAffinityRequiredLabel(' + pid + ',' + sid + ');">' +
+                '</div>' +             
+            '</div>';
+        console.log('addPodAffinityRequiredLabel-' + pid + '_' + sid)
+        $(".PodAffinityRequiredLabelsTpl_" + pid).append(addpathTpl); 
+        layui.use(['form'], function () {
+            var form = layui.form;
+            form.render(); 
+        });
+    }
+
+    // 删除单条Pod亲和性Preferred规则
+    function delPodAffinityPreferredLabel(pid, sid) {      
+      $("#podAffinityPreferredLabel-" + pid + "_" + sid).remove();
+    }
+
+    // 添加单条Pod亲和性Preferred规则
+    function addPodAffinityPreferredLabel(pid, sid) {
+        var addpathTpl = 
+            '<div class="layui-form-item" id="podAffinityPreferredLabel-' + pid + '_' + sid + '">' +
+                '<label class="layui-form-label">标签选择器</label>' +  
+                '<div class="layui-input-inline">' +  
+                    '<input type="text" name="podAffinityPreferredLabelKey_' + pid + '_' + sid + '" placeholder="标签键" value="" class="layui-input">' +
+                '</div>' +
+                '<div class="layui-input-inline">' +  
+                    '<select name="podAffinityPreferredLabelOperator_' + pid + '_' + sid + '">' +  
+                        '<option value="">操作符</option>' +
+                        '<option value="In">In</option>' +  
+                        '<option value="NotIn">NotIn</option>' +  
+                        '<option value="Exists">Exists</option>' +  
+                        '<option value="DoesNotExist">DoesNotExist</option>' + 
+                    '</select>' +  
+                '</div>' +
+                '<div class="layui-input-inline">' +  
+                    '<input type="text" name="podAffinityPreferredLabelValue_' + pid + '_' + sid + '" placeholder="标签值,多个用逗号分隔" value="" class="layui-input">' +
+                '</div>' +
+                '<div class="layui-input-inline" style="margin-top:6px">' +  
+                    '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.podAffinityHandlers.delPodAffinityPreferredLabel(' + pid + ',' + sid + ');">' +
+                '</div>' +             
+            '</div>';
+        console.log('podAffinityPreferredLabelKey-' + pid + '_' + sid)
+        $(".PodAffinityPreferredLabelsTpl_" + pid).append(addpathTpl); 
+        layui.use(['form'], function () {
+            var form = layui.form;
+            form.render(); 
+        });
+    }
+
+    // 删除单条Pod反亲和性Required规则
+    function delPodAntiAffinityRequiredLabel(pid, sid) {      
+      $("#podAntiAffinityRequiredLabel-" + pid + "_" + sid).remove();
+    }
+
+    // 添加单条Pod反亲和性Required规则
+    function addPodAntiAffinityRequiredLabel(pid, sid) {
+        var addpathTpl = 
+            '<div class="layui-form-item" id="podAntiAffinityRequiredLabel-' + pid + '_' + sid + '">' +
+                '<label class="layui-form-label">标签选择器</label>' +  
+                '<div class="layui-input-inline">' +  
+                    '<input type="text" name="podAntiAffinityRequiredLabelKey_' + pid + '_' + sid + '" placeholder="标签键" value="" class="layui-input">' +
+                '</div>' +
+                '<div class="layui-input-inline">' +  
+                    '<select name="podAntiAffinityRequiredLabelOperator_' + pid + '_' + sid + '">' +  
+                        '<option value="">操作符</option>' +
+                        '<option value="In">In</option>' +  
+                        '<option value="NotIn">NotIn</option>' +  
+                        '<option value="Exists">Exists</option>' +  
+                        '<option value="DoesNotExist">DoesNotExist</option>' + 
+                    '</select>' +  
+                '</div>' +
+                '<div class="layui-input-inline">' +  
+                    '<input type="text" name="podAntiAffinityRequiredLabelValue_' + pid + '_' + sid + '" placeholder="标签值,多个用逗号隔开" value="" class="layui-input">' +
+                '</div>' +
+                '<div class="layui-input-inline" style="margin-top:6px">' +  
+                    '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.podAntiAffinityHandlers.delPodAntiAffinityRequiredLabel(' + pid + ',' + sid + ');">' +
+                '</div>' +             
+            '</div>';
+        console.log('podAntiAffinityRequiredLabel-' + pid + '_' + sid)
+        $(".PodAntiAffinityRequiredLabelsTpl_" + pid).append(addpathTpl); 
+        layui.use(['form'], function () {
+            var form = layui.form;
+            form.render(); 
+        });
+    }
+
+    // 删除单条Pod反亲和性Preferred规则
+    function delPodAntiAffinityPreferredLabel(pid, sid) {      
+      $("#podAntiAffinityPreferredLabel-" + pid + "_" + sid).remove();
+    }
+
+    // 添加单条Pod反亲和性Preferred规则
+    function addPodAntiAffinityPreferredLabel(pid, sid) {
+        var addpathTpl = 
+            '<div class="layui-form-item" id="podAntiAffinityPreferredLabel-' + pid + '_' + sid + '">' +
+                '<label class="layui-form-label">标签选择器</label>' +  
+                '<div class="layui-input-inline">' +  
+                    '<input type="text" name="podAntiAffinityPreferredLabelKey_' + pid + '_' + sid + '" placeholder="标签键" value="" class="layui-input">' +
+                '</div>' +
+                '<div class="layui-input-inline">' +  
+                    '<select name="podAntiAffinityPreferredLabelOperator_' + pid + '_' + sid + '">' +  
+                        '<option value="">操作符</option>' +
+                        '<option value="In">In</option>' +  
+                        '<option value="NotIn">NotIn</option>' +  
+                        '<option value="Exists">Exists</option>' +  
+                        '<option value="DoesNotExist">DoesNotExist</option>' + 
+                    '</select>' +  
+                '</div>' +
+                '<div class="layui-input-inline">' +  
+                    '<input type="text" name="podAntiAffinityPreferredLabelValue_' + pid + '_' + sid + '" placeholder="标签值,多个用逗号分隔" value="" class="layui-input">' +
+                '</div>' +
+                '<div class="layui-input-inline" style="margin-top:6px">' +  
+                    '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.podAntiAffinityHandlers.delPodAntiAffinityPreferredLabel(' + pid + ',' + sid + ');">' +
+                '</div>' +             
+            '</div>';
+        console.log('podAntiAffinityPreferredLabel-' + pid + '_' + sid)
+        $(".PodAntiAffinityPreferredLabelsTpl_" + pid).append(addpathTpl); 
+        layui.use(['form'], function () {
+            var form = layui.form;
+            form.render(); 
+        });
+    }
+
+
+var clusterId = getQueryString("clusterId");
+if (clusterId == null) {
+	clusterId = getCookie("clusterId")
+}
+
+    // 初始化页面
+    function initPage() {
+        layui.use(['form', 'element'], function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                element = layui.element;
+
+            // 获取规则数据
+            $.get('/xkube/deploy/v1/GetPodAffinity' + location.search, function (resp) {
+                if (resp.code == 0) {
+                    $('.podAffinityRequiredTpl').empty();
+                    $('.podAffinityPreferredTpl').empty();
+                    $('.podAntiAffinityRequiredTpl').empty();
+                    $('.podAntiAffinityPreferredTpl').empty();
+
+                    // PodAffinity Required
+                    if ( resp.data.podAffinity.required != null ) {
+                      $.each(resp.data.podAffinity.required, function(i, item) {
+                          state.podAffinityRequiredIndex++;
+                          var itemId = state.podAffinityRequiredIndex;
+                          var namespaces = '';
+                          var topologyKey = '';
+                          var matchLabelKeys = '';
+                          if (item.nameSpaces != null) {
+                            namespaces = item.nameSpaces.join(',');
+                          }
+                          if (item.topologyKey != null) {
+                            topologyKey = item.topologyKey;
+                          }
+                          if (item.matchLableKeys != null) {
+                            var matchLabelKeys = item.matchLableKeys.join(',');
+                          }
+                          
+                          var headTpl =
+                              '<div id="podAffinityRequiredTpl-' + itemId + '">' +
+                                      '<blockquote class="layui-elem-quote">' +
+                                          '<div class="layui-form-item">' +
+                                              '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                                  '<input class="layui-btn layui-icon layui-btn-xs layui-btn-danger" type="button" value="&#xe616;" onclick="window.podAffinityHandlers.delPodAffinityRequired(' + itemId + ');" />' +
+                                              '</div>' + 
+                                          '</div>' + 
+                                          '<div class="layui-form-item">' +
+                                              '<label class="layui-form-label">命名空间</label>' + 
+                                              '<div class="layui-input-inline">' +  
+                                                  '<input type="text" name="podAffinityRequiredNamespaces_' + itemId + '" placeholder="命名空间，多个用逗号分隔（留空表示当前命名空间）" value="' + namespaces + '" class="layui-input">' +
+                                              '</div>' +
+                                              '<label class="layui-form-label">标签值</label>' + 
+                                              '<div class="layui-input-inline" style="width:280px">' +  
+                                                  '<input type="text" name="podAffinityRequiredMatchLabelKeys_' + itemId + '" placeholder="matchLabelKeys,多个逗号隔开" value="' + matchLabelKeys + '" class="layui-input">' +
+                                              '</div>' +
+                                          '</div>' + 
+                                          '<div class="layui-form-item">' +
+                                              '<label class="layui-form-label">拓扑键</label>' + 
+                                              '<div class="layui-input-inline" style="width:590px">' +  
+                                                  '<input type="text" name="podAffinityRequiredTopologyKey_' + itemId + '" placeholder="拓扑键，如：kubernetes.io/hostname" value="' + topologyKey + '" class="layui-input">' +
+                                              '</div>' +
+                                          '</div>' + 
+                                          '<div class="PodAffinityRequiredLabelsTpl_' + itemId + '"></div>';
+                          
+                          var labelsTpl = '';
+                          $.each(item.labelSelector, function(j, label) {
+                              labelsTpl +=
+                                  '<div class="layui-form-item" id="podAffinityRequiredLabel-' + itemId + '_' + (j+1) + '">' +
+                                      '<label class="layui-form-label">标签选择器</label>' +  
+                                      '<div class="layui-input-inline">' +  
+                                          '<input type="text" name="podAffinityRequiredLabelKey_' + itemId + '_' + (j+1) + '" placeholder="标签键" value="' + label.key + '" class="layui-input">' +
+                                      '</div>' +
+                                      '<div class="layui-input-inline">' +  
+                                          '<select name="podAffinityRequiredLabelOperator_' + itemId + '_' + (j+1) + '">' + 
+                                              '<option value="" '+(label.operator === '' ? 'selected' : '')+'>操作符</option>' + 
+                                              '<option value="In" '+(label.operator === 'In' ? 'selected' : '')+'>In</option>' +
+                                              '<option value="NotIn" '+(label.operator === 'NotIn' ? 'selected' : '')+'>NotIn</option>' +
+                                              '<option value="Exists" '+(label.operator === 'Exists' ? 'selected' : '')+'>Exists</option>' +
+                                              '<option value="DoesNotExist" '+(label.operator === 'DoesNotExist' ? 'selected' : '')+'>DoesNotExist</option>' +
+                                          '</select>' +  
+                                      '</div>' +
+                                      '<div class="layui-input-inline">' +  
+                                          '<input type="text" name="podAffinityRequiredLabelValue_' + itemId + '_' + (j+1) + '" placeholder="标签值" value="' + label.value + '" class="layui-input">' +
+                                      '</div>' +
+                                      '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                          '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.podAffinityHandlers.delPodAffinityRequiredLabel(' + itemId + ',' + (j+1) + ');">' +
+                                      '</div>' +             
+                                  '</div>';
+                          });
+                          
+                          var endTpl =
+                                      '<div class="layui-form-item">' +
+                                          '<div class="layui-input-inline" style="margin-top:6px">' +   
+                                              '<input class="layui-btn layui-icon layui-btn-xs" type="button" value="&#xe624;" onclick="window.podAffinityHandlers.addPodAffinityRequiredLabel(' + itemId + ', 1);" />' +
+                                          '</div>' + 
+                                      '</div>' +  
+                                    '</blockquote>' +  
+                              '</div>';
+                          
+                          $('.podAffinityRequiredTpl').append(headTpl + labelsTpl + endTpl);  
+                      });   
+                    }
+                    // PodAffinity Preferred
+                    if ( resp.data.podAffinity.preferred != null ) {
+                      $.each(resp.data.podAffinity.preferred, function(i, item) {
+                          state.podAffinityPreferredIndex++;
+                          var itemId = state.podAffinityPreferredIndex;
+                          
+                          var weight = item.weight;
+                          var namespaces = '';
+                          var topologyKey = '';
+                          var matchLabelKeys = '';
+                          if (item.nameSpaces != null) {
+                            namespaces = item.nameSpaces.join(',');
+                          }
+                          if (item.topologyKey != null) {
+                            topologyKey = item.topologyKey;
+                          }
+                          if (item.matchLableKeys != null) {
+                            var matchLabelKeys = item.matchLableKeys.join(',');
+                          }
+                          
+                          var headTpl =
+                              '<div id="podAffinityPreferredTpl-' + itemId + '">' +
+                                      '<blockquote class="layui-elem-quote">' +
+                                          '<div class="layui-form-item">' +
+                                              '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                                  '<input class="layui-btn layui-icon layui-btn-xs layui-btn-danger" type="button" value="&#xe616;" onclick="window.podAffinityHandlers.delPodAffinityPreferred(' + itemId + ');" />' +
+                                              '</div>' + 
+                                          '</div>' + 
+                                          '<div class="layui-form-item">' +
+                                              '<label class="layui-form-label">命名空间</label>' + 
+                                              '<div class="layui-input-inline">' +  
+                                                  '<input type="text" name="podAffinityPreferredNamespaces_' + itemId + '" placeholder="namespaces,多个逗号隔开" value="' + namespaces + '" class="layui-input">' +
+                                              '</div>' +
+                                              '<label class="layui-form-label">标签值</label>' + 
+                                              '<div class="layui-input-inline" style="width:280px">' +  
+                                                  '<input type="text" name="podAffinityPreferredMatchLabelKeys_' + itemId + '" placeholder="matchLabelKeys,多个逗号隔开" value="' + matchLabelKeys + '" class="layui-input">' +
+                                              '</div>' +
+                                          '</div>' + 
+                                          '<div class="layui-form-item">' +
+                                              '<label class="layui-form-label">权重</label>' + 
+                                              '<div class="layui-input-inline">' +  
+                                                  '<input type="text" name="podAffinityPreferredWeight_' + itemId + '" placeholder="weight" value="' + weight + '" class="layui-input">' +
+                                              '</div>' +
+                                              '<label class="layui-form-label">拓扑键</label>' + 
+                                              '<div class="layui-input-inline" style="width:280px">' +  
+                                                  '<input type="text" name="podAffinityPreferredTopologyKey_' + itemId + '" placeholder="topologyKey" value="' + topologyKey + '" class="layui-input">' +
+                                              '</div>' +
+                                          '</div>' +  
+                                          '<div class="PodAffinityPreferredLabelsTpl_' + itemId + '"></div>';
+                          
+                          var labelsTpl = '';
+                          $.each(item.labelSelector, function(j, exp) {
+                                  labelsTpl +=
+                                      '<div class="layui-form-item" id="podAffinityPreferredLabel-' + itemId + '_' + (j+1) + '">' +
+                                          '<label class="layui-form-label">标签选择器</label>' +  
+                                          '<div class="layui-input-inline">' +  
+                                              '<input type="text" name="podAffinityPreferredLabelKey_' + itemId + '_' + (j+1) + '" placeholder="标签键" value="' + exp.key + '" class="layui-input">' +
+                                          '</div>' +
+                                          '<div class="layui-input-inline">' +  
+                                              '<select name="podAffinityPreferredLabelOperator_' + itemId + '_' + (j+1) + '">' + 
+                                                  '<option value="" '+(exp.operator === '' ? 'selected' : '')+'>操作符</option>' + 
+                                                  '<option value="In" '+(exp.operator === 'In' ? 'selected' : '')+'>In</option>' +
+                                                  '<option value="NotIn" '+(exp.operator === 'NotIn' ? 'selected' : '')+'>NotIn</option>' +
+                                                  '<option value="Exists" '+(exp.operator === 'Exists' ? 'selected' : '')+'>Exists</option>' +
+                                                  '<option value="DoesNotExist" '+(exp.operator === 'DoesNotExist' ? 'selected' : '')+'>DoesNotExist</option>' +
+                                              '</select>' +  
+                                          '</div>' +
+                                          '<div class="layui-input-inline">' +  
+                                              '<input type="text" name="podAffinityPreferredLabelValue_' + itemId + '_' + (j+1) + '" placeholder="标签值，多个用逗号分隔" value="' + exp.value.join(',') + '" class="layui-input">' +
+                                          '</div>' +
+                                          '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                              '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.podAffinityHandlers.delPodAffinityPreferredLabel(' + itemId + ',' + (j+1) + ');">' +
+                                          '</div>' +             
+                                      '</div>';
+                          });
+                          
+                          var endTpl =
+                                      '<div class="layui-form-item">' +
+                                          '<div class="layui-input-inline" style="margin-top:6px">' +   
+                                              '<input class="layui-btn layui-icon layui-btn-xs" type="button" value="&#xe624;" onclick="window.podAffinityHandlers.addPodAffinityPreferredLabel(' + itemId + ', 1);" />' +
+                                          '</div>' + 
+                                      '</div>' +  
+                                    '</blockquote>' +  
+                              '</div>';
+                          
+                          $('.podAffinityPreferredTpl').append(headTpl + labelsTpl + endTpl);  
+                      });   
+                    }
+                    // PodAntiAffinity Required
+                    if ( resp.data.podAntiAffinity.required != null ) {
+                      $.each(resp.data.podAntiAffinity.required, function(i, item) {
+                          state.podAntiAffinityRequiredIndex++;
+                          var itemId = state.podAntiAffinityRequiredIndex;
+  
+                          var namespaces = '';
+                          var topologyKey = '';
+                          var matchLabelKeys = '';
+                          if (item.nameSpaces != null) {
+                            namespaces = item.nameSpaces.join(',');
+                          }
+                          if (item.topologyKey != null) {
+                            topologyKey = item.topologyKey;
+                          }
+                          if (item.matchLableKeys != null) {
+                            var matchLabelKeys = item.matchLableKeys.join(',');
+                          }                        
+                          
+                          var headTpl =
+                              '<div id="podAntiAffinityRequiredTpl-' + itemId + '">' +
+                                      '<blockquote class="layui-elem-quote">' +
+                                          '<div class="layui-form-item">' +
+                                              '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                                  '<input class="layui-btn layui-icon layui-btn-xs layui-btn-danger" type="button" value="&#xe616;" onclick="window.podAntiAffinityHandlers.delPodAntiAffinityRequired(' + itemId + ');" />' +
+                                              '</div>' + 
+                                          '</div>' + 
+                                          '<div class="layui-form-item">' +
+                                              '<label class="layui-form-label">命名空间</label>' + 
+                                              '<div class="layui-input-inline">' +  
+                                                  '<input type="text" name="podAntiAffinityRequiredNamespaces_' + itemId + '" placeholder="命名空间，多个用逗号分隔（留空表示当前命名空间）" value="' + namespaces + '" class="layui-input">' +
+                                              '</div>' +
+                                              '<label class="layui-form-label">标签值</label>' + 
+                                              '<div class="layui-input-inline" style="width:280px">' +  
+                                                  '<input type="text" name="podAntiAffinityRequiredMatchLabelKeys_' + itemId + '" placeholder="matchLabelKeys,多个逗号隔开" value="' + matchLabelKeys + '" class="layui-input">' +
+                                              '</div>' +
+                                          '</div>' + 
+                                          '<div class="layui-form-item">' +
+                                              '<label class="layui-form-label">拓扑键</label>' + 
+                                              '<div class="layui-input-inline" style="width:590px">' +  
+                                                  '<input type="text" name="podAntiAffinityRequiredTopologyKey_' + itemId + '" placeholder="拓扑键，如：kubernetes.io/hostname" value="' + topologyKey + '" class="layui-input">' +
+                                              '</div>' +
+                                          '</div>' + 
+                                          '<div class="PodAntiAffinityRequiredLabelsTpl_' + itemId + '"></div>';
+                          
+                          var labelsTpl = '';
+                          $.each(item.labelSelector, function(j, label) {
+                              labelsTpl +=
+                                  '<div class="layui-form-item" id="podAntiAffinityRequiredLabel-' + itemId + '_' + (j+1) + '">' +
+                                      '<label class="layui-form-label">标签选择器</label>' +  
+                                      '<div class="layui-input-inline">' +  
+                                          '<input type="text" name="podAntiAffinityRequiredLabelKey_' + itemId + '_' + (j+1) + '" placeholder="标签键" value="' + label.key + '" class="layui-input">' +
+                                      '</div>' +
+                                      '<div class="layui-input-inline">' +  
+                                          '<select name="podAntiAffinityRequiredLabelOperator_' + itemId + '_' + (j+1) + '">' +  
+                                              '<option value="" '+(label.operator === '' ? 'selected' : '')+'>操作符</option>' + 
+                                              '<option value="In" '+(label.operator === 'In' ? 'selected' : '')+'>In</option>' +
+                                              '<option value="NotIn" '+(label.operator === 'NotIn' ? 'selected' : '')+'>NotIn</option>' +
+                                              '<option value="Exists" '+(label.operator === 'Exists' ? 'selected' : '')+'>Exists</option>' +
+                                              '<option value="DoesNotExist" '+(label.operator === 'DoesNotExist' ? 'selected' : '')+'>DoesNotExist</option>' +
+                                          '</select>' +  
+                                      '</div>' +
+                                      '<div class="layui-input-inline">' +  
+                                          '<input type="text" name="podAntiAffinityRequiredLabelValue_' + itemId + '_' + (j+1) + '" placeholder="标签值" value="' + label.value + '" class="layui-input">' +
+                                      '</div>' +
+                                      '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                          '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.podAntiAffinityHandlers.delPodAntiAffinityRequiredLabel(' + itemId + ',' + (j+1) + ');">' +
+                                      '</div>' +             
+                                  '</div>';
+                          });
+                          
+                          var endTpl =
+                                      '<div class="layui-form-item">' +
+                                          '<div class="layui-input-inline" style="margin-top:6px">' +   
+                                              '<input class="layui-btn layui-icon layui-btn-xs" type="button" value="&#xe624;" onclick="window.podAntiAffinityHandlers.addPodAntiAffinityRequiredLabel(' + itemId + ', 1);" />' +
+                                          '</div>' + 
+                                      '</div>' +  
+                                    '</blockquote>' +  
+                              '</div>';
+                          
+                          $('.podAntiAffinityRequiredTpl').append(headTpl + labelsTpl + endTpl);  
+                      });   
+                    }
+                    // PodAntiAffinity Preferred
+                    if ( resp.data.podAntiAffinity.preferred != null ) {
+                      $.each(resp.data.podAntiAffinity.preferred, function(i, item) {
+                          state.podAntiAffinityPreferredIndex++;
+                          var itemId = state.podAntiAffinityPreferredIndex;
+                          
+                          var weight = item.weight;
+                          var namespaces = '';
+                          var topologyKey = '';
+                          var matchLabelKeys = '';
+                          if (item.nameSpaces != null) {
+                            namespaces = item.nameSpaces.join(',');
+                          }
+                          if (item.topologyKey != null) {
+                            topologyKey = item.topologyKey;
+                          }
+                          if (item.matchLableKeys != null) {
+                            var matchLabelKeys = item.matchLableKeys.join(',');
+                          }
+                          
+                          var headTpl =
+                              '<div id="podAntiAffinityPreferredTpl-' + itemId + '">' +
+                                      '<blockquote class="layui-elem-quote">' +
+                                          '<div class="layui-form-item">' +
+                                              '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                                  '<input class="layui-btn layui-icon layui-btn-xs layui-btn-danger" type="button" value="&#xe616;" onclick="window.podAntiAffinityHandlers.delPodAntiAffinityPreferred(' + itemId + ');" />' +
+                                              '</div>' + 
+                                          '</div>' + 
+                                          '<div class="layui-form-item">' +
+                                              '<label class="layui-form-label">命名空间</label>' + 
+                                              '<div class="layui-input-inline">' +  
+                                                  '<input type="text" name="podAntiAffinityPreferredNamespaces_' + itemId + '" placeholder="namespaces,多个逗号隔开" value="' + namespaces + '" class="layui-input">' +
+                                              '</div>' +
+                                              '<label class="layui-form-label">标签值</label>' + 
+                                              '<div class="layui-input-inline" style="width:280px">' +  
+                                                  '<input type="text" name="podAntiAffinityPreferredMatchLabelKeys_' + itemId + '" placeholder="matchLabelKeys,多个逗号隔开" value="' + matchLabelKeys + '" class="layui-input">' +
+                                              '</div>' +
+                                          '</div>' + 
+                                          '<div class="layui-form-item">' +
+                                              '<label class="layui-form-label">权重</label>' + 
+                                              '<div class="layui-input-inline">' +  
+                                                  '<input type="text" name="podAntiAffinityPreferredWeight_' + itemId + '" placeholder="权重" value="' + weight + '" class="layui-input">' +
+                                              '</div>' +
+                                              '<label class="layui-form-label">拓扑键</label>' + 
+                                              '<div class="layui-input-inline" style="width:280px">' +  
+                                                  '<input type="text" name="podAntiAffinityPreferredTopologyKey_' + itemId + '" placeholder="topologyKey" value="' + topologyKey + '" class="layui-input">' +
+                                              '</div>' +
+                                          '</div>' +  
+                                          '<div class="PodAntiAffinityPreferredLabelsTpl_' + itemId + '"></div>';
+                          
+                          var labelsTpl = '';
+                          $.each(item.labelSelector, function(j, exp) {
+                                  labelsTpl +=
+                                      '<div class="layui-form-item" id="podAntiAffinityPreferredLabel-' + itemId + '_' + (j+1) + '">' +
+                                          '<label class="layui-form-label">标签选择器</label>' +  
+                                          '<div class="layui-input-inline">' +  
+                                              '<input type="text" name="podAntiAffinityPreferredLabelKey_' + itemId + '_' + (j+1) + '" placeholder="标签键" value="' + exp.key + '" class="layui-input">' +
+                                          '</div>' +
+                                          '<div class="layui-input-inline">' +  
+                                              '<select name="podAntiAffinityPreferredLabelOperator_' + itemId + '_' + (j+1) + '">' +  
+                                                  '<option value="" '+(exp.operator === '' ? 'selected' : '')+'>操作符</option>' + 
+                                                  '<option value="In" '+(exp.operator === 'In' ? 'selected' : '')+'>In</option>' +
+                                                  '<option value="NotIn" '+(exp.operator === 'NotIn' ? 'selected' : '')+'>NotIn</option>' +
+                                                  '<option value="Exists" '+(exp.operator === 'Exists' ? 'selected' : '')+'>Exists</option>' +
+                                                  '<option value="DoesNotExist" '+(exp.operator === 'DoesNotExist' ? 'selected' : '')+'>DoesNotExist</option>' +
+                                              '</select>' +  
+                                          '</div>' +
+                                          '<div class="layui-input-inline">' +  
+                                              '<input type="text" name="podAntiAffinityPreferredLabelValue_' + itemId + '_' + (j+1) + '" placeholder="标签值，多个用逗号分隔" value="' + exp.value.join(',') + '" class="layui-input">' +
+                                          '</div>' +
+                                          '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                              '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.podAntiAffinityHandlers.delPodAntiAffinityPreferredLabel(' + itemId + ',' + (j+1) + ');">' +
+                                          '</div>' +             
+                                      '</div>';
+                          });
+                          
+                          var endTpl =
+                                      '<div class="layui-form-item">' +
+                                          '<div class="layui-input-inline" style="margin-top:6px">' +   
+                                              '<input class="layui-btn layui-icon layui-btn-xs" type="button" value="&#xe624;" onclick="window.podAntiAffinityHandlers.addPodAntiAffinityPreferredLabel(' + itemId + ', 1);" />' +
+                                          '</div>' + 
+                                      '</div>' +  
+                                    '</blockquote>' +  
+                              '</div>';
+                          
+                          $('.podAntiAffinityPreferredTpl').append(headTpl + labelsTpl + endTpl);  
+                      });   
+                    }                      
+                    form.render();
+                } else {
+                    layer.msg('加载失败', {icon: 2});
+                }
+            });
+
+            // 添加PodAffinity Required规则
+            $('#addPodAffinityRequiredBtn').on("click", function() {
+                state.podAffinityRequiredIndex++;
+                var newItemId = state.podAffinityRequiredIndex;
+                
+                var addRuleTpl =
+                    '<div id="podAffinityRequiredTpl-' + newItemId + '">' +
+                            '<blockquote class="layui-elem-quote">' +
+                                '<div class="layui-form-item">' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-icon layui-btn-xs layui-btn-danger" type="button" value="&#xe616;" onclick="window.podAffinityHandlers.delPodAffinityRequired(' + newItemId + ');" />' +
+                                    '</div>' + 
+                                '</div>' +  
+                                '<div class="layui-form-item">' +
+                                    '<label class="layui-form-label">命名空间</label>' + 
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="podAffinityRequiredNamespaces_' + newItemId + '" placeholder="namespaces,多个逗号隔开" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<label class="layui-form-label">标签值</label>' + 
+                                    '<div class="layui-input-inline" style="width:280px">' +  
+                                        '<input type="text" name="podAffinityRequiredMatchLabelKeys_' + newItemId + '" placeholder="matchLabelKeys,多个逗号隔开" value="" class="layui-input">' +
+                                    '</div>' +
+                                '</div>' + 
+                                '<div class="layui-form-item">' +
+                                    '<label class="layui-form-label">拓扑键</label>' + 
+                                    '<div class="layui-input-inline" style="width:590px">' +  
+                                        '<input type="text" name="podAffinityRequiredTopologyKey_' + newItemId + '" placeholder="topologyKey" value="" class="layui-input">' +
+                                    '</div>' +
+                                '</div>' + 
+                                '<div class="PodAffinityRequiredLabelsTpl_' + newItemId + '"></div>' +  
+                                '<div class="layui-form-item" id="podAffinityRequiredLabel-' + newItemId + '_1">' +
+                                    '<label class="layui-form-label">标签选择器</label>' +  
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="podAffinityRequiredLabelKey_' + newItemId + '_1" placeholder="标签键" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<select name="podAffinityRequiredLabelOperator_' + newItemId + '_1">' +  
+                                            '<option value="">操作符</option>' +
+                                            '<option value="In">In</option>' +  
+                                            '<option value="NotIn">NotIn</option>' +  
+                                            '<option value="Exists">Exists</option>' +  
+                                            '<option value="DoesNotExist">DoesNotExist</option>' +    
+                                        '</select>' +  
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="podAffinityRequiredLabelValue_' + newItemId + '_1" placeholder="标签值,多个用逗号分隔" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.podAffinityHandlers.delPodAffinityRequiredLabel(' + newItemId + ',1);" />' +
+                                    '</div>' +             
+                                '</div>' +
+                                '<div class="layui-form-item">' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +   
+                                        '<input class="layui-btn layui-icon layui-btn-xs" type="button" value="&#xe624;" onclick="window.podAffinityHandlers.addPodAffinityRequiredLabel(' + newItemId + ', 1);" />' +
+                                    '</div>' + 
+                                '</div>' +  
+                            '</blockquote>' +                   
+                    '</div>';
+                
+                $('.podAffinityRequiredTpl').append(addRuleTpl);   
+                form.render(); 
+                return false;   
+            });
+
+            // 添加PodAffinity Preferred规则
+            $('#addPodAffinityPreferredBtn').on("click", function() {
+                state.podAffinityPreferredIndex++;
+                var newItemId = state.podAffinityPreferredIndex;
+                
+                var addRuleTpl =
+                    '<div id="podAffinityPreferredTpl-' + newItemId + '">' +
+                            '<blockquote class="layui-elem-quote">' +
+                                '<div class="layui-form-item">' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-icon layui-btn-xs layui-btn-danger" type="button" value="&#xe616;" onclick="window.podAffinityHandlers.delPodAffinityPreferred(' + newItemId + ');" />' +
+                                    '</div>' + 
+                                '</div>' +  
+                                '<div class="layui-form-item">' +
+                                    '<label class="layui-form-label">命名空间</label>' + 
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="podAffinityPreferredNamespaces_' + newItemId + '" placeholder="namespaces,多个逗号隔开" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<label class="layui-form-label">标签值</label>' + 
+                                    '<div class="layui-input-inline" style="width:280px">' +  
+                                        '<input type="text" name="podAffinityPreferredMatchLabelKeys_' + newItemId + '" placeholder="matchLabelKeys,多个逗号隔开" value="" class="layui-input">' +
+                                    '</div>' +
+                                '</div>' + 
+                                '<div class="layui-form-item">' +
+                                    '<label class="layui-form-label">权重</label>' + 
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="podAffinityPreferredWeight_' + newItemId + '" placeholder="weight" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<label class="layui-form-label">拓扑键</label>' + 
+                                    '<div class="layui-input-inline" style="width:280px">' +  
+                                        '<input type="text" name="podAffinityPreferredTopologyKey_' + newItemId + '" placeholder="topologyKey" value="" class="layui-input">' +
+                                    '</div>' +
+                                '</div>' +  
+                                '<div class="PodAffinityPreferredLabelsTpl_' + newItemId + '"></div>' +  
+                                '<div class="layui-form-item" id="podAffinityPreferredLabel-' + newItemId + '_1">' +
+                                    '<label class="layui-form-label">标签选择器</label>' +  
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="podAffinityPreferredLabelKey_' + newItemId + '_1" placeholder="标签键" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<select name="podAffinityPreferredLabelOperator_' + newItemId + '_1">' +  
+                                            '<option value="">操作符</option>' +
+                                            '<option value="In">In</option>' +  
+                                            '<option value="NotIn">NotIn</option>' +  
+                                            '<option value="Exists">Exists</option>' +  
+                                            '<option value="DoesNotExist">DoesNotExist</option>' +    
+                                        '</select>' +  
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="podAffinityPreferredLabelValue_' + newItemId + '_1" placeholder="标签值,多个用逗号分隔" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.podAffinityHandlers.delPodAffinityPreferredLabel(' + newItemId + ',1);" />' +
+                                    '</div>' +             
+                                '</div>' +
+                                '<div class="layui-form-item">' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +   
+                                        '<input class="layui-btn layui-icon layui-btn-xs" type="button" value="&#xe624;" onclick="window.podAffinityHandlers.addPodAffinityPreferredLabel(' + newItemId + ', 1);" />' +
+                                    '</div>' + 
+                                '</div>' +  
+                            '</blockquote>' +                   
+                    '</div>';
+                
+                $('.podAffinityPreferredTpl').append(addRuleTpl);   
+                form.render(); 
+                return false;   
+            });
+
+            // 添加PodAntiAffinity Required规则
+            $('#addPodAntiAffinityRequiredBtn').on("click", function() {
+                state.podAntiAffinityRequiredIndex++;
+                var newItemId = state.podAntiAffinityRequiredIndex;
+                
+                var addRuleTpl =
+                    '<div id="podAntiAffinityRequiredTpl-' + newItemId + '">' +
+                            '<blockquote class="layui-elem-quote">' +
+                                '<div class="layui-form-item">' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-icon layui-btn-xs layui-btn-danger" type="button" value="&#xe616;" onclick="window.podAntiAffinityHandlers.delPodAntiAffinityRequired(' + newItemId + ');" />' +
+                                    '</div>' + 
+                                '</div>' +  
+                                '<div class="layui-form-item">' +
+                                    '<label class="layui-form-label">命名空间</label>' + 
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="podAntiAffinityRequiredNamespaces_' + newItemId + '" placeholder="namespaces,多个逗号隔开" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<label class="layui-form-label">标签值</label>' + 
+                                    '<div class="layui-input-inline" style="width:280px">' +  
+                                        '<input type="text" name="podAntiAffinityRequiredMatchLabelKeys_' + newItemId + '" placeholder="matchLabelKeys,多个逗号隔开" value="" class="layui-input">' +
+                                    '</div>' +
+                                '</div>' + 
+                                '<div class="layui-form-item">' +
+                                    '<label class="layui-form-label">拓扑键</label>' + 
+                                    '<div class="layui-input-inline" style="width:590px">' +  
+                                        '<input type="text" name="podAntiAffinityRequiredTopologyKey_' + newItemId + '" placeholder="topologyKey" value="" class="layui-input">' +
+                                    '</div>' +
+                                '</div>' + 
+                                '<div class="PodAntiAffinityRequiredLabelsTpl_' + newItemId + '"></div>' +  
+                                '<div class="layui-form-item" id="podAntiAffinityRequiredLabel-' + newItemId + '_1">' +
+                                    '<label class="layui-form-label">标签选择器</label>' +  
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="podAntiAffinityRequiredLabelKey_' + newItemId + '_1" placeholder="标签键" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<select name="podAntiAffinityRequiredLabelOperator_' + newItemId + '_1">' +  
+                                            '<option value="">操作符</option>' +
+                                            '<option value="In">In</option>' +  
+                                            '<option value="NotIn">NotIn</option>' +  
+                                            '<option value="Exists">Exists</option>' +  
+                                            '<option value="DoesNotExist">DoesNotExist</option>' +    
+                                        '</select>' +  
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="podAntiAffinityRequiredLabelValue_' + newItemId + '_1" placeholder="标签值,多个用逗号分隔" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.podAntiAffinityHandlers.delPodAntiAffinityRequiredLabel(' + newItemId + ',1);" />' +
+                                    '</div>' +             
+                                '</div>' +
+                                '<div class="layui-form-item">' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +   
+                                        '<input class="layui-btn layui-icon layui-btn-xs" type="button" value="&#xe624;" onclick="window.podAntiAffinityHandlers.addPodAntiAffinityRequiredLabel(' + newItemId + ', 1);" />' +
+                                    '</div>' + 
+                                '</div>' +  
+                            '</blockquote>' +                   
+                    '</div>';
+                
+                $('.podAntiAffinityRequiredTpl').append(addRuleTpl);   
+                form.render(); 
+                return false;   
+            });
+
+            // 添加PodAntiAffinity Preferred规则
+            $('#addPodAntiAffinityPreferredBtn').on("click", function() {
+                state.podAntiAffinityPreferredIndex++;
+                var newItemId = state.podAntiAffinityPreferredIndex;
+                
+                var addRuleTpl =
+                    '<div id="podAntiAffinityPreferredTpl-' + newItemId + '">' +
+                            '<blockquote class="layui-elem-quote">' +
+                                '<div class="layui-form-item">' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-icon layui-btn-xs layui-btn-danger" type="button" value="&#xe616;" onclick="window.podAntiAffinityHandlers.delPodAntiAffinityPreferred(' + newItemId + ');" />' +
+                                    '</div>' + 
+                                '</div>' +  
+                                '<div class="layui-form-item">' +
+                                    '<label class="layui-form-label">命名空间</label>' + 
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="podAntiAffinityPreferredNamespaces_' + newItemId + '" placeholder="namespaces,多个逗号隔开" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<label class="layui-form-label">标签值</label>' + 
+                                    '<div class="layui-input-inline" style="width:280px">' +  
+                                        '<input type="text" name="podAntiAffinityPreferredMatchLabelKeys_' + newItemId + '" placeholder="matchLabelKeys,多个逗号隔开" value="" class="layui-input">' +
+                                    '</div>' +
+                                '</div>' + 
+                                '<div class="layui-form-item">' +
+                                    '<label class="layui-form-label">权重</label>' + 
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="podAntiAffinityPreferredWeight_' + newItemId + '" placeholder="weight" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<label class="layui-form-label">拓扑键</label>' + 
+                                    '<div class="layui-input-inline" style="width:280px">' +  
+                                        '<input type="text" name="podAntiAffinityPreferredTopologyKey_' + newItemId + '" placeholder="topologyKey" value="" class="layui-input">' +
+                                    '</div>' +
+                                '</div>' +  
+                                '<div class="PodAntiAffinityPreferredLabelsTpl_' + newItemId + '"></div>' +  
+                                '<div class="layui-form-item" id="podAntiAffinityPreferredLabel-' + newItemId + '_1">' +
+                                    '<label class="layui-form-label">标签选择器</label>' +  
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="podAntiAffinityPreferredLabelKey_' + newItemId + '_1" placeholder="标签键" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<select name="podAntiAffinityPreferredLabelOperator_' + newItemId + '_1">' +  
+                                            '<option value="">操作符</option>' +
+                                            '<option value="In">In</option>' +  
+                                            '<option value="NotIn">NotIn</option>' +  
+                                            '<option value="Exists">Exists</option>' +  
+                                            '<option value="DoesNotExist">DoesNotExist</option>' +    
+                                        '</select>' +  
+                                    '</div>' +
+                                    '<div class="layui-input-inline">' +  
+                                        '<input type="text" name="podAntiAffinityPreferredLabelValue_' + newItemId + '_1" placeholder="标签值,多个用逗号分隔" value="" class="layui-input">' +
+                                    '</div>' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                                        '<input class="layui-btn layui-btn-normal layui-btn-warm layui-btn-xs layui-icon" type="button" value="&#xe616;" onclick="window.podAntiAffinityHandlers.delPodAntiAffinityPreferredLabel(' + newItemId + ',1);" />' +
+                                    '</div>' +             
+                                '</div>' +
+                                '<div class="layui-form-item">' +
+                                    '<div class="layui-input-inline" style="margin-top:6px">' +   
+                                        '<input class="layui-btn layui-icon layui-btn-xs" type="button" value="&#xe624;" onclick="window.podAntiAffinityHandlers.addPodAntiAffinityPreferredLabel(' + newItemId + ', 1);" />' +
+                                    '</div>' + 
+                                '</div>' +  
+                            '</blockquote>' +                   
+                    '</div>';
+                
+                $('.podAntiAffinityPreferredTpl').append(addRuleTpl);   
+                form.render(); 
+                return false;   
+            });
+
+            // 监听提交事件
+            form.on('submit(saveBtn)', function (data) {
+                console.log(data.field);
+                layer.confirm('确定修改?', {
+                    icon: 3, 
+                    title: '提示'
+                }, function(index) {
+                    var loadIndex = layer.load(0, {shade: false});
+                    layer.msg('稍等片刻');
+                    
+                    $.ajax({
+                        url: "/xkube/deploy/v1/UpdatePodAffinity" + location.search,
+                        type: "post",
+                        data: JSON.stringify(data.field),
+                        dataType: "json",
+                        success: function (resp) {
+                            layer.close(loadIndex);
+                            if(resp.code == 0){
+                                layer.msg('修改成功', {icon: 1});
+                            } else {
+                                layer.msg(resp.msg, {icon: 2});
+                            }
+                        },
+                        error: function() {
+                            layer.close(loadIndex);
+                            layer.msg('请求失败，请重试', {icon: 2});
+                        }
+                    });
+                    
+                    layer.close(index);
+                });
+                
+                return false;
+            });
+        });
+    }
+
+    // PodAffinity操作处理
+    window.podAffinityHandlers = {
+        delPodAffinityRequired: delPodAffinityRequired,
+        delPodAffinityPreferred: delPodAffinityPreferred,
+        delPodAffinityRequiredLabel: delPodAffinityRequiredLabel,
+        delPodAffinityPreferredLabel: delPodAffinityPreferredLabel,
+        addPodAffinityRequiredLabel: function(pid, initialSid) {
+            var maxSid = initialSid || 0;
+            $('[id^="podAffinityRequiredLabel-' + pid + '_"]').each(function() {
+                var id = $(this).attr('id');
+                var parts = id.split('_');
+                if (parts.length > 1) {
+                    var sid = parseInt(parts[1]);
+                    if (!isNaN(sid) && sid > maxSid) {
+                        maxSid = sid;
+                    }
+                }
+            });
+            
+            addPodAffinityRequiredLabel(pid, maxSid + 1);
+        },
+        addPodAffinityPreferredLabel: function(pid, initialSid) {
+            var maxSid = initialSid || 0;
+            $('[id^="podAffinityPreferredLabel-' + pid + '_"]').each(function() {
+                var id = $(this).attr('id');
+                var parts = id.split('_');
+                if (parts.length > 1) {
+                    var sid = parseInt(parts[1]);
+                    if (!isNaN(sid) && sid > maxSid) {
+                        maxSid = sid;
+                    }
+                }
+            });
+            
+            addPodAffinityPreferredLabel(pid, maxSid + 1);
+        }
+    };
+
+    // PodAntiAffinity操作处理
+    window.podAntiAffinityHandlers = {
+        delPodAntiAffinityRequired: delPodAntiAffinityRequired,
+        delPodAntiAffinityPreferred: delPodAntiAffinityPreferred,
+        delPodAntiAffinityRequiredLabel: delPodAntiAffinityRequiredLabel,
+        delPodAntiAffinityPreferredLabel: delPodAntiAffinityPreferredLabel,
+        addPodAntiAffinityRequiredLabel: function(pid, initialSid) {
+            var maxSid = initialSid || 0;
+            $('[id^="podAntiAffinityRequiredLabel-' + pid + '_"]').each(function() {
+                var id = $(this).attr('id');
+                var parts = id.split('_');
+                if (parts.length > 1) {
+                    var sid = parseInt(parts[1]);
+                    if (!isNaN(sid) && sid > maxSid) {
+                        maxSid = sid;
+                    }
+                }
+            });
+            
+            addPodAntiAffinityRequiredLabel(pid, maxSid + 1);
+        },
+        addPodAntiAffinityPreferredLabel: function(pid, initialSid) {
+            var maxSid = initialSid || 0;
+            $('[id^="podAntiAffinityPreferredLabel-' + pid + '_"]').each(function() {
+                var id = $(this).attr('id');
+                var parts = id.split('_');
+                if (parts.length > 1) {
+                    var sid = parseInt(parts[1]);
+                    if (!isNaN(sid) && sid > maxSid) {
+                        maxSid = sid;
+                    }
+                }
+            });
+            
+            addPodAntiAffinityPreferredLabel(pid, maxSid + 1);
+        }
+    };
+
+    // 页面加载完成后初始化
+    $(document).ready(function() {
+        initPage();
+    });
+})();
+</script>
+</html>

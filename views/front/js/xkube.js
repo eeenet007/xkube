@@ -45,7 +45,7 @@ function SetDefaultCluster() {
 		clusterId = getCookie("clusterId")
 		//console.log(clusterId);
 		if  (clusterId == "") {
-			$.ajax({
+			layui.jquery.ajax({
 			   url: "/rbac/cluster/MyClusterList",
 			   type: "GET",
 			   headers:{'X-Requested-With':'XMLHttpRequest'},
@@ -67,27 +67,6 @@ function SetDefaultCluster() {
 		}
 	}
 }
-
-//function SetMyLanguage() {
-//		myLang = getCookie("myLang")
-//		setCookie('myLang',"english",30);
-//}
-
-//function SetDefaultCluster() {
-//	var clusterId = getQueryString("clusterId");
-//	if (clusterId == null) {
-//		clusterId = getCookie("clusterId")
-//		if  (clusterId == "") {
-//			$.get('/xkube/cluster/v1/List', function (resp) {
-//				if (resp.count > 0) {
-//					setCookie('clusterId',resp.data[0].cluster_id,30);
-//				}else{
-//					layer.msg('读取集群信息失败，或先添加k8s配置',{icon:2});
-//				}
-//		    });			
-//		}
-//	}
-//}
 
 // 版本比较使用示例
 //console.log(compareVersions("1.2.3", "1.2.4")); // -1
@@ -116,14 +95,14 @@ function GetCurrClusterId() {
 	if (clusterId == null) {
 		clusterId = getCookie("clusterId")
 	}
-	$.get('/xkube/cluster/v1/List', function (resp) {
-		$.each(resp.data,function(i,item){
+	layui.jquery.get('/xkube/cluster/v1/List', function (resp) {
+		layui.jquery.each(resp.data,function(i,item){
 			if (item.cluster_id == clusterId) {
 				var html = '<option value="'+item.cluster_id+'" selected="">'+item.cluster_name+'</option>'
 			}else{
 				var html = '<option value="'+item.cluster_id+'">'+item.cluster_name+'</option>'	
 			}
-			$("#cluster_Id").append(html);
+			layui.jquery("#cluster_Id").append(html);
 			setCookie(item.cluster_id,item.kube_version,30);
 			//$('#cluster_Id').append(new Option(item.cluster_id,item.cluster_id));
 		});
@@ -142,14 +121,14 @@ function GetNamespace() {
 	}
 	var nameSpace = getQueryString("nameSpace");
 	if(clusterId != "") {
-		$.get('/xkube/ns/v1/List?clusterId='+clusterId, function (resp) {
-			$.each(resp.data,function(i,item){
+		layui.jquery.get('/xkube/ns/v1/List?clusterId='+clusterId, function (resp) {
+			layui.jquery.each(resp.data,function(i,item){
 				if (item.nameSpace == nameSpace){
 					var html2 = '<option value="'+item.nameSpace+'" selected="">'+item.nameSpace+'</option>'
 				}else{
 					var html2 = '<option value="'+item.nameSpace+'">'+item.nameSpace+'</option>'
 				}
-				$("#name_Space").append(html2);
+				layui.jquery("#name_Space").append(html2);
 			});
 		    layui.use('form', function(){
 		             var form = layui.form;
@@ -169,3 +148,4 @@ function ExportRaw(filname, data) {
 　　　　save_link.download = filname;
 　　　　save_link.click();
 }
+

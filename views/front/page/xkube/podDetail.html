@@ -6,8 +6,9 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
+    <script src="/js/xkube.js?v=1" charset="utf-8"></script>
 <style type="text/css">
   .layui-table-cell {
     height: auto;
@@ -122,7 +123,7 @@
     </div>
 </div>
 
-<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
 <script src="/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
 
 <script type="text/html" id="limitKeyTpl">
@@ -226,15 +227,6 @@
     {{# } }}
 </script>	
 <script>
-
-    function getQueryString(name) {
-      let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-      let r = window.location.search.substr(1).match(reg);
-      if (r != null) {
-          return unescape(r[2]);
-      };
-      return null;
-    };
 
     layui.use(['form', 'table','miniTab','element'], function () {
         var $ = layui.jquery,
@@ -363,7 +355,7 @@
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['50%', '90%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/podYaml.html'+ location.search,
                 });
         });
@@ -376,7 +368,7 @@
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['50%', '80%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/podTerminal.html'+ location.search,
                 });
         });
@@ -389,7 +381,7 @@
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['60%', '90%'],
+                    area: ['75%', '90%'],
                     content: '/page/xkube/podLog.html'+location.search,
                 });
         });

@@ -68,3 +68,10 @@ body {
     -moz-border-radius: 2em;
     border-radius: 2em
 }
+
+/* ========================================= 自定义 =========================================*/
+
+/* 表格与搜索栏之间保留空白间隔 */
+.layuimini-container .table-search-fieldset {
+    margin-bottom: 10px;
+}

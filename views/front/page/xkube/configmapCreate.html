@@ -2,14 +2,14 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>创建</title>
+    <title>创建configmap</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui-v2.13.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/public.css" media="all">
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/lib/layui-v2.13.3/layui.js" charset="utf-8"></script>
     <script src="/js/xkube.js?v=1" charset="utf-8"></script>
     <style>
         body {
@@ -19,6 +19,11 @@
 </head>
 <body>
 <div class="layuimini-container">
+        <blockquote class="layui-elem-quote layui-text">
+            <a class="layui-btn" style="float:right" href="javascript:location.reload();" title="刷新">
+              <i class="layui-icon">&#xe669;</i></a>
+            提示：
+        </blockquote>
     <div class="layuimini-main">
         <form class="layui-form layui-form-pane" action="">
 
@@ -56,8 +61,8 @@
                     <div class="layui-input-inline" style="width:250px">
                         <input type="text" id="configmapKey0" name="configmapKey[]" lay-verify="required" lay-reqtext="不能为空" placeholder="key" value="" class="layui-input">
                     </div>
-                    <div class="layui-input-inline">  
-                        <button class="layui-btn layui-btn-normal" id="cmaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                    <div class="layui-input-inline" style="margin-top:6px">  
+                        <button class="layui-btn layui-btn-normal layui-btn-xs" id="cmaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -80,8 +85,8 @@
                   <div class="layui-input-inline" style="width:150px">  
                       <input type="text" id="labels_value0" name="labels_value[]" placeholder="value" value="" class="layui-input">
                   </div>
-                  <div class="layui-input-inline">  
-                      <button class="layui-btn layui-btn-normal" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
+                  <div class="layui-input-inline" style="margin-top:6px">  
+                      <button class="layui-btn layui-btn-normal layui-btn-xs" id="newaddbtn"><i class="layui-icon layui-icon-add-circle"></i></button>
                   </div>                
               </div> 
             </div>
@@ -108,8 +113,6 @@
     //标签删除
     var TplIndex = 0;
     function delTpl(id) {
-      //console.log(id);
-      //var TplIndex = id;
       TplIndex--;
       $("#tpl-"+id).remove();
     }
@@ -117,8 +120,6 @@
     //configmap删除
     var cTplIndex = 0;
     function delcTpl(id) {
-      //console.log(id);
-      //var cTplIndex = id;
       cTplIndex--;
       $("#ctpl-"+id).remove();
     }
@@ -131,11 +132,8 @@
 
         //选择集群
         form.on('select(cluster_Id)', function(data){
-          //console.log(data.elem); //得到select原始DOM对象
-          console.log(data.value); //得到被选中的值
           setCookie('clusterId',data.value,30);
           window.location.reload();
-          //console.log(data.othis); //得到美化后的DOM对象
         });
 
         //labes add
@@ -150,8 +148,8 @@
                   '<div class="layui-input-inline" style="width:150px">' +  
                       '<input type="text" name="labels_value[]" id="labels_value'+TplIndex+'" placeholder="value" value="" class="layui-input">' +
                   '</div>' +
-                  '<div class="layui-input-inline">' +  
-                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" style="width:60px" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
+                  '<div class="layui-input-inline" style="margin-top:6px">' +  
+                      '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon layui-btn-xs" type="button" id="newDelbtn" value="&#xe616;" onclick="delTpl('+TplIndex+');" />' +
                   '</div>' +                
               '</div>'
             $('.labelsTpl').append(addTpl);   
@@ -169,8 +167,8 @@
                     '<div class="layui-input-inline" style="width:250px">' +
           	              '<input type="text" name="configmapKey[]" id="configmapKey'+cTplIndex+'" placeholder="key" value="" class="layui-input">' +
                     '</div>' +   
-                    '<div class="layui-input-inline">' +  
-                        '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon" style="width:60px" type="button" value="&#xe616;" onclick="delcTpl('+cTplIndex+');" />' +
+                    '<div class="layui-input-inline" style="margin-top:6px">' +  
+                        '<input class="layui-btn layui-btn-normal layui-bg-orange layui-icon layui-btn-xs" type="button" value="&#xe616;" onclick="delcTpl('+cTplIndex+');" />' +
                     '</div>' + 
                   '</div>' +   
                   '<div class="layui-form-item">' + 
